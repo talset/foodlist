@@ -158,26 +158,44 @@ La liste de courses est générée automatiquement à partir :
     - Quantité minimale affichée : 1 (ex : `● 2L` ou `● 1 pièce`)
     - Exemple : `🥛 Lait — out of stock  ● 2L`
     - Si plusieurs recettes utilisent le même produit, les quantités sont additionnées
-- Cocher un article = le passer en OK dans le stock global (et remettre la quantité à 1)
+- Cocher un article dans la liste = le passer en OK dans le stock global
+  - La bulle de quantité recette disparaît pour cet ingrédient
+  - Si tous les ingrédients d'une recette active sont cochés → la recette est **automatiquement retirée** de la liste (reset)
 - Regroupement par catégorie
 
 ### F5 — Recettes
 
+#### Création / édition
 - [ ] Créer une recette : nom, description courte, photo (optionnelle)
 - [ ] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
 - [ ] Rendu Markdown affiché proprement lors de la consultation de la recette
 - [ ] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité + unité
 - [ ] Définir le nombre de parts de base de la recette
+
+#### Vue détail d'une recette
+- [ ] Liste des ingrédients avec leur **statut stock actuel** :
+  - Ingrédient **out of stock** → affiché en rouge
+  - Ingrédient **OK** → affiché normalement
+- [ ] Modifier la quantité d'un ingrédient directement depuis la recette (+1/-1 ou saisie libre) → met à jour le stock global
+- [ ] **Icône "réalisable"** : si tous les ingrédients de la recette sont en statut OK, un indicateur visuel (ex : ✅ ou badge vert) apparaît sur la recette pour signaler qu'elle est prête à être cuisinée
+
+#### Ajout à la liste de courses
 - [ ] Depuis la liste, ajouter une recette avec un multiplicateur :
   - Nombre de fois la recette (ex: ×2)
   - Ou nombre de personnes (ex: pour 6 personnes, recette de base pour 4 → ×1.5)
-- [ ] Quand une recette est ajoutée, ses ingrédients apparaissent dans la liste de courses avec la quantité calculée, en plus du statut actuel du produit
+- [ ] Quand une recette est ajoutée, ses ingrédients out of stock apparaissent dans la liste avec la quantité calculée
 - [ ] Plusieurs recettes peuvent être ajoutées, les quantités s'additionnent
+
+#### Comportement lors des courses
+- [ ] Cocher un ingrédient dans la liste → statut OK, bulle de quantité recette disparaît pour cet ingrédient
+- [ ] Quand **tous les ingrédients** d'une recette active sont cochés (OK) → la recette est **automatiquement retirée** de la liste (reset), sans action manuelle
 
 **Exemple :**
 > Lait est "out of stock" dans le stock global.
 > J'ajoute la recette Cheesecake ×2 (qui nécessite 1L de lait par recette).
-> La liste affiche : `🥛 Lait — out of stock | 2L pour recettes`
+> La liste affiche : `🥛 Lait — out of stock ● 2L`
+> Je coche le Lait → statut OK, la bulle disparaît.
+> Si tous les autres ingrédients du Cheesecake sont aussi OK → la recette est retirée de la liste.
 
 ### F6 — Import / Export
 
