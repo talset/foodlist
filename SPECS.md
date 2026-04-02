@@ -56,8 +56,8 @@ NEXTAUTH_URL=http://localhost:3000
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
-# Upload (stockage local dans le container)
-UPLOAD_DIR=/app/uploads
+# Icônes (monté en volume Docker)
+ICONS_DIR=/app/uploads/icons
 ```
 
 ---
@@ -90,7 +90,33 @@ Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativ
 - [ ] Recherche/autocomplete sur le nom du produit
 - [ ] Ajouter un nouveau produit si absent du catalogue
 - [ ] Import de produits en masse via fichier JSON
-- [ ] Icône personnalisable : emoji (par défaut) ou upload d'une image
+- [ ] Icône personnalisable par produit — voir F2b ci-dessous
+
+### F2b — Gestion des icônes produits
+
+**Structure des répertoires (volume Docker monté sur `ICONS_DIR`) :**
+
+```
+uploads/icons/
+├── default/        # Icônes livrées avec l'application (embarquées dans l'image Docker)
+│   ├── apple.png
+│   ├── milk.png
+│   └── ...
+└── custom/         # Icônes uploadées par les utilisateurs
+    ├── <uuid>.png
+    └── ...
+```
+
+- Les icônes `default/` sont **copiées dans l'image Docker** au build (ne nécessitent pas de volume)
+- Les icônes `custom/` sont stockées dans le volume monté, persistées entre redémarrages
+- Toutes les icônes sont servies via une route publique Next.js : `/api/icons/default/<nom>` et `/api/icons/custom/<uuid>`
+
+**Sélecteur d'icône (lors de la création/édition d'un produit) :**
+- [ ] Onglet **Emoji** : saisir ou rechercher un emoji directement
+- [ ] Onglet **Icônes par défaut** : grille de toutes les icônes présentes dans `default/`, chargées dynamiquement via l'API
+- [ ] Onglet **Upload** : uploader une image custom (PNG/JPG/WebP, redimensionnée à 128×128 au stockage)
+- [ ] Aperçu de l'icône sélectionnée avant validation
+- [ ] Un produit n'a qu'une seule icône active : emoji OU icône par défaut OU image custom
 
 **Catégories de produits :**
 - Fruits & Légumes
@@ -286,6 +312,7 @@ foodlist/
 │   │   │   ├── recipes/            # CRUD recettes
 │   │   │   ├── shopping/           # Liste de courses
 │   │   │   ├── import/             # Import JSON
+│   │   │   ├── icons/              # Serve + upload icônes (default & custom)
 │   │   │   └── sse/                # Server-Sent Events
 │   │   ├── (auth)/                 # Pages login / register
 │   │   ├── list/                   # Page liste de courses
@@ -307,7 +334,10 @@ foodlist/
 ├── public/
 │   ├── manifest.json               # PWA manifest
 │   └── icons/
-├── uploads/                        # Images uploadées (monté en volume Docker)
+├── uploads/                        # Volume Docker monté (persisté sur le serveur)
+│   └── icons/
+│       ├── default/                # Icônes par défaut (copiées dans l'image au build)
+│       └── custom/                 # Icônes uploadées par les utilisateurs
 └── sql/
     └── schema.sql                  # Script d'initialisation MySQL
 ```
