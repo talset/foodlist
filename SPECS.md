@@ -2,17 +2,19 @@
 
 ## Vision
 
-Application web progressive (PWA) de liste de courses partagée, accessible depuis mobile et ordinateur, auto-hébergeable via Docker avec une base de données MySQL existante.
+Application web progressive (PWA) de gestion du stock alimentaire et des courses, accessible depuis mobile et ordinateur, auto-hébergeable via Docker avec une base de données MySQL existante.
+
+L'app permet à un foyer de suivre ce qui manque dans le frigo/placards, de gérer des recettes, et d'avoir une liste de courses consolidée automatiquement.
 
 ---
 
 ## Objectifs
 
-- Créer et partager des listes de courses entre plusieurs utilisateurs
-- Accessible depuis au moins 2 mobiles et un ordinateur
-- Synchronisation en temps réel entre les appareils
-- Auto-hébergeable sur serveur personnel via Docker
-- Connexion à une base de données MySQL existante
+- Suivre le statut des produits (ok / out of stock) au niveau du foyer
+- Gérer des recettes et calculer les ingrédients nécessaires selon le nombre de parts
+- Visualiser rapidement ce qui manque depuis mobile
+- Partager la liste en temps réel entre plusieurs appareils
+- Auto-hébergeable sur serveur personnel via Docker + MySQL existant
 
 ---
 
@@ -22,18 +24,19 @@ Application web progressive (PWA) de liste de courses partagée, accessible depu
 
 | Couche | Techno | Rôle |
 |--------|--------|------|
-| Frontend | Next.js (React) + PWA | Interface utilisateur, installable sur mobile |
+| Frontend | Next.js (React) + PWA | Interface mobile-first, installable |
 | Backend | Next.js API Routes | API REST, logique métier |
-| Base de données | MySQL | Stockage des données (instance existante) |
-| Temps réel | Server-Sent Events ou polling | Synchronisation entre appareils |
-| Déploiement | Docker | Image unique, configuration par variables d'environnement |
+| Base de données | MySQL | Stockage (instance existante) |
+| Auth | NextAuth.js | Google SSO + email/mot de passe |
+| Temps réel | Server-Sent Events (SSE) | Sync entre appareils |
+| Déploiement | Docker | Image unique, config par variables d'env |
 
 ### Déploiement Docker
 
-- Une seule image Docker pour l'application (frontend + backend Next.js)
-- Configuration via variables d'environnement (`.env`)
-- Connexion à un serveur MySQL existant (pas de MySQL embarqué dans l'image)
-- Exemple `docker-compose.yml` fourni pour faciliter le déploiement
+- Une seule image Docker (frontend + backend Next.js)
+- Connexion à un MySQL existant via variables d'environnement
+- Pas de MySQL embarqué dans l'image
+- `docker-compose.yml` fourni pour faciliter le déploiement
 
 ### Variables d'environnement
 
@@ -48,7 +51,24 @@ DB_PASSWORD=secret
 # Application
 NEXTAUTH_SECRET=changeme
 NEXTAUTH_URL=http://localhost:3000
+
+# Google OAuth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Upload (stockage local dans le container)
+UPLOAD_DIR=/app/uploads
 ```
+
+---
+
+## Design & UX
+
+- **Mobile-first** : interface pensée pour une utilisation rapide au téléphone, gestes tactiles
+- **Simple et épuré** : le moins de clics possible pour les actions courantes
+- **Navigation principale** : 3 onglets — Liste / Produits / Recettes
+- **Couleurs de statut** : vert = OK, rouge/orange = out of stock
+- **Recherche/autocomplete** partout où on ajoute un produit
 
 ---
 
@@ -56,40 +76,101 @@ NEXTAUTH_URL=http://localhost:3000
 
 ### F1 — Authentification
 
-- [ ] Inscription avec email + mot de passe
-- [ ] Connexion / déconnexion
-- [ ] Session persistante (JWT ou cookie)
+- [ ] Connexion via Google SSO (compte personnel)
+- [ ] Connexion email + mot de passe (fallback)
+- [ ] Inscription email/mot de passe
+- [ ] Session persistante (JWT/cookie)
+- [ ] Invitation d'autres utilisateurs au foyer via lien
 
-### F2 — Listes de courses
+### F2 — Catalogue de produits (global)
 
-- [ ] Créer une nouvelle liste (nommée)
-- [ ] Afficher ses listes
-- [ ] Supprimer une liste
+Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativement.
 
-### F3 — Partage
+- [ ] Fiche produit : nom, catégorie, unité de mesure, icône (emoji ou image uploadée)
+- [ ] Recherche/autocomplete sur le nom du produit
+- [ ] Ajouter un nouveau produit si absent du catalogue
+- [ ] Import de produits en masse via fichier JSON
+- [ ] Icône personnalisable : emoji (par défaut) ou upload d'une image
 
-- [ ] Inviter un autre utilisateur à partager une liste (via lien ou code)
-- [ ] Plusieurs utilisateurs peuvent accéder à la même liste
-- [ ] Voir qui a modifié quoi (optionnel v2)
+**Catégories de produits :**
+- Fruits & Légumes
+- Viandes & Poissons
+- Produits laitiers
+- Épicerie / Conserves
+- Surgelés
+- Boissons
+- Desserts / Pâtisserie
+- Hygiène / Entretien
+- Autre
 
-### F4 — Articles
+### F3 — Statut produits (global au foyer)
 
-- [ ] Ajouter un article à une liste (nom, quantité, unité)
-- [ ] Cocher un article (acheté)
-- [ ] Décocher un article
-- [ ] Supprimer un article
-- [ ] Catégoriser un article (ex : fruits, viandes, épicerie, surgelés…)
+Le statut de chaque produit est global au foyer, indépendamment des recettes ou listes.
 
-### F5 — Synchronisation temps réel
+- [ ] Deux états par produit : **OK** (en stock) / **Out of stock** (manquant)
+- [ ] Changer le statut en un tap depuis la liste
+- [ ] Vue principale : produits triés par statut (out of stock en haut)
+- [ ] Filtrage par catégorie
 
-- [ ] Mise à jour automatique de la liste sur tous les appareils connectés
-- [ ] Pas besoin de rafraîchir manuellement
+### F4 — Liste de courses consolidée
 
-### F6 — PWA / Mobile
+La liste de courses est générée automatiquement à partir :
+1. Des produits marqués **out of stock**
+2. Des ingrédients manquants des recettes ajoutées
+
+**Affichage de la liste :**
+- Chaque ligne = un produit avec :
+  - Icône + nom
+  - Statut (out of stock / ok)
+  - Quantité requise par les recettes (si applicable), ex : `🥛 Lait — out of stock [recette: 2L]`
+- Cocher un article = le passer en OK dans le stock global
+- Regroupement par catégorie
+
+### F5 — Recettes
+
+- [ ] Créer une recette : nom, description courte, photo (optionnelle)
+- [ ] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
+- [ ] Rendu Markdown affiché proprement lors de la consultation de la recette
+- [ ] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité + unité
+- [ ] Définir le nombre de parts de base de la recette
+- [ ] Depuis la liste, ajouter une recette avec un multiplicateur :
+  - Nombre de fois la recette (ex: ×2)
+  - Ou nombre de personnes (ex: pour 6 personnes, recette de base pour 4 → ×1.5)
+- [ ] Quand une recette est ajoutée, ses ingrédients apparaissent dans la liste de courses avec la quantité calculée, en plus du statut actuel du produit
+- [ ] Plusieurs recettes peuvent être ajoutées, les quantités s'additionnent
+
+**Exemple :**
+> Lait est "out of stock" dans le stock global.
+> J'ajoute la recette Cheesecake ×2 (qui nécessite 1L de lait par recette).
+> La liste affiche : `🥛 Lait — out of stock | 2L pour recettes`
+
+### F6 — Import / Export
+
+- [ ] Import de produits via fichier JSON (format documenté)
+- [ ] Export de la liste de courses (JSON ou texte simple)
+
+**Format JSON import produits :**
+```json
+[
+  {
+    "name": "Lait entier",
+    "category": "Produits laitiers",
+    "unit": "L",
+    "emoji": "🥛"
+  }
+]
+```
+
+### F7 — Synchronisation temps réel
+
+- [ ] Mise à jour automatique sur tous les appareils connectés (SSE)
+- [ ] Pas de notifications push
+
+### F8 — PWA
 
 - [ ] Installable sur l'écran d'accueil (iOS / Android)
 - [ ] Fonctionne correctement sur petit écran
-- [ ] Interface tactile friendly
+- [ ] Interface tactile optimisée
 
 ---
 
@@ -100,45 +181,80 @@ NEXTAUTH_URL=http://localhost:3000
 |---------|------|-------------|
 | id | INT PK AUTO_INCREMENT | Identifiant |
 | email | VARCHAR(255) UNIQUE | Email |
-| password_hash | VARCHAR(255) | Mot de passe hashé (bcrypt) |
+| password_hash | VARCHAR(255) NULL | Null si connexion Google |
+| google_id | VARCHAR(255) NULL | ID Google OAuth |
 | name | VARCHAR(100) | Nom affiché |
 | created_at | DATETIME | Date de création |
 
-### `lists`
+### `products` (catalogue global)
 | Colonne | Type | Description |
 |---------|------|-------------|
 | id | INT PK AUTO_INCREMENT | Identifiant |
-| name | VARCHAR(255) | Nom de la liste |
+| name | VARCHAR(255) UNIQUE | Nom du produit |
+| category | VARCHAR(100) | Catégorie |
+| unit | VARCHAR(50) | Unité par défaut (kg, L, pièce…) |
+| emoji | VARCHAR(10) NULL | Emoji associé |
+| icon_url | VARCHAR(500) NULL | URL image uploadée (si custom) |
+| created_by | INT FK users.id | Ajouté par |
+| created_at | DATETIME | Date de création |
+
+### `stock` (statut global par foyer)
+| Colonne | Type | Description |
+|---------|------|-------------|
+| id | INT PK AUTO_INCREMENT | Identifiant |
+| product_id | INT FK products.id | Produit |
+| household_id | INT FK households.id | Foyer |
+| status | ENUM('ok','out_of_stock') | Statut actuel |
+| updated_by | INT FK users.id | Dernière modif par |
+| updated_at | DATETIME | Date de modif |
+
+### `households` (foyers / groupes)
+| Colonne | Type | Description |
+|---------|------|-------------|
+| id | INT PK AUTO_INCREMENT | Identifiant |
+| name | VARCHAR(255) | Nom du foyer |
+| created_by | INT FK users.id | Créateur |
+| invite_token | VARCHAR(64) UNIQUE | Token d'invitation |
+| created_at | DATETIME | Date de création |
+
+### `household_members`
+| Colonne | Type | Description |
+|---------|------|-------------|
+| household_id | INT FK households.id | Foyer |
+| user_id | INT FK users.id | Membre |
+| role | ENUM('admin','member') | Rôle |
+| joined_at | DATETIME | Date d'adhésion |
+
+### `recipes`
+| Colonne | Type | Description |
+|---------|------|-------------|
+| id | INT PK AUTO_INCREMENT | Identifiant |
+| name | VARCHAR(255) | Nom de la recette |
+| description | TEXT NULL | Description courte |
+| steps_markdown | LONGTEXT NULL | Étapes de la recette en Markdown libre |
+| photo_url | VARCHAR(500) NULL | Photo |
+| base_servings | INT | Nombre de parts de base |
 | created_by | INT FK users.id | Créateur |
 | created_at | DATETIME | Date de création |
 
-### `list_members`
-| Colonne | Type | Description |
-|---------|------|-------------|
-| list_id | INT FK lists.id | Liste |
-| user_id | INT FK users.id | Utilisateur |
-| joined_at | DATETIME | Date d'ajout |
-
-### `items`
+### `recipe_ingredients`
 | Colonne | Type | Description |
 |---------|------|-------------|
 | id | INT PK AUTO_INCREMENT | Identifiant |
-| list_id | INT FK lists.id | Liste parente |
-| name | VARCHAR(255) | Nom de l'article |
-| quantity | DECIMAL(10,2) | Quantité |
-| unit | VARCHAR(50) | Unité (kg, L, pièce…) |
-| category | VARCHAR(100) | Catégorie |
-| checked | BOOLEAN | Acheté ou non |
-| created_by | INT FK users.id | Ajouté par |
-| updated_at | DATETIME | Dernière modification |
+| recipe_id | INT FK recipes.id | Recette |
+| product_id | INT FK products.id | Produit (du catalogue) |
+| quantity | DECIMAL(10,3) | Quantité pour base_servings |
+| unit | VARCHAR(50) | Unité |
 
-### `share_tokens`
+### `shopping_recipes` (recettes ajoutées à la liste en cours)
 | Colonne | Type | Description |
 |---------|------|-------------|
-| token | VARCHAR(64) PK | Token unique |
-| list_id | INT FK lists.id | Liste concernée |
-| expires_at | DATETIME | Expiration (nullable = permanent) |
-| created_at | DATETIME | Date de création |
+| id | INT PK AUTO_INCREMENT | Identifiant |
+| household_id | INT FK households.id | Foyer |
+| recipe_id | INT FK recipes.id | Recette |
+| multiplier | DECIMAL(5,2) | Multiplicateur (ex: 1.5 pour 6 pers / recette de 4) |
+| added_by | INT FK users.id | Ajouté par |
+| added_at | DATETIME | Date d'ajout |
 
 ---
 
@@ -152,22 +268,38 @@ foodlist/
 ├── docker-compose.yml
 ├── .env.example
 ├── src/
-│   ├── app/                  # Next.js App Router
-│   │   ├── api/              # API Routes
-│   │   │   ├── auth/
-│   │   │   ├── lists/
-│   │   │   └── items/
-│   │   ├── (auth)/           # Pages auth (login, register)
-│   │   ├── lists/            # Pages listes
+│   ├── app/                        # Next.js App Router
+│   │   ├── api/                    # API Routes
+│   │   │   ├── auth/               # NextAuth
+│   │   │   ├── products/           # CRUD catalogue
+│   │   │   ├── stock/              # Statut produits
+│   │   │   ├── recipes/            # CRUD recettes
+│   │   │   ├── shopping/           # Liste de courses
+│   │   │   ├── import/             # Import JSON
+│   │   │   └── sse/                # Server-Sent Events
+│   │   ├── (auth)/                 # Pages login / register
+│   │   ├── list/                   # Page liste de courses
+│   │   ├── products/               # Page catalogue produits
+│   │   ├── recipes/                # Page recettes
 │   │   └── layout.tsx
-│   ├── components/           # Composants React
-│   ├── lib/                  # Utilitaires (db, auth…)
-│   └── types/                # Types TypeScript
+│   ├── components/
+│   │   ├── ProductCard/            # Carte produit avec statut
+│   │   ├── RecipeCard/             # Carte recette
+│   │   ├── SearchAutocomplete/     # Recherche produits
+│   │   ├── StatusToggle/           # Bouton ok/out-of-stock
+│   │   └── EmojiPicker/            # Sélecteur emoji/image
+│   ├── lib/
+│   │   ├── db.ts                   # Connexion MySQL
+│   │   ├── auth.ts                 # Config NextAuth
+│   │   └── sse.ts                  # Utilitaires SSE
+│   └── types/
+│       └── index.ts
 ├── public/
-│   ├── manifest.json         # PWA manifest
+│   ├── manifest.json               # PWA manifest
 │   └── icons/
+├── uploads/                        # Images uploadées (monté en volume Docker)
 └── sql/
-    └── schema.sql            # Script d'initialisation MySQL
+    └── schema.sql                  # Script d'initialisation MySQL
 ```
 
 ---
@@ -176,24 +308,31 @@ foodlist/
 
 ### Phase 1 — Fondations
 - Setup Next.js + TypeScript
-- Connexion MySQL
+- Connexion MySQL (`lib/db.ts`)
 - Dockerfile + docker-compose
-- Script SQL de création des tables
+- Script SQL `schema.sql`
+- `.env.example`
 
 ### Phase 2 — Authentification
-- Inscription / connexion
-- Sessions JWT
+- NextAuth.js : Google OAuth + email/mot de passe
+- Gestion des foyers (création, invitation par lien)
 
-### Phase 3 — Listes & Articles
-- CRUD listes
-- CRUD articles
-- Interface mobile-first
+### Phase 3 — Catalogue produits
+- CRUD produits (avec catégories, emoji, upload icône)
+- Recherche / autocomplete
+- Import JSON
 
-### Phase 4 — Partage & Temps réel
-- Système d'invitation par lien
-- Synchronisation temps réel (SSE ou polling)
+### Phase 4 — Stock & Liste de courses
+- Gestion des statuts ok/out of stock par foyer
+- Vue liste de courses consolidée
+- Synchronisation SSE
 
-### Phase 5 — PWA & Finitions
-- Manifest PWA
-- Icônes
-- Tests sur mobile
+### Phase 5 — Recettes
+- CRUD recettes + ingrédients
+- Ajout recette à la liste avec multiplicateur
+- Calcul et affichage des quantités requises
+
+### Phase 6 — PWA & Finitions
+- Manifest PWA + icônes
+- Optimisation mobile
+- Tests multi-appareils
