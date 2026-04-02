@@ -109,6 +109,11 @@ Le statut de chaque produit est global au foyer, indépendamment des recettes ou
 
 - [ ] Deux états par produit : **OK** (en stock) / **Out of stock** (manquant)
 - [ ] Changer le statut en un tap depuis la liste
+- [ ] **Quantité en stock** : champ optionnel représentant un nombre d'unités physiques (paquets, bouteilles, boîtes…)
+  - Boutons **+1 / -1** pour incrémenter/décrémenter rapidement
+  - Quand la quantité atteint 0, le statut passe automatiquement à **out of stock**
+  - Quand on incrémente depuis 0, le statut repasse à **OK**
+  - Quantité minimale : 0 (ne peut pas être négative)
 - [ ] Vue principale : produits triés par statut (out of stock en haut)
 - [ ] Filtrage par catégorie
 
@@ -121,9 +126,13 @@ La liste de courses est générée automatiquement à partir :
 **Affichage de la liste :**
 - Chaque ligne = un produit avec :
   - Icône + nom
-  - Statut (out of stock / ok)
-  - Quantité requise par les recettes (si applicable), ex : `🥛 Lait — out of stock [recette: 2L]`
-- Cocher un article = le passer en OK dans le stock global
+  - Statut (out of stock / ok) + quantité en stock si > 0 (ex : `×2`)
+  - **Bulle de quantité recette** : affichée à côté du nom si le produit est requis par une recette ajoutée
+    - Exprimée en unité de la recette (L, g, pièces…)
+    - Quantité minimale affichée : 1 (ex : `● 2L` ou `● 1 pièce`)
+    - Exemple : `🥛 Lait — out of stock  ● 2L`
+    - Si plusieurs recettes utilisent le même produit, les quantités sont additionnées
+- Cocher un article = le passer en OK dans le stock global (et remettre la quantité à 1)
 - Regroupement par catégorie
 
 ### F5 — Recettes
@@ -204,7 +213,8 @@ La liste de courses est générée automatiquement à partir :
 | id | INT PK AUTO_INCREMENT | Identifiant |
 | product_id | INT FK products.id | Produit |
 | household_id | INT FK households.id | Foyer |
-| status | ENUM('ok','out_of_stock') | Statut actuel |
+| status | ENUM('ok','out_of_stock') | Statut actuel (auto si quantity = 0) |
+| quantity | INT UNSIGNED DEFAULT 0 | Nombre d'unités physiques en stock (0 = out of stock) |
 | updated_by | INT FK users.id | Dernière modif par |
 | updated_at | DATETIME | Date de modif |
 
