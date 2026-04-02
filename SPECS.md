@@ -181,10 +181,15 @@ La liste de courses est générée automatiquement à partir :
 
 ### F6 — Import / Export
 
-- [ ] Import de produits via fichier JSON (format documenté)
-- [ ] Export de la liste de courses (JSON ou texte simple)
+#### Import
+- [ ] Import du catalogue de produits via fichier JSON
+- [ ] Import de recettes via fichier JSON (réimporter un export précédent)
 
-**Format JSON import produits :**
+#### Export
+- [ ] **Export liste de courses** : état actuel de la liste (produits out of stock + quantités recettes) au format JSON
+- [ ] **Export recettes** : toutes les recettes du foyer au format JSON (ingrédients, étapes, parts de base), réimportable
+
+**Format JSON — import/export produits :**
 ```json
 [
   {
@@ -192,6 +197,22 @@ La liste de courses est générée automatiquement à partir :
     "category": "Produits laitiers",
     "unit": "L",
     "emoji": "🥛"
+  }
+]
+```
+
+**Format JSON — import/export recettes :**
+```json
+[
+  {
+    "name": "Cheesecake",
+    "description": "Cheesecake classique new-yorkais",
+    "base_servings": 8,
+    "steps_markdown": "## Préparation\n\n1. Mélanger...\n\n## Cuisson\n\n...",
+    "ingredients": [
+      { "product": "Lait entier", "quantity": 0.5, "unit": "L" },
+      { "product": "Fromage frais", "quantity": 500, "unit": "g" }
+    ]
   }
 ]
 ```
