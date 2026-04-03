@@ -24,7 +24,6 @@ from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _parse import load_icons, build_parser, filter_icons
-from _subjects import SUBJECTS
 
 # =========================
 # CONFIG
@@ -44,16 +43,7 @@ STYLE = (
 
 
 def build_prompt(icon):
-    slug = icon["filename"].replace(".png", "")
-    subject = SUBJECTS.get(slug)
-    detail = icon["desc"].strip()
-
-    if subject:
-        return f"{subject}, {detail}, {STYLE}"
-    else:
-        # Fallback: use slug words + detail
-        words = slug.replace("-", " ")
-        return f"{words}, {detail}, {STYLE}"
+    return f"{icon['desc'].strip()}, {STYLE}"
 
 # =========================
 # GENERATION
