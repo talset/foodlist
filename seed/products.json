@@ -1,0 +1,1619 @@
+[
+  {
+    "name": "Cacahuètes",
+    "category": "Apéro",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "cacahuete.png"
+  },
+  {
+    "name": "Chips",
+    "category": "Apéro",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "chips.png"
+  },
+  {
+    "name": "Chorizo",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "chorizo.png"
+  },
+  {
+    "name": "Saucisson",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "saucisson.png"
+  },
+  {
+    "name": "Beurre",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "beurre.png"
+  },
+  {
+    "name": "Boîte tupperware",
+    "category": "Autre",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "tupperware.png"
+  },
+  {
+    "name": "Briquet ou boîte allumettes",
+    "category": "Autre",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "briquet.png"
+  },
+  {
+    "name": "Chapelure",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "chapelure.png"
+  },
+  {
+    "name": "Colle",
+    "category": "Autre",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "colle.png"
+  },
+  {
+    "name": "Crème fraîche",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "creme-fraiche.png"
+  },
+  {
+    "name": "Crème liquide",
+    "category": "Produits laitiers",
+    "ref_unit": "L",
+    "ref_quantity": 0.2,
+    "icon_ref": "creme-liquide.png"
+  },
+  {
+    "name": "Lait de coco",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "L",
+    "ref_quantity": 0.4,
+    "icon_ref": "lait-coco.png"
+  },
+  {
+    "name": "Œufs",
+    "category": "Produits laitiers",
+    "ref_unit": "unité",
+    "ref_quantity": 6,
+    "icon_ref": "oeuf.png"
+  },
+  {
+    "name": "Pâté",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 180,
+    "icon_ref": "pate.png"
+  },
+  {
+    "name": "Pâte à pizza",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 280,
+    "icon_ref": "pate-pizza.png"
+  },
+  {
+    "name": "Pâte feuilletée",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 230,
+    "icon_ref": "pate-feuilletee.png"
+  },
+  {
+    "name": "Pile rechargeable",
+    "category": "Autre",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pile.png"
+  },
+  {
+    "name": "Bières",
+    "category": "Boissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "bouteille-biere.png"
+  },
+  {
+    "name": "Cidre",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 0.75,
+    "icon_ref": "bouteille-cidre.png"
+  },
+  {
+    "name": "Coca-Cola",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 1.5,
+    "icon_ref": "bouteille-coca.png"
+  },
+  {
+    "name": "Fanta",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 1.5,
+    "icon_ref": "bouteille-fanta.png"
+  },
+  {
+    "name": "Ice Tea",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 1.5,
+    "icon_ref": "bouteille-icetea.png"
+  },
+  {
+    "name": "Jus de fruit",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 1,
+    "icon_ref": "jus-fruit.png"
+  },
+  {
+    "name": "Lait",
+    "category": "Produits laitiers",
+    "ref_unit": "L",
+    "ref_quantity": 1,
+    "icon_ref": "lait.png"
+  },
+  {
+    "name": "Limonade",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 1.5,
+    "icon_ref": "bouteille-limonade.png"
+  },
+  {
+    "name": "Rhum",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 0.7,
+    "icon_ref": "bouteille-rhum.png"
+  },
+  {
+    "name": "Sirop",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 0.75,
+    "icon_ref": "bouteille-sirop.png"
+  },
+  {
+    "name": "Vin blanc",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 0.75,
+    "icon_ref": "bouteille-vin-blanc.png"
+  },
+  {
+    "name": "Vin rouge",
+    "category": "Boissons",
+    "ref_unit": "L",
+    "ref_quantity": 0.75,
+    "icon_ref": "bouteille-vin-rouge.png"
+  },
+  {
+    "name": "Cassoulet",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 840,
+    "icon_ref": "conserve-cassoulet.png"
+  },
+  {
+    "name": "Concentré de tomate",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 140,
+    "icon_ref": "conserve-tomate.png"
+  },
+  {
+    "name": "Épinards",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Flageolets",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Haricots rouges",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Haricots verts",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Haricots tomate",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Lasagnes",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "lasagnes.png"
+  },
+  {
+    "name": "Lentilles",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "lentilles.png"
+  },
+  {
+    "name": "Macaroni",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "pates.png"
+  },
+  {
+    "name": "Maquereau",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 190,
+    "icon_ref": "conserve-poisson.png"
+  },
+  {
+    "name": "Nouilles",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "nouilles.png"
+  },
+  {
+    "name": "Paëlla",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Patates",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "pomme-de-terre.png"
+  },
+  {
+    "name": "Pâtes",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "pates.png"
+  },
+  {
+    "name": "Petits pois",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "conserve-legumes.png"
+  },
+  {
+    "name": "Purée instantanée",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "puree-instant.png"
+  },
+  {
+    "name": "Purée de tomate",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "conserve-tomate.png"
+  },
+  {
+    "name": "Ravioli",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "ravioli.png"
+  },
+  {
+    "name": "Riz",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 1000,
+    "icon_ref": "riz.png"
+  },
+  {
+    "name": "Semoule",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "semoule.png"
+  },
+  {
+    "name": "Soupe",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "conserve-soupe.png"
+  },
+  {
+    "name": "Thon",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 160,
+    "icon_ref": "conserve-poisson.png"
+  },
+  {
+    "name": "Thon tomate",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 160,
+    "icon_ref": "conserve-poisson.png"
+  },
+  {
+    "name": "Chantilly",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "chantilly.png"
+  },
+  {
+    "name": "Compote",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 90,
+    "icon_ref": "compote.png"
+  },
+  {
+    "name": "Crème anglaise",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "L",
+    "ref_quantity": 0.5,
+    "icon_ref": "creme-anglaise.png"
+  },
+  {
+    "name": "Glaces",
+    "category": "Surgelés",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "glace.png"
+  },
+  {
+    "name": "Sachet flan",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "flan-sachet.png"
+  },
+  {
+    "name": "Yaourt",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "yaourt.png"
+  },
+  {
+    "name": "Yaourt aux fruits",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "yaourt.png"
+  },
+  {
+    "name": "Yaourt nature",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "yaourt.png"
+  },
+  {
+    "name": "Yop",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "yop.png"
+  },
+  {
+    "name": "Brosse à dent",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "brosse-dents.png"
+  },
+  {
+    "name": "Coton tige",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "coton-tige.png"
+  },
+  {
+    "name": "Cotons",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 50,
+    "icon_ref": "coton.png"
+  },
+  {
+    "name": "Crème mains",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "creme-main.png"
+  },
+  {
+    "name": "Dentifrice",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "dentifrice.png"
+  },
+  {
+    "name": "Déodorant",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "deodorant.png"
+  },
+  {
+    "name": "Gel",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "gel-douche.png"
+  },
+  {
+    "name": "Gel douche",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "gel-douche.png"
+  },
+  {
+    "name": "Shampoing",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "shampoing.png"
+  },
+  {
+    "name": "Spray démêlant",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-demelant.png"
+  },
+  {
+    "name": "Barres céréales",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 25,
+    "icon_ref": "barre-cereales.png"
+  },
+  {
+    "name": "Beurre de cacahuète",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 340,
+    "icon_ref": "beurre-cacahuete.png"
+  },
+  {
+    "name": "Bonbons",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "bonbons.png"
+  },
+  {
+    "name": "Café soluble",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "cafe.png"
+  },
+  {
+    "name": "Cappuccino",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "capuccino.png"
+  },
+  {
+    "name": "Céréales",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "cereales.png"
+  },
+  {
+    "name": "Chocolat",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "chocolat.png"
+  },
+  {
+    "name": "Confiture",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 370,
+    "icon_ref": "confiture.png"
+  },
+  {
+    "name": "Crème de marron",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "creme-marron.png"
+  },
+  {
+    "name": "Farine",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 1000,
+    "icon_ref": "farine.png"
+  },
+  {
+    "name": "Gâteaux",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "gateaux.png"
+  },
+  {
+    "name": "Madeleines",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 300,
+    "icon_ref": "madeleines.png"
+  },
+  {
+    "name": "Maïs pop-corn",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "potee-mais-popcorn.png"
+  },
+  {
+    "name": "Miel",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "miel.png"
+  },
+  {
+    "name": "Noisettes",
+    "category": "Apéro",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "noisette.png"
+  },
+  {
+    "name": "Nutella",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "nutella.png"
+  },
+  {
+    "name": "Pain au lait",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pain-lait.png"
+  },
+  {
+    "name": "Pistaches",
+    "category": "Apéro",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "pistache.png"
+  },
+  {
+    "name": "Sucre en poudre",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 1000,
+    "icon_ref": "sucre.png"
+  },
+  {
+    "name": "Sucre morceau",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 750,
+    "icon_ref": "sucre-morceau.png"
+  },
+  {
+    "name": "Thé",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "unité",
+    "ref_quantity": 25,
+    "icon_ref": "the.png"
+  },
+  {
+    "name": "Babybel",
+    "category": "Produits laitiers",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "babybel.png"
+  },
+  {
+    "name": "Cheddar",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "cheddar.png"
+  },
+  {
+    "name": "Chèvre",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "fromage-chevre.png"
+  },
+  {
+    "name": "Comté",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Fromage blanc",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "fromage-blanc.png"
+  },
+  {
+    "name": "Fromage burger",
+    "category": "Produits laitiers",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "fromage-burger.png"
+  },
+  {
+    "name": "Fromage croc",
+    "category": "Produits laitiers",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "fromage-burger.png"
+  },
+  {
+    "name": "Fromage fondue",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "fromage-fondue.png"
+  },
+  {
+    "name": "Fromage frais",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "fromage-frais.png"
+  },
+  {
+    "name": "Gruyère",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Gruyère râpé",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-rape.png"
+  },
+  {
+    "name": "Mont d'or",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "fromage-rond.png"
+  },
+  {
+    "name": "Morbier",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-morbier.png"
+  },
+  {
+    "name": "Mozzarella",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "fromage-moule.png"
+  },
+  {
+    "name": "Munster",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-munster.png"
+  },
+  {
+    "name": "Parmesan",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "parmesan.png"
+  },
+  {
+    "name": "Raclette",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "fromage-raclette.png"
+  },
+  {
+    "name": "Reblochon",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "fromage-rond.png"
+  },
+  {
+    "name": "Roquefort",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "fromage-bleu.png"
+  },
+  {
+    "name": "Vache qui rit",
+    "category": "Produits laitiers",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "vache-rit.png"
+  },
+  {
+    "name": "Beaufort",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Camembert",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "fromage-rond.png"
+  },
+  {
+    "name": "Comté 15 (400g)",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Comté 22",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Emmental (800g)",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 800,
+    "icon_ref": "fromage-rape.png"
+  },
+  {
+    "name": "Fromage râpé",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-rape.png"
+  },
+  {
+    "name": "Gouda",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Port salut",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-bloc.png"
+  },
+  {
+    "name": "Tomme de Savoie",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-rond.png"
+  },
+  {
+    "name": "Tomme du Berry à la truffe",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "fromage-rond.png"
+  },
+  {
+    "name": "Aubergine",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "aubergine.png"
+  },
+  {
+    "name": "Avocat",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "avocat.png"
+  },
+  {
+    "name": "Banane",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "banane.png"
+  },
+  {
+    "name": "Brocolis",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "brocoli.png"
+  },
+  {
+    "name": "Carottes",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "carotte.png"
+  },
+  {
+    "name": "Champignons",
+    "category": "Fruits & Légumes",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "champignon.png"
+  },
+  {
+    "name": "Citron",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "citron.png"
+  },
+  {
+    "name": "Cornichons",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "cornichon.png"
+  },
+  {
+    "name": "Courgette",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "courgette.png"
+  },
+  {
+    "name": "Fruits",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "fruits.png"
+  },
+  {
+    "name": "Kiwi",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "kiwi.png"
+  },
+  {
+    "name": "Poire",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "poire.png"
+  },
+  {
+    "name": "Poivrons",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "poivron.png"
+  },
+  {
+    "name": "Pommes",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pomme.png"
+  },
+  {
+    "name": "Salades",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "salade.png"
+  },
+  {
+    "name": "Tomates",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "tomate.png"
+  },
+  {
+    "name": "Antikal",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "antikal.png"
+  },
+  {
+    "name": "Destop",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "destop.png"
+  },
+  {
+    "name": "Dissolvant",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "dissolvant.png"
+  },
+  {
+    "name": "Éponge",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "eponge.png"
+  },
+  {
+    "name": "Gel hydroalcoolique",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "gel-hydroalcoolique.png"
+  },
+  {
+    "name": "Lessive",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "lessive.png"
+  },
+  {
+    "name": "Lingettes",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "lingettes.png"
+  },
+  {
+    "name": "Liquide de rinçage",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "liquide-rincage.png"
+  },
+  {
+    "name": "Nettoyant dégraissant",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-nettoyant.png"
+  },
+  {
+    "name": "Nettoyant javel",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-nettoyant.png"
+  },
+  {
+    "name": "Nettoyant sol",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-nettoyant.png"
+  },
+  {
+    "name": "Pansement",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pansement.png"
+  },
+  {
+    "name": "Papier aluminium",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "papier-aluminium.png"
+  },
+  {
+    "name": "Papier cuisson",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "papier-cuisson.png"
+  },
+  {
+    "name": "Papier film",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "papier-film.png"
+  },
+  {
+    "name": "Papier toilette",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pq.png"
+  },
+  {
+    "name": "Produit vaisselle",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "produit-vaisselle.png"
+  },
+  {
+    "name": "Produit vitre",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-nettoyant.png"
+  },
+  {
+    "name": "Produit WC",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "spray-nettoyant.png"
+  },
+  {
+    "name": "Sac aspirateur",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sac-aspirateur.png"
+  },
+  {
+    "name": "Sac poubelle",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sac-poubelle.png"
+  },
+  {
+    "name": "Sachet congélation",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sac-congelation.png"
+  },
+  {
+    "name": "Savon liquide",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "savon-liquide.png"
+  },
+  {
+    "name": "Sel LV",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "sel.png"
+  },
+  {
+    "name": "Serviettes",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "serviette.png"
+  },
+  {
+    "name": "Sopalin",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sopalin.png"
+  },
+  {
+    "name": "Tablettes anti-calcaire",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "tablettes-lv.png"
+  },
+  {
+    "name": "Tablettes lave-vaisselle",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "tablettes-lv.png"
+  },
+  {
+    "name": "Brioche",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "brioche.png"
+  },
+  {
+    "name": "Galette kebab",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "galette-kebab.png"
+  },
+  {
+    "name": "Pain",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pain.png"
+  },
+  {
+    "name": "Pain burger",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pain-burger.png"
+  },
+  {
+    "name": "Pain de mie",
+    "category": "Boulangerie",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "pain-mie.png"
+  },
+  {
+    "name": "Moules",
+    "category": "Viandes & Poissons",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "moules.png"
+  },
+  {
+    "name": "Poisson pané",
+    "category": "Surgelés",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "poisson-pane.png"
+  },
+  {
+    "name": "Saumon",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "saumon.png"
+  },
+  {
+    "name": "Sauce soja",
+    "category": "Condiments & Sauces",
+    "ref_unit": "L",
+    "ref_quantity": 0.15,
+    "icon_ref": "bouteille-sauce-brune.png"
+  },
+  {
+    "name": "5 baies",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "poivre.png"
+  },
+  {
+    "name": "Ail",
+    "category": "Condiments & Sauces",
+    "ref_unit": "tête",
+    "ref_quantity": 1,
+    "icon_ref": "ail.png"
+  },
+  {
+    "name": "Basilic",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "herbe.png"
+  },
+  {
+    "name": "Ciboulette",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "herbe.png"
+  },
+  {
+    "name": "Cube bouillon",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "cube-bouillon.png"
+  },
+  {
+    "name": "Curcuma",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "epice.png"
+  },
+  {
+    "name": "Curry",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "epice.png"
+  },
+  {
+    "name": "Échalote",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "oignon.png"
+  },
+  {
+    "name": "Fond de veau",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "fond-veau.png"
+  },
+  {
+    "name": "Fond de volaille",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "fond-veau.png"
+  },
+  {
+    "name": "Gingembre",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "epice.png"
+  },
+  {
+    "name": "Huile",
+    "category": "Condiments & Sauces",
+    "ref_unit": "L",
+    "ref_quantity": 1,
+    "icon_ref": "bouteille-huile.png"
+  },
+  {
+    "name": "Huile d'olive",
+    "category": "Condiments & Sauces",
+    "ref_unit": "L",
+    "ref_quantity": 0.75,
+    "icon_ref": "bouteille-huile.png"
+  },
+  {
+    "name": "Ketchup",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 575,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Mayonnaise",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "bouteille-sauce-jaune.png"
+  },
+  {
+    "name": "Menthe",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "herbe.png"
+  },
+  {
+    "name": "Moutarde",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "moutarde.png"
+  },
+  {
+    "name": "Noix de cajou",
+    "category": "Apéro",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "noix-cajou.png"
+  },
+  {
+    "name": "Oignons",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "oignon.png"
+  },
+  {
+    "name": "Origan",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 15,
+    "icon_ref": "herbe.png"
+  },
+  {
+    "name": "Paprika",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "epice.png"
+  },
+  {
+    "name": "Persil",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "herbe.png"
+  },
+  {
+    "name": "Pesto",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 190,
+    "icon_ref": "bouteille-sauce-verte.png"
+  },
+  {
+    "name": "Piment en poudre",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "epice.png"
+  },
+  {
+    "name": "Poivre",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 50,
+    "icon_ref": "poivre.png"
+  },
+  {
+    "name": "Rillettes de saumon",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 120,
+    "icon_ref": "rillettes.png"
+  },
+  {
+    "name": "Sauce barbecue",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 390,
+    "icon_ref": "bouteille-sauce-brune.png"
+  },
+  {
+    "name": "Sauce bolognaise",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Sauce burger",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 300,
+    "icon_ref": "bouteille-sauce-brune.png"
+  },
+  {
+    "name": "Sauce harissa",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 135,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Sauce piquante",
+    "category": "Condiments & Sauces",
+    "ref_unit": "L",
+    "ref_quantity": 0.15,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Sauce sachets",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 30,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Sauce samouraï",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 300,
+    "icon_ref": "bouteille-sauce-jaune.png"
+  },
+  {
+    "name": "Sauce tikka masala",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 350,
+    "icon_ref": "bouteille-sauce-orange.png"
+  },
+  {
+    "name": "Sauce tomate",
+    "category": "Condiments & Sauces",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "bouteille-sauce-rouge.png"
+  },
+  {
+    "name": "Sel",
+    "category": "Condiments & Sauces",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "sel.png"
+  },
+  {
+    "name": "Frites surgelées",
+    "category": "Surgelés",
+    "ref_unit": "g",
+    "ref_quantity": 1000,
+    "icon_ref": "frites.png"
+  },
+  {
+    "name": "Gyoza",
+    "category": "Surgelés",
+    "ref_unit": "g",
+    "ref_quantity": 300,
+    "icon_ref": "gyoza.png"
+  },
+  {
+    "name": "Nuggets",
+    "category": "Surgelés",
+    "ref_unit": "g",
+    "ref_quantity": 400,
+    "icon_ref": "nuggets.png"
+  },
+  {
+    "name": "Pizza",
+    "category": "Surgelés",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pizza.png"
+  },
+  {
+    "name": "Rösti",
+    "category": "Surgelés",
+    "ref_unit": "g",
+    "ref_quantity": 600,
+    "icon_ref": "rosti.png"
+  },
+  {
+    "name": "Agneau",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "agneau.png"
+  },
+  {
+    "name": "Bacon",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "bacon.png"
+  },
+  {
+    "name": "Chipolatas",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 350,
+    "icon_ref": "saucisse-chipolata.png"
+  },
+  {
+    "name": "Cordon bleu",
+    "category": "Viandes & Poissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "cordon-bleu.png"
+  },
+  {
+    "name": "Jambon",
+    "category": "Viandes & Poissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "jambon.png"
+  },
+  {
+    "name": "Knack",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 350,
+    "icon_ref": "saucisse.png"
+  },
+  {
+    "name": "Lardons",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "lardon.png"
+  },
+  {
+    "name": "Merguez",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 300,
+    "icon_ref": "saucisse-merguez.png"
+  },
+  {
+    "name": "Porc",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "porc.png"
+  },
+  {
+    "name": "Poulet",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "poulet.png"
+  },
+  {
+    "name": "Rosette",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "saucisson.png"
+  },
+  {
+    "name": "Saucisse",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 350,
+    "icon_ref": "saucisse.png"
+  },
+  {
+    "name": "Steak haché",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "steak-hache.png"
+  },
+  {
+    "name": "Viande hachée",
+    "category": "Viandes & Poissons",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "steak-hache.png"
+  }
+]

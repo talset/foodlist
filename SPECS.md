@@ -135,7 +135,9 @@ Catégories par défaut :
 - Surgelés
 - Boissons
 - Apéro
+- Boulangerie
 - Desserts / Pâtisserie
+- Condiments & Sauces
 - Hygiène / Entretien
 - Autre
 
@@ -428,6 +430,8 @@ foodlist/
 │   └── icons/
 │       ├── default/                # Icônes par défaut (copiées dans l'image au build)
 │       └── custom/                 # Icônes uploadées par les utilisateurs
+├── seed/
+│   └── products.json               # Catalogue initial (~230 produits) importable via /api/import
 └── sql/
     └── schema.sql                  # Script d'initialisation MySQL
 ```
