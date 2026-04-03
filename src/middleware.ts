@@ -8,7 +8,7 @@ export default withAuth(
 
     // Authenticated but no household yet → gate to /setup
     if (token && token.householdId == null) {
-      const allowed = ['/setup', '/api/households', '/api/auth']
+      const allowed = ['/setup', '/api/households', '/api/auth', '/api/icons', '/api/categories']
       const isAllowed = allowed.some(p => pathname.startsWith(p))
       if (!isAllowed) {
         return NextResponse.redirect(new URL('/setup', req.url))

@@ -26,6 +26,43 @@ export interface DbHouseholdMember {
   joined_at: Date
 }
 
+export interface DbCategory {
+  id: number
+  name: string
+  is_default: number
+  sort_order: number
+  created_at: Date
+}
+
+export interface DbProduct {
+  id: number
+  name: string
+  category_id: number
+  ref_unit: string
+  ref_quantity: string  // mysql2 returns DECIMAL as string
+  icon_ref: string | null
+  created_by: number
+  created_at: Date
+}
+
+export interface ApiProduct {
+  id: number
+  name: string
+  category_id: number
+  category_name: string
+  ref_unit: string
+  ref_quantity: number
+  icon_ref: string | null
+  icon_url: string | null
+}
+
+export interface ApiCategory {
+  id: number
+  name: string
+  is_default: boolean
+  sort_order: number
+}
+
 // ── NextAuth type augmentation ────────────────────────────────────────────────
 
 declare module 'next-auth' {

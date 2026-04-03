@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function SetupPage() {
+function SetupForm() {
   const { update } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -51,7 +51,7 @@ export default function SetupPage() {
 
     if (!res.ok) {
       const data = await res.json()
-      setError(data.error === 'INVALID_TOKEN' ? 'Lien d\'invitation invalide.' : 'Une erreur est survenue.')
+      setError(data.error === 'INVALID_TOKEN' ? "Lien d'invitation invalide." : 'Une erreur est survenue.')
       setLoading(false)
       return
     }
@@ -131,6 +131,14 @@ export default function SetupPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function SetupPage() {
+  return (
+    <Suspense>
+      <SetupForm />
+    </Suspense>
   )
 }
 

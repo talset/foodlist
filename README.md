@@ -55,7 +55,7 @@ docker compose -f docker-compose.validate.yml down -v
 | Phase | Description | Statut |
 |-------|-------------|--------|
 | Phase 1 | Fondations (Next.js, MySQL, Docker, schema SQL) | ✅ Fait — [voir vérifications](#vérification-phase-1) |
-| Phase 2 | Authentification (NextAuth, foyers, invitations) | 🚧 En cours |
+| Phase 2 | Authentification (NextAuth, foyers, invitations) | ✅ Fait |
 | Phase 3 | Catalogue produits (CRUD, catégories, icônes, import JSON) | ⏳ En attente |
 | Phase 4 | Stock & liste de courses (statuts, SSE) | ⏳ En attente |
 | Phase 5 | Recettes (CRUD, ingrédients, multiplicateur) | ⏳ En attente |
