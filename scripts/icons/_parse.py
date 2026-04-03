@@ -4,7 +4,24 @@ import re
 import argparse
 from pathlib import Path
 
-SPEC_FILE = Path(__file__).parent.parent.parent / "seed" / "icons.md"
+_ROOT = Path(__file__).parent.parent.parent
+
+SPEC_FILES = {
+    'standard': _ROOT / "seed" / "icons.md",
+    'detailed': _ROOT / "seed" / "icons-detailed.md",
+}
+
+STYLES = {
+    'standard': (
+        "flat design app icon, minimalist illustration, white background, "
+        "clean and simple, no shadow, vibrant saturated colors, slight rounded outline"
+    ),
+    'detailed': (
+        "cute flat design sticker icon, soft pastel illustration, white background, "
+        "plump rounded friendly shapes, gentle muted pastel colors, no shadow, "
+        "cozy charming style, clean lines, no text, no logo"
+    ),
+}
 
 
 def slugify(text):
@@ -50,14 +67,34 @@ def extract_icons(markdown):
     return icons
 
 
-def load_icons():
-    if not SPEC_FILE.exists():
-        raise SystemExit(f"❌ Spec file not found: {SPEC_FILE}")
-    return extract_icons(SPEC_FILE.read_text(encoding="utf-8"))
+def load_icons(spec='standard'):
+    spec_file = SPEC_FILES.get(spec)
+    if spec_file is None:
+        raise SystemExit(f"❌ Unknown spec '{spec}'. Choose: {list(SPEC_FILES.keys())}")
+    if not spec_file.exists():
+        raise SystemExit(f"❌ Spec file not found: {spec_file}")
+    return extract_icons(spec_file.read_text(encoding="utf-8"))
+
+
+def get_style(spec='standard'):
+    return STYLES.get(spec, STYLES['standard'])
 
 
 def build_parser(description):
     parser = argparse.ArgumentParser(description=description)
+
+    parser.add_argument(
+        '--spec', '-s',
+        choices=list(SPEC_FILES.keys()),
+        default='standard',
+        help=(
+            "Spec to use for prompts: "
+            "'standard' (icons.md — flat design) or "
+            "'detailed' (icons-detailed.md — cute pastel style). "
+            "Default: standard."
+        ),
+    )
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "--family", "-f",

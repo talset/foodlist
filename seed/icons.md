@@ -31,7 +31,7 @@ Décliner en changeant la couleur du verre et de l'étiquette.
 | Fichier | Couleur verre | Couleur étiquette | Notes |
 |---|---|---|---|
 | `bouteille-biere.png` | single amber glass beer bottle with silver metal cap, side view, no label text | Jaune | Capsule métallique visible, mousse légère suggérée |
-| `bouteille-cidre.png` | single dark green glass cider bottle with cork, side view, no label text | Blanc/beige | Capsule |
+| `bouteille-cidre.png` | single dark green glass cider bottle with cork, tall slender wine-bottle shape with long neck, side view, no label text | Blanc/beige | Forme bouteille de vin (col long) |
 | `bouteille-cola.png` | single dark brown plastic cola soda bottle with black cap, side view, generic no brand logo | Rouge avec filet blanc | Incontournable |
 | `bouteille-fanta.png` | single orange plastic soda bottle with orange cap, side view, generic no brand logo | Orange vif | |
 | `bouteille-icetea.png` | single golden amber plastic iced tea bottle with brown cap, side view, no logo | Brun/ocre | |
