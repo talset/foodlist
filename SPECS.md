@@ -86,7 +86,11 @@ ICONS_DIR=/app/uploads/icons/custom
 
 Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativement.
 
-- [ ] Fiche produit : nom, catégorie, unité de mesure, icône (emoji ou image uploadée)
+- [ ] Fiche produit : nom, catégorie, icône (image PNG/WebP), et **unité de référence** :
+  - `ref_unit` : unité de mesure (L, g, kg, ml, unité, pièce…)
+  - `ref_quantity` : quantité en `ref_unit` que représente 1 item physique
+  - Exemples : lait → `1 L`, oignon → `1 unité`, gateau-pallet → `150 g`
+  - Ces deux champs sont modifiables si le conditionnement du produit change
 - [ ] Recherche/autocomplete sur le nom du produit
 - [ ] Ajouter un nouveau produit si absent du catalogue
 - [ ] Import de produits en masse via fichier JSON
@@ -110,25 +114,36 @@ uploads/icons/
 - Les icônes `default/` sont **committées dans le dépôt** et **copiées dans l'image Docker** au build — elles ne nécessitent pas de volume et ne sont jamais écrasées par un montage
 - Les icônes `custom/` sont stockées dans le volume monté sur `ICONS_DIR`, persistées entre redémarrages
 - Le volume Docker ne monte **que** le sous-dossier `custom/` : `./uploads/icons/custom:/app/uploads/icons/custom`
-- Toutes les icônes sont servies via une route publique Next.js : `/api/icons/default/<nom>` et `/api/icons/custom/<uuid>`
+- Toutes les icônes sont servies via une **route unique** : `/api/icons/<ref>` — le serveur cherche d'abord dans `default/`, puis dans `custom/` (les UUID custom ne peuvent pas entrer en collision avec les noms des icônes par défaut)
 
 **Sélecteur d'icône (lors de la création/édition d'un produit) :**
-- [ ] Onglet **Emoji** : saisir ou rechercher un emoji directement
 - [ ] Onglet **Icônes par défaut** : grille de toutes les icônes présentes dans `default/`, chargées dynamiquement via l'API
 - [ ] Onglet **Upload** : uploader une image custom (PNG/JPG/WebP, redimensionnée à 128×128 au stockage)
 - [ ] Aperçu de l'icône sélectionnée avant validation
-- [ ] Un produit n'a qu'une seule icône active : emoji OU icône par défaut OU image custom
+- [ ] Un produit n'a qu'une seule icône active : icône par défaut OU image custom
+- [ ] Si aucune icône n'est définie, affichage d'une icône générique (placeholder)
 
 **Catégories de produits :**
+
+Les catégories sont gérées en base de données (table `categories`). Une liste de catégories par défaut est insérée au premier lancement via `schema.sql`. Il est possible d'en ajouter de nouvelles depuis l'interface (page Produits > Paramètres catégories).
+
+Catégories par défaut :
 - Fruits & Légumes
 - Viandes & Poissons
 - Produits laitiers
 - Épicerie / Conserves
 - Surgelés
 - Boissons
+- Apéro
 - Desserts / Pâtisserie
 - Hygiène / Entretien
 - Autre
+
+Gestion des catégories :
+- [ ] Ajouter une catégorie personnalisée (nom libre)
+- [ ] Renommer une catégorie existante
+- [ ] Supprimer une catégorie vide (sans produits associés)
+- [ ] Les catégories sont partagées par tous les utilisateurs de l'instance
 
 ### F3 — Statut produits (global au foyer)
 
@@ -159,10 +174,15 @@ La liste de courses est générée automatiquement à partir :
     - Quantité minimale affichée : 1 (ex : `● 2L` ou `● 1 pièce`)
     - Exemple : `🥛 Lait — out of stock  ● 2L`
     - Si plusieurs recettes utilisent le même produit, les quantités sont additionnées
-- Cocher un article dans la liste = le passer en OK dans le stock global
+- Regroupement par catégorie
+
+**Mode courses (filtre "À acheter") :**
+- [ ] Bouton/toggle en haut de la liste pour basculer en **mode courses** : n'affiche que les articles encore à acheter (out of stock ou avec bulle de quantité recette)
+- [ ] Cocher un article en mode courses → statut passe à OK **et l'article disparaît instantanément** de la vue filtrée (sans rechargement)
   - La bulle de quantité recette disparaît pour cet ingrédient
   - Si tous les ingrédients d'une recette active sont cochés → la recette est **automatiquement retirée** de la liste (reset)
-- Regroupement par catégorie
+- [ ] En mode courses, les articles déjà OK (déjà achetés) sont masqués — ce qui permet une liste épurée pendant les courses
+- [ ] Le mode courses est local à l'appareil (pas synchronisé entre appareils), le filtre est mémorisé durant la session
 
 ### F5 — Recettes
 
@@ -170,7 +190,9 @@ La liste de courses est générée automatiquement à partir :
 - [ ] Créer une recette : nom, description courte, photo (optionnelle)
 - [ ] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
 - [ ] Rendu Markdown affiché proprement lors de la consultation de la recette
-- [ ] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité + unité
+- [ ] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité
+  - L'unité est pré-remplie automatiquement avec la `ref_unit` du produit et n'est pas modifiable
+  - La quantité est exprimée dans cette unité (ex : 2 pour 2L de lait, 300 pour 300g de farine)
 - [ ] Définir le nombre de parts de base de la recette
 
 #### Vue détail d'une recette
@@ -214,8 +236,23 @@ La liste de courses est générée automatiquement à partir :
   {
     "name": "Lait entier",
     "category": "Produits laitiers",
-    "unit": "L",
-    "emoji": "🥛"
+    "ref_unit": "L",
+    "ref_quantity": 1,
+    "icon_ref": "milk.png"
+  },
+  {
+    "name": "Oignon",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "onion.png"
+  },
+  {
+    "name": "Gateau-pallet",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": null
   }
 ]
 ```
@@ -229,12 +266,14 @@ La liste de courses est générée automatiquement à partir :
     "base_servings": 8,
     "steps_markdown": "## Préparation\n\n1. Mélanger...\n\n## Cuisson\n\n...",
     "ingredients": [
-      { "product": "Lait entier", "quantity": 0.5, "unit": "L" },
-      { "product": "Fromage frais", "quantity": 500, "unit": "g" }
+      { "product": "Lait entier", "quantity": 0.5 },
+      { "product": "Fromage frais", "quantity": 500 }
     ]
   }
 ]
 ```
+
+> L'unité est omise dans l'export recettes car elle est portée par le produit (`ref_unit`). À l'import, si le produit n'existe pas encore dans le catalogue, il est créé avec `ref_unit = "unité"` et `ref_quantity = 1` par défaut — à corriger manuellement ensuite.
 
 ### F7 — Synchronisation temps réel
 
@@ -261,15 +300,24 @@ La liste de courses est générée automatiquement à partir :
 | name | VARCHAR(100) | Nom affiché |
 | created_at | DATETIME | Date de création |
 
+### `categories` (catégories de produits)
+| Colonne | Type | Description |
+|---------|------|-------------|
+| id | INT PK AUTO_INCREMENT | Identifiant |
+| name | VARCHAR(100) UNIQUE | Nom de la catégorie |
+| is_default | TINYINT(1) DEFAULT 0 | 1 si catégorie livrée par défaut |
+| sort_order | INT DEFAULT 0 | Ordre d'affichage |
+| created_at | DATETIME | Date de création |
+
 ### `products` (catalogue global)
 | Colonne | Type | Description |
 |---------|------|-------------|
 | id | INT PK AUTO_INCREMENT | Identifiant |
 | name | VARCHAR(255) UNIQUE | Nom du produit |
-| category | VARCHAR(100) | Catégorie |
-| unit | VARCHAR(50) | Unité par défaut (kg, L, pièce…) |
-| emoji | VARCHAR(10) NULL | Emoji associé |
-| icon_url | VARCHAR(500) NULL | URL image uploadée (si custom) |
+| category_id | INT FK categories.id | Catégorie |
+| ref_unit | VARCHAR(50) | Unité de mesure de référence (L, g, kg, unité…) |
+| ref_quantity | DECIMAL(10,3) DEFAULT 1 | Quantité en `ref_unit` que représente 1 item physique (ex : 1 bouteille de lait = 1 L → `ref_quantity = 1` ; 1 paquet de gâteaux = 150 g → `ref_quantity = 150`) |
+| icon_ref | VARCHAR(500) NULL | Nom du fichier icône (ex : `milk.png` ou `<uuid>.png`) — résolu via `/api/icons/<ref>` |
 | created_by | INT FK users.id | Ajouté par |
 | created_at | DATETIME | Date de création |
 
@@ -319,8 +367,9 @@ La liste de courses est générée automatiquement à partir :
 | id | INT PK AUTO_INCREMENT | Identifiant |
 | recipe_id | INT FK recipes.id | Recette |
 | product_id | INT FK products.id | Produit (du catalogue) |
-| quantity | DECIMAL(10,3) | Quantité pour base_servings |
-| unit | VARCHAR(50) | Unité |
+| quantity | DECIMAL(10,3) | Quantité pour `base_servings`, exprimée dans la `ref_unit` du produit |
+
+> L'unité n'est pas stockée ici : elle est toujours celle du produit (`ref_unit`). Lors de l'ajout d'un ingrédient à une recette, l'unité est pré-remplie et non modifiable — cela garantit que la conversion en items physiques (`quantity / ref_quantity`) est toujours possible sans ambiguïté.
 
 ### `shopping_recipes` (recettes ajoutées à la liste en cours)
 | Colonne | Type | Description |
@@ -348,6 +397,7 @@ foodlist/
 │   │   ├── api/                    # API Routes
 │   │   │   ├── auth/               # NextAuth
 │   │   │   ├── products/           # CRUD catalogue
+│   │   │   ├── categories/         # CRUD catégories
 │   │   │   ├── stock/              # Statut produits
 │   │   │   ├── recipes/            # CRUD recettes
 │   │   │   ├── shopping/           # Liste de courses
@@ -364,7 +414,7 @@ foodlist/
 │   │   ├── RecipeCard/             # Carte recette
 │   │   ├── SearchAutocomplete/     # Recherche produits
 │   │   ├── StatusToggle/           # Bouton ok/out-of-stock
-│   │   └── EmojiPicker/            # Sélecteur emoji/image
+│   │   └── IconPicker/             # Sélecteur icône (défaut / upload)
 │   ├── lib/
 │   │   ├── db.ts                   # Connexion MySQL
 │   │   ├── auth.ts                 # Config NextAuth
