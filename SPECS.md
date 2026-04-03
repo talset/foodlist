@@ -56,8 +56,8 @@ NEXTAUTH_URL=http://localhost:3000
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
-# Icônes (monté en volume Docker)
-ICONS_DIR=/app/uploads/icons
+# Icônes uploadées par les utilisateurs (monté en volume Docker — custom uniquement)
+ICONS_DIR=/app/uploads/icons/custom
 ```
 
 ---
@@ -94,21 +94,22 @@ Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativ
 
 ### F2b — Gestion des icônes produits
 
-**Structure des répertoires (volume Docker monté sur `ICONS_DIR`) :**
+**Structure des répertoires :**
 
 ```
 uploads/icons/
-├── default/        # Icônes livrées avec l'application (embarquées dans l'image Docker)
-│   ├── apple.png
+├── default/        # Icônes livrées avec l'application — embarquées dans l'image Docker au build
+│   ├── apple.png   # (chemin dans l'image : /app/uploads/icons/default/)
 │   ├── milk.png
 │   └── ...
-└── custom/         # Icônes uploadées par les utilisateurs
-    ├── <uuid>.png
+└── custom/         # Icônes uploadées par les utilisateurs — persistées via volume Docker
+    ├── <uuid>.png  # (chemin dans l'image : /app/uploads/icons/custom/, ICONS_DIR)
     └── ...
 ```
 
-- Les icônes `default/` sont **copiées dans l'image Docker** au build (ne nécessitent pas de volume)
-- Les icônes `custom/` sont stockées dans le volume monté, persistées entre redémarrages
+- Les icônes `default/` sont **committées dans le dépôt** et **copiées dans l'image Docker** au build — elles ne nécessitent pas de volume et ne sont jamais écrasées par un montage
+- Les icônes `custom/` sont stockées dans le volume monté sur `ICONS_DIR`, persistées entre redémarrages
+- Le volume Docker ne monte **que** le sous-dossier `custom/` : `./uploads/icons/custom:/app/uploads/icons/custom`
 - Toutes les icônes sont servies via une route publique Next.js : `/api/icons/default/<nom>` et `/api/icons/custom/<uuid>`
 
 **Sélecteur d'icône (lors de la création/édition d'un produit) :**

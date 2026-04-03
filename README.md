@@ -48,8 +48,8 @@ NEXTAUTH_URL=http://mon-serveur:3000
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
-# Répertoire des icônes (monté en volume Docker)
-ICONS_DIR=/app/uploads/icons
+# Répertoire des icônes uploadées par les utilisateurs (volume Docker — custom uniquement)
+ICONS_DIR=/app/uploads/icons/custom
 ```
 
 ### 3. Initialiser la base de données
@@ -84,27 +84,29 @@ docker compose up -d --build
 
 ### Structure des répertoires
 
-Le volume Docker monte un dossier local vers `/app/uploads/icons` dans le container.
+Les icônes sont séparées en deux emplacements distincts :
 
-```
-<dossier_local>/icons/
-├── default/    # Icônes fournies par défaut avec l'application
-└── custom/     # Icônes uploadées par les utilisateurs via l'interface
-```
+| Type | Chemin dans l'image | Source | Persistance |
+|------|--------------------|---------||------------|
+| Défaut | `/app/uploads/icons/default/` | Committées dans le dépôt, copiées au build | Embarquées dans l'image |
+| Custom | `/app/uploads/icons/custom/` (`ICONS_DIR`) | Uploadées via l'interface | Volume Docker |
 
-Dans `docker-compose.yml`, le volume est configuré ainsi :
+Le volume Docker ne monte **que** le dossier `custom/` — les icônes par défaut restent intactes dans l'image :
 
 ```yaml
 volumes:
-  - ./uploads/icons:/app/uploads/icons
+  - ./uploads/icons/custom:/app/uploads/icons/custom
 ```
 
-### Ajouter des icônes par défaut
+### Icônes par défaut
 
-Les icônes par défaut sont embarquées dans l'image Docker lors du build (dossier `uploads/icons/default/` du dépôt). Pour en ajouter :
+Les icônes par défaut sont committées dans le dépôt sous `uploads/icons/default/` et **embarquées dans l'image Docker au build**. Elles ne nécessitent pas de volume et ne peuvent pas être écrasées par un montage.
+
+Pour en ajouter ou modifier :
 
 1. Placer les images (PNG/WebP recommandé, 128×128 px) dans `uploads/icons/default/`
-2. Rebuilder l'image :
+2. Committer les fichiers dans le dépôt
+3. Rebuilder l'image :
    ```bash
    docker compose up -d --build
    ```
@@ -113,9 +115,9 @@ Elles seront automatiquement disponibles dans le sélecteur d'icônes de l'inter
 
 ### Icônes uploadées par les utilisateurs
 
-Les icônes uploadées via l'interface sont stockées dans `uploads/icons/custom/` sur le serveur hôte (via le volume). Elles sont persistées entre les redémarrages du container.
+Les icônes uploadées via l'interface sont stockées dans `uploads/icons/custom/` sur le serveur hôte (via le volume) et persistées entre les redémarrages du container.
 
-> **Backup** : penser à inclure le dossier `uploads/icons/custom/` dans vos sauvegardes.
+> **Backup** : inclure le dossier `uploads/icons/custom/` dans vos sauvegardes.
 
 ---
 
