@@ -5,7 +5,30 @@ Les scripts sont **idempotents** : un fichier déjà présent est ignoré — on
 
 ---
 
-## Options disponibles
+## Options de génération (CLI)
+
+Chaque script accepte les mêmes arguments :
+
+```bash
+# Tout générer
+python generate_hf.py
+
+# Seulement une famille (substring, insensible à la casse)
+python generate_hf.py --family bouteille
+python generate_hf.py --family fromage
+
+# Un seul icône précis
+python generate_hf.py --icon fromage-rond.png
+
+# Lister toutes les familles et leurs icônes
+python generate_hf.py --list
+```
+
+Les icônes déjà présentes dans `uploads/icons/default/` sont toujours ignorées — relancer est sans risque.
+
+---
+
+## Options de service disponibles
 
 | Script | Service | Coût | Limite | Qualité |
 |---|---|---|---|---|

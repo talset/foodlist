@@ -2,11 +2,16 @@
 Generate icons using Replicate API (FLUX.1-schnell)
 ~$0.003/image → 157 icons ≈ $0.50 total
 Get your token at https://replicate.com/account/api-tokens
-Set env: REPLICATE_API_TOKEN=r8_xxx
+
+Usage:
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                        # all icons
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --family bouteille     # one family
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --icon fromage-rond.png  # one icon
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --list                 # list families
 """
 
 import os
-import re
+import sys
 import time
 from pathlib import Path
 from io import BytesIO
@@ -16,69 +21,26 @@ import replicate
 from PIL import Image
 from tqdm import tqdm
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _parse import load_icons, build_parser, filter_icons
+
 # =========================
 # CONFIG
 # =========================
 
-if not os.environ.get("REPLICATE_API_TOKEN"):
-    raise SystemExit("❌ REPLICATE_API_TOKEN environment variable not set.")
+REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN")
 
 MODEL = "black-forest-labs/flux-schnell"
 
-SPEC_FILE = Path(__file__).parent.parent.parent / "seed" / "icons.md"
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "uploads" / "icons" / "default"
 SLEEP = 1
 RETRIES = 3
+COST_PER_IMAGE = 0.003
 
 BASE_PROMPT = (
     "flat design icon, minimalist illustration, transparent background, "
-    "128x128, clean and simple, no shadow, vibrant colors, slight rounded outline, "
-    "white background, icon style"
+    "clean and simple, no shadow, vibrant colors, slight rounded outline, icon style"
 )
-
-# =========================
-# PARSE SPEC
-# =========================
-
-def slugify(text):
-    text = text.lower()
-    text = re.sub(r"[^\w\s-]", "", text)
-    text = re.sub(r"\s+", "-", text.strip())
-    return text
-
-
-def extract_icons(markdown):
-    icons = []
-    current_family = "misc"
-
-    for line in markdown.split("\n"):
-        if line.startswith("###"):
-            current_family = slugify(line.replace("#", "").strip())
-            continue
-
-        if "|" not in line or ".png" not in line:
-            continue
-
-        parts = [p.strip() for p in line.split("|")]
-        if len(parts) < 3:
-            continue
-
-        filename = parts[1].strip("`")
-        description = parts[2]
-
-        if not filename.endswith(".png"):
-            continue
-
-        if filename.startswith("-") or description.startswith("-"):
-            continue
-
-        icons.append({
-            "filename": filename,
-            "desc": description,
-            "family": current_family,
-        })
-
-    return icons
 
 # =========================
 # GENERATION
@@ -113,14 +75,12 @@ def generate_icon(icon):
                 },
             )
 
-            # output is a list of URLs or file-like objects
             img_url = output[0]
             if hasattr(img_url, "url"):
                 img_url = img_url.url
 
             img_bytes = requests.get(img_url, timeout=30).content
-            img_128 = resize_to_128(img_bytes)
-            output_path.write_bytes(img_128)
+            output_path.write_bytes(resize_to_128(img_bytes))
             return "ok"
 
         except Exception as e:
@@ -134,22 +94,27 @@ def generate_icon(icon):
 # =========================
 
 def main():
+    parser = build_parser("Generate icons via Replicate API (~$0.003/image)")
+    args = parser.parse_args()
+
+    if not args.list and not REPLICATE_API_TOKEN:
+        raise SystemExit("❌ REPLICATE_API_TOKEN environment variable not set.")
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    if not SPEC_FILE.exists():
-        raise SystemExit(f"❌ Spec file not found: {SPEC_FILE}")
-
-    markdown = SPEC_FILE.read_text(encoding="utf-8")
-    icons = extract_icons(markdown)
-    print(f"🧩 Found {len(icons)} icons in spec")
+    icons = load_icons()
+    icons = filter_icons(icons, args)
 
     already = sum(1 for i in icons if (OUTPUT_DIR / i["filename"]).exists())
     todo = len(icons) - already
-    print(f"✅ Already generated: {already} — Remaining: {todo}")
+    print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
 
-    # Cost estimate
-    cost = todo * 0.003
-    print(f"💰 Estimated cost: ~${cost:.2f} ({todo} icons × $0.003)")
+    if todo == 0:
+        print("Nothing to do.")
+        return
+
+    cost = todo * COST_PER_IMAGE
+    print(f"💰 Estimated cost: ~${cost:.2f} ({todo} icons × ${COST_PER_IMAGE})")
     confirm = input("Continue? [y/N] ").strip().lower()
     if confirm != "y":
         print("Aborted.")
@@ -168,7 +133,7 @@ def main():
 
     print(f"\n✅ Done: {success} generated, {skip} skipped, {fail} failed")
     if fail:
-        print("Re-run the script to retry failed icons (already generated ones are skipped).")
+        print("Re-run to retry failed icons (existing ones are skipped).")
 
 
 if __name__ == "__main__":
