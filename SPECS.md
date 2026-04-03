@@ -159,7 +159,12 @@ Le statut de chaque produit est global au foyer, indépendamment des recettes ou
   - Quand on incrémente depuis 0, le statut repasse à **OK**
   - Quantité minimale : 0 (ne peut pas être négative)
 - [ ] Vue principale : produits triés par statut (out of stock en haut)
-- [ ] Filtrage par catégorie
+- [ ] **Barre de recherche** en haut de la vue pour filtrer les produits affichés en temps réel (filtre live sur le nom)
+- [ ] **Strip de filtres catégories** : ligne horizontale scrollable sous la recherche
+  - Un chip par catégorie : icône du produit représentatif + nom court de la catégorie
+  - Chip "Tous" en premier (sélectionné par défaut)
+  - Sélection exclusive (une seule catégorie à la fois)
+  - Les deux filtres (recherche + catégorie) se combinent
 
 ### F4 — Liste de courses consolidée
 
@@ -178,13 +183,26 @@ La liste de courses est générée automatiquement à partir :
     - Si plusieurs recettes utilisent le même produit, les quantités sont additionnées
 - Regroupement par catégorie
 
+**Filtres de la liste de courses :**
+
+Les trois filtres sont indépendants et se combinent entre eux.
+
+- [ ] **Barre de recherche** : filtre live sur le nom du produit
+- [ ] **Strip de filtres catégories** : ligne horizontale scrollable
+  - Chip "Tous" + un chip par catégorie présente dans la liste (icône + nom court)
+  - Seules les catégories ayant au moins un article dans la liste sont affichées
+- [ ] **Filtre recette** : affiché uniquement si au moins une recette est active dans la liste
+  - Strip horizontal scrollable sous les catégories
+  - Chip "Toutes" + un chip par recette active (nom de la recette)
+  - Sélectionner une recette → affiche uniquement les ingrédients liés à cette recette
+  - Pratique pour faire les courses rayon par rayon en suivant une recette
+
 **Mode courses (filtre "À acheter") :**
-- [ ] Bouton/toggle en haut de la liste pour basculer en **mode courses** : n'affiche que les articles encore à acheter (out of stock ou avec bulle de quantité recette)
-- [ ] Cocher un article en mode courses → statut passe à OK **et l'article disparaît instantanément** de la vue filtrée (sans rechargement)
+- [ ] Toggle en haut de la liste pour n'afficher que les articles encore à acheter (out of stock ou avec bulle de quantité recette)
+- [ ] Cocher un article → statut passe à OK **et l'article disparaît instantanément** de la vue
   - La bulle de quantité recette disparaît pour cet ingrédient
   - Si tous les ingrédients d'une recette active sont cochés → la recette est **automatiquement retirée** de la liste (reset)
-- [ ] En mode courses, les articles déjà OK (déjà achetés) sont masqués — ce qui permet une liste épurée pendant les courses
-- [ ] Le mode courses est local à l'appareil (pas synchronisé entre appareils), le filtre est mémorisé durant la session
+- [ ] Le mode courses est local à l'appareil (pas synchronisé), mémorisé durant la session
 
 ### F5 — Recettes
 
