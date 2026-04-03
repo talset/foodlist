@@ -6,6 +6,19 @@ Application web progressive (PWA) de gestion du stock alimentaire et des courses
 
 ---
 
+## Statut du développement
+
+| Phase | Description | Statut |
+|-------|-------------|--------|
+| Phase 1 | Fondations (Next.js, MySQL, Docker, schema SQL) | ✅ Fait |
+| Phase 2 | Authentification (NextAuth, foyers, invitations) | 🔜 À faire |
+| Phase 3 | Catalogue produits (CRUD, catégories, icônes, import JSON) | ⏳ En attente |
+| Phase 4 | Stock & liste de courses (statuts, SSE) | ⏳ En attente |
+| Phase 5 | Recettes (CRUD, ingrédients, multiplicateur) | ⏳ En attente |
+| Phase 6 | PWA & finitions (manifest, optimisation mobile) | ⏳ En attente |
+
+---
+
 ## Prérequis
 
 - [Docker](https://docs.docker.com/get-docker/) et [Docker Compose](https://docs.docker.com/compose/)
