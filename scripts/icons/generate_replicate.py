@@ -33,7 +33,8 @@ REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN")
 MODEL = "black-forest-labs/flux-schnell"
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "uploads" / "icons" / "default"
-SLEEP = 1
+SLEEP = 11        # 6 req/min burst=1 → 1 req/10s minimum, 11s for safety
+RETRY_SLEEP = 15  # extra wait after a throttle error
 RETRIES = 3
 COST_PER_IMAGE = 0.003
 
@@ -88,8 +89,14 @@ def generate_icon(icon):
             return "ok"
 
         except Exception as e:
-            print(f"\n❌ {icon['filename']} attempt {attempt+1}/{RETRIES}: {e}")
-            time.sleep(3)
+            msg = str(e)
+            if "throttled" in msg.lower() or "rate limit" in msg.lower() or "429" in msg:
+                wait = RETRY_SLEEP
+                print(f"\n⏸  Throttled, waiting {wait}s…")
+                time.sleep(wait)
+            else:
+                print(f"\n❌ {icon['filename']} attempt {attempt+1}/{RETRIES}: {e}")
+                time.sleep(3)
 
     return "fail"
 
