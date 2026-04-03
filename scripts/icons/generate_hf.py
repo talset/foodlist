@@ -1,13 +1,15 @@
 """
-Generate icons using HuggingFace Inference API (FLUX.1-schnell)
+Generate icons using HuggingFace InferenceClient (FLUX.1-schnell)
 Free tier: ~100-200 requests/day with a free HF account.
 Get your token at https://huggingface.co/settings/tokens
 
+Install: pip install huggingface_hub pillow tqdm
+
 Usage:
-  HF_TOKEN=hf_xxx python generate_hf.py                        # all icons
-  HF_TOKEN=hf_xxx python generate_hf.py --family bouteille     # one family
+  HF_TOKEN=hf_xxx python generate_hf.py                          # all icons
+  HF_TOKEN=hf_xxx python generate_hf.py --family bouteille       # one family
   HF_TOKEN=hf_xxx python generate_hf.py --icon fromage-rond.png  # one icon
-  HF_TOKEN=hf_xxx python generate_hf.py --list                 # list families
+  python generate_hf.py --list                                    # list families (no token needed)
 """
 
 import os
@@ -16,7 +18,7 @@ import time
 from pathlib import Path
 from io import BytesIO
 
-import requests
+from huggingface_hub import InferenceClient
 from PIL import Image
 from tqdm import tqdm
 
@@ -28,10 +30,7 @@ from _parse import load_icons, build_parser, filter_icons
 # =========================
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
-
 MODEL = "black-forest-labs/FLUX.1-schnell"
-API_URL = f"https://api-inference.huggingface.co/models/{MODEL}"
-HEADERS = {"Authorization": f"Bearer {HF_TOKEN}"}
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "uploads" / "icons" / "default"
 SLEEP = 2
@@ -46,15 +45,14 @@ BASE_PROMPT = (
 # GENERATION
 # =========================
 
-def resize_to_128(image_bytes):
-    img = Image.open(BytesIO(image_bytes)).convert("RGBA")
-    img = img.resize((128, 128), Image.LANCZOS)
+def resize_to_128(pil_image):
+    img = pil_image.convert("RGBA").resize((128, 128), Image.LANCZOS)
     out = BytesIO()
     img.save(out, format="PNG")
     return out.getvalue()
 
 
-def generate_icon(icon):
+def generate_icon(client, icon):
     output_path = OUTPUT_DIR / icon["filename"]
 
     if output_path.exists():
@@ -64,32 +62,18 @@ def generate_icon(icon):
 
     for attempt in range(RETRIES):
         try:
-            response = requests.post(
-                API_URL,
-                headers=HEADERS,
-                json={"inputs": prompt},
-                timeout=60,
-            )
-
-            if response.status_code == 503:
-                wait = response.json().get("estimated_time", 20)
-                print(f"\n⏳ Model loading, waiting {wait:.0f}s...")
-                time.sleep(min(wait, 30))
-                continue
-
-            if response.status_code == 429:
-                print(f"\n⏸  Rate limited, waiting 30s...")
-                time.sleep(30)
-                continue
-
-            response.raise_for_status()
-
-            output_path.write_bytes(resize_to_128(response.content))
+            image = client.text_to_image(prompt, model=MODEL)
+            output_path.write_bytes(resize_to_128(image))
             return "ok"
 
         except Exception as e:
-            print(f"\n❌ {icon['filename']} attempt {attempt+1}/{RETRIES}: {e}")
-            time.sleep(5)
+            msg = str(e)
+            if "Rate limit" in msg or "429" in msg:
+                print(f"\n⏸  Rate limited, waiting 30s...")
+                time.sleep(30)
+            else:
+                print(f"\n❌ {icon['filename']} attempt {attempt+1}/{RETRIES}: {e}")
+                time.sleep(5)
 
     return "fail"
 
@@ -98,7 +82,7 @@ def generate_icon(icon):
 # =========================
 
 def main():
-    parser = build_parser("Generate icons via HuggingFace Inference API (free)")
+    parser = build_parser("Generate icons via HuggingFace InferenceClient (free)")
     args = parser.parse_args()
 
     if not args.list and not HF_TOKEN:
@@ -117,9 +101,11 @@ def main():
         print("Nothing to do.")
         return
 
+    client = InferenceClient(api_key=HF_TOKEN)
+
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(icon)
+        result = generate_icon(client, icon)
         if result == "ok":
             success += 1
         elif result == "skip":

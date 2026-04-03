@@ -48,7 +48,7 @@ Les icônes déjà présentes dans `uploads/icons/default/` sont toujours ignor�
 ### 2. Installer les dépendances
 
 ```bash
-pip install requests pillow tqdm
+pip install huggingface_hub pillow tqdm
 ```
 
 ### 3. Lancer
