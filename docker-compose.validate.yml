@@ -2,7 +2,7 @@ services:
 
   # ── MySQL de test ─────────────────────────────────────────────────────────────
   mysql:
-    image: mysql:8.0
+    image: mysql:9.6
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: foodlist
@@ -16,7 +16,7 @@ services:
 
   # ── Applique le schéma SQL et liste les tables ────────────────────────────────
   schema:
-    image: mysql:8.0
+    image: mysql:9.6
     depends_on:
       mysql:
         condition: service_healthy

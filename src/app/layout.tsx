@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import SessionProviderWrapper from '@/components/SessionProviderWrapper'
 
 export const metadata: Metadata = {
   title: 'Foodlist',
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        <SessionProviderWrapper>{children}</SessionProviderWrapper>
+      </body>
     </html>
   )
 }

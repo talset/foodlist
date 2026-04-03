@@ -55,7 +55,7 @@ pip install huggingface_hub pillow tqdm
 
 ```bash
 cd /chemin/vers/foodlist
-HF_TOKEN=hf_xxxxxxxxxxxx python scripts/icons/generate_hf.py
+HF_TOKEN=hf_xxxxxxxxxxxx python3 scripts/icons/generate_hf.py
 ```
 
 ### Notes
@@ -85,7 +85,7 @@ pip install replicate requests pillow tqdm
 
 ```bash
 cd /chemin/vers/foodlist
-REPLICATE_API_TOKEN=r8_xxxxxxxxxxxx python scripts/icons/generate_replicate.py
+REPLICATE_API_TOKEN=r8_xxxxxxxxxxxx python3 scripts/icons/generate_replicate.py
 ```
 
 Le script affiche le coût estimé et demande confirmation avant de commencer.
