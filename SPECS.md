@@ -76,11 +76,31 @@ ICONS_DIR=/app/uploads/icons/custom
 
 ### F1 — Authentification
 
+**Modèle d'accès : inscription sur invitation uniquement**
+
 - [ ] Connexion via Google SSO (compte personnel)
-- [ ] Connexion email + mot de passe (fallback)
-- [ ] Inscription email/mot de passe
+- [ ] Connexion email + mot de passe
 - [ ] Session persistante (JWT/cookie)
 - [ ] Invitation d'autres utilisateurs au foyer via lien
+
+#### Bootstrap premier utilisateur
+
+Si la base de données ne contient aucun utilisateur, l'inscription est ouverte librement (email ou Google). Ce premier compte devient automatiquement admin du foyer qu'il crée sur `/setup`.
+
+#### Utilisateurs invités
+
+L'administrateur partage le lien `/register?token=<invite_token>`. Ce lien :
+- Affiche le formulaire d'inscription (sinon, la page affiche "accès sur invitation")
+- Valide le token côté serveur avant de créer le compte
+- Auto-rejoint le foyer sans passer par `/setup`
+
+#### Google SSO et comptes invités
+
+Google SSO est autorisé pour :
+- Le premier utilisateur (bootstrap)
+- Les utilisateurs ayant déjà un compte (connexion classique, liaison automatique par email)
+
+Un utilisateur invité qui veut utiliser Google doit d'abord créer son compte avec le lien d'invitation (email + mot de passe), puis Google se liera automatiquement à son email lors de la connexion suivante.
 
 ### F2 — Catalogue de produits (global)
 

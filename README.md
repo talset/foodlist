@@ -301,17 +301,27 @@ make run
 
 L'application est accessible sur `http://mon-serveur:3000`.
 
-### 5. Créer le premier compte
+### 5. Créer le premier compte (admin)
 
-L'inscription est ouverte par défaut — il n'y a pas de compte administrateur pré-créé. Le flux normal est :
+L'inscription est **fermée par défaut** — seul le tout premier accès à `/register` est libre (base vide). Ce compte devient l'administrateur.
 
 1. Ouvrir `http://mon-serveur:3000/register`
-2. Créer un compte email + mot de passe (ou continuer avec Google si configuré)
-3. Après inscription → redirigé vers `/setup` : créer un foyer
-4. La personne qui crée le foyer est automatiquement **admin** de ce foyer
-5. Pour inviter d'autres membres : copier le lien d'invitation depuis `/setup` et le partager
+2. Créer un compte email + mot de passe **ou** continuer avec Google
+3. Après inscription → `/setup` → créer un foyer (vous devenez admin)
 
-> **Note :** L'inscription est accessible à quiconque connaît l'URL. Sur un serveur exposé sur Internet, il est conseillé de restreindre l'accès réseau (pare-feu, VPN) plutôt que de laisser l'inscription publique.
+Après cette étape, l'inscription est verrouillée : personne d'autre ne peut créer de compte sans lien d'invitation.
+
+### 6. Inviter des membres
+
+1. Aller sur `/setup` (ou la future page paramètres)
+2. Copier le **lien d'invitation** : `http://mon-serveur:3000/register?token=<invite_token>`
+3. Envoyer ce lien aux membres du foyer
+
+Quand un membre clique sur le lien :
+- Il remplit le formulaire d'inscription (email + mot de passe)
+- Il est automatiquement ajouté au foyer — pas besoin d'étape supplémentaire
+
+> **Google SSO pour les membres invités :** ils doivent d'abord créer leur compte via le lien d'invitation (email + mot de passe). Ensuite, lors de la connexion suivante, Google se lie automatiquement s'ils utilisent le même email.
 
 ---
 
@@ -424,7 +434,8 @@ Le bouton **Continuer avec Google** apparaît automatiquement sur la page de con
 
 ### Notes
 
-- Tant que l'écran de consentement est en mode **Test**, seuls les comptes ajoutés en "utilisateurs test" peuvent se connecter via Google. C'est suffisant pour un usage personnel ou familial — pas besoin de passer en production.
+- Le projet Google Cloud est créé avec votre compte, mais les credentials appartiennent à l'**application** : tous les membres de votre foyer peuvent se connecter avec leur propre compte Google.
+- Tant que l'écran de consentement est en mode **Test**, seuls les comptes Gmail explicitement ajoutés dans "Utilisateurs test" peuvent utiliser la connexion Google. Ajoutez-y les adresses Gmail de tous les membres de votre foyer. C'est suffisant pour un usage familial — pas besoin de passer en production ni de faire valider l'app par Google.
 - Si vous utilisez HTTPS (recommandé), remplacer toutes les URLs `http://` par `https://` dans les paramètres Google Cloud et dans `NEXTAUTH_URL`.
 
 ---

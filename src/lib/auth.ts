@@ -84,7 +84,16 @@ export const authOptions: AuthOptions = {
             ])
             rows = byEmail
           } else {
-            // New user — create account
+            // Brand-new user via Google — only allowed for the first user (bootstrap)
+            const [[{ count }]] = await pool.query<any[]>(
+              'SELECT COUNT(*) as count FROM users'
+            )
+            if (Number(count) > 0) {
+              // Not the first user and no existing account: deny sign-in
+              // The user must register via the email invite link first,
+              // then Google will auto-link on next sign-in by matching the email.
+              return '/login?error=InviteRequired'
+            }
             const [result] = await pool.query<any>(
               'INSERT INTO users (email, name, google_id) VALUES (?, ?, ?)',
               [email, name, googleId]

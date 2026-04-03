@@ -1,12 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function LoginPage() {
+const AUTH_ERRORS: Record<string, string> = {
+  InviteRequired: "Ce compte Google n'est pas encore enregistré. Demandez un lien d'invitation à l'administrateur, créez d'abord votre compte avec l'email associé, puis Google se connectera automatiquement.",
+  OAuthAccountNotLinked: "Cet email est déjà utilisé avec un autre mode de connexion.",
+}
+
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const authError = searchParams.get('error')
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -33,6 +40,16 @@ export default function LoginPage() {
       <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 700 }}>
         Connexion
       </h1>
+
+      {authError && AUTH_ERRORS[authError] && (
+        <div style={{
+          background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8,
+          padding: '0.75rem 1rem', marginBottom: '1rem',
+          color: '#9a3412', fontSize: '0.875rem', lineHeight: 1.5,
+        }}>
+          {AUTH_ERRORS[authError]}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <input
@@ -69,12 +86,15 @@ export default function LoginPage() {
       >
         Continuer avec Google
       </button>
-
-      <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#666' }}>
-        Pas encore de compte ?{' '}
-        <Link href="/register" style={{ color: '#3182ce' }}>S&apos;inscrire</Link>
-      </p>
     </>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }
 
