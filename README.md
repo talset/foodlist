@@ -6,11 +6,55 @@ Application web progressive (PWA) de gestion du stock alimentaire et des courses
 
 ---
 
+## Vérification Phase 1
+
+Toutes les vérifications utilisent Docker uniquement — pas besoin d'installer Node.js ou MySQL localement.
+Le fichier `docker-compose.validate.yml` définit les services de test.
+
+### 1. Build Next.js (npm install + next build)
+
+```bash
+docker compose -f docker-compose.validate.yml run --rm build
+```
+
+Résultat attendu : `✅ Build OK`, dossier `.next/standalone/` présent dans le projet.
+
+### 2. Schéma SQL
+
+```bash
+docker compose -f docker-compose.validate.yml up -d mysql
+docker compose -f docker-compose.validate.yml run --rm schema
+docker compose -f docker-compose.validate.yml down
+```
+
+Résultat attendu : `✅ Schema appliqué`, puis la liste des 9 tables :
+`users`, `categories`, `households`, `household_members`, `products`, `stock`, `recipes`, `recipe_ingredients`, `shopping_recipes`.
+
+Le schéma est idempotent — peut être rejoué sans erreur.
+
+### 3. Démarrage complet en développement (app + DB)
+
+```bash
+docker compose -f docker-compose.validate.yml up mysql dev
+```
+
+Ouvrir `http://localhost:3000` — la page doit afficher `Foodlist`.
+
+Arrêter avec `Ctrl+C`, puis nettoyer :
+
+```bash
+docker compose -f docker-compose.validate.yml down -v
+```
+
+> Le volume `node_modules` est géré par Docker pour éviter les conflits avec un éventuel `node_modules` local.
+
+---
+
 ## Statut du développement
 
 | Phase | Description | Statut |
 |-------|-------------|--------|
-| Phase 1 | Fondations (Next.js, MySQL, Docker, schema SQL) | ✅ Fait |
+| Phase 1 | Fondations (Next.js, MySQL, Docker, schema SQL) | ✅ Fait — [voir vérifications](#vérification-phase-1) |
 | Phase 2 | Authentification (NextAuth, foyers, invitations) | 🔜 À faire |
 | Phase 3 | Catalogue produits (CRUD, catégories, icônes, import JSON) | ⏳ En attente |
 | Phase 4 | Stock & liste de courses (statuts, SSE) | ⏳ En attente |
