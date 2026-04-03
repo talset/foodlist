@@ -214,42 +214,42 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 140,
-    "icon_ref": "conserve-tomate.png"
+    "icon_ref": "concentre-tomate.png"
   },
   {
     "name": "Épinards",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 800,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "epinards.png"
   },
   {
     "name": "Flageolets",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "flageolets.png"
   },
   {
     "name": "Haricots rouges",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "haricots-rouges.png"
   },
   {
     "name": "Haricots verts",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 800,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "haricots-verts.png"
   },
   {
     "name": "Haricots tomate",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "haricots-tomate.png"
   },
   {
     "name": "Lasagnes",
@@ -270,14 +270,14 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "pates.png"
+    "icon_ref": "macaroni.png"
   },
   {
     "name": "Maquereau",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 190,
-    "icon_ref": "conserve-poisson.png"
+    "icon_ref": "maquereau.png"
   },
   {
     "name": "Nouilles",
@@ -291,7 +291,7 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 800,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "paella.png"
   },
   {
     "name": "Patates",
@@ -312,7 +312,7 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "conserve-legumes.png"
+    "icon_ref": "petits-pois.png"
   },
   {
     "name": "Purée instantanée",
@@ -326,7 +326,7 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "conserve-tomate.png"
+    "icon_ref": "puree-tomate.png"
   },
   {
     "name": "Ravioli",
@@ -361,14 +361,14 @@
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 160,
-    "icon_ref": "conserve-poisson.png"
+    "icon_ref": "thon.png"
   },
   {
     "name": "Thon tomate",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
     "ref_quantity": 160,
-    "icon_ref": "conserve-poisson.png"
+    "icon_ref": "thon-tomate.png"
   },
   {
     "name": "Chantilly",
@@ -417,14 +417,14 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 125,
-    "icon_ref": "yaourt.png"
+    "icon_ref": "yaourt-fruits.png"
   },
   {
     "name": "Yaourt nature",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 125,
-    "icon_ref": "yaourt.png"
+    "icon_ref": "yaourt-nature.png"
   },
   {
     "name": "Yop",
@@ -480,7 +480,7 @@
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "gel-douche.png"
+    "icon_ref": "gel-coiffant.png"
   },
   {
     "name": "Gel douche",
@@ -676,7 +676,7 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "comte.png"
   },
   {
     "name": "Fromage blanc",
@@ -697,7 +697,7 @@
     "category": "Produits laitiers",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "fromage-burger.png"
+    "icon_ref": "fromage-croc.png"
   },
   {
     "name": "Fromage fondue",
@@ -718,21 +718,21 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "gruyere.png"
   },
   {
     "name": "Gruyère râpé",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-rape.png"
+    "icon_ref": "gruyere-rape.png"
   },
   {
     "name": "Mont d'or",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "fromage-rond.png"
+    "icon_ref": "mont-dor.png"
   },
   {
     "name": "Morbier",
@@ -774,7 +774,7 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "fromage-rond.png"
+    "icon_ref": "reblochon.png"
   },
   {
     "name": "Roquefort",
@@ -795,35 +795,35 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "beaufort.png"
   },
   {
     "name": "Camembert",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 250,
-    "icon_ref": "fromage-rond.png"
+    "icon_ref": "camembert.png"
   },
   {
     "name": "Comté 15 (400g)",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "comte-400.png"
   },
   {
     "name": "Comté 22",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "comte-22.png"
   },
   {
     "name": "Emmental (800g)",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 800,
-    "icon_ref": "fromage-rape.png"
+    "icon_ref": "emmental.png"
   },
   {
     "name": "Fromage râpé",
@@ -837,28 +837,28 @@
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "gouda.png"
   },
   {
     "name": "Port salut",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-bloc.png"
+    "icon_ref": "port-salut.png"
   },
   {
     "name": "Tomme de Savoie",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-rond.png"
+    "icon_ref": "tomme-savoie.png"
   },
   {
     "name": "Tomme du Berry à la truffe",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-rond.png"
+    "icon_ref": "tomme-berry-truffe.png"
   },
   {
     "name": "Aubergine",
@@ -1040,14 +1040,14 @@
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "spray-nettoyant.png"
+    "icon_ref": "nettoyant-javel.png"
   },
   {
     "name": "Nettoyant sol",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "spray-nettoyant.png"
+    "icon_ref": "nettoyant-sol.png"
   },
   {
     "name": "Pansement",
@@ -1096,14 +1096,14 @@
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "spray-nettoyant.png"
+    "icon_ref": "produit-vitre.png"
   },
   {
     "name": "Produit WC",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "spray-nettoyant.png"
+    "icon_ref": "produit-wc.png"
   },
   {
     "name": "Sac aspirateur",
@@ -1138,7 +1138,7 @@
     "category": "Hygiène / Entretien",
     "ref_unit": "kg",
     "ref_quantity": 1,
-    "icon_ref": "sel.png"
+    "icon_ref": "sel-lv.png"
   },
   {
     "name": "Serviettes",
@@ -1159,7 +1159,7 @@
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "tablettes-lv.png"
+    "icon_ref": "tablettes-anti-calcaire.png"
   },
   {
     "name": "Tablettes lave-vaisselle",
@@ -1229,14 +1229,14 @@
     "category": "Condiments & Sauces",
     "ref_unit": "L",
     "ref_quantity": 0.15,
-    "icon_ref": "bouteille-sauce-brune.png"
+    "icon_ref": "sauce-soja.png"
   },
   {
     "name": "5 baies",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "poivre.png"
+    "icon_ref": "cinq-baies.png"
   },
   {
     "name": "Ail",
@@ -1250,14 +1250,14 @@
     "category": "Condiments & Sauces",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "herbe.png"
+    "icon_ref": "basilic.png"
   },
   {
     "name": "Ciboulette",
     "category": "Condiments & Sauces",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "herbe.png"
+    "icon_ref": "ciboulette.png"
   },
   {
     "name": "Cube bouillon",
@@ -1271,21 +1271,21 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "epice.png"
+    "icon_ref": "curcuma.png"
   },
   {
     "name": "Curry",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "epice.png"
+    "icon_ref": "curry.png"
   },
   {
     "name": "Échalote",
     "category": "Condiments & Sauces",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "oignon.png"
+    "icon_ref": "echalote.png"
   },
   {
     "name": "Fond de veau",
@@ -1299,21 +1299,21 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 100,
-    "icon_ref": "fond-veau.png"
+    "icon_ref": "fond-volaille.png"
   },
   {
     "name": "Gingembre",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "epice.png"
+    "icon_ref": "gingembre.png"
   },
   {
     "name": "Huile",
     "category": "Condiments & Sauces",
     "ref_unit": "L",
     "ref_quantity": 1,
-    "icon_ref": "bouteille-huile.png"
+    "icon_ref": "huile.png"
   },
   {
     "name": "Huile d'olive",
@@ -1327,21 +1327,21 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 575,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "ketchup.png"
   },
   {
     "name": "Mayonnaise",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "bouteille-sauce-jaune.png"
+    "icon_ref": "mayonnaise.png"
   },
   {
     "name": "Menthe",
     "category": "Condiments & Sauces",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "herbe.png"
+    "icon_ref": "menthe.png"
   },
   {
     "name": "Moutarde",
@@ -1369,21 +1369,21 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 15,
-    "icon_ref": "herbe.png"
+    "icon_ref": "origan.png"
   },
   {
     "name": "Paprika",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "epice.png"
+    "icon_ref": "paprika.png"
   },
   {
     "name": "Persil",
     "category": "Condiments & Sauces",
     "ref_unit": "unité",
     "ref_quantity": 1,
-    "icon_ref": "herbe.png"
+    "icon_ref": "persil.png"
   },
   {
     "name": "Pesto",
@@ -1397,7 +1397,7 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 50,
-    "icon_ref": "epice.png"
+    "icon_ref": "piment.png"
   },
   {
     "name": "Poivre",
@@ -1418,49 +1418,49 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 390,
-    "icon_ref": "bouteille-sauce-brune.png"
+    "icon_ref": "sauce-barbecue.png"
   },
   {
     "name": "Sauce bolognaise",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 400,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "sauce-bolognaise.png"
   },
   {
     "name": "Sauce burger",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 300,
-    "icon_ref": "bouteille-sauce-brune.png"
+    "icon_ref": "sauce-burger.png"
   },
   {
     "name": "Sauce harissa",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 135,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "sauce-harissa.png"
   },
   {
     "name": "Sauce piquante",
     "category": "Condiments & Sauces",
     "ref_unit": "L",
     "ref_quantity": 0.15,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "sauce-piquante.png"
   },
   {
     "name": "Sauce sachets",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 30,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "sauce-sachets.png"
   },
   {
     "name": "Sauce samouraï",
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 300,
-    "icon_ref": "bouteille-sauce-jaune.png"
+    "icon_ref": "sauce-samourai.png"
   },
   {
     "name": "Sauce tikka masala",
@@ -1474,7 +1474,7 @@
     "category": "Condiments & Sauces",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "bouteille-sauce-rouge.png"
+    "icon_ref": "sauce-tomate.png"
   },
   {
     "name": "Sel",
@@ -1558,7 +1558,7 @@
     "category": "Viandes & Poissons",
     "ref_unit": "g",
     "ref_quantity": 350,
-    "icon_ref": "saucisse.png"
+    "icon_ref": "knack.png"
   },
   {
     "name": "Lardons",
@@ -1593,7 +1593,7 @@
     "category": "Viandes & Poissons",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "saucisson.png"
+    "icon_ref": "rosette.png"
   },
   {
     "name": "Saucisse",
@@ -1614,6 +1614,6 @@
     "category": "Viandes & Poissons",
     "ref_unit": "g",
     "ref_quantity": 500,
-    "icon_ref": "steak-hache.png"
+    "icon_ref": "viande-hachee.png"
   }
 ]

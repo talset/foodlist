@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/products/route'
 import { GET as GET_ONE, PUT, DELETE } from '@/app/api/products/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID, TEST_PRODUCT_ID } from './helpers'
 
 let categoryId: number
 
@@ -16,7 +16,7 @@ beforeAll(async () => {
 beforeEach(() => mockSession())
 
 afterEach(async () => {
-  await pool.query('DELETE FROM products WHERE created_by = ?', [TEST_USER_ID])
+  await pool.query('DELETE FROM products WHERE created_by = ? AND id != ?', [TEST_USER_ID, TEST_PRODUCT_ID])
 })
 
 function productBody(overrides = {}) {

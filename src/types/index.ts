@@ -63,6 +63,76 @@ export interface ApiCategory {
   sort_order: number
 }
 
+export interface DbStock {
+  id: number
+  product_id: number
+  household_id: number
+  quantity: number
+  unit: string
+  status: 'in_stock' | 'low' | 'out_of_stock' | 'shopping_list'
+  updated_by: number
+  updated_at: Date
+}
+
+export interface ApiStockItem {
+  id: number
+  product_id: number
+  product_name: string
+  category_id: number
+  category_name: string
+  ref_unit: string
+  icon_url: string | null
+  quantity: number
+  unit: string
+  status: 'in_stock' | 'low' | 'out_of_stock' | 'shopping_list'
+  updated_at: string
+}
+
+export interface DbRecipe {
+  id: number
+  name: string
+  description: string | null
+  steps_markdown: string | null
+  photo_url: string | null
+  base_servings: number
+  created_by: number
+  created_at: Date
+}
+
+export interface ApiRecipeIngredient {
+  id: number
+  product_id: number
+  product_name: string
+  ref_unit: string
+  icon_url: string | null
+  quantity: number
+}
+
+export interface ApiRecipe {
+  id: number
+  name: string
+  description: string | null
+  base_servings: number
+  ingredient_count: number
+  created_at: string
+}
+
+export interface ApiRecipeDetail extends Omit<ApiRecipe, 'ingredient_count'> {
+  steps_markdown: string | null
+  photo_url: string | null
+  ingredients: ApiRecipeIngredient[]
+}
+
+export interface ApiShoppingRecipe {
+  id: number
+  recipe_id: number
+  recipe_name: string
+  base_servings: number
+  multiplier: number
+  added_at: string
+  ingredient_count: number
+}
+
 // ── NextAuth type augmentation ────────────────────────────────────────────────
 
 declare module 'next-auth' {

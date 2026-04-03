@@ -2,6 +2,8 @@ import { getServerSession } from 'next-auth'
 
 export const TEST_USER_ID = 9999
 export const TEST_HOUSEHOLD_ID = 9999
+export const TEST_PRODUCT_ID = 9999   // seeded in globalSetup, must not be deleted by test cleanup
+export const TEST_RECIPE_ID = 9999    // seeded in globalSetup, must not be deleted by test cleanup
 
 export function mockSession(userId = TEST_USER_ID) {
   jest.mocked(getServerSession).mockResolvedValue({

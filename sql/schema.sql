@@ -85,20 +85,21 @@ CREATE TABLE IF NOT EXISTS products (
 -- stock
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS stock (
-  id           INT                         NOT NULL AUTO_INCREMENT,
-  product_id   INT                         NOT NULL,
-  household_id INT                         NOT NULL,
-  status       ENUM('ok', 'out_of_stock')  NOT NULL DEFAULT 'ok',
-  quantity     INT UNSIGNED                NOT NULL DEFAULT 0,
-  updated_by   INT                         NOT NULL,
-  updated_at   DATETIME                    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id           INT                                                    NOT NULL AUTO_INCREMENT,
+  product_id   INT                                                    NOT NULL,
+  household_id INT                                                    NOT NULL,
+  quantity     INT UNSIGNED                                           NOT NULL DEFAULT 0,
+  unit         VARCHAR(20)                                            NOT NULL DEFAULT 'unité',
+  status       ENUM('in_stock','low','out_of_stock','shopping_list')  NOT NULL DEFAULT 'in_stock',
+  updated_by   INT                                                    NOT NULL,
+  updated_at   DATETIME                                               NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_stock_product_household (product_id, household_id),
   KEY idx_stock_household_id (household_id),
   KEY idx_stock_updated_by   (updated_by),
-  CONSTRAINT fk_stock_product   FOREIGN KEY (product_id)   REFERENCES products    (id),
-  CONSTRAINT fk_stock_household FOREIGN KEY (household_id) REFERENCES households  (id),
-  CONSTRAINT fk_stock_updated_by FOREIGN KEY (updated_by)  REFERENCES users       (id)
+  CONSTRAINT fk_stock_product    FOREIGN KEY (product_id)   REFERENCES products   (id),
+  CONSTRAINT fk_stock_household  FOREIGN KEY (household_id) REFERENCES households (id),
+  CONSTRAINT fk_stock_updated_by FOREIGN KEY (updated_by)   REFERENCES users      (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------

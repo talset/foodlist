@@ -1,15 +1,15 @@
 """
 Generate icons using Replicate API (FLUX.1-schnell)
-~$0.003/image → 157 icons ≈ $0.50 total
+~$0.003/image → 177 icons ≈ $0.53 total
 Get your token at https://replicate.com/account/api-tokens
 
 Usage:
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                          # all icons, standard spec
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --spec detailed          # all icons, cute spec
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --spec detailed --family fromage
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --icon fromage-rond.png  # one icon
-  python generate_replicate.py --list                                               # list families
-  python generate_replicate.py --spec detailed --list                               # list families in detailed spec
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                            # all icons (icons-detailed.md)
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --spec my-spec.md          # custom spec file
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --family fromage           # one family
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --icon fromage-rond.png    # one icon
+  python generate_replicate.py --list                                                 # list families
+  python generate_replicate.py --spec my-spec.md --list                              # list families in custom spec
 """
 
 import os
@@ -24,7 +24,7 @@ from PIL import Image
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons, build_parser, filter_icons, get_style
+from _parse import load_icons, build_parser, filter_icons, STYLE
 
 # =========================
 # CONFIG
@@ -41,8 +41,8 @@ RETRIES = 3
 COST_PER_IMAGE = 0.003
 
 
-def build_prompt(icon, style):
-    return f"{icon['desc'].strip()}, {style}"
+def build_prompt(icon):
+    return f"{icon['desc'].strip()}, {STYLE}"
 
 # =========================
 # GENERATION
@@ -56,13 +56,13 @@ def resize_to_128(image_bytes):
     return out.getvalue()
 
 
-def generate_icon(icon, style):
+def generate_icon(icon):
     output_path = OUTPUT_DIR / icon["filename"]
 
     if output_path.exists():
         return "skip"
 
-    prompt = build_prompt(icon, style)
+    prompt = build_prompt(icon)
 
     for attempt in range(RETRIES):
         try:
@@ -109,7 +109,6 @@ def main():
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    style = get_style(args.spec)
     icons = load_icons(args.spec)
     icons = filter_icons(icons, args)
 
@@ -131,7 +130,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(icon, style)
+        result = generate_icon(icon)
         if result == "ok":
             success += 1
         elif result == "skip":

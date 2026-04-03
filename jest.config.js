@@ -1,6 +1,5 @@
-import type { Config } from 'jest'
-
-const config: Config = {
+/** @type {import('jest').Config} */
+const config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   globalSetup: '<rootDir>/src/__tests__/globalSetup.ts',
@@ -12,4 +11,4 @@ const config: Config = {
   testTimeout: 15000,
 }
 
-export default config
+module.exports = config

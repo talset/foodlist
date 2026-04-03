@@ -28,9 +28,9 @@ make clean   # Supprime containers + volumes
 | Phase 1 | Fondations (Next.js, MySQL, Docker, schema SQL) | ✅ Fait — [valider](#valider-phase-1) |
 | Phase 2 | Authentification (NextAuth, foyers, invitations) | ✅ Fait — [valider](#valider-phase-2) |
 | Phase 3 | Catalogue produits (CRUD, catégories, icônes, import JSON) | ✅ Fait — [valider](#valider-phase-3) |
-| Phase 4 | Stock & liste de courses (statuts, SSE) | 🔜 À faire |
-| Phase 5 | Recettes (CRUD, ingrédients, multiplicateur) | ⏳ En attente |
-| Phase 6 | PWA & finitions (manifest, optimisation mobile) | ⏳ En attente |
+| Phase 4 | Stock & liste de courses (statuts, CRUD) | ✅ Fait — [valider](#valider-phase-4) |
+| Phase 5 | Recettes (CRUD, ingrédients, multiplicateur) | ✅ Fait — [valider](#valider-phase-5) |
+| Phase 6 | PWA & finitions (manifest, optimisation mobile) | ✅ Fait — [valider](#valider-phase-6) |
 
 ---
 
@@ -133,6 +133,116 @@ Vérifier dans le navigateur :
 
 ---
 
+## Valider Phase 4
+
+**Stock & liste de courses : CRUD stock, statuts, liste de courses.**
+
+### Tests automatisés
+
+```bash
+make test
+```
+
+Résultat attendu : les 6 suites passent.
+
+```
+ PASS src/__tests__/register.test.ts
+ PASS src/__tests__/categories.test.ts
+ PASS src/__tests__/products.test.ts
+ PASS src/__tests__/import.test.ts
+ PASS src/__tests__/stock.test.ts
+ PASS src/__tests__/shopping.test.ts
+```
+
+### Test manuel
+
+```bash
+make dev
+```
+
+Vérifier dans le navigateur :
+
+1. `http://localhost:3000/stock` — liste du stock (vide au départ)
+2. Ajouter un article via l'API :
+   ```bash
+   curl -X POST http://localhost:3000/api/stock \
+     -H "Content-Type: application/json" \
+     -d '{"product_id": 1, "quantity": 2, "status": "in_stock"}' \
+     -b "next-auth.session-token=<token>"
+   ```
+3. Changer le statut (low, out_of_stock, shopping_list) via le select
+4. `http://localhost:3000/shopping` — liste des articles `shopping_list`
+5. Cocher un article → disparaît de la liste (statut → `in_stock`)
+
+---
+
+## Valider Phase 5
+
+**Recettes : CRUD, ingrédients, ajout à la liste de courses.**
+
+### Tests automatisés
+
+```bash
+make test
+```
+
+Résultat attendu : les 8 suites passent.
+
+```
+ PASS src/__tests__/register.test.ts
+ PASS src/__tests__/categories.test.ts
+ PASS src/__tests__/products.test.ts
+ PASS src/__tests__/import.test.ts
+ PASS src/__tests__/stock.test.ts
+ PASS src/__tests__/shopping.test.ts
+ PASS src/__tests__/recipes.test.ts
+ PASS src/__tests__/shopping-recipes.test.ts
+```
+
+### Test manuel
+
+```bash
+make dev
+```
+
+Vérifier dans le navigateur :
+
+1. `http://localhost:3000/recipes` — liste des recettes
+2. Cliquer `+ Nouvelle recette` → créer une recette avec ingrédients
+3. Sur la page détail → section "Ajouter à la liste de courses", choisir un multiplicateur → cliquer `+ Ajouter`
+4. `http://localhost:3000/shopping` — vérifier que les ingrédients apparaissent
+
+---
+
+## Valider Phase 6
+
+**PWA & finitions : manifest, navigation mobile, installation.**
+
+### Build
+
+```bash
+make build
+```
+
+Résultat attendu : `✅ Build OK` sans erreur TypeScript.
+
+### Test manuel
+
+```bash
+make dev
+```
+
+Vérifier dans le navigateur :
+
+1. `http://localhost:3000` → redirige automatiquement vers `/shopping`
+2. Barre de navigation en bas avec 4 onglets : Courses / Stock / Produits / Recettes
+3. L'onglet actif est mis en évidence (bleu)
+4. Sur mobile (Chrome DevTools > mobile view) : l'interface s'adapte correctement
+5. Dans Chrome : icône "Installer l'application" visible dans la barre d'adresse (PWA installable)
+6. Vérifier le manifest : `http://localhost:3000/manifest.webmanifest`
+
+---
+
 ## Prérequis
 
 - [Docker](https://docs.docker.com/get-docker/) et [Docker Compose](https://docs.docker.com/compose/)
@@ -190,6 +300,18 @@ make run
 ```
 
 L'application est accessible sur `http://mon-serveur:3000`.
+
+### 5. Créer le premier compte
+
+L'inscription est ouverte par défaut — il n'y a pas de compte administrateur pré-créé. Le flux normal est :
+
+1. Ouvrir `http://mon-serveur:3000/register`
+2. Créer un compte email + mot de passe (ou continuer avec Google si configuré)
+3. Après inscription → redirigé vers `/setup` : créer un foyer
+4. La personne qui crée le foyer est automatiquement **admin** de ce foyer
+5. Pour inviter d'autres membres : copier le lien d'invitation depuis `/setup` et le partager
+
+> **Note :** L'inscription est accessible à quiconque connaît l'URL. Sur un serveur exposé sur Internet, il est conseillé de restreindre l'accès réseau (pare-feu, VPN) plutôt que de laisser l'inscription publique.
 
 ---
 
@@ -250,11 +372,60 @@ Pour ajouter des icônes par défaut : placer les PNG 128×128 dans `uploads/ico
 
 ## Google OAuth (optionnel)
 
-1. Créer un projet sur [Google Cloud Console](https://console.cloud.google.com/)
-2. Créer des identifiants OAuth 2.0 (application web)
-3. Ajouter l'URI de redirection : `http://mon-serveur:3000/api/auth/callback/google`
-4. Renseigner `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans `.env`
-5. Redémarrer : `make stop && make run`
+Permet de se connecter avec un compte Google au lieu de créer un mot de passe. L'email Google est rapproché d'un compte email/mot de passe existant (fusion automatique).
+
+### 1. Créer un projet Google Cloud
+
+1. Aller sur [console.cloud.google.com](https://console.cloud.google.com/)
+2. Cliquer sur le sélecteur de projet en haut → **Nouveau projet**
+3. Donner un nom (ex : `Foodlist`) → **Créer**
+
+### 2. Activer l'API Google Identity
+
+1. Dans le projet, aller dans **APIs & Services > Bibliothèque**
+2. Chercher `Google Identity` ou `People API` → **Activer**
+
+### 3. Configurer l'écran de consentement OAuth
+
+1. **APIs & Services > Écran de consentement OAuth**
+2. Type d'utilisateur : **Externe** (même pour un usage personnel)
+3. Remplir les champs obligatoires : nom de l'application, email de support
+4. Dans **Domaines autorisés** : ajouter le domaine de votre serveur si exposé publiquement
+5. Étape **Champs d'application** : ajouter `.../auth/userinfo.email` et `.../auth/userinfo.profile`
+6. Étape **Utilisateurs test** : ajouter votre adresse Gmail (tant que l'app n'est pas vérifiée par Google, seuls les comptes listés ici peuvent se connecter)
+7. **Enregistrer et continuer**
+
+### 4. Créer les identifiants OAuth 2.0
+
+1. **APIs & Services > Identifiants > Créer des identifiants > ID client OAuth 2.0**
+2. Type d'application : **Application Web**
+3. Nom : `Foodlist`
+4. **Origines JavaScript autorisées** : `http://mon-serveur:3000` (ou votre domaine HTTPS)
+5. **URI de redirection autorisés** : `http://mon-serveur:3000/api/auth/callback/google`
+   - Si HTTPS : `https://mon-domaine/api/auth/callback/google`
+6. **Créer** → copier le **Client ID** et le **Client secret**
+
+### 5. Configurer l'application
+
+Dans `.env` :
+
+```env
+GOOGLE_CLIENT_ID=123456789-xxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxx
+```
+
+Redémarrer :
+
+```bash
+make stop && make run
+```
+
+Le bouton **Continuer avec Google** apparaît automatiquement sur la page de connexion.
+
+### Notes
+
+- Tant que l'écran de consentement est en mode **Test**, seuls les comptes ajoutés en "utilisateurs test" peuvent se connecter via Google. C'est suffisant pour un usage personnel ou familial — pas besoin de passer en production.
+- Si vous utilisez HTTPS (recommandé), remplacer toutes les URLs `http://` par `https://` dans les paramètres Google Cloud et dans `NEXTAUTH_URL`.
 
 ---
 

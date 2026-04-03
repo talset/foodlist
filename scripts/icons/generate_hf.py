@@ -6,12 +6,12 @@ Get your token at https://huggingface.co/settings/tokens
 Install: pip install huggingface_hub pillow tqdm
 
 Usage:
-  HF_TOKEN=hf_xxx python generate_hf.py                                    # all icons, standard spec
-  HF_TOKEN=hf_xxx python generate_hf.py --spec detailed                    # all icons, cute spec
-  HF_TOKEN=hf_xxx python generate_hf.py --spec detailed --family fromage   # one family, cute spec
-  HF_TOKEN=hf_xxx python generate_hf.py --icon fromage-rond.png            # one icon
-  python generate_hf.py --list                                              # list families (no token needed)
-  python generate_hf.py --spec detailed --list                              # list families in detailed spec
+  HF_TOKEN=hf_xxx python generate_hf.py                                      # all icons (icons-detailed.md)
+  HF_TOKEN=hf_xxx python generate_hf.py --spec my-spec.md                    # custom spec file
+  HF_TOKEN=hf_xxx python generate_hf.py --family fromage                     # one family
+  HF_TOKEN=hf_xxx python generate_hf.py --icon fromage-rond.png              # one icon
+  python generate_hf.py --list                                                # list families (no token needed)
+  python generate_hf.py --spec my-spec.md --list                              # list families in custom spec
 """
 
 import os
@@ -25,7 +25,7 @@ from PIL import Image
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons, build_parser, filter_icons, get_style
+from _parse import load_icons, build_parser, filter_icons, STYLE
 
 # =========================
 # CONFIG
@@ -39,8 +39,8 @@ SLEEP = 2
 RETRIES = 3
 
 
-def build_prompt(icon, style):
-    return f"{icon['desc'].strip()}, {style}"
+def build_prompt(icon):
+    return f"{icon['desc'].strip()}, {STYLE}"
 
 # =========================
 # GENERATION
@@ -53,13 +53,13 @@ def resize_to_128(pil_image):
     return out.getvalue()
 
 
-def generate_icon(client, icon, style):
+def generate_icon(client, icon):
     output_path = OUTPUT_DIR / icon["filename"]
 
     if output_path.exists():
         return "skip"
 
-    prompt = build_prompt(icon, style)
+    prompt = build_prompt(icon)
 
     for attempt in range(RETRIES):
         try:
@@ -91,7 +91,6 @@ def main():
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    style = get_style(args.spec)
     icons = load_icons(args.spec)
     icons = filter_icons(icons, args)
 
@@ -108,7 +107,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(client, icon, style)
+        result = generate_icon(client, icon)
         if result == "ok":
             success += 1
         elif result == "skip":

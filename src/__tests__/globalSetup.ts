@@ -13,8 +13,9 @@ export default async function globalSetup() {
     multipleStatements: true,
   })
 
+  await conn.query(`DROP DATABASE IF EXISTS \`${dbName}\``)
   await conn.query(
-    `CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
+    `CREATE DATABASE \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
   )
   await conn.query(`USE \`${dbName}\``)
 
@@ -33,6 +34,22 @@ export default async function globalSetup() {
   await conn.query(`
     INSERT IGNORE INTO household_members (household_id, user_id, role)
     VALUES (9999, 9999, 'admin')
+  `)
+
+  // Seed a fixed test product reused by stock/shopping/recipe tests
+  await conn.query(`
+    INSERT IGNORE INTO products (id, name, category_id, ref_unit, ref_quantity, icon_ref, created_by)
+    VALUES (9999, 'Test Product Stock', (SELECT id FROM categories ORDER BY id LIMIT 1), 'unité', 1, NULL, 9999)
+  `)
+
+  // Seed a fixed test recipe with one ingredient for recipe/shopping-recipe tests
+  await conn.query(`
+    INSERT IGNORE INTO recipes (id, name, description, base_servings, created_by)
+    VALUES (9999, 'Test Recipe', 'Used in tests', 4, 9999)
+  `)
+  await conn.query(`
+    INSERT IGNORE INTO recipe_ingredients (recipe_id, product_id, quantity)
+    VALUES (9999, 9999, 2.000)
   `)
 
   await conn.end()
