@@ -301,27 +301,86 @@ make run
 
 L'application est accessible sur `http://mon-serveur:3000`.
 
-### 5. Créer le premier compte (admin)
+### 5. Premier démarrage — checklist
 
-L'inscription est **fermée par défaut** — seul le tout premier accès à `/register` est libre (base vide). Ce compte devient l'administrateur.
+Une fois l'application lancée, effectuer ces étapes dans l'ordre.
+
+---
+
+#### a) Créer le compte admin
+
+L'inscription est **fermée par défaut** : seul le tout premier accès à `/register` est libre (base vide).
 
 1. Ouvrir `http://mon-serveur:3000/register`
-2. Créer un compte email + mot de passe **ou** continuer avec Google
-3. Après inscription → `/setup` → créer un foyer (vous devenez admin)
+2. Remplir le formulaire (email + mot de passe) **ou** continuer avec Google
+3. Après inscription → redirigé vers `/setup`
 
-Après cette étape, l'inscription est verrouillée : personne d'autre ne peut créer de compte sans lien d'invitation.
+---
 
-### 6. Inviter des membres
+#### b) Créer le foyer
 
-1. Aller sur `/setup` (ou la future page paramètres)
-2. Copier le **lien d'invitation** : `http://mon-serveur:3000/register?token=<invite_token>`
-3. Envoyer ce lien aux membres du foyer
+Sur la page `/setup` :
 
-Quand un membre clique sur le lien :
-- Il remplit le formulaire d'inscription (email + mot de passe)
-- Il est automatiquement ajouté au foyer — pas besoin d'étape supplémentaire
+1. Choisir "Créer un foyer"
+2. Donner un nom (ex : `Famille Martin`)
+3. Valider → vous êtes maintenant admin du foyer
 
-> **Google SSO pour les membres invités :** ils doivent d'abord créer leur compte via le lien d'invitation (email + mot de passe). Ensuite, lors de la connexion suivante, Google se lie automatiquement s'ils utilisent le même email.
+---
+
+#### c) Importer le catalogue produits
+
+L'application est livré avec 231 produits pré-définis dans `seed/products.json`. Il faut les importer une fois.
+
+Récupérer d'abord le cookie de session dans le navigateur (DevTools → Application → Cookies → `next-auth.session-token`), puis :
+
+```bash
+curl -X POST http://mon-serveur:3000/api/import \
+  -H "Content-Type: application/json" \
+  -d @seed/products.json \
+  -b "next-auth.session-token=<votre-token>"
+```
+
+Résultat attendu :
+```json
+{"created": 231, "skipped": 0, "errors": []}
+```
+
+> **Note :** Cette étape n'est pas obligatoire — vous pouvez créer vos produits manuellement. Mais l'import donne une base complète pour démarrer rapidement.
+
+---
+
+#### d) Récupérer le lien d'invitation
+
+L'interface n'affiche pas encore le lien d'invitation (amélioration prévue). Pour l'obtenir, interroger la base de données :
+
+```bash
+mysql -h DB_HOST -u DB_USER -p DB_NAME \
+  -e "SELECT name, invite_token FROM households;"
+```
+
+Le lien à partager est :
+```
+http://mon-serveur:3000/register?token=<invite_token>
+```
+
+---
+
+#### e) Inviter les membres du foyer
+
+Envoyer le lien d'invitation à chaque membre. Quand ils cliquent dessus :
+
+1. Ils remplissent le formulaire d'inscription (email + mot de passe)
+2. Ils sont automatiquement ajoutés au foyer — aucune étape supplémentaire
+
+> **Google SSO pour les membres invités :** ils doivent d'abord créer leur compte via le lien d'invitation (email + mot de passe). Ensuite, lors des connexions suivantes, Google se lie automatiquement par email.
+
+---
+
+#### Ce qui manque encore (améliorations futures)
+
+- Affichage du lien d'invitation directement dans l'interface
+- Page paramètres du foyer (renommer, voir les membres, révoquer l'invitation)
+- Réinitialisation de mot de passe
 
 ---
 
