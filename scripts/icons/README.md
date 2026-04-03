@@ -32,7 +32,7 @@ Les icônes déjà présentes dans `uploads/icons/default/` sont toujours ignor�
 
 | Script | Service | Coût | Limite | Qualité |
 |---|---|---|---|---|
-| `generate_hf.py` | HuggingFace Inference API | **Gratuit** | ~100-200 req/jour (free tier) | Bonne |
+| `generate_hf.py` | HuggingFace Inference API | Crédits mensuels inclus (limités) — PRO à $9/mois pour 20× plus | Quota mensuel | Bonne |
 | `generate_replicate.py` | Replicate | ~$0.003/image → **~$0.50 total** | Aucune | Très bonne |
 
 ---
@@ -60,7 +60,8 @@ HF_TOKEN=hf_xxxxxxxxxxxx python scripts/icons/generate_hf.py
 
 ### Notes
 
-- Le free tier limite à ~100-200 requêtes/jour. Avec 157 icônes, il faudra **2 jours** (relancer le lendemain, les icônes déjà générées sont ignorées).
+- Le free tier donne un quota de **crédits mensuels** (pas quotidien). Une fois épuisé, il faut soit acheter des crédits pré-payés, soit passer à HF PRO ($9/mois, 20× plus de crédits).
+- Si le quota est dépassé, passer directement à `generate_replicate.py` (~$0.50 pour toutes les icônes).
 - Si le modèle est en cours de chargement (erreur 503), le script attend automatiquement.
 - Si rate limité (erreur 429), le script attend 30s et reprend.
 
