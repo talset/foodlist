@@ -8,6 +8,7 @@ _ROOT = Path(__file__).parent.parent.parent
 _SEED = _ROOT / "seed"
 
 DEFAULT_SPEC = "icons-detailed.md"
+DEFAULT_THEME = "default"
 
 STYLE = (
     "cute flat design sticker icon, soft pastel illustration, white background, "
@@ -85,16 +86,53 @@ def load_icons(spec=DEFAULT_SPEC):
     return extract_icons(spec_file.read_text(encoding="utf-8"))
 
 
+def load_icons_for_args(args):
+    """Load icons using the theme + spec args combo."""
+    spec = resolve_spec_for_theme(args.theme, getattr(args, 'spec', None))
+    return load_icons(spec), spec
+
+
+def resolve_output_dir(theme):
+    """Return the output directory Path for a given theme name."""
+    root = Path(__file__).parent.parent.parent
+    if theme == DEFAULT_THEME:
+        return root / "uploads" / "icons" / "default"
+    return root / "uploads" / "icons" / theme
+
+
+def resolve_spec_for_theme(theme, explicit_spec=None):
+    """Return the spec file to use: explicit > seed/icons-<theme>.md > default spec."""
+    if explicit_spec and explicit_spec != DEFAULT_SPEC:
+        return explicit_spec
+    if theme != DEFAULT_THEME:
+        themed_spec = f"icons-{theme}.md"
+        candidate = _SEED / themed_spec
+        if candidate.exists():
+            return themed_spec
+    return DEFAULT_SPEC
+
+
 def build_parser(description):
     parser = argparse.ArgumentParser(description=description)
 
     parser.add_argument(
+        '--theme', '-t',
+        default=DEFAULT_THEME,
+        metavar='THEME',
+        help=(
+            f"Icon theme to generate (name of the output directory under uploads/icons/). "
+            f"Default: {DEFAULT_THEME}. "
+            f"Uses seed/icons-<theme>.md as spec if it exists, else falls back to {DEFAULT_SPEC}."
+        ),
+    )
+
+    parser.add_argument(
         '--spec', '-s',
-        default=DEFAULT_SPEC,
+        default=None,
         metavar='FILE',
         help=(
-            f"Spec file to use (filename in seed/ or path). "
-            f"Default: {DEFAULT_SPEC}"
+            f"Override spec file (filename in seed/ or path). "
+            f"If omitted, uses seed/icons-<theme>.md or {DEFAULT_SPEC}."
         ),
     )
 

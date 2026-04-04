@@ -151,23 +151,44 @@ uploads/icons/
 │   ├── apple.png   # (chemin dans l'image : /app/uploads/icons/default/)
 │   ├── milk.png
 │   └── ...
-├── <theme>/        # Packs d'icônes supplémentaires (ex: kawaii/, happy/) — même noms sémantiques que default/
+├── <theme>/        # Packs d'icônes supplémentaires (ex: kawaii/) — embarqués dans l'image au build
 │   ├── apple.png   # Si présent, remplace default/apple.png quand ce thème est actif
 │   └── ...
-└── custom/         # Icônes uploadées par les utilisateurs — persistées via volume Docker
-    ├── <uuid>.png  # Noms UUID générés côté serveur — aucune collision possible avec les noms sémantiques
-    └── ...
+└── custom/         # Icônes persistées via volume Docker (ICONS_DIR)
+    ├── <uuid>.png  # Icônes custom produits — noms UUID, aucune collision avec les noms sémantiques
+    └── themes/
+        └── <theme>/
+            └── apple.png  # Overrides admin uploadés via l'interface — prioritaires sur les icônes embarquées
 ```
 
-**Absence de collision custom ↔ thème :** les icônes uploadées par les utilisateurs sont **toujours renommées en UUID** côté serveur. Les icônes des packs (default, thèmes) utilisent des noms sémantiques (`apple.png`). Ces deux espaces sont disjoints — il est donc impossible qu'un upload custom écrase une icône de thème.
+**Absence de collision custom ↔ thème :** les icônes custom uploadées pour les produits sont **toujours renommées en UUID** côté serveur. Les icônes des packs (default, thèmes) utilisent des noms sémantiques (`apple.png`). Ces deux espaces sont disjoints.
 
-- Les icônes `default/` et les packs de thèmes sont **committés dans le dépôt** et **copiés dans l'image Docker** au build — les thèmes disponibles sont uniquement ceux embarqués, aucun thème ne peut être ajouté sans rebuild
-- Les icônes `custom/` sont stockées dans le volume monté sur `ICONS_DIR`, persistées entre redémarrages
-- Le volume Docker ne monte **que** le sous-dossier `custom/` : `./uploads/icons/custom:/app/uploads/icons/custom`
+- Les icônes `default/` et les packs de thèmes sont **committés dans le dépôt** et embarqués dans l'image Docker au build. Les thèmes disponibles sont ceux présents à ce moment — un nouveau thème nécessite un rebuild
+- Les icônes `custom/` (UUID produits) et `custom/themes/` (overrides admin) sont dans le volume monté sur `ICONS_DIR`, persistées entre redémarrages
+- Le volume Docker monte `custom/` : `./uploads/icons/custom:/app/uploads/icons/custom`
 - Toutes les icônes sont servies via une **route unique** : `/api/icons/<ref>?theme=<theme>` avec l'ordre de résolution :
-  1. `uploads/icons/<theme>/<ref>` (si thème != 'default' et fichier présent)
-  2. `uploads/icons/default/<ref>`
-  3. `uploads/icons/custom/<ref>` (UUID custom)
+  1. `$ICONS_DIR/themes/<theme>/<ref>` (override admin uploadé — prioritaire)
+  2. `uploads/icons/<theme>/<ref>` (pack embarqué dans l'image)
+  3. `uploads/icons/default/<ref>`
+  4. `$ICONS_DIR/<ref>` (UUID custom produit)
+
+**Génération des icônes :**
+
+Les icônes sont générées via des scripts Python utilisant des modèles IA (FLUX.1-schnell). Les specs des icônes par thème sont dans `seed/icons-<theme>.md`.
+
+```bash
+# Générer toutes les icônes du thème par défaut
+python scripts/icons/generate_hf.py
+
+# Générer pour un thème spécifique (ex: kawaii)
+python scripts/icons/generate_hf.py --theme kawaii
+
+# Filtrer par famille ou icône précise
+python scripts/icons/generate_hf.py --theme kawaii --family fromage
+python scripts/icons/generate_hf.py --theme kawaii --icon fromage-rond.png
+```
+
+Le `--theme` détermine le répertoire de sortie (`uploads/icons/<theme>/`) et le fichier de spec (`seed/icons-<theme>.md`). Voir `scripts/icons/README.md` pour les options complètes.
 
 **Sélecteur d'icône (lors de la création/édition d'un produit, admin uniquement) :**
 - [ ] Onglet **Icônes du thème** : grille de toutes les icônes du thème actif de l'admin (fallback sur `default/` si l'icône est absente du thème), chargées dynamiquement via l'API
@@ -204,13 +225,21 @@ Gestion des catégories — **réservée aux admins globaux** :
 
 Le statut de chaque produit est global au foyer, indépendamment des recettes ou listes.
 
-- [ ] Deux états par produit : **OK** (en stock) / **Out of stock** (manquant)
+**Trois statuts disponibles :**
+
+| Statut | DB | UI | Couleur | Déclencheur |
+|--------|----|----|---------|-------------|
+| En stock | `in_stock` | "OK" | vert | quantité > 0, ou passage manuel |
+| Faible | `low` | "Peu" | orange | passage manuel, ou automatique si quantité ≤ seuil (futur) |
+| Épuisé | `out_of_stock` | "Épuisé" | rouge | quantité = 0, ou passage manuel |
+
 - [ ] Changer le statut en un tap depuis la liste
 - [ ] **Quantité en stock** : champ optionnel représentant un nombre d'unités physiques (paquets, bouteilles, boîtes…)
   - Boutons **+1 / -1** pour incrémenter/décrémenter rapidement
-  - Quand la quantité atteint 0, le statut passe automatiquement à **out of stock**
-  - Quand on incrémente depuis 0, le statut repasse à **OK**
+  - Quand la quantité atteint 0, le statut passe automatiquement à **`out_of_stock`**
+  - Quand on incrémente depuis 0, le statut repasse à **`in_stock`**
   - Quantité minimale : 0 (ne peut pas être négative)
+  - Le statut `low` est passé manuellement pour l'instant ; un seuil par produit est prévu (voir F12)
 - [ ] Vue principale : produits triés par statut (out of stock en haut)
 - [ ] **Barre de recherche** en haut de la vue pour filtrer les produits affichés en temps réel (filtre live sur le nom)
 - [ ] **Strip de filtres catégories** : ligne horizontale scrollable sous la recherche
@@ -303,7 +332,7 @@ Les recettes sont **globales à l'instance** (comme le catalogue produits). Tout
 - [ ] Import de recettes via fichier JSON (réimporter un export précédent)
 
 #### Export
-- [ ] **Export liste de courses** : état actuel de la liste (produits out of stock + quantités recettes) au format JSON
+- [ ] **Export liste de courses** : état actuel (produits `out_of_stock` + quantités recettes) au format JSON
 - [ ] **Export recettes** : toutes les recettes de l'instance au format JSON (ingrédients, étapes, parts de base), réimportable
 
 **Format JSON — import/export produits :**
@@ -345,6 +374,20 @@ Les recettes sont **globales à l'instance** (comme le catalogue produits). Tout
       { "product": "Lait entier", "quantity": 0.5 },
       { "product": "Fromage frais", "quantity": 500 }
     ]
+  }
+]
+```
+
+**Format JSON — export liste de courses :**
+```json
+[
+  {
+    "product": "Lait entier",
+    "category": "Produits laitiers",
+    "status": "out_of_stock",
+    "quantity": 0,
+    "recipe_quantity": 2.0,
+    "ref_unit": "L"
   }
 ]
 ```
@@ -599,9 +642,10 @@ La page `/admin` est protégée par middleware (redirection vers `/` si non admi
 
 #### Onglet Icônes
 
-- [ ] Vue par répertoire de thème : liste les fichiers présents dans chaque dossier embarqué `uploads/icons/<theme>/`
-- [ ] Pour chaque thème : affichage côte à côte de l'icône du thème (si présente) et de l'icône `default/` correspondante
-- [ ] Possibilité de remplacer une icône existante **ou d'en ajouter une nouvelle** dans un thème via upload individuel (PNG/WebP) depuis l'interface admin — le fichier doit porter un nom sémantique (ex: `apple.png`) correspondant à une icône `default/`
+- [ ] Vue par thème disponible (répertoires détectés dans `uploads/icons/` hors `default/` et `custom/`)
+- [ ] Pour chaque thème : grille des icônes présentes dans `default/`, avec indication de si le thème a une version propre ou un override admin
+- [ ] Possibilité d'uploader un override admin pour une icône d'un thème donné — le fichier est stocké dans `$ICONS_DIR/themes/<theme>/` (volume persisté), et prend priorité sur l'icône embarquée
+- [ ] Bouton "Supprimer l'override" pour revenir à l'icône embarquée du thème
 - [ ] Détection des icônes `custom/` (UUID) non référencées par aucun produit → bouton "Supprimer les orphelins"
 
 #### Fonctionnalités futures (non implémentées)
@@ -648,3 +692,33 @@ La page `/profile` permet à chaque utilisateur de :
 - Accéder à la page d'administration (bouton visible uniquement pour les admins)
 
 Après sauvegarde, le JWT est rafraîchi via `update()` de `useSession()` pour que les préférences soient immédiatement actives.
+
+---
+
+### F12 — Idées & fonctionnalités futures
+
+Ces fonctionnalités ne sont pas implémentées mais méritent d'être documentées pour orienter les développements futurs.
+
+#### Seuil de stock faible par produit
+
+Permettre de définir un seuil (`low_threshold`) par produit par foyer. Quand `quantity ≤ low_threshold`, le statut passe automatiquement à `low`. Actuellement le statut `low` est passé manuellement. Nécessite une colonne `low_threshold INT NULL` dans la table `stock`.
+
+#### Lien de liste de courses en lecture seule
+
+Générer un lien tokenisé (`/shopping/public/<token>`) qui affiche la liste de courses du foyer sans connexion requise. Utile pour envoyer à un tiers qui fait les courses (partenaire, ami) sans lui créer un compte.
+
+#### Tags sur les recettes
+
+Ajouter une table `recipe_tags` (id, recipe_id, tag VARCHAR). Permettre de filtrer les recettes par tag depuis la liste. Tags exemples : "végétarien", "rapide", "weekend", "batch cooking".
+
+#### Action "Tout restockér"
+
+Un bouton dans la liste de courses qui marque tous les articles `out_of_stock` comme `in_stock` en une seule action. Utile après un retour de courses complet. Le SSE propage la mise à jour à tous les appareils.
+
+#### Paramètres globaux de l'instance
+
+Page admin pour configurer : nom de l'application, logo, couleur primaire de base. Stocké dans une table `settings` (clé/valeur).
+
+#### Réinitialisation de mot de passe
+
+Flux standard : formulaire "mot de passe oublié" → email avec lien tokenisé → formulaire de réinitialisation. Nécessite une config SMTP dans les variables d'environnement.

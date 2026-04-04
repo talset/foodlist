@@ -6,12 +6,13 @@ Get your token at https://huggingface.co/settings/tokens
 Install: pip install huggingface_hub pillow tqdm
 
 Usage:
-  HF_TOKEN=hf_xxx python generate_hf.py                                      # all icons (icons-detailed.md)
-  HF_TOKEN=hf_xxx python generate_hf.py --spec my-spec.md                    # custom spec file
-  HF_TOKEN=hf_xxx python generate_hf.py --family fromage                     # one family
-  HF_TOKEN=hf_xxx python generate_hf.py --icon fromage-rond.png              # one icon
-  python generate_hf.py --list                                                # list families (no token needed)
-  python generate_hf.py --spec my-spec.md --list                              # list families in custom spec
+  HF_TOKEN=hf_xxx python generate_hf.py                          # default theme (icons-detailed.md → uploads/icons/default/)
+  HF_TOKEN=hf_xxx python generate_hf.py --theme kawaii            # kawaii theme (icons-kawaii.md → uploads/icons/kawaii/)
+  HF_TOKEN=hf_xxx python generate_hf.py --theme kawaii --family fromage
+  HF_TOKEN=hf_xxx python generate_hf.py --theme kawaii --icon fromage-rond.png
+  HF_TOKEN=hf_xxx python generate_hf.py --spec my-spec.md         # explicit spec file override
+  python generate_hf.py --list                                    # list families (no token needed)
+  python generate_hf.py --theme kawaii --list                     # list families in kawaii spec
 """
 
 import os
@@ -25,7 +26,7 @@ from PIL import Image
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons, build_parser, filter_icons, STYLE
+from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, STYLE
 
 # =========================
 # CONFIG
@@ -33,8 +34,6 @@ from _parse import load_icons, build_parser, filter_icons, STYLE
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 MODEL = "black-forest-labs/FLUX.1-schnell"
-
-OUTPUT_DIR = Path(__file__).parent.parent.parent / "uploads" / "icons" / "default"
 SLEEP = 2
 RETRIES = 3
 
@@ -53,8 +52,8 @@ def resize_to_128(pil_image):
     return out.getvalue()
 
 
-def generate_icon(client, icon):
-    output_path = OUTPUT_DIR / icon["filename"]
+def generate_icon(client, icon, output_dir):
+    output_path = output_dir / icon["filename"]
 
     if output_path.exists():
         return "skip"
@@ -64,6 +63,7 @@ def generate_icon(client, icon):
     for attempt in range(RETRIES):
         try:
             image = client.text_to_image(prompt, model=MODEL)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_bytes(resize_to_128(image))
             return "ok"
 
@@ -89,15 +89,17 @@ def main():
     if not args.list and not HF_TOKEN:
         raise SystemExit("❌ HF_TOKEN environment variable not set.")
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_dir = resolve_output_dir(args.theme)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    icons = load_icons(args.spec)
+    icons, spec = load_icons_for_args(args)
     icons = filter_icons(icons, args)
 
-    already = sum(1 for i in icons if (OUTPUT_DIR / i["filename"]).exists())
+    already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
     todo = len(icons) - already
+    print(f"🎨 Theme: {args.theme}  →  {output_dir}")
+    print(f"📋 Spec: {spec}")
     print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
-    print(f"📋 Spec: {args.spec}")
 
     if todo == 0:
         print("Nothing to do.")
@@ -107,7 +109,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(client, icon)
+        result = generate_icon(client, icon, output_dir)
         if result == "ok":
             success += 1
         elif result == "skip":

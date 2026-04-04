@@ -3,6 +3,8 @@ import path from 'path'
 
 const DEFAULT_DIR = path.join(process.cwd(), 'uploads/icons/default')
 const CUSTOM_DIR = process.env.ICONS_DIR ?? path.join(process.cwd(), 'uploads/icons/custom')
+// Admin-uploaded theme overrides: $ICONS_DIR/themes/<theme>/ — takes priority over embedded themes
+const THEMES_OVERRIDE_DIR = path.join(CUSTOM_DIR, 'themes')
 
 export async function GET(
   req: Request,
@@ -19,10 +21,11 @@ export async function GET(
   const rawTheme = searchParams.get('theme') ?? ''
   const theme = /^[a-z0-9_-]+$/.test(rawTheme) ? rawTheme : ''
 
-  // Build resolution order: theme → default → custom
+  // Resolution order: admin override → embedded theme → default → custom UUID
   const dirs: string[] = []
   if (theme && theme !== 'default') {
-    dirs.push(path.join(process.cwd(), 'uploads/icons', theme))
+    dirs.push(path.join(THEMES_OVERRIDE_DIR, theme))  // admin-uploaded override (writable volume)
+    dirs.push(path.join(process.cwd(), 'uploads/icons', theme))  // embedded in Docker image
   }
   dirs.push(DEFAULT_DIR)
   dirs.push(CUSTOM_DIR)
