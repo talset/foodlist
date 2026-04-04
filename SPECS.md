@@ -81,18 +81,18 @@ ICONS_DIR=/app/uploads/icons/custom
 - [ ] Connexion via Google SSO (compte personnel)
 - [ ] Connexion email + mot de passe
 - [ ] Session persistante (JWT/cookie)
-- [ ] Invitation d'autres utilisateurs au foyer via lien
+- [ ] Invitation des utilisateurs via lien — **réservée aux admins globaux uniquement**
 
 #### Bootstrap premier utilisateur
 
-Si la base de données ne contient aucun utilisateur, l'inscription est ouverte librement (email ou Google). Ce premier compte devient automatiquement admin du foyer qu'il crée sur `/setup`.
+Si la base de données ne contient aucun utilisateur, l'inscription est ouverte librement (email ou Google). Ce premier compte devient automatiquement **admin global** de l'instance (`is_admin = 1`) et admin du foyer qu'il crée sur `/setup`.
 
 #### Utilisateurs invités
 
-L'administrateur partage le lien `/register?token=<invite_token>`. Ce lien :
+Seul un **admin global** peut générer un lien d'invitation depuis la page `/admin`. Le lien `/register?token=<invite_token>` :
 - Affiche le formulaire d'inscription (sinon, la page affiche "accès sur invitation")
 - Valide le token côté serveur avant de créer le compte
-- Auto-rejoint le foyer sans passer par `/setup`
+- Auto-rejoint le foyer associé au token sans passer par `/setup`
 
 #### Google SSO et comptes invités
 
@@ -102,9 +102,33 @@ Google SSO est autorisé pour :
 
 Un utilisateur invité qui veut utiliser Google doit d'abord créer son compte avec le lien d'invitation (email + mot de passe), puis Google se liera automatiquement à son email lors de la connexion suivante.
 
-### F2 — Catalogue de produits (global)
+### F1b — Rôles et droits
 
-Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativement.
+L'application distingue deux niveaux d'accès :
+
+#### Admin global (`is_admin = 1`)
+
+- Accès à la page `/admin`
+- CRUD complet sur les produits et catégories (catalogue global)
+- CRUD complet sur les recettes (instance globale)
+- Gestion des utilisateurs : promouvoir/rétrograder admin, supprimer
+- Gestion des foyers : créer, supprimer, gérer les membres, générer et révoquer les invitations
+- Gestion des icônes : vue par thème, remplacer ou ajouter des fichiers dans un thème
+- Peut modifier/supprimer les produits, catégories et recettes créés par d'autres utilisateurs
+
+#### Membre (`is_admin = 0`)
+
+- Consulter le catalogue produits et catégories (lecture seule)
+- Consulter les recettes (lecture seule)
+- Mettre à jour le stock de son foyer (statut ok/out_of_stock, quantités +1/-1)
+- Gérer la liste de courses de son foyer (ajouter/retirer des recettes, mode courses)
+- Modifier son propre profil (nom affiché, thème visuel, thème d'icônes)
+
+> **Note sur `household_members.role`** : le rôle `admin` au niveau du foyer est conservé en base mais n'accorde pas de droits supplémentaires à ce stade. Il pourra servir de base pour des fonctionnalités futures (ex: renommer le foyer). Tout ce qui dépasse la gestion du stock est réservé à l'admin global.
+
+### F2 — Catalogue de produits (global à l'instance)
+
+Un catalogue commun à tous les utilisateurs et tous les foyers de l'instance, enrichi collaborativement. Un produit ajouté est visible par tous les foyers. Le statut (stock) reste lui scopé par foyer (voir F3).
 
 - [ ] Fiche produit : nom, catégorie, icône (image PNG/WebP), et **unité de référence** :
   - `ref_unit` : unité de mesure (L, g, kg, ml, unité, pièce…)
@@ -112,9 +136,10 @@ Un catalogue commun à tous les utilisateurs de l'instance, enrichi collaborativ
   - Exemples : lait → `1 L`, oignon → `1 unité`, gateau-pallet → `150 g`
   - Ces deux champs sont modifiables si le conditionnement du produit change
 - [ ] Recherche/autocomplete sur le nom du produit
-- [ ] Ajouter un nouveau produit si absent du catalogue
-- [ ] Import de produits en masse via fichier JSON
-- [ ] Icône personnalisable par produit — voir F2b ci-dessous
+- [ ] Ajouter / modifier / supprimer un produit — **réservé aux admins globaux**
+- [ ] Import de produits en masse via fichier JSON — **réservé aux admins globaux**
+- [ ] Icône personnalisable par produit — **optionnelle**, voir F2b ci-dessous
+- [ ] Si aucune icône n'est définie, affichage d'un placeholder générique (aucun blocage à la création)
 
 ### F2b — Gestion des icônes produits
 
@@ -126,21 +151,29 @@ uploads/icons/
 │   ├── apple.png   # (chemin dans l'image : /app/uploads/icons/default/)
 │   ├── milk.png
 │   └── ...
+├── <theme>/        # Packs d'icônes supplémentaires (ex: kawaii/, happy/) — même noms sémantiques que default/
+│   ├── apple.png   # Si présent, remplace default/apple.png quand ce thème est actif
+│   └── ...
 └── custom/         # Icônes uploadées par les utilisateurs — persistées via volume Docker
-    ├── <uuid>.png  # (chemin dans l'image : /app/uploads/icons/custom/, ICONS_DIR)
+    ├── <uuid>.png  # Noms UUID générés côté serveur — aucune collision possible avec les noms sémantiques
     └── ...
 ```
 
-- Les icônes `default/` sont **committées dans le dépôt** et **copiées dans l'image Docker** au build — elles ne nécessitent pas de volume et ne sont jamais écrasées par un montage
+**Absence de collision custom ↔ thème :** les icônes uploadées par les utilisateurs sont **toujours renommées en UUID** côté serveur. Les icônes des packs (default, thèmes) utilisent des noms sémantiques (`apple.png`). Ces deux espaces sont disjoints — il est donc impossible qu'un upload custom écrase une icône de thème.
+
+- Les icônes `default/` et les packs de thèmes sont **committés dans le dépôt** et **copiés dans l'image Docker** au build — les thèmes disponibles sont uniquement ceux embarqués, aucun thème ne peut être ajouté sans rebuild
 - Les icônes `custom/` sont stockées dans le volume monté sur `ICONS_DIR`, persistées entre redémarrages
 - Le volume Docker ne monte **que** le sous-dossier `custom/` : `./uploads/icons/custom:/app/uploads/icons/custom`
-- Toutes les icônes sont servies via une **route unique** : `/api/icons/<ref>` — le serveur cherche d'abord dans `default/`, puis dans `custom/` (les UUID custom ne peuvent pas entrer en collision avec les noms des icônes par défaut)
+- Toutes les icônes sont servies via une **route unique** : `/api/icons/<ref>?theme=<theme>` avec l'ordre de résolution :
+  1. `uploads/icons/<theme>/<ref>` (si thème != 'default' et fichier présent)
+  2. `uploads/icons/default/<ref>`
+  3. `uploads/icons/custom/<ref>` (UUID custom)
 
-**Sélecteur d'icône (lors de la création/édition d'un produit) :**
-- [ ] Onglet **Icônes par défaut** : grille de toutes les icônes présentes dans `default/`, chargées dynamiquement via l'API
+**Sélecteur d'icône (lors de la création/édition d'un produit, admin uniquement) :**
+- [ ] Onglet **Icônes du thème** : grille de toutes les icônes du thème actif de l'admin (fallback sur `default/` si l'icône est absente du thème), chargées dynamiquement via l'API
 - [ ] Onglet **Upload** : uploader une image custom (PNG/JPG/WebP, redimensionnée à 128×128 au stockage)
 - [ ] Aperçu de l'icône sélectionnée avant validation
-- [ ] Un produit n'a qu'une seule icône active : icône par défaut OU image custom
+- [ ] Un produit n'a qu'une seule icône active : icône sémantique (default/thème) OU image custom UUID
 - [ ] Si aucune icône n'est définie, affichage d'une icône générique (placeholder)
 
 **Catégories de produits :**
@@ -161,7 +194,7 @@ Catégories par défaut :
 - Hygiène / Entretien
 - Autre
 
-Gestion des catégories :
+Gestion des catégories — **réservée aux admins globaux** :
 - [ ] Ajouter une catégorie personnalisée (nom libre)
 - [ ] Renommer une catégorie existante
 - [ ] Supprimer une catégorie vide (sans produits associés)
@@ -222,11 +255,14 @@ Les trois filtres sont indépendants et se combinent entre eux.
 - [ ] Cocher un article → statut passe à OK **et l'article disparaît instantanément** de la vue
   - La bulle de quantité recette disparaît pour cet ingrédient
   - Si tous les ingrédients d'une recette active sont cochés → la recette est **automatiquement retirée** de la liste (reset)
-- [ ] Le mode courses est local à l'appareil (pas synchronisé), mémorisé durant la session
+- [ ] Toutes les actions (cocher un article, mise à jour stock) sont synchronisées en temps réel via SSE sur tous les appareils du foyer
+- [ ] Le toggle d'affichage "mode courses" est une préférence locale à l'appareil (UI uniquement, pas de donnée persistée)
 
 ### F5 — Recettes
 
-#### Création / édition
+Les recettes sont **globales à l'instance** (comme le catalogue produits). Toutes les recettes sont visibles par tous les foyers. La création, modification et suppression de recettes est **réservée aux admins globaux**.
+
+#### Création / édition (admin uniquement)
 - [ ] Créer une recette : nom, description courte, photo (optionnelle)
 - [ ] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
 - [ ] Rendu Markdown affiché proprement lors de la consultation de la recette
@@ -268,7 +304,7 @@ Les trois filtres sont indépendants et se combinent entre eux.
 
 #### Export
 - [ ] **Export liste de courses** : état actuel de la liste (produits out of stock + quantités recettes) au format JSON
-- [ ] **Export recettes** : toutes les recettes du foyer au format JSON (ingrédients, étapes, parts de base), réimportable
+- [ ] **Export recettes** : toutes les recettes de l'instance au format JSON (ingrédients, étapes, parts de base), réimportable
 
 **Format JSON — import/export produits :**
 ```json
@@ -338,6 +374,9 @@ Les trois filtres sont indépendants et se combinent entre eux.
 | password_hash | VARCHAR(255) NULL | Null si connexion Google |
 | google_id | VARCHAR(255) NULL | ID Google OAuth |
 | name | VARCHAR(100) | Nom affiché |
+| is_admin | TINYINT(1) DEFAULT 0 | 1 = admin global de l'instance |
+| site_theme | VARCHAR(50) DEFAULT 'default' | Thème visuel choisi (voir F10) |
+| icon_theme | VARCHAR(50) DEFAULT 'default' | Pack d'icônes choisi (voir F10) |
 | created_at | DATETIME | Date de création |
 
 ### `categories` (catégories de produits)
@@ -367,8 +406,8 @@ Les trois filtres sont indépendants et se combinent entre eux.
 | id | INT PK AUTO_INCREMENT | Identifiant |
 | product_id | INT FK products.id | Produit |
 | household_id | INT FK households.id | Foyer |
-| status | ENUM('ok','out_of_stock') | Statut actuel (auto si quantity = 0) |
-| quantity | INT UNSIGNED DEFAULT 0 | Nombre d'unités physiques en stock (0 = out of stock) |
+| status | ENUM('in_stock','low','out_of_stock') | Statut actuel — `out_of_stock` automatique si quantity = 0 ; `low` = stock présent mais faible (quantity > 0 mais en alerte) ; `in_stock` = stock normal |
+| quantity | INT UNSIGNED DEFAULT 0 | Nombre d'unités physiques en stock (paquets, bouteilles…) |
 | updated_by | INT FK users.id | Dernière modif par |
 | updated_at | DATETIME | Date de modif |
 
@@ -436,38 +475,47 @@ foodlist/
 │   ├── app/                        # Next.js App Router
 │   │   ├── api/                    # API Routes
 │   │   │   ├── auth/               # NextAuth
-│   │   │   ├── products/           # CRUD catalogue
-│   │   │   ├── categories/         # CRUD catégories
-│   │   │   ├── stock/              # Statut produits
-│   │   │   ├── recipes/            # CRUD recettes
-│   │   │   ├── shopping/           # Liste de courses
-│   │   │   ├── import/             # Import JSON
-│   │   │   ├── icons/              # Serve + upload icônes (default & custom)
+│   │   │   ├── admin/              # API admin (users, households, icons)
+│   │   │   ├── products/           # CRUD catalogue (admin)
+│   │   │   ├── categories/         # CRUD catégories (admin)
+│   │   │   ├── stock/              # Statut produits (membres)
+│   │   │   ├── recipes/            # CRUD recettes (admin) + lecture (tous)
+│   │   │   ├── shopping/           # Liste de courses (membres)
+│   │   │   ├── profile/            # Profil utilisateur
+│   │   │   ├── import/             # Import JSON (admin)
+│   │   │   ├── icons/              # Serve + upload icônes
 │   │   │   └── sse/                # Server-Sent Events
-│   │   ├── (auth)/                 # Pages login / register
+│   │   ├── (auth)/                 # Pages login / register / setup
+│   │   ├── admin/                  # Page administration (admin uniquement)
+│   │   ├── profile/                # Page profil utilisateur
 │   │   ├── list/                   # Page liste de courses
 │   │   ├── products/               # Page catalogue produits
 │   │   ├── recipes/                # Page recettes
+│   │   ├── globals.css             # CSS global + variables de thèmes
 │   │   └── layout.tsx
 │   ├── components/
 │   │   ├── ProductCard/            # Carte produit avec statut
 │   │   ├── RecipeCard/             # Carte recette
 │   │   ├── SearchAutocomplete/     # Recherche produits
 │   │   ├── StatusToggle/           # Bouton ok/out-of-stock
-│   │   └── IconPicker/             # Sélecteur icône (défaut / upload)
+│   │   ├── IconPicker/             # Sélecteur icône (thème actif / upload)
+│   │   ├── BottomNav.tsx           # Navigation principale mobile
+│   │   └── ThemeProvider.tsx       # Injection du thème avant hydration
 │   ├── lib/
 │   │   ├── db.ts                   # Connexion MySQL
 │   │   ├── auth.ts                 # Config NextAuth
+│   │   ├── icon.ts                 # Utilitaires résolution icônes
 │   │   └── sse.ts                  # Utilitaires SSE
 │   └── types/
 │       └── index.ts
 ├── public/
 │   ├── manifest.json               # PWA manifest
 │   └── icons/
-├── uploads/                        # Volume Docker monté (persisté sur le serveur)
+├── uploads/                        # Icônes persistées ou embarquées
 │   └── icons/
-│       ├── default/                # Icônes par défaut (copiées dans l'image au build)
-│       └── custom/                 # Icônes uploadées par les utilisateurs
+│       ├── default/                # Icônes par défaut (embarquées dans l'image au build)
+│       ├── <theme>/                # Packs de thèmes (embarqués dans l'image au build)
+│       └── custom/                 # Icônes uploadées (volume Docker monté sur ICONS_DIR)
 ├── seed/
 │   └── products.json               # Catalogue initial (~230 produits) importable via /api/import
 └── sql/
@@ -478,33 +526,125 @@ foodlist/
 
 ## Phases de développement
 
-### Phase 1 — Fondations
+### Phase 1 — Fondations ✅
 - Setup Next.js + TypeScript
 - Connexion MySQL (`lib/db.ts`)
 - Dockerfile + docker-compose
 - Script SQL `schema.sql`
 - `.env.example`
 
-### Phase 2 — Authentification
+### Phase 2 — Authentification ✅
 - NextAuth.js : Google OAuth + email/mot de passe
-- Gestion des foyers (création, invitation par lien)
+- Bootstrap premier utilisateur (admin global auto)
+- Gestion des foyers (création sur `/setup`, invitation par lien admin)
 
-### Phase 3 — Catalogue produits
-- CRUD produits (avec catégories, emoji, upload icône)
+### Phase 3 — Catalogue produits ✅
+- CRUD produits + catégories (admin uniquement)
 - Recherche / autocomplete
 - Import JSON
+- Gestion des icônes (default, custom UUID, thèmes)
 
-### Phase 4 — Stock & Liste de courses
-- Gestion des statuts ok/out of stock par foyer
-- Vue liste de courses consolidée
+### Phase 4 — Stock & Liste de courses ✅
+- Gestion des statuts in_stock/low/out_of_stock par foyer
+- Vue liste de courses consolidée avec filtres
 - Synchronisation SSE
 
-### Phase 5 — Recettes
-- CRUD recettes + ingrédients
+### Phase 5 — Recettes ✅
+- CRUD recettes + ingrédients (admin uniquement)
 - Ajout recette à la liste avec multiplicateur
 - Calcul et affichage des quantités requises
 
-### Phase 6 — PWA & Finitions
+### Phase 6 — Admin & Profil ✅
+- Page `/admin` : utilisateurs, foyers, catalogue, icônes
+- Page `/profile` : nom, thème visuel, thème d'icônes
+- Thèmes CSS (`globals.css` + `ThemeProvider`)
+
+### Phase 7 — PWA & Finitions
 - Manifest PWA + icônes
 - Optimisation mobile
 - Tests multi-appareils
+
+---
+
+### F9 — Administration
+
+Un **admin global** est un utilisateur avec `is_admin = 1`. Le premier utilisateur inscrit reçoit automatiquement ce rôle. Les admins peuvent promouvoir/rétrograder d'autres utilisateurs (avec protection : dernier admin ne peut pas être retiré, et on ne peut pas se rétrograder soi-même).
+
+La page `/admin` est protégée par middleware (redirection vers `/` si non admin).
+
+#### Onglet Vue d'ensemble
+
+- 4 compteurs : utilisateurs, foyers, produits, recettes
+
+#### Onglet Utilisateurs
+
+- Liste de tous les utilisateurs (nom, email, foyer, badge admin)
+- Actions : promouvoir/rétrograder admin, supprimer un utilisateur
+
+#### Onglet Foyers
+
+- Liste de tous les foyers avec leurs membres
+- Actions par foyer :
+  - Copier le lien d'invitation
+  - Régénérer le token d'invitation
+  - Retirer un membre d'un foyer
+  - Supprimer un foyer (supprime aussi stock et shopping_recipes associés)
+  - Créer un nouveau foyer (sans y ajouter l'admin automatiquement)
+
+#### Onglet Catalogue (produits)
+
+- [ ] Liste des produits sans icône — avec export des noms pour générer les fichiers d'icônes manquants
+- [ ] Liste des produits en doublon probable (noms proches)
+- [ ] Supprimer un produit (uniquement s'il n'est référencé dans aucun stock ni recette)
+
+#### Onglet Icônes
+
+- [ ] Vue par répertoire de thème : liste les fichiers présents dans chaque dossier embarqué `uploads/icons/<theme>/`
+- [ ] Pour chaque thème : affichage côte à côte de l'icône du thème (si présente) et de l'icône `default/` correspondante
+- [ ] Possibilité de remplacer une icône existante **ou d'en ajouter une nouvelle** dans un thème via upload individuel (PNG/WebP) depuis l'interface admin — le fichier doit porter un nom sémantique (ex: `apple.png`) correspondant à une icône `default/`
+- [ ] Détection des icônes `custom/` (UUID) non référencées par aucun produit → bouton "Supprimer les orphelins"
+
+#### Fonctionnalités futures (non implémentées)
+
+- Paramètres globaux de l'instance (nom de l'app, logo, etc.)
+
+---
+
+### F10 — Thèmes
+
+#### Thèmes visuels (site_theme)
+
+6 thèmes CSS disponibles, sélectionnables depuis le profil :
+
+| Thème | Description |
+|-------|-------------|
+| `default` | Blanc classique (bleu) |
+| `dark` | Mode sombre (slate) |
+| `pure` | Blanc épuré (gris) |
+| `light` | Bleu ciel |
+| `happy` | Orange chaleureux |
+| `japon` | Rouge et blanc discret |
+
+Les thèmes sont implémentés via CSS custom properties sur `[data-theme="..."]`. Le thème est appliqué avant hydration via un cookie `foodlist-theme` lu par un inline script dans le layout.
+
+#### Thèmes d'icônes (icon_theme)
+
+Les icônes sont organisées en répertoires sous `uploads/icons/`. L'utilisateur peut choisir un pack d'icônes dans son profil (indépendamment du thème visuel).
+
+Un pack d'icônes est un répertoire `uploads/icons/<theme>/` contenant des fichiers aux mêmes noms sémantiques que `default/` (ex: `apple.png`). Un pack n'a pas besoin de couvrir toutes les icônes : si un fichier est absent du pack, l'icône `default/` est utilisée en fallback.
+
+**Les packs sont embarqués dans l'image Docker au build.** Aucun thème ne peut être créé depuis l'interface — seul l'ajout/remplacement de fichiers dans les thèmes existants est possible via l'admin (voir F9). Pour ajouter un nouveau thème, il faut créer le répertoire dans le dépôt et rebuilder l'image.
+
+L'ordre de résolution est décrit dans F2b. La liste des packs disponibles est détectée dynamiquement en lisant les sous-dossiers de `uploads/icons/` (hors `default/` et `custom/`).
+
+---
+
+### F11 — Profil utilisateur
+
+La page `/profile` permet à chaque utilisateur de :
+- Modifier son nom affiché
+- Choisir son thème visuel parmi les 6 disponibles (avec aperçu de couleurs)
+- Choisir son pack d'icônes parmi les répertoires disponibles dans `uploads/icons/`
+- Accéder à la page d'administration (bouton visible uniquement pour les admins)
+
+Après sauvegarde, le JWT est rafraîchi via `update()` de `useSession()` pour que les préférences soient immédiatement actives.

@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import SessionProviderWrapper from '@/components/SessionProviderWrapper'
 import BottomNav from '@/components/BottomNav'
+import ThemeProvider from '@/components/ThemeProvider'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Foodlist',
@@ -27,10 +29,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body style={{ margin: 0, paddingBottom: 'calc(64px + env(safe-area-inset-bottom))', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <body style={{ margin: 0, paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=document.cookie.match(/foodlist-theme=([^;]+)/);if(t)document.documentElement.dataset.theme=t[1]})()` }} />
         <SessionProviderWrapper>
-          {children}
-          <BottomNav />
+          <ThemeProvider>
+            {children}
+            <BottomNav />
+          </ThemeProvider>
         </SessionProviderWrapper>
       </body>
     </html>

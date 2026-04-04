@@ -4,7 +4,7 @@ import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
 import type { ApiStockItem } from '@/types'
 
-const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock', 'shopping_list']
+const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock']
 
 function toApiStockItem(row: any): ApiStockItem {
   return {
@@ -16,7 +16,6 @@ function toApiStockItem(row: any): ApiStockItem {
     ref_unit: row.ref_unit,
     icon_url: row.icon_ref ? `/api/icons/${row.icon_ref}` : null,
     quantity: row.quantity,
-    unit: row.unit,
     status: row.status,
     updated_at: row.updated_at instanceof Date
       ? row.updated_at.toISOString()
@@ -25,7 +24,7 @@ function toApiStockItem(row: any): ApiStockItem {
 }
 
 const SELECT_STOCK = `
-  SELECT s.id, s.product_id, s.quantity, s.unit, s.status, s.updated_at,
+  SELECT s.id, s.product_id, s.quantity, s.status, s.updated_at,
          p.name AS product_name, p.icon_ref, p.ref_unit,
          p.category_id, c.name AS category_name, c.sort_order
   FROM stock s
@@ -42,7 +41,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
 
   const body = await req.json()
-  const { quantity, unit, status } = body ?? {}
+  const { quantity, status } = body ?? {}
 
   const sets: string[] = []
   const values: any[] = []
@@ -53,13 +52,11 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
     sets.push('quantity = ?')
     values.push(quantity)
-  }
-  if (unit !== undefined) {
-    if (typeof unit !== 'string' || !unit.trim()) {
-      return NextResponse.json({ error: 'INVALID_INPUT' }, { status: 400 })
+    // Auto-derive status from quantity if not explicitly provided
+    if (status === undefined) {
+      sets.push('status = ?')
+      values.push(quantity === 0 ? 'out_of_stock' : 'in_stock')
     }
-    sets.push('unit = ?')
-    values.push(unit.trim())
   }
   if (status !== undefined) {
     if (!VALID_STATUSES.includes(status)) {

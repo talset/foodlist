@@ -52,55 +52,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'INVALID_MULTIPLIER' }, { status: 400 })
   }
 
-  // Load recipe + ingredients
-  const [[recipe]] = await pool.query<any[]>('SELECT id, name FROM recipes WHERE id = ?', [recipe_id])
+  const [[recipe]] = await pool.query<any[]>('SELECT id, name, base_servings FROM recipes WHERE id = ?', [recipe_id])
   if (!recipe) return NextResponse.json({ error: 'RECIPE_NOT_FOUND' }, { status: 400 })
 
-  const [ingredients] = await pool.query<any[]>(
-    `SELECT ri.product_id, ri.quantity, p.ref_unit
-     FROM recipe_ingredients ri
-     JOIN products p ON p.id = ri.product_id
-     WHERE ri.recipe_id = ?`,
-    [recipe_id]
+  const [result] = await pool.query<any>(
+    'INSERT INTO shopping_recipes (household_id, recipe_id, multiplier, added_by) VALUES (?, ?, ?, ?)',
+    [session.user.householdId, recipe_id, multiplier, session.user.id]
   )
 
-  let conn
-  try {
-    conn = await pool.getConnection()
-    await conn.beginTransaction()
+  const [[row]] = await pool.query<any[]>(
+    `SELECT sr.id, sr.recipe_id, sr.multiplier, sr.added_at,
+            r.name AS recipe_name, r.base_servings,
+            COUNT(ri.id) AS ingredient_count
+     FROM shopping_recipes sr
+     JOIN recipes r ON r.id = sr.recipe_id
+     LEFT JOIN recipe_ingredients ri ON ri.recipe_id = sr.recipe_id
+     WHERE sr.id = ?
+     GROUP BY sr.id`,
+    [result.insertId]
+  )
 
-    for (const ing of ingredients as any[]) {
-      // stock.quantity is INT UNSIGNED — round to nearest integer
-      const effectiveQty = Math.round(parseFloat(ing.quantity) * multiplier)
-      await conn.query(
-        `INSERT INTO stock (product_id, household_id, quantity, unit, status, updated_by)
-         VALUES (?, ?, ?, ?, 'shopping_list', ?)
-         ON DUPLICATE KEY UPDATE
-           quantity   = quantity + VALUES(quantity),
-           status     = 'shopping_list',
-           updated_by = VALUES(updated_by)`,
-        [ing.product_id, session.user.householdId, effectiveQty, ing.ref_unit, session.user.id]
-      )
-    }
-
-    const [srResult] = await conn.query<any>(
-      'INSERT INTO shopping_recipes (household_id, recipe_id, multiplier, added_by) VALUES (?, ?, ?, ?)',
-      [session.user.householdId, recipe_id, multiplier, session.user.id]
-    )
-
-    await conn.commit()
-
-    return NextResponse.json({
-      shopping_recipe_id: srResult.insertId,
-      recipe_id,
-      recipe_name: recipe.name,
-      multiplier,
-      ingredients_added: (ingredients as any[]).length,
-    }, { status: 201 })
-  } catch (err) {
-    if (conn) await conn.rollback()
-    throw err
-  } finally {
-    if (conn) conn.release()
-  }
+  return NextResponse.json(toApiShoppingRecipe(row), { status: 201 })
 }

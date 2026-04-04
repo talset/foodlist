@@ -46,8 +46,8 @@ export async function POST(req: Request) {
 
   const password_hash = await bcrypt.hash(password, 12)
   const [result] = await pool.query<any>(
-    'INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)',
-    [email, password_hash, name.trim()]
+    'INSERT INTO users (email, password_hash, name, is_admin) VALUES (?, ?, ?, ?)',
+    [email, password_hash, name.trim(), isFirstUser ? 1 : 0]
   )
   const userId = result.insertId
 

@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { iconUrl } from '@/lib/icon'
 import type { ApiRecipeDetail } from '@/types'
 
-async function fetchDetail(id: number): Promise<ApiRecipeDetail | null> {
+async function fetchDetail(id: number, theme?: string): Promise<ApiRecipeDetail | null> {
   const [[recipe]] = await pool.query<any[]>(
     'SELECT id, name, description, steps_markdown, photo_url, base_servings, created_at FROM recipes WHERE id = ?',
     [id]
@@ -34,7 +35,7 @@ async function fetchDetail(id: number): Promise<ApiRecipeDetail | null> {
       product_id: r.product_id,
       product_name: r.product_name,
       ref_unit: r.ref_unit,
-      icon_url: r.icon_ref ? `/api/icons/${r.icon_ref}` : null,
+      icon_url: iconUrl(r.icon_ref, theme),
       quantity: parseFloat(r.quantity),
     })),
   }
@@ -47,7 +48,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   const id = parseInt(params.id)
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
 
-  const detail = await fetchDetail(id)
+  const detail = await fetchDetail(id, session.user.iconTheme)
   if (!detail) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
   return NextResponse.json(detail)
 }

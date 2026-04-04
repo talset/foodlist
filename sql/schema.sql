@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash VARCHAR(255) NULL,
   google_id     VARCHAR(255) NULL,
   name          VARCHAR(100) NOT NULL,
+  is_admin      TINYINT(1)   NOT NULL DEFAULT 0,
+  site_theme    VARCHAR(50)  NOT NULL DEFAULT 'default',
+  icon_theme    VARCHAR(50)  NOT NULL DEFAULT 'default',
   created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_users_email     (email),
@@ -85,14 +88,13 @@ CREATE TABLE IF NOT EXISTS products (
 -- stock
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS stock (
-  id           INT                                                    NOT NULL AUTO_INCREMENT,
-  product_id   INT                                                    NOT NULL,
-  household_id INT                                                    NOT NULL,
-  quantity     INT UNSIGNED                                           NOT NULL DEFAULT 0,
-  unit         VARCHAR(20)                                            NOT NULL DEFAULT 'unité',
-  status       ENUM('in_stock','low','out_of_stock','shopping_list')  NOT NULL DEFAULT 'in_stock',
-  updated_by   INT                                                    NOT NULL,
-  updated_at   DATETIME                                               NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  id           INT                                        NOT NULL AUTO_INCREMENT,
+  product_id   INT                                        NOT NULL,
+  household_id INT                                        NOT NULL,
+  quantity     INT UNSIGNED                               NOT NULL DEFAULT 0,
+  status       ENUM('in_stock','low','out_of_stock')      NOT NULL DEFAULT 'in_stock',
+  updated_by   INT                                        NOT NULL,
+  updated_at   DATETIME                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_stock_product_household (product_id, household_id),
   KEY idx_stock_household_id (household_id),
@@ -169,5 +171,12 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
   ('Condiments & Sauces',   1, 10),
   ('Hygiène / Entretien',   1, 11),
   ('Autre',                 1, 12);
+
+-- Migrations pour installations existantes
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin   TINYINT(1)  NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS site_theme VARCHAR(50) NOT NULL DEFAULT 'default';
+ALTER TABLE users ADD COLUMN IF NOT EXISTS icon_theme VARCHAR(50) NOT NULL DEFAULT 'default';
+ALTER TABLE stock DROP COLUMN IF EXISTS unit;
+ALTER TABLE stock MODIFY COLUMN IF EXISTS status ENUM('in_stock','low','out_of_stock') NOT NULL DEFAULT 'in_stock';
 
 SET foreign_key_checks = 1;

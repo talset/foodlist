@@ -1,3 +1,5 @@
+export DOCKER_API_VERSION=1.41
+
 .PHONY: build test dev run stop clean schema logs help
 
 # ── Validation ────────────────────────────────────────────────────────────────
@@ -26,6 +28,11 @@ dev:
 ## Build and start the production container
 run:
 	docker compose up -d --build
+	@URL=$$(grep NEXTAUTH_URL .env | cut -d= -f2) && \
+	echo "" && \
+	echo "  ✅ Foodlist lancé : $$URL" && \
+	echo "  👤 Créer le compte admin : $$URL/register" && \
+	echo ""
 
 ## Tail production logs
 logs:

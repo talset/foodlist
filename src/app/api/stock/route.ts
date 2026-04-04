@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { iconUrl } from '@/lib/icon'
 import type { ApiStockItem } from '@/types'
 
-const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock', 'shopping_list']
+const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock']
 
-function toApiStockItem(row: any): ApiStockItem {
+function toApiStockItem(row: any, theme?: string): ApiStockItem {
   return {
     id: row.id,
     product_id: row.product_id,
@@ -14,9 +15,8 @@ function toApiStockItem(row: any): ApiStockItem {
     category_id: row.category_id,
     category_name: row.category_name,
     ref_unit: row.ref_unit,
-    icon_url: row.icon_ref ? `/api/icons/${row.icon_ref}` : null,
+    icon_url: iconUrl(row.icon_ref, theme),
     quantity: row.quantity,
-    unit: row.unit,
     status: row.status,
     updated_at: row.updated_at instanceof Date
       ? row.updated_at.toISOString()
@@ -25,7 +25,7 @@ function toApiStockItem(row: any): ApiStockItem {
 }
 
 const SELECT_STOCK = `
-  SELECT s.id, s.product_id, s.quantity, s.unit, s.status, s.updated_at,
+  SELECT s.id, s.product_id, s.quantity, s.status, s.updated_at,
          p.name AS product_name, p.icon_ref, p.ref_unit,
          p.category_id, c.name AS category_name, c.sort_order
   FROM stock s
@@ -57,7 +57,8 @@ export async function GET(req: Request) {
     values
   )
 
-  return NextResponse.json({ items: (rows as any[]).map(toApiStockItem) })
+  const theme = session.user.iconTheme
+  return NextResponse.json({ items: (rows as any[]).map(r => toApiStockItem(r, theme)) })
 }
 
 export async function POST(req: Request) {
@@ -66,7 +67,7 @@ export async function POST(req: Request) {
   if (!session.user.householdId) return NextResponse.json({ error: 'NO_HOUSEHOLD' }, { status: 400 })
 
   const body = await req.json()
-  const { product_id, quantity = 0, unit = 'unité', status = 'in_stock' } = body ?? {}
+  const { product_id, quantity = 0, status = 'in_stock' } = body ?? {}
 
   if (!product_id || typeof product_id !== 'number') {
     return NextResponse.json({ error: 'INVALID_INPUT' }, { status: 400 })
@@ -85,8 +86,8 @@ export async function POST(req: Request) {
 
   try {
     const [result] = await pool.query<any>(
-      'INSERT INTO stock (product_id, household_id, quantity, unit, status, updated_by) VALUES (?, ?, ?, ?, ?, ?)',
-      [product_id, session.user.householdId, quantity, unit, status, session.user.id]
+      'INSERT INTO stock (product_id, household_id, quantity, status, updated_by) VALUES (?, ?, ?, ?, ?)',
+      [product_id, session.user.householdId, quantity, status, session.user.id]
     )
 
     const [rows] = await pool.query<any[]>(
@@ -94,7 +95,7 @@ export async function POST(req: Request) {
       [result.insertId]
     )
 
-    return NextResponse.json(toApiStockItem((rows as any[])[0]), { status: 201 })
+    return NextResponse.json(toApiStockItem((rows as any[])[0], session.user.iconTheme), { status: 201 })
   } catch (err: any) {
     if (err.code === 'ER_DUP_ENTRY') {
       return NextResponse.json({ error: 'STOCK_ITEM_EXISTS' }, { status: 409 })

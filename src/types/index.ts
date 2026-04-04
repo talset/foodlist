@@ -1,5 +1,19 @@
 import type { DefaultSession } from 'next-auth'
 
+// ── Theme types ───────────────────────────────────────────────────────────────
+
+export type SiteTheme = 'default' | 'dark' | 'pure' | 'light' | 'happy' | 'japon'
+export type IconTheme = string  // directory name under uploads/icons/
+
+export const SITE_THEMES: Record<SiteTheme, { label: string; description: string; bg: string; primary: string; fg: string }> = {
+  default: { label: 'Default',  description: 'Blanc classique',        bg: '#fff',    primary: '#2563eb', fg: '#111827' },
+  dark:    { label: 'Dark',     description: 'Mode sombre',            bg: '#0f172a', primary: '#60a5fa', fg: '#f1f5f9' },
+  pure:    { label: 'Pure',     description: 'Blanc épuré',            bg: '#fff',    primary: '#374151', fg: '#111827' },
+  light:   { label: 'Light',    description: 'Bleu ciel',              bg: '#f0f9ff', primary: '#0284c7', fg: '#0c4a6e' },
+  happy:   { label: 'Happy',    description: 'Orange chaleureux',      bg: '#fffbeb', primary: '#f97316', fg: '#1c1917' },
+  japon:   { label: 'Japon',    description: 'Rouge et blanc discret', bg: '#fafafa', primary: '#dc2626', fg: '#171717' },
+}
+
 // ── Database row types ────────────────────────────────────────────────────────
 
 export interface DbUser {
@@ -68,8 +82,7 @@ export interface DbStock {
   product_id: number
   household_id: number
   quantity: number
-  unit: string
-  status: 'in_stock' | 'low' | 'out_of_stock' | 'shopping_list'
+  status: 'in_stock' | 'low' | 'out_of_stock'
   updated_by: number
   updated_at: Date
 }
@@ -83,8 +96,8 @@ export interface ApiStockItem {
   ref_unit: string
   icon_url: string | null
   quantity: number
-  unit: string
-  status: 'in_stock' | 'low' | 'out_of_stock' | 'shopping_list'
+  status: 'in_stock' | 'low' | 'out_of_stock'
+  recipe_quantity?: number  // total quantity needed by active recipes (bubble, shopping list only)
   updated_at: string
 }
 
@@ -141,6 +154,9 @@ declare module 'next-auth' {
       id: number
       householdId: number | null
       householdRole: string | null
+      isAdmin: boolean
+      siteTheme: SiteTheme
+      iconTheme: string
     } & DefaultSession['user']
   }
 
@@ -154,5 +170,8 @@ declare module 'next-auth/jwt' {
     id: number
     householdId: number | null
     householdRole: string | null
+    isAdmin: boolean
+    siteTheme: SiteTheme
+    iconTheme: string
   }
 }

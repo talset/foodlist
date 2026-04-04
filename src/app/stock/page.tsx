@@ -7,14 +7,12 @@ const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
   low: 'Peu',
   out_of_stock: 'Épuisé',
-  shopping_list: 'Courses',
 }
 
 const STATUS_COLORS: Record<string, string> = {
   in_stock: '#16a34a',
   low: '#d97706',
   out_of_stock: '#dc2626',
-  shopping_list: '#2563eb',
 }
 
 function groupByCategory(items: ApiStockItem[]) {
@@ -79,7 +77,7 @@ export default function StockPage() {
       </div>
 
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-        {[null, 'in_stock', 'low', 'out_of_stock', 'shopping_list'].map(s => (
+        {[null, 'in_stock', 'low', 'out_of_stock'].map(s => (
           <button
             key={String(s)}
             onClick={() => setStatusFilter(s)}

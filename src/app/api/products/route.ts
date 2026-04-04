@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { iconUrl } from '@/lib/icon'
 import type { ApiProduct } from '@/types'
 
-function toApiProduct(row: any): ApiProduct {
+function toApiProduct(row: any, theme?: string): ApiProduct {
   return {
     id: row.id,
     name: row.name,
@@ -13,7 +14,7 @@ function toApiProduct(row: any): ApiProduct {
     ref_unit: row.ref_unit,
     ref_quantity: parseFloat(row.ref_quantity),
     icon_ref: row.icon_ref,
-    icon_url: row.icon_ref ? `/api/icons/${row.icon_ref}` : null,
+    icon_url: iconUrl(row.icon_ref, theme),
   }
 }
 
@@ -57,7 +58,8 @@ export async function GET(req: Request) {
     values
   )
 
-  return NextResponse.json({ products: rows.map(toApiProduct), total })
+  const theme = session.user.iconTheme
+  return NextResponse.json({ products: rows.map(r => toApiProduct(r, theme)), total })
 }
 
 export async function POST(req: Request) {
@@ -99,7 +101,7 @@ export async function POST(req: Request) {
       [result.insertId]
     )
 
-    return NextResponse.json(toApiProduct((rows as any[])[0]), { status: 201 })
+    return NextResponse.json(toApiProduct((rows as any[])[0], session.user.iconTheme), { status: 201 })
   } catch (err: any) {
     if (err.code === 'ER_DUP_ENTRY') {
       return NextResponse.json({ error: 'PRODUCT_EXISTS' }, { status: 409 })

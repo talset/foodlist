@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 import pool from '@/lib/db'
-import type { DbUser, DbHouseholdMember } from '@/types'
+import type { DbUser, DbHouseholdMember, SiteTheme } from '@/types'
 
 async function getHouseholdMembership(userId: number): Promise<{ householdId: number; householdRole: string } | null> {
   const [rows] = await pool.query<any[]>(
@@ -12,6 +12,19 @@ async function getHouseholdMembership(userId: number): Promise<{ householdId: nu
   )
   if (!rows.length) return null
   return { householdId: rows[0].household_id, householdRole: rows[0].role }
+}
+
+async function getUserPrefs(userId: number): Promise<{ isAdmin: boolean; siteTheme: SiteTheme; iconTheme: string }> {
+  const [rows] = await pool.query<any[]>(
+    'SELECT is_admin, site_theme, icon_theme FROM users WHERE id = ?',
+    [userId]
+  )
+  if (!rows.length) return { isAdmin: false, siteTheme: 'default', iconTheme: 'default' }
+  return {
+    isAdmin: Boolean(rows[0].is_admin),
+    siteTheme: (rows[0].site_theme as SiteTheme) ?? 'default',
+    iconTheme: rows[0].icon_theme ?? 'default',
+  }
 }
 
 export const authOptions: AuthOptions = {
@@ -114,12 +127,20 @@ export const authOptions: AuthOptions = {
         const membership = await getHouseholdMembership(token.id)
         token.householdId = membership?.householdId ?? null
         token.householdRole = membership?.householdRole ?? null
+        const prefs = await getUserPrefs(token.id)
+        token.isAdmin = prefs.isAdmin
+        token.siteTheme = prefs.siteTheme
+        token.iconTheme = prefs.iconTheme
       }
 
       if (trigger === 'update') {
         const membership = await getHouseholdMembership(token.id)
         token.householdId = membership?.householdId ?? null
         token.householdRole = membership?.householdRole ?? null
+        const prefs = await getUserPrefs(token.id)
+        token.isAdmin = prefs.isAdmin
+        token.siteTheme = prefs.siteTheme
+        token.iconTheme = prefs.iconTheme
       }
 
       return token
@@ -129,6 +150,9 @@ export const authOptions: AuthOptions = {
       session.user.id = token.id
       session.user.householdId = token.householdId
       session.user.householdRole = token.householdRole
+      session.user.isAdmin = token.isAdmin ?? false
+      session.user.siteTheme = token.siteTheme ?? 'default'
+      session.user.iconTheme = token.iconTheme ?? 'default'
       return session
     },
   },
