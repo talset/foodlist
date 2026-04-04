@@ -2,8 +2,9 @@ jest.mock('next-auth', () => ({ getServerSession: jest.fn() }))
 jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 
 import { GET, POST } from '@/app/api/shopping/recipes/route'
+import { DELETE } from '@/app/api/shopping/recipes/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_RECIPE_ID, TEST_PRODUCT_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_RECIPE_ID } from './helpers'
 
 beforeEach(() => mockSession())
 
@@ -49,7 +50,7 @@ describe('GET /api/shopping/recipes', () => {
 })
 
 describe('POST /api/shopping/recipes', () => {
-  it('adds recipe and returns 201 with ingredients_added', async () => {
+  it('adds recipe and returns 201 with ApiShoppingRecipe shape', async () => {
     const res = await POST(jsonReq('/api/shopping/recipes', 'POST', {
       recipe_id: TEST_RECIPE_ID,
       multiplier: 1,
@@ -57,38 +58,18 @@ describe('POST /api/shopping/recipes', () => {
     expect(res.status).toBe(201)
     const data = await res.json()
     expect(data.recipe_id).toBe(TEST_RECIPE_ID)
-    expect(data.ingredients_added).toBe(1)
+    expect(data.recipe_name).toBe('Test Recipe')
     expect(data.multiplier).toBe(1)
+    expect(data.ingredient_count).toBe(1)
   })
 
-  it('creates stock entry with status=shopping_list', async () => {
+  it('does not modify stock table', async () => {
     await POST(jsonReq('/api/shopping/recipes', 'POST', { recipe_id: TEST_RECIPE_ID, multiplier: 1 }))
-    const [[row]] = await pool.query<any[]>(
-      'SELECT status FROM stock WHERE product_id = ? AND household_id = ?',
-      [TEST_PRODUCT_ID, TEST_HOUSEHOLD_ID]
+    const [[count]] = await pool.query<any[]>(
+      'SELECT COUNT(*) AS n FROM stock WHERE household_id = ?',
+      [TEST_HOUSEHOLD_ID]
     )
-    expect(row.status).toBe('shopping_list')
-  })
-
-  it('stock quantity = ingredient quantity × multiplier (rounded)', async () => {
-    // Seeded ingredient has quantity=2, multiplier=2 → expected 4
-    await POST(jsonReq('/api/shopping/recipes', 'POST', { recipe_id: TEST_RECIPE_ID, multiplier: 2 }))
-    const [[row]] = await pool.query<any[]>(
-      'SELECT quantity FROM stock WHERE product_id = ? AND household_id = ?',
-      [TEST_PRODUCT_ID, TEST_HOUSEHOLD_ID]
-    )
-    expect(row.quantity).toBe(4)
-  })
-
-  it('calling twice accumulates quantity', async () => {
-    await POST(jsonReq('/api/shopping/recipes', 'POST', { recipe_id: TEST_RECIPE_ID, multiplier: 1 }))
-    await POST(jsonReq('/api/shopping/recipes', 'POST', { recipe_id: TEST_RECIPE_ID, multiplier: 1 }))
-    const [[row]] = await pool.query<any[]>(
-      'SELECT quantity FROM stock WHERE product_id = ? AND household_id = ?',
-      [TEST_PRODUCT_ID, TEST_HOUSEHOLD_ID]
-    )
-    // 2 × 1 + 2 × 1 = 4
-    expect(row.quantity).toBe(4)
+    expect(count.n).toBe(0)
   })
 
   it('returns 400 RECIPE_NOT_FOUND for unknown recipe', async () => {
@@ -106,5 +87,30 @@ describe('POST /api/shopping/recipes', () => {
   it('returns 401 without session', async () => {
     mockNoSession()
     expect((await POST(jsonReq('/api/shopping/recipes', 'POST', {}))).status).toBe(401)
+  })
+})
+
+describe('DELETE /api/shopping/recipes/[id]', () => {
+  it('removes recipe from list and returns 204', async () => {
+    const created = await (await POST(jsonReq('/api/shopping/recipes', 'POST', {
+      recipe_id: TEST_RECIPE_ID,
+    }))).json()
+
+    const res = await DELETE(
+      makeReq(`/api/shopping/recipes/${created.id}`, { method: 'DELETE' }),
+      { params: { id: String(created.id) } }
+    )
+    expect(res.status).toBe(204)
+
+    const list = await (await GET(makeReq('/api/shopping/recipes'))).json()
+    expect(list.items).toEqual([])
+  })
+
+  it('returns 404 for unknown id', async () => {
+    const res = await DELETE(
+      makeReq('/api/shopping/recipes/999999', { method: 'DELETE' }),
+      { params: { id: '999999' } }
+    )
+    expect(res.status).toBe(404)
   })
 })

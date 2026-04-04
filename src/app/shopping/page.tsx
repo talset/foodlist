@@ -77,7 +77,7 @@ export default function ShoppingPage() {
 
               {item.quantity > 0 && (
                 <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-                  {item.quantity} {item.unit}
+                  {item.quantity} {item.ref_unit}
                 </span>
               )}
 

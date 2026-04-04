@@ -132,7 +132,7 @@ export default function StockPage() {
                     onClick={() => { setEditingId(item.id); setEditQty(item.quantity) }}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#374151' }}
                   >
-                    {item.quantity} {item.unit}
+                    {item.quantity} {item.ref_unit}
                   </button>
                 )}
 
