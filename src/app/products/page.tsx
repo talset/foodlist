@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import type { ApiProduct, ApiCategory } from '@/types'
 
@@ -10,15 +10,20 @@ export default function ProductsPage() {
   const [q, setQ] = useState('')
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
+  const [stockIds, setStockIds] = useState<Set<number>>(new Set())
+  const [adding, setAdding] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     fetch('/api/categories')
       .then(r => r.json())
       .then(setCategories)
+    fetch('/api/stock')
+      .then(r => r.json())
+      .then(d => setStockIds(new Set((d.items ?? []).map((i: any) => i.product_id as number))))
   }, [])
 
   const fetchProducts = useCallback(() => {
-    const params = new URLSearchParams({ limit: '100' })
+    const params = new URLSearchParams({ limit: '200' })
     if (q) params.set('q', q)
     if (categoryId) params.set('category_id', String(categoryId))
     setLoading(true)
@@ -33,21 +38,67 @@ export default function ProductsPage() {
     return () => clearTimeout(t)
   }, [fetchProducts, q])
 
+  async function addToStock(productId: number) {
+    setAdding(prev => new Set(prev).add(productId))
+    const res = await fetch('/api/stock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_id: productId, quantity: 0, status: 'in_stock' }),
+    })
+    if (res.ok) {
+      setStockIds(prev => new Set(prev).add(productId))
+    }
+    setAdding(prev => { const s = new Set(prev); s.delete(productId); return s })
+  }
+
+  const toAddCount = useMemo(
+    () => products.filter(p => !stockIds.has(p.id)).length,
+    [products, stockIds]
+  )
+
+  async function addAllToStock() {
+    const toAdd = products.filter(p => !stockIds.has(p.id))
+    for (const p of toAdd) {
+      await addToStock(p.id)
+    }
+  }
+
   return (
     <main style={{ maxWidth: 640, margin: '0 auto', padding: '1rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>Produits</h1>
-        <Link href="/products/new" style={{
-          padding: '0.5rem 1rem',
-          background: '#3182ce',
-          color: '#fff',
-          borderRadius: 8,
-          textDecoration: 'none',
-          fontSize: '0.9rem',
-          fontWeight: 600,
-        }}>
-          + Ajouter
-        </Link>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.5rem' }}>
+        <h1 style={{ margin: 0 }}>Produits</h1>
+        <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+          {toAddCount > 0 && (
+            <button
+              onClick={addAllToStock}
+              style={{
+                padding: '0.5rem 0.875rem',
+                background: 'var(--bg2)',
+                color: 'var(--fg)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              + Tout ajouter au stock ({toAddCount})
+            </button>
+          )}
+          <Link href="/products/new" style={{
+            padding: '0.5rem 1rem',
+            background: 'var(--primary)',
+            color: 'var(--primary-fg)',
+            borderRadius: 8,
+            textDecoration: 'none',
+            fontSize: '0.9rem',
+            fontWeight: 600,
+            whiteSpace: 'nowrap',
+          }}>
+            + Nouveau
+          </Link>
+        </div>
       </div>
 
       {/* Search */}
@@ -59,16 +110,19 @@ export default function ProductsPage() {
         style={{
           width: '100%',
           padding: '0.625rem 0.75rem',
-          border: '1px solid #e2e8f0',
+          border: '1px solid var(--border)',
           borderRadius: 8,
           fontSize: '1rem',
           marginBottom: '0.75rem',
           boxSizing: 'border-box',
+          background: 'var(--input-bg)',
+          color: 'var(--fg)',
+          outline: 'none',
         }}
       />
 
       {/* Category chips */}
-      <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'none' }}>
         <button
           onClick={() => setCategoryId(null)}
           style={{ ...chipStyle, ...(categoryId === null ? chipActiveStyle : {}) }}
@@ -87,60 +141,86 @@ export default function ProductsPage() {
       </div>
 
       {/* Product list */}
-      {loading && <p style={{ color: '#999', textAlign: 'center' }}>Chargement…</p>}
+      {loading && <p style={{ color: 'var(--fg2)', textAlign: 'center' }}>Chargement…</p>}
 
       {!loading && products.length === 0 && (
-        <p style={{ color: '#999', textAlign: 'center', marginTop: '2rem' }}>
+        <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>
           Aucun produit trouvé.
         </p>
       )}
 
-      {products.map(p => (
-        <div key={p.id} style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '0.75rem 0',
-          borderBottom: '1px solid #e2e8f0',
-        }}>
-          <div style={{
-            width: 40,
-            height: 40,
-            borderRadius: 8,
-            background: '#f7fafc',
-            border: '1px solid #e2e8f0',
+      {products.map(p => {
+        const inStock = stockIds.has(p.id)
+        const isAdding = adding.has(p.id)
+        return (
+          <div key={p.id} style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
+            gap: '0.75rem',
+            padding: '0.625rem 0',
+            borderBottom: '1px solid var(--border)',
           }}>
-            {p.icon_url
-              ? <img src={p.icon_url} width={32} height={32} alt="" />
-              : <span style={{ color: '#ccc' }}>?</span>
-            }
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {p.name}
+            <div style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {p.icon_url
+                ? <img src={p.icon_url} width={36} height={36} alt="" />
+                : <span style={{ color: 'var(--border)', fontSize: '1.5rem' }}>·</span>
+              }
             </div>
-            <div style={{ fontSize: '0.8rem', color: '#666' }}>
-              {p.category_name} · {p.ref_quantity} {p.ref_unit}
+
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--fg)' }}>
+                {p.name}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--fg2)' }}>
+                {p.category_name} · {p.ref_quantity} {p.ref_unit}
+              </div>
             </div>
+
+            {inStock ? (
+              <span style={{
+                fontSize: '0.75rem', color: '#16a34a', fontWeight: 600,
+                padding: '0.25rem 0.625rem', borderRadius: 9999,
+                background: '#16a34a18', whiteSpace: 'nowrap', flexShrink: 0,
+              }}>
+                Dans le stock
+              </span>
+            ) : (
+              <button
+                onClick={() => addToStock(p.id)}
+                disabled={isAdding}
+                style={{
+                  padding: '0.25rem 0.625rem',
+                  background: 'var(--primary)', color: 'var(--primary-fg)',
+                  border: 'none', borderRadius: 6,
+                  fontSize: '0.8125rem', fontWeight: 600,
+                  cursor: isAdding ? 'not-allowed' : 'pointer',
+                  opacity: isAdding ? 0.6 : 1,
+                  flexShrink: 0, whiteSpace: 'nowrap',
+                }}
+              >
+                {isAdding ? '…' : '+ Stock'}
+              </button>
+            )}
+
+            <Link
+              href={`/products/${p.id}/edit`}
+              style={{ fontSize: '0.8125rem', color: 'var(--fg2)', textDecoration: 'none', flexShrink: 0 }}
+            >
+              ✎
+            </Link>
           </div>
-          <Link href={`/products/${p.id}/edit`} style={{ fontSize: '0.85rem', color: '#3182ce', textDecoration: 'none', flexShrink: 0 }}>
-            Modifier
-          </Link>
-        </div>
-      ))}
+        )
+      })}
     </main>
   )
 }
 
 const chipStyle: React.CSSProperties = {
   padding: '0.3rem 0.75rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 999,
-  background: '#f7fafc',
+  background: 'var(--bg2)',
+  color: 'var(--fg2)',
   cursor: 'pointer',
   fontSize: '0.85rem',
   whiteSpace: 'nowrap',
@@ -148,7 +228,7 @@ const chipStyle: React.CSSProperties = {
 }
 
 const chipActiveStyle: React.CSSProperties = {
-  background: '#3182ce',
-  color: '#fff',
-  border: '1px solid #3182ce',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
+  border: '1px solid var(--primary)',
 }

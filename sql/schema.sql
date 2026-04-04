@@ -172,11 +172,11 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
   ('Hygiène / Entretien',   1, 11),
   ('Autre',                 1, 12);
 
--- Migrations pour installations existantes
-ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin   TINYINT(1)  NOT NULL DEFAULT 0;
-ALTER TABLE users ADD COLUMN IF NOT EXISTS site_theme VARCHAR(50) NOT NULL DEFAULT 'default';
-ALTER TABLE users ADD COLUMN IF NOT EXISTS icon_theme VARCHAR(50) NOT NULL DEFAULT 'default';
-ALTER TABLE stock DROP COLUMN IF EXISTS unit;
-ALTER TABLE stock MODIFY COLUMN IF EXISTS status ENUM('in_stock','low','out_of_stock') NOT NULL DEFAULT 'in_stock';
+-- Note migrations : ce script est idempotent pour les fresh installs via CREATE TABLE IF NOT EXISTS.
+-- Pour mettre à jour une installation existante, exécuter manuellement :
+--   ALTER TABLE stock DROP COLUMN unit;  (si la colonne unit existe encore)
+--   ALTER TABLE users ADD COLUMN is_admin TINYINT(1) NOT NULL DEFAULT 0;  (si manquant)
+--   ALTER TABLE users ADD COLUMN site_theme VARCHAR(50) NOT NULL DEFAULT 'default';
+--   ALTER TABLE users ADD COLUMN icon_theme VARCHAR(50) NOT NULL DEFAULT 'default';
 
 SET foreign_key_checks = 1;

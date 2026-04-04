@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { SITE_THEMES } from '@/types'
 import type { SiteTheme } from '@/types'
@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const [iconTheme, setIconTheme] = useState('default')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [themeIcons, setThemeIcons] = useState<Record<string, string[]>>({})
 
   useEffect(() => {
     fetch('/api/profile')
@@ -35,6 +36,19 @@ export default function ProfilePage() {
         setIconTheme(data.iconTheme)
       })
   }, [])
+
+  const loadThemePreview = useCallback((theme: string) => {
+    if (themeIcons[theme]) return
+    fetch(`/api/icons?theme=${theme}`)
+      .then(r => r.json())
+      .then(data => {
+        const icons: string[] = (data.icons ?? [])
+          .map((i: any) => typeof i === 'string' ? i : i.name)
+          .filter(Boolean)
+          .slice(0, 8)
+        setThemeIcons(prev => ({ ...prev, [theme]: icons }))
+      })
+  }, [themeIcons])
 
   async function handleSave() {
     setSaving(true)
@@ -170,28 +184,55 @@ export default function ProfilePage() {
           <h2 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg2)', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
             Pack d&apos;icônes
           </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {profile.availableIconThemes.map(t => {
               const selected = iconTheme === t
+              const preview = themeIcons[t] ?? []
               return (
-                <button
-                  key={t}
-                  onClick={() => setIconTheme(t)}
-                  style={{
-                    padding: '0.625rem 0.75rem',
-                    border: selected ? '2px solid var(--primary)' : '1px solid var(--border)',
-                    borderRadius: 8,
-                    background: selected ? 'color-mix(in srgb, var(--primary) 10%, transparent)' : 'var(--bg)',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    fontSize: '0.875rem',
-                    color: 'var(--fg)',
-                    fontWeight: selected ? 600 : 400,
-                  }}
-                >
-                  {t === 'default' ? 'Par défaut' : t}
-                  {selected && <span style={{ marginLeft: '0.5rem', color: 'var(--primary)', fontSize: '0.75rem' }}>✓ Actif</span>}
-                </button>
+                <div key={t}>
+                  <button
+                    onClick={() => { setIconTheme(t); loadThemePreview(t) }}
+                    style={{
+                      width: '100%',
+                      padding: '0.625rem 0.75rem',
+                      border: selected ? '2px solid var(--primary)' : '1px solid var(--border)',
+                      borderRadius: 8,
+                      background: selected ? 'color-mix(in srgb, var(--primary) 10%, transparent)' : 'var(--bg)',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      fontSize: '0.875rem',
+                      color: 'var(--fg)',
+                      fontWeight: selected ? 600 : 400,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <span>{t === 'default' ? 'Par défaut' : t.charAt(0).toUpperCase() + t.slice(1)}</span>
+                    {selected && <span style={{ color: 'var(--primary)', fontSize: '0.75rem' }}>✓ Actif</span>}
+                  </button>
+                  {selected && (
+                    <div style={{
+                      display: 'flex', gap: '0.375rem', flexWrap: 'wrap',
+                      padding: '0.5rem 0.625rem',
+                      background: 'var(--bg2)', borderRadius: '0 0 8px 8px',
+                      border: '1px solid var(--border)', borderTop: 'none',
+                    }}>
+                      {preview.length === 0 && (
+                        <button
+                          type="button"
+                          onClick={() => loadThemePreview(t)}
+                          style={{ fontSize: '0.75rem', color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                        >
+                          Charger aperçu
+                        </button>
+                      )}
+                      {preview.map(filename => (
+                        <img key={filename} src={`/api/icons/${filename}?theme=${t}`} width={32} height={32} alt={filename} title={filename.replace(/\.[^.]+$/, '')} />
+                      ))}
+                    </div>
+                  )}
+                </div>
               )
             })}
           </div>

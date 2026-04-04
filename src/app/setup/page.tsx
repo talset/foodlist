@@ -29,13 +29,19 @@ function SetupForm() {
 
     if (!res.ok) {
       const data = await res.json()
-      setError(data.error === 'ALREADY_IN_HOUSEHOLD' ? 'Vous appartenez déjà à un foyer.' : 'Une erreur est survenue.')
+      if (data.error === 'ALREADY_IN_HOUSEHOLD') {
+        // JWT is stale — refresh and redirect
+        await update()
+        router.replace('/')
+        return
+      }
+      setError('Une erreur est survenue.')
       setLoading(false)
       return
     }
 
     await update()
-    router.push('/')
+    router.replace('/')
   }
 
   async function handleJoin(e: React.FormEvent) {

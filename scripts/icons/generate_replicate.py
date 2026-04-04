@@ -24,14 +24,20 @@ import requests
 import replicate
 from PIL import Image
 
-# Suppress C-level onnxruntime CUDA warnings by redirecting fd 2 during rembg import
-_devnull = os.open(os.devnull, os.O_WRONLY)
-_saved_stderr = os.dup(2)
-os.dup2(_devnull, 2)
-os.close(_devnull)
-from rembg import remove as rembg_remove
-os.dup2(_saved_stderr, 2)
-os.close(_saved_stderr)
+from rembg import remove as _rembg_remove
+
+
+def rembg_remove(data):
+    """Run rembg with C-level stderr suppressed (onnxruntime CUDA warning on first call)."""
+    devnull = os.open(os.devnull, os.O_WRONLY)
+    saved = os.dup(2)
+    os.dup2(devnull, 2)
+    os.close(devnull)
+    try:
+        return _rembg_remove(data)
+    finally:
+        os.dup2(saved, 2)
+        os.close(saved)
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -63,8 +69,8 @@ def process_image(image_bytes, size=128, padding_ratio=0.10):
     transparent = rembg_remove(image_bytes)
     img = Image.open(BytesIO(transparent)).convert("RGBA")
 
-    # Crop to actual subject bounding box
-    bbox = img.getbbox()
+    # Crop to bounding box of non-transparent pixels (alpha channel only)
+    bbox = img.getchannel('A').getbbox()
     if bbox:
         img = img.crop(bbox)
 

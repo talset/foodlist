@@ -41,7 +41,7 @@ interface AdminHousehold {
   members: HouseholdMember[]
 }
 
-type Tab = 'overview' | 'users' | 'households'
+type Tab = 'overview' | 'users' | 'households' | 'catalogue'
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
@@ -52,6 +52,7 @@ export default function AdminPage() {
   const [households, setHouseholds] = useState<AdminHousehold[]>([])
   const [newHouseholdName, setNewHouseholdName] = useState('')
   const [actionMsg, setActionMsg] = useState('')
+  const [seeding, setSeeding] = useState(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -141,6 +142,21 @@ export default function AdminPage() {
     }
   }
 
+  async function seedCatalogue() {
+    if (!confirm('Importer le catalogue de base (177 produits) ? Les produits existants seront ignorés.')) return
+    setSeeding(true)
+    setActionMsg('')
+    const r = await fetch('/api/admin/seed', { method: 'POST' })
+    const data = await r.json()
+    if (r.ok) {
+      await loadStats()
+      setActionMsg(`Catalogue importé : ${data.created} ajoutés, ${data.skipped} ignorés`)
+    } else {
+      setActionMsg(`Erreur : ${data.error}`)
+    }
+    setSeeding(false)
+  }
+
   async function createHousehold() {
     if (!newHouseholdName.trim()) return
     setActionMsg('')
@@ -174,6 +190,7 @@ export default function AdminPage() {
     { id: 'overview', label: 'Vue d\'ensemble' },
     { id: 'users', label: 'Utilisateurs' },
     { id: 'households', label: 'Foyers' },
+    { id: 'catalogue', label: 'Catalogue' },
   ]
 
   return (
@@ -295,6 +312,46 @@ export default function AdminPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Catalogue */}
+      {tab === 'catalogue' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            borderRadius: 10,
+            padding: '1rem',
+          }}>
+            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
+              Catalogue de base
+            </div>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '1rem' }}>
+              Importe 177 produits alimentaires courants (Fruits & Légumes, Viandes, Épicerie…).
+              Les produits déjà présents sont ignorés.
+            </div>
+            <button
+              onClick={seedCatalogue}
+              disabled={seeding}
+              style={{
+                padding: '0.5rem 1.25rem',
+                background: 'var(--primary)',
+                color: 'var(--primary-fg)',
+                border: 'none',
+                borderRadius: 8,
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                cursor: seeding ? 'not-allowed' : 'pointer',
+                opacity: seeding ? 0.7 : 1,
+              }}
+            >
+              {seeding ? 'Import en cours…' : 'Importer le catalogue'}
+            </button>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--fg2)' }}>
+            {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} actuellement dans la base.`}
+          </div>
         </div>
       )}
 

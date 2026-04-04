@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
 import { iconUrl } from '@/lib/icon'
+import { broadcast } from '@/lib/sse'
 import type { ApiStockItem } from '@/types'
 
 const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock']
@@ -95,6 +96,7 @@ export async function POST(req: Request) {
       [result.insertId]
     )
 
+    broadcast(session.user.householdId, 'stock_updated')
     return NextResponse.json(toApiStockItem((rows as any[])[0], session.user.iconTheme), { status: 201 })
   } catch (err: any) {
     if (err.code === 'ER_DUP_ENTRY') {

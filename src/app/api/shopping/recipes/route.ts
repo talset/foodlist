@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { broadcast } from '@/lib/sse'
 import type { ApiShoppingRecipe } from '@/types'
 
 function toApiShoppingRecipe(row: any): ApiShoppingRecipe {
@@ -72,5 +73,6 @@ export async function POST(req: Request) {
     [result.insertId]
   )
 
+  broadcast(session.user.householdId, 'shopping_updated')
   return NextResponse.json(toApiShoppingRecipe(row), { status: 201 })
 }

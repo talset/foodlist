@@ -38,7 +38,7 @@
 
 // ── Type definitions ──────────────────────────────────────────────────────────
 
-export type SiteTheme = 'default' | 'dark' | 'pure' | 'light' | 'happy' | 'japon'
+export type SiteTheme = 'default' | 'dark' | 'pure' | 'light' | 'happy' | 'japon' | 'girly'
 
 export interface ThemeVars {
   '--bg': string
@@ -180,6 +180,25 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#fafafa',
       '--input-bg':      '#fff',
       '--shadow':        'rgba(220, 38, 38, 0.1)',
+    },
+  },
+
+  girly: {
+    label: 'Girly',
+    description: 'Rose kawaii',
+    preview: { bg: '#fff0f6', primary: '#db2777', fg: '#1e0a12' },
+    vars: {
+      '--bg':            '#fff0f6',
+      '--bg2':           '#fce7f3',
+      '--fg':            '#1e0a12',
+      '--fg2':           '#9d174d',
+      '--primary':       '#db2777',
+      '--primary-hover': '#be185d',
+      '--primary-fg':    '#fff',
+      '--border':        '#fbcfe8',
+      '--nav-bg':        '#fce7f3',
+      '--input-bg':      '#fff0f6',
+      '--shadow':        'rgba(219, 39, 119, 0.12)',
     },
   },
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { broadcast } from '@/lib/sse'
 
 // POST /api/shopping/restock
 // Marks all out_of_stock items in the household as in_stock in a single query.
@@ -18,5 +19,6 @@ export async function POST(_req: Request) {
     [session.user.id, session.user.householdId]
   )
 
+  broadcast(session.user.householdId, 'stock_updated')
   return NextResponse.json({ restocked: result.affectedRows })
 }

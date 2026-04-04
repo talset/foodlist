@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import type { ApiStockItem } from '@/types'
+import { useSSE } from '@/hooks/useSSE'
 
 interface ActiveRecipe {
   id: number
@@ -19,7 +20,7 @@ export default function ShoppingPage() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
   const [recipeFilter, setRecipeFilter] = useState<number | null>(null)
 
-  useEffect(() => {
+  const load = useCallback(() => {
     fetch('/api/shopping')
       .then(r => r.json())
       .then(d => {
@@ -28,6 +29,9 @@ export default function ShoppingPage() {
         setLoading(false)
       })
   }, [])
+
+  useEffect(() => { load() }, [load])
+  useSSE(['stock_updated', 'shopping_updated'], load)
 
   const categories = useMemo(() => {
     const seen = new Set<string>()

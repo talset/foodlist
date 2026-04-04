@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import type { ApiStockItem } from '@/types'
+import { useSSE } from '@/hooks/useSSE'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -44,6 +45,7 @@ export default function StockPage() {
 
   useEffect(() => { load() }, [load])
   useEffect(() => { setCategoryFilter(null) }, [statusFilter])
+  useSSE(['stock_updated'], load)
 
   const categories = useMemo(() => {
     const seen = new Set<string>()

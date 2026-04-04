@@ -223,6 +223,17 @@ Gestion des catégories — **réservée aux admins globaux** :
 
 ### F3 — Statut produits (global au foyer)
 
+#### Sélection des produits du foyer
+
+Le stock d'un foyer est un **sous-ensemble du catalogue global**. Chaque foyer choisit les produits qu'il souhaite suivre ; les produits des autres foyers ne sont jamais visibles.
+
+**Flux de sélection (page Produits) :**
+- Chaque ligne produit affiche un bouton **"+ Stock"** si le produit n'est pas encore suivi par le foyer
+- Si le produit est déjà dans le stock, un badge **"Dans le stock"** (vert) remplace le bouton
+- Bouton **"+ Tout ajouter au stock (N)"** en en-tête : ajoute en un clic tous les produits visibles (filtrés) qui ne sont pas encore dans le stock du foyer
+- Le filtre catégorie de la page Produits permet d'ajouter une catégorie entière en un clic
+- [ ] Lors de l'ajout, le produit est créé dans le stock avec `quantity = 0`, `status = in_stock`
+
 Le statut de chaque produit est global au foyer, indépendamment des recettes ou listes.
 
 **Trois statuts disponibles :**

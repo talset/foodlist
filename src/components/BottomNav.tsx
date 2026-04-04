@@ -123,24 +123,10 @@ export default function BottomNav() {
           position: 'relative',
         }}
       >
-        <span style={{ position: 'relative', display: 'inline-flex' }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={profileActive ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          {session?.user?.isAdmin && (
-            <span style={{
-              position: 'absolute',
-              top: -2,
-              right: -2,
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: '#ef4444',
-              border: '1.5px solid var(--nav-bg)',
-            }} />
-          )}
-        </span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={profileActive ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
         <span style={{
           fontSize: '0.625rem',
           fontWeight: profileActive ? 600 : 400,

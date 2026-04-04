@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { broadcast } from '@/lib/sse'
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
@@ -20,5 +21,6 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
   }
 
+  broadcast(session.user.householdId, 'shopping_updated')
   return new Response(null, { status: 204 })
 }

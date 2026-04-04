@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { broadcast } from '@/lib/sse'
 import type { ApiStockItem } from '@/types'
 
 const VALID_STATUSES = ['in_stock', 'low', 'out_of_stock']
@@ -83,6 +84,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   }
 
   const [rows] = await pool.query<any[]>(`${SELECT_STOCK} WHERE s.id = ?`, [id])
+  broadcast(session.user.householdId, 'stock_updated')
   return NextResponse.json(toApiStockItem((rows as any[])[0]))
 }
 
@@ -103,5 +105,6 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
   }
 
+  broadcast(session.user.householdId, 'stock_updated')
   return new Response(null, { status: 204 })
 }
