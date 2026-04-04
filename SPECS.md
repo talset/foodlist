@@ -697,24 +697,6 @@ Après sauvegarde, le JWT est rafraîchi via `update()` de `useSession()` pour q
 
 ### F12 — Idées & fonctionnalités futures
 
-Ces fonctionnalités ne sont pas implémentées mais méritent d'être documentées pour orienter les développements futurs.
-
-#### Seuil de stock faible par produit
-
-Permettre de définir un seuil (`low_threshold`) par produit par foyer. Quand `quantity ≤ low_threshold`, le statut passe automatiquement à `low`. Actuellement le statut `low` est passé manuellement. Nécessite une colonne `low_threshold INT NULL` dans la table `stock`.
-
-#### Lien de liste de courses en lecture seule
-
-Générer un lien tokenisé (`/shopping/public/<token>`) qui affiche la liste de courses du foyer sans connexion requise. Utile pour envoyer à un tiers qui fait les courses (partenaire, ami) sans lui créer un compte.
-
-#### Tags sur les recettes
-
-Ajouter une table `recipe_tags` (id, recipe_id, tag VARCHAR). Permettre de filtrer les recettes par tag depuis la liste. Tags exemples : "végétarien", "rapide", "weekend", "batch cooking".
-
-#### Action "Tout restockér"
-
-Un bouton dans la liste de courses qui marque tous les articles `out_of_stock` comme `in_stock` en une seule action. Utile après un retour de courses complet. Le SSE propage la mise à jour à tous les appareils.
-
 #### Paramètres globaux de l'instance
 
 Page admin pour configurer : nom de l'application, logo, couleur primaire de base. Stocké dans une table `settings` (clé/valeur).
