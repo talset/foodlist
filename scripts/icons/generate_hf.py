@@ -3,7 +3,7 @@ Generate icons using HuggingFace InferenceClient (FLUX.1-schnell)
 Free tier: ~100-200 requests/day with a free HF account.
 Get your token at https://huggingface.co/settings/tokens
 
-Install: pip install huggingface_hub pillow tqdm
+Install: pip install huggingface_hub pillow rembg tqdm
 
 Usage:
   HF_TOKEN=hf_xxx python generate_hf.py                          # default theme (icons-detailed.md → uploads/icons/default/)
@@ -23,6 +23,7 @@ from io import BytesIO
 
 from huggingface_hub import InferenceClient
 from PIL import Image
+from rembg import remove as rembg_remove
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -38,33 +39,37 @@ SLEEP = 2
 RETRIES = 3
 
 
-def build_prompt(icon):
-    return f"{icon['desc'].strip()}, {STYLE}"
+def build_prompt(icon, style):
+    return f"{icon['desc'].strip()}, {style}"
 
 # =========================
 # GENERATION
 # =========================
 
-def resize_to_128(pil_image):
-    img = pil_image.convert("RGBA").resize((128, 128), Image.LANCZOS)
+def process_image(pil_image):
+    """Remove background with rembg, then resize to 128×128 transparent PNG."""
+    img_bytes = BytesIO()
+    pil_image.save(img_bytes, format="PNG")
+    transparent = rembg_remove(img_bytes.getvalue())
+    img = Image.open(BytesIO(transparent)).convert("RGBA").resize((128, 128), Image.LANCZOS)
     out = BytesIO()
     img.save(out, format="PNG")
     return out.getvalue()
 
 
-def generate_icon(client, icon, output_dir):
+def generate_icon(client, icon, output_dir, style):
     output_path = output_dir / icon["filename"]
 
     if output_path.exists():
         return "skip"
 
-    prompt = build_prompt(icon)
+    prompt = build_prompt(icon, style)
 
     for attempt in range(RETRIES):
         try:
             image = client.text_to_image(prompt, model=MODEL)
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_bytes(resize_to_128(image))
+            output_path.write_bytes(process_image(image))
             return "ok"
 
         except Exception as e:
@@ -92,7 +97,7 @@ def main():
     output_dir = resolve_output_dir(args.theme)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    icons, spec = load_icons_for_args(args)
+    icons, spec, style = load_icons_for_args(args)
     icons = filter_icons(icons, args)
 
     already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
@@ -109,7 +114,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(client, icon, output_dir)
+        result = generate_icon(client, icon, output_dir, style)
         if result == "ok":
             success += 1
         elif result == "skip":

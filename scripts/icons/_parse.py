@@ -7,14 +7,24 @@ from pathlib import Path
 _ROOT = Path(__file__).parent.parent.parent
 _SEED = _ROOT / "seed"
 
-DEFAULT_SPEC = "icons-detailed.md"
 DEFAULT_THEME = "default"
 
+# Fallback style used when no blockquote is found in the spec
 STYLE = (
-    "cute flat design sticker icon, soft pastel illustration, white background, "
+    "cute flat design sticker icon, soft pastel illustration, clean white background, "
     "plump rounded friendly shapes, gentle muted pastel colors, no shadow, "
-    "cozy charming style, clean lines, no text, no logo"
+    "cozy charming style, clean lines, no text, no logo, isolated subject"
 )
+
+
+def extract_style(markdown):
+    """Extract the style prompt from a spec blockquote (> *...*).
+    Falls back to the global STYLE constant if none is found."""
+    for line in markdown.split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("> *") and stripped.endswith("*"):
+            return stripped[3:-1]
+    return STYLE
 
 
 def slugify(text):
@@ -79,17 +89,20 @@ def resolve_spec(spec_arg):
     return p  # relative to cwd, caller will get an error if missing
 
 
-def load_icons(spec=DEFAULT_SPEC):
+def load_icons(spec):
     spec_file = resolve_spec(spec)
     if not spec_file.exists():
         raise SystemExit(f"❌ Spec file not found: {spec_file}")
-    return extract_icons(spec_file.read_text(encoding="utf-8"))
+    markdown = spec_file.read_text(encoding="utf-8")
+    return extract_icons(markdown), extract_style(markdown)
 
 
 def load_icons_for_args(args):
-    """Load icons using the theme + spec args combo."""
+    """Load icons using the theme + spec args combo.
+    Returns (icons, spec_path, style_string)."""
     spec = resolve_spec_for_theme(args.theme, getattr(args, 'spec', None))
-    return load_icons(spec), spec
+    icons, style = load_icons(spec)
+    return icons, spec, style
 
 
 def resolve_output_dir(theme):
@@ -101,15 +114,18 @@ def resolve_output_dir(theme):
 
 
 def resolve_spec_for_theme(theme, explicit_spec=None):
-    """Return the spec file to use: explicit > seed/icons-<theme>.md > default spec."""
-    if explicit_spec and explicit_spec != DEFAULT_SPEC:
+    """Return the spec file to use: explicit > seed/icons-<theme>.md.
+    Every theme (including 'default') maps to seed/icons-<theme>.md."""
+    if explicit_spec:
         return explicit_spec
-    if theme != DEFAULT_THEME:
-        themed_spec = f"icons-{theme}.md"
-        candidate = _SEED / themed_spec
-        if candidate.exists():
-            return themed_spec
-    return DEFAULT_SPEC
+    themed_spec = f"icons-{theme}.md"
+    candidate = _SEED / themed_spec
+    if candidate.exists():
+        return themed_spec
+    raise SystemExit(
+        f"❌ No spec found for theme '{theme}'. "
+        f"Expected: seed/icons-{theme}.md"
+    )
 
 
 def build_parser(description):

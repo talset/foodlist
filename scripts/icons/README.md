@@ -9,10 +9,15 @@ Les scripts sont **idempotents** : un fichier déjà présent est ignoré — re
 
 | Fichier | Thème | Description |
 |---------|-------|-------------|
-| `seed/icons-detailed.md` | `default` | Style cute/kawaii — ~177 icônes |
-| `seed/icons-<theme>.md` | `<theme>` | Spec pour un thème alternatif |
+| `seed/icons-default.md` | `default` | Style cute flat design — ~177 icônes |
+| `seed/icons-kawaii.md` | `kawaii` | Style kawaii japonais — ~177 icônes |
+| `seed/icons-<theme>.md` | `<theme>` | Spec pour tout thème supplémentaire |
 
-Chaque fichier de spec définit un style global et une liste d'icônes par famille (tableaux Markdown).
+Chaque spec définit :
+- un **style global** (prompt commun appliqué à toutes les icônes) via un blockquote `> *...*`
+- une **liste d'icônes** par famille (tableaux Markdown)
+
+Le style est lu automatiquement depuis la spec — chaque thème a son propre style prompt.
 
 ---
 
@@ -21,10 +26,10 @@ Chaque fichier de spec définit un style global et une liste d'icônes par famil
 Les deux scripts acceptent les mêmes arguments :
 
 ```bash
-# Thème par défaut (→ uploads/icons/default/)
-python generate_hf.py
+# Thème par défaut (spec: seed/icons-default.md → uploads/icons/default/)
+python generate_hf.py --theme default
 
-# Thème spécifique (→ uploads/icons/kawaii/, spec: seed/icons-kawaii.md)
+# Thème kawaii (spec: seed/icons-kawaii.md → uploads/icons/kawaii/)
 python generate_hf.py --theme kawaii
 
 # Filtrer par famille
@@ -63,7 +68,7 @@ python generate_hf.py --theme kawaii --list
 ### 2. Installer les dépendances
 
 ```bash
-pip install huggingface_hub pillow tqdm
+pip install huggingface_hub pillow rembg tqdm
 ```
 
 ### 3. Lancer
@@ -97,7 +102,7 @@ HF_TOKEN=hf_xxx python3 scripts/icons/generate_hf.py --theme kawaii
 ### 2. Installer les dépendances
 
 ```bash
-pip install replicate requests pillow tqdm
+pip install replicate requests pillow rembg tqdm
 ```
 
 ### 3. Lancer
@@ -116,16 +121,25 @@ Le script affiche le coût estimé et demande confirmation avant de commencer.
 
 ---
 
+## Pipeline de génération
+
+Pour chaque icône :
+1. **Génération** — FLUX produit une image avec fond blanc (nécessaire pour une bonne séparation)
+2. **Détourage** — `rembg` supprime le fond → PNG avec canal alpha transparent
+3. **Resize** — redimensionné à 128×128 px
+
+Le fond blanc dans le prompt améliore la qualité du détourage par `rembg`.
+
 ## Résultat attendu
 
 ```
 uploads/icons/default/
-├── bouteille-biere.png
+├── bouteille-biere.png    # PNG transparent 128×128
 ├── fromage-rond.png
 └── ...
 
 uploads/icons/kawaii/
-├── bouteille-biere.png   # version kawaii si présente dans la spec
+├── bouteille-biere.png    # version kawaii si présente dans la spec
 └── ...
 ```
 

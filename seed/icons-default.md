@@ -4,15 +4,16 @@
 
 Toutes les icônes suivent un style **cute, doux et chaleureux** :
 
-- **Format** : PNG, 128×128 px, fond blanc
+- **Format** : PNG, 128×128 px, **fond transparent** (alpha)
 - **Style** : illustration flat design avec des formes rondes et généreuses, style sticker kawaii modéré
 - **Couleurs** : palette pastel douce — tons chauds et mats, jamais criards
 - **Formes** : légèrement replètes, proportions généreuses, coins arrondis
 - **Ambiance** : cozy, accueillant, comme une illustration de livre de cuisine illustré
 - **Pas d'ombre portée**, pas de dégradé, pas de texte, pas de logo
+- La transparence est obtenue par suppression de fond (`rembg`) après génération
 
-Prompt de style global appliqué à chaque icône :
-> *cute flat design sticker icon, soft pastel illustration, white background, plump rounded friendly shapes, gentle muted pastel colors, no shadow, cozy charming style, clean lines, no text, no logo*
+Prompt de style global appliqué à chaque icône (fond blanc demandé pour faciliter la détourage) :
+> *cute flat design sticker icon, soft pastel illustration, clean white background, plump rounded friendly shapes, gentle muted pastel colors, no shadow, cozy charming style, clean lines, no text, no logo, isolated subject*
 
 ---
 
@@ -302,7 +303,7 @@ Prompt de style global appliqué à chaque icône :
 | Fichier | Description détaillée |
 |---|---|
 | `brosse-dents.png` | cute toothbrush with a plump handle in soft sky-blue and white, fluffy white bristles, cheerful proportions, diagonal side view |
-| `dentifrice.png` | cute toothpaste tube in soft blue and white with a rounded cap, slightly squeezed with a tiny cream curl at the tip, side view |
+| `dentifrice.png` | A cute, smooth pastel blue and white toothpaste tube with a rounded cap, slightly squeezed with a small swirl of toothpaste at the tip, clean side view, minimal style |
 | `coton-tige.png` | cute cylindrical cardboard box of cotton swabs in soft cream and white, one fluffy cotton swab sitting beside it, side view |
 | `coton.png` | stack of three round soft white cotton pads, clean bright white, fluffy gentle texture, cozy little stack, 3/4 top view |
 | `deodorant.png` | cute roll-on deodorant bottle with a transparent round ball, soft white and light grey tones, plump rounded shape, side view |

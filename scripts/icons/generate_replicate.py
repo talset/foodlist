@@ -3,6 +3,8 @@ Generate icons using Replicate API (FLUX.1-schnell)
 ~$0.003/image → 177 icons ≈ $0.53 total
 Get your token at https://replicate.com/account/api-tokens
 
+Install: pip install replicate requests pillow rembg tqdm
+
 Usage:
   REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                            # default theme
   REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --theme kawaii             # kawaii theme
@@ -21,6 +23,7 @@ from io import BytesIO
 import requests
 import replicate
 from PIL import Image
+from rembg import remove as rembg_remove
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -40,28 +43,29 @@ RETRIES = 3
 COST_PER_IMAGE = 0.003
 
 
-def build_prompt(icon):
-    return f"{icon['desc'].strip()}, {STYLE}"
+def build_prompt(icon, style):
+    return f"{icon['desc'].strip()}, {style}"
 
 # =========================
 # GENERATION
 # =========================
 
-def resize_to_128(image_bytes):
-    img = Image.open(BytesIO(image_bytes)).convert("RGBA")
-    img = img.resize((128, 128), Image.LANCZOS)
+def process_image(image_bytes):
+    """Remove background with rembg, then resize to 128×128 transparent PNG."""
+    transparent = rembg_remove(image_bytes)
+    img = Image.open(BytesIO(transparent)).convert("RGBA").resize((128, 128), Image.LANCZOS)
     out = BytesIO()
     img.save(out, format="PNG")
     return out.getvalue()
 
 
-def generate_icon(icon, output_dir):
+def generate_icon(icon, output_dir, style):
     output_path = output_dir / icon["filename"]
 
     if output_path.exists():
         return "skip"
 
-    prompt = build_prompt(icon)
+    prompt = build_prompt(icon, style)
 
     for attempt in range(RETRIES):
         try:
@@ -82,7 +86,7 @@ def generate_icon(icon, output_dir):
 
             img_bytes = requests.get(img_url, timeout=30).content
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_bytes(resize_to_128(img_bytes))
+            output_path.write_bytes(process_image(img_bytes))
             return "ok"
 
         except Exception as e:
@@ -110,7 +114,7 @@ def main():
     output_dir = resolve_output_dir(args.theme)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    icons, spec = load_icons_for_args(args)
+    icons, spec, style = load_icons_for_args(args)
     icons = filter_icons(icons, args)
 
     already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
@@ -132,7 +136,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(icon, output_dir)
+        result = generate_icon(icon, output_dir, style)
         if result == "ok":
             success += 1
         elif result == "skip":

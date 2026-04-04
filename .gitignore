@@ -15,7 +15,7 @@ tsconfig.tsbuildinfo
 
 # User-uploaded icons (persisted via Docker volume, not in repo)
 uploads/icons/custom/
-
+uploads/icons/default-bak/
 # Python cache
 __pycache__/
 *.pyc

@@ -1,18 +1,9 @@
 import type { DefaultSession } from 'next-auth'
+export type { SiteTheme } from '@/lib/themes'
+export { SITE_THEMES } from '@/lib/themes'
 
-// ── Theme types ───────────────────────────────────────────────────────────────
-
-export type SiteTheme = 'default' | 'dark' | 'pure' | 'light' | 'happy' | 'japon'
+// ── Icon theme ────────────────────────────────────────────────────────────────
 export type IconTheme = string  // directory name under uploads/icons/
-
-export const SITE_THEMES: Record<SiteTheme, { label: string; description: string; bg: string; primary: string; fg: string }> = {
-  default: { label: 'Default',  description: 'Blanc classique',        bg: '#fff',    primary: '#2563eb', fg: '#111827' },
-  dark:    { label: 'Dark',     description: 'Mode sombre',            bg: '#0f172a', primary: '#60a5fa', fg: '#f1f5f9' },
-  pure:    { label: 'Pure',     description: 'Blanc épuré',            bg: '#fff',    primary: '#374151', fg: '#111827' },
-  light:   { label: 'Light',    description: 'Bleu ciel',              bg: '#f0f9ff', primary: '#0284c7', fg: '#0c4a6e' },
-  happy:   { label: 'Happy',    description: 'Orange chaleureux',      bg: '#fffbeb', primary: '#f97316', fg: '#1c1917' },
-  japon:   { label: 'Japon',    description: 'Rouge et blanc discret', bg: '#fafafa', primary: '#dc2626', fg: '#171717' },
-}
 
 // ── Database row types ────────────────────────────────────────────────────────
 
