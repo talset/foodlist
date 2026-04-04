@@ -715,3 +715,55 @@ Page admin pour configurer : nom de l'application, logo, couleur primaire de bas
 #### Réinitialisation de mot de passe
 
 Flux standard : formulaire "mot de passe oublié" → email avec lien tokenisé → formulaire de réinitialisation. Nécessite une config SMTP dans les variables d'environnement.
+
+---
+
+### F13 — UX / Feedbacks utilisateurs
+
+#### Ajout de produit — sélecteur d'icône
+
+- [x] Barre de recherche pour filtrer les icônes par nom dans l'onglet "Icônes du thème"
+- [x] Bouton "?" à côté de chaque champ pour afficher une explication contextuelle (aide inline)
+- [x] Incrément dynamique de la quantité par item physique : pas de 1 pour les entiers, 0.1 pour 1 décimale, 0.01 pour 2 décimales
+
+#### Unité de référence — liste fixe
+
+- [x] Champ `ref_unit` implémenté comme dropdown groupé (pas de texte libre) avec les valeurs suivantes :
+  - **Poids** : g, kg
+  - **Volume** : mL, cL, L
+  - **Quantité** : unité, pièce, tranche, dose
+  - **Conditionnement** : sachet, boîte, pot, bouteille, verre, tasse
+  - **Cuisine** : cuil. à soupe, cuil. à café
+- [ ] Envisager d'ajouter : portion, paquet, cannette, tube, branche, feuille
+- [ ] La page d'édition de produit (`/products/[id]/edit`) utilise encore un champ texte libre — à migrer vers le même dropdown
+
+#### Cohérence visuelle des filtres (produits vs stock)
+
+- [x] Page Produits : la barre de recherche et les chips de catégories utilisent les variables CSS de thème (`var(--input-bg)`, `var(--bg2)`, `var(--border)`) — identique à la page Stock
+- [x] Icônes de produits dans la liste : fond transparent (pas de cadre blanc), style identique à la page Stock
+
+#### États vides — premier lancement
+
+Sur chaque page, quand la liste est vide (première utilisation), afficher non seulement "Aucun élément" mais aussi une description du rôle de la vue et de l'action attendue :
+
+- [x] **Stock** : "Aucun article dans le stock. → Rendez-vous sur Produits pour sélectionner ceux que vous voulez suivre dans votre foyer."
+- [x] **Produits** : "Aucun produit dans le catalogue. → Ajoutez des produits ici pour les retrouver dans votre stock et vos recettes." (affiché uniquement si pas de filtre actif)
+- [x] **Courses** : description sous le message "Liste vide" expliquant que la liste se remplit automatiquement depuis le stock et les recettes
+- [x] **Recettes** : "Aucune recette. → Créez vos recettes pour calculer automatiquement les ingrédients et les ajouter à la liste de courses."
+
+#### Navigation — icône Profil
+
+- [ ] Un point rouge apparaît sur l'icône Profil dans la barre de navigation — source non identifiée dans le code (à investiguer : badge PWA, service worker, extension navigateur ?)
+
+#### Profil — Pack d'icônes
+
+- [x] Lorsqu'un pack est sélectionné, un aperçu de quelques icônes s'affiche automatiquement sous son entrée
+- [x] L'aperçu du pack actuellement actif est chargé automatiquement à l'ouverture de la page profil (sans avoir à cliquer sur "Charger aperçu")
+
+#### Recettes — bouton "Nouvelle recette"
+
+- [x] Bouton "Nouvelle recette" utilise `var(--primary)` / `var(--primary-fg)` et le même style que le bouton "Nouveau" de la page Produits
+
+#### Produits — action modifier
+
+- [x] L'action "Modifier" sur chaque produit est représentée par un icône (✎) sans texte

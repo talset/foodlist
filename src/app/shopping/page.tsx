@@ -183,9 +183,10 @@ export default function ShoppingPage() {
       {loading ? (
         <p style={{ color: 'var(--fg2)' }}>Chargement…</p>
       ) : items.length === 0 ? (
-        <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '3rem' }}>
-          Liste vide — tout est en stock !
-        </p>
+        <div style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '3rem' }}>
+          <p style={{ marginBottom: '0.5rem' }}>Liste vide — tout est en stock !</p>
+          <p style={{ fontSize: '0.875rem' }}>Cette liste se remplit automatiquement avec les produits épuisés ou en faible quantité dans votre stock, ainsi que les ingrédients manquants de vos recettes.</p>
+        </div>
       ) : filteredItems.length === 0 ? (
         <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>Aucun résultat.</p>
       ) : (

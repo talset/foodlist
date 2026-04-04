@@ -177,9 +177,16 @@ export default function StockPage() {
       {loading ? (
         <p style={{ color: 'var(--fg2)' }}>Chargement…</p>
       ) : filteredItems.length === 0 ? (
-        <p style={{ color: 'var(--fg2)' }}>
-          {items.length === 0 ? 'Aucun article dans le stock.' : 'Aucun résultat.'}
-        </p>
+        <div style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>
+          {items.length === 0 ? (
+            <>
+              <p style={{ marginBottom: '0.5rem' }}>Aucun article dans le stock.</p>
+              <p style={{ fontSize: '0.875rem' }}>Cette vue affiche les produits que vous souhaitez suivre dans votre foyer. Rendez-vous sur la page <strong>Produits</strong> pour sélectionner ceux que vous voulez mettre en stock.</p>
+            </>
+          ) : (
+            <p>Aucun résultat.</p>
+          )}
+        </div>
       ) : (
         Array.from(groups.entries()).map(([categoryName, group]) => (
           <section key={categoryName} style={{ marginBottom: '1.5rem' }}>

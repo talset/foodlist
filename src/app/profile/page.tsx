@@ -34,6 +34,15 @@ export default function ProfilePage() {
         setName(data.name)
         setSiteTheme(data.siteTheme)
         setIconTheme(data.iconTheme)
+        fetch(`/api/icons?theme=${data.iconTheme}`)
+          .then(r => r.json())
+          .then(d => {
+            const icons: string[] = (d.icons ?? [])
+              .map((i: any) => typeof i === 'string' ? i : i.name)
+              .filter(Boolean)
+              .slice(0, 8)
+            setThemeIcons(prev => ({ ...prev, [data.iconTheme]: icons }))
+          })
       })
   }, [])
 

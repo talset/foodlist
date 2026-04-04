@@ -38,7 +38,7 @@ export async function POST() {
       )
       if (res.insertId) {
         categoryId = res.insertId
-        catMap.set(category, categoryId)
+        catMap.set(category, categoryId!)
       } else {
         const [refetch] = await pool.query<any[]>('SELECT id FROM categories WHERE name = ?', [category])
         categoryId = (refetch as any[])[0]?.id

@@ -26,11 +26,11 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `bouteille-cidre.png` | dark forest-green glass cider bottle with a tall slender wine-bottle shape, long elegant neck with a cork stopper, soft mossy-green color with a gentle sheen, graceful tapered silhouette, side view |
 | `bouteille-coca.png` | iconic contour-shaped cola bottle with a vivid red label band wrapped around the middle, deep cocoa-brown body, bright red cap, distinctive curved waist silhouette, glossy finish, no brand text, side view |
 | `bouteille-fanta.png` | plump bright orange plastic soda bottle with a cheerful orange cap, juicy soft tangerine color, rounded belly, tiny bubble pattern embossed, no logo, side view |
-| `bouteille-icetea.png` | round golden amber plastic iced tea bottle with a warm brown cap, honey-tea color with a cozy warmth, soft condensation drop on the side, gentle glow, side view |
+| `bouteille-icetea.png` | A cute, smooth long lemonade-style iced tea bottle (not round), made of clear plastic with golden amber tea inside, a warm brown cap, and a wrap-around label with the word “thé”, soft condensation on the side, gentle glow, side view, minimal style |
 | `bouteille-limonade.png` | chubby pale lemon-yellow plastic lemonade bottle with a sunny yellow cap, soft citrus-cream color, tiny bubbles pattern, cheerful round shape, side view |
 | `bouteille-vin-rouge.png` | slim elegant dark burgundy glass wine bottle with a cork, deep plum-red color, graceful tapered neck, soft warm bordeaux tones, slight label indent, side view |
 | `bouteille-vin-blanc.png` | slender pale sage-green glass wine bottle with a cork, soft celery-green color with a gentle sheen, elegant tapered neck, delicate proportions, side view |
-| `bouteille-rhum.png` | stocky dark caramel glass spirits bottle with a wide round base and a short thick neck, warm amber-brown tones, plump silhouette, no text no logo, side view |
+| `bouteille-rhum.png` | A cute, smooth dark glass rum bottle with a large rounded base and a short narrow neck, warm amber-brown tones, classic rum bottle silhouette, slightly thick glass, side view, minimal style |
 | `bouteille-sirop.png` | tall slim strawberry-red glass syrup bottle with a tiny silver screw cap, soft raspberry-red color with gentle translucency, slender elegant shape, side view |
 | `bouteille-huile.png` | tall slim golden glass olive oil bottle with a small pouring spout, warm liquid-gold color, soft sunny tones, gentle shine through the glass, side view |
 | `huile.png` | cute tall slim plastic bottle of generic sunflower oil, warm golden-yellow color, clear body showing golden liquid inside, small cap, side view |
@@ -95,7 +95,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `fromage-morbier.png` | rectangular cheese slice with a clean soft ivory color and a distinct thin black ash line running across the center, simple elegant look, front view |
 | `fromage-munster.png` | round cheese wheel with a vivid warm orange washed rind, soft cream interior peeking at the edge, cozy rustic tones, 3/4 top view |
 | `babybel.png` | small round cute cheese disc fully coated in bright strawberry-red wax, tiny pull tab visible, cheerful red color, plump proportions, front view |
-| `vache-rit.png` | cute round laughing cow cheese portion in a cheerful silver foil triangle wrapper with a bright red circular label, warm creamy tones, plump triangular shape, front view |
+| `vache-rit.png` | Small portion of cheese wrapped in shiny silver aluminum foil, forming a soft triangular shape. The cheese is individually packaged, with a bright red circular label on the front featuring a stylized cow head icon. The wrapper is slightly crinkled, with warm creamy tones visible where the foil is subtly opened or highlighted. Front view, clean composition, soft lighting, highly realistic texture |
 | `fromage-croc.png` | single flat soft square processed cheese slice in orange-yellow packaging, pale warm yellow color, top view |
 | `comte.png` | plump rectangular block of pale ivory Comté cheese with a natural brown rind on the edge, firm texture, warm cream tones, 3/4 side view |
 | `gruyere.png` | plump rectangular block of golden Gruyère cheese with a smooth firm surface, warm pale yellow color, 3/4 side view |
@@ -119,9 +119,9 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `chorizo.png` | plump whole chorizo sausage log with a deep vibrant paprika-red skin and soft white fat marbling visible, gently curved shape with a cute knotted end, warm red tones, side view |
+| `chorizo.png` | A cute, smooth whole chorizo sausage shaped like a traditional dry sausage, slightly elongated with a firm cylindrical form, deep paprika-red skin with subtle marbling, small tied string at one end, side view, minimal style |
 | `saucisson.png` | three overlapping round slices of dry saucisson, soft pinkish-beige with gentle fat speckles, warm rosy tones, rustic texture, top view |
-| `rosette.png` | whole rosette sausage log with a pale pink color and a thin white casing tied at both ends, slightly larger and paler than chorizo, side view |
+| `rosette.png` |Whole rosette sausage log, pale pink cured meat, encased in a thin white natural casing tied at both ends, slightly larger and lighter in color than chorizo, side view. The sausage is sliced into two round slices (rondelles) showing a deep red meat interior with visible small white fat specks evenly distributed throughout. High detail, realistic texture, soft natural lighting |
 | `jambon.png` | single soft folded slice of pink cooked ham, gentle rose-pink color, smooth surface with a slight sheen, cozy shape, top view, no animal |
 | `bacon.png` | two soft wavy bacon rashers side by side, gentle pink and ivory stripes, warm cozy tones, slight curl at the edges, top view |
 | `lardon.png` | several small rectangular bacon lardon strips with soft rosy-pink meat and pale white fat layers alternating, clearly rectangular shapes, loose pile, warm pink-white tones, top view |
@@ -204,8 +204,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `poivre.png` | cute wooden pepper mill with a plump round body, warm walnut-brown color, tiny black peppercorns at the base, cozy proportions, side view |
 | `cinq-baies.png` | cute wooden pepper mill with a plump round body filled with colorful mixed peppercorns in red, black, white and green, warm walnut-brown tones, side view |
-| `curcuma.png` | cute small glass spice jar filled with vivid golden-yellow turmeric powder, bright warm yellow color, plump round jar with a small lid, front view |
-| `curry.png` | cute small glass spice jar filled with warm orange-yellow curry powder, golden amber color, plump round jar with a small lid, front view |
+| `curcuma.png` | A cute, smooth turmeric spice sachet with a soft flexible pouch shape, filled with finely ground bright golden-yellow powder, warm earthy tones, front view, minimal style |
+| `curry.png` | A cute, smooth small spice sachet filled with yellow curry powder, soft flexible pouch shape, warm golden-yellow tones, slightly rounded form, front view, minimal style |
 | `paprika.png` | cute small glass spice jar filled with vivid brick-red paprika powder, deep warm red color, plump round jar with a small lid, front view |
 | `piment.png` | cute small glass spice jar filled with bright red hot chili powder, vivid fiery red color, plump round jar with a small lid, front view |
 | `gingembre.png` | single plump fresh ginger root with a knobbly irregular shape, warm golden-beige skin, slightly fibrous texture, side view |
@@ -239,7 +239,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `poivron.png` | single plump shiny red bell pepper with a cheerful green stem, vivid warm red color, glossy surface, cozy round shape, front view |
 | `salade.png` | single round lettuce head with soft open pale and mid-green leaves, fresh cool green tones, cozy layered look, slight top view |
 | `champignon.png` | single plump white button mushroom with a smooth cream cap and visible soft gills underneath, warm ivory tones, cozy round shape, side view |
-| `citron.png` | single plump yellow lemon with a gently textured skin and a tiny stem nub, vivid sunshine-yellow color, cozy oval shape, front view |
+| `citron.png` | A cute, smooth lemon with a natural elongated oval shape (not round), gently textured yellow skin, a small leaf attached at the top, vivid sunshine-yellow color, front view, minimal style |
 | `cornichon.png` | single small plump green gherkin with a bumpy textured skin, fresh bright green color, cute little size, side view |
 | `avocat.png` | single avocado cut in half showing a creamy yellow-green flesh and a large smooth brown pit, warm avocado-green tones, front view |
 | `banane.png` | single plump yellow banana with a cheerful curved shape and a brown tip, vivid warm yellow color, cozy proportions, side view |
@@ -254,7 +254,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `chips.png` | plump inflated foil snack bag, warm golden and soft tones, slightly rounded corners, cozy bag shape, no brand no logo, side view |
+| `chips.png` | A cute, smooth inflated foil snack bag in green and silver colors, with a visible front label showing illustrated potato chips, slightly rounded corners, plump cozy shape, side view, minimal style |
 | `cacahuete.png` | handful of plump peanuts in shell in warm beige tones, one split open showing two golden nuts inside, cozy earthy look, top view |
 | `pistache.png` | handful of plump pistachio nuts, half open showing a vivid green kernel, warm beige shells with green peeking through, top view |
 | `noisette.png` | handful of round plump hazelnuts in rich warm brown tones, one cracked open showing a golden nut inside, cozy earthy look, top view |
@@ -272,7 +272,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `nutella.png` | cute round glass jar of hazelnut chocolate spread with a warm brown body and a cheerful red lid, rich cocoa tones, no brand text, side view |
 | `confiture.png` | cute glass jar of strawberry jam with a vivid warm red color, a charming checkered red fabric lid cover, cozy rustic look, side view |
 | `creme-marron.png` | cute soft tube of chestnut cream paste in warm brown tones with a tiny chestnut illustration, cozy earthy colors, side view |
-| `beurre-cacahuete.png` | cute open glass jar of smooth peanut butter showing a creamy beige spread inside, warm golden-cream tones, 3/4 top view |
+| `beurre-cacahuete.png` | A cute, smooth open glass jar of peanut butter with a visible label featuring a peanut illustration, showing a creamy beige spread inside, warm golden-cream tones, 3/4 top view, minimal style |
 | `miel.png` | cute hexagonal glass honey jar filled with warm golden honey, radiant amber color, small honey dipper resting on the rim, side view |
 | `bonbons.png` | cute transparent bag filled with colorful mixed candy sweets in vivid playful colors, cheerful and cozy, side view |
 | `gateaux.png` | cute cardboard biscuit package with a clear window showing round golden cookies, warm golden-cream tones, plump box, side view |
@@ -292,7 +292,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `frites.png` | cute plastic bag of frozen french fries with plump golden fries illustrated on the front, soft blue and golden tones, frosty look, side view |
-| `pizza.png` | cute flat rectangular frozen pizza box with a cheerful pizza illustration on the front, warm red and golden tones, plump box shape, 3/4 view |
+| `pizza.png` | Cute square frozen pizza box, slightly plump and well-proportioned, shown in a 3/4 view. The box is neatly closed with clean edges and features a cheerful illustration of a pizza on the front (with visible toppings like cheese, tomato, and ingredients). Warm red and golden tones dominate the design, giving it an appetizing and inviting look. The surface is matte cardboard with subtle print texture, realistic lighting, and a friendly, appealing style |
 | `gyoza.png` | two plump crescent-shaped gyoza dumplings with cute pleated edges, soft cream and golden-brown tones, cozy look, 3/4 view |
 | `nuggets.png` | three plump golden chicken nuggets in irregular shapes, vivid warm golden-orange color, crispy coating look, top view |
 | `rosti.png` | single round plump potato rösti pancake, vivid golden-brown color, crispy textured surface, cozy disc shape, top view |
@@ -341,7 +341,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `papier-cuisson.png` | cute baking parchment roll in a soft cardboard box, clean white paper slightly unrolled, warm cream tones, 3/4 view |
 | `papier-film.png` | cute cling film roll in a soft cardboard dispenser, transparent film slightly unrolled, soft grey and cream tones, 3/4 view |
 | `pq.png` | single plump roll of toilet paper, clean bright white with a soft gentle texture pattern, cozy round shape, side view |
-| `sopalin.png` | single plump roll of kitchen paper towel, clean white with a soft pattern, cozy round shape, side view |
+| `sopalin.png` | Single large, plump roll of kitchen paper towels, clean bright white with a subtle embossed pattern. The roll is standing upright (vertical position), resting on one of its flat circular ends, shown in side view. Thick and tall cylinder with tightly wound layers clearly visible along the side. Soft, rounded edges, realistic texture, clean minimal composition, soft natural lighting |
 | `serviette.png` | cute small stack of folded white paper napkins, clean bright white, soft gentle texture, cozy neat pile, 3/4 top view |
 | `sac-poubelle.png` | cute roll of black plastic trash bags in a soft cardboard box, deep matte black bags, clean simple look, side view |
 | `sac-congelation.png` | cute transparent zip lock freezer bag lying flat and slightly open, soft blue seal strip at the top, clean clear tones, top view |

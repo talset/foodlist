@@ -144,9 +144,16 @@ export default function ProductsPage() {
       {loading && <p style={{ color: 'var(--fg2)', textAlign: 'center' }}>Chargement…</p>}
 
       {!loading && products.length === 0 && (
-        <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>
-          Aucun produit trouvé.
-        </p>
+        <div style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>
+          {q || categoryId ? (
+            <p>Aucun produit trouvé.</p>
+          ) : (
+            <>
+              <p style={{ marginBottom: '0.5rem' }}>Aucun produit dans le catalogue.</p>
+              <p style={{ fontSize: '0.875rem' }}>Ajoutez des produits ici pour les retrouver dans votre stock et vos recettes.</p>
+            </>
+          )}
+        </div>
       )}
 
       {products.map(p => {
@@ -160,9 +167,9 @@ export default function ProductsPage() {
             padding: '0.625rem 0',
             borderBottom: '1px solid var(--border)',
           }}>
-            <div style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 36, height: 36, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
               {p.icon_url
-                ? <img src={p.icon_url} width={36} height={36} alt="" />
+                ? <img src={p.icon_url} width={36} height={36} alt="" style={{ borderRadius: 4 }} />
                 : <span style={{ color: 'var(--border)', fontSize: '1.5rem' }}>·</span>
               }
             </div>
