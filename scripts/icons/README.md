@@ -68,7 +68,7 @@ python generate_hf.py --theme kawaii --list
 ### 2. Installer les dépendances
 
 ```bash
-pip install huggingface_hub pillow rembg tqdm
+pip install huggingface_hub pillow rembg tqdm onnxruntime
 ```
 
 ### 3. Lancer
@@ -102,7 +102,7 @@ HF_TOKEN=hf_xxx python3 scripts/icons/generate_hf.py --theme kawaii
 ### 2. Installer les dépendances
 
 ```bash
-pip install replicate requests pillow rembg tqdm
+pip install replicate requests pillow rembg tqdm onnxruntime
 ```
 
 ### 3. Lancer

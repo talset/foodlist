@@ -1,4 +1,5 @@
 import type { DefaultSession } from 'next-auth'
+import type { SiteTheme } from '@/lib/themes'
 export type { SiteTheme } from '@/lib/themes'
 export { SITE_THEMES } from '@/lib/themes'
 
@@ -88,7 +89,8 @@ export interface ApiStockItem {
   icon_url: string | null
   quantity: number
   status: 'in_stock' | 'low' | 'out_of_stock'
-  recipe_quantity?: number  // total quantity needed by active recipes (bubble, shopping list only)
+  recipe_quantity?: number   // total quantity needed by active recipes (shopping list only)
+  recipe_ids?: number[]      // IDs of active shopping_recipes that reference this product
   updated_at: string
 }
 

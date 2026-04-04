@@ -23,11 +23,19 @@ from io import BytesIO
 
 from huggingface_hub import InferenceClient
 from PIL import Image
+
+# Suppress C-level onnxruntime CUDA warnings by redirecting fd 2 during rembg import
+_devnull = os.open(os.devnull, os.O_WRONLY)
+_saved_stderr = os.dup(2)
+os.dup2(_devnull, 2)
+os.close(_devnull)
 from rembg import remove as rembg_remove
+os.dup2(_saved_stderr, 2)
+os.close(_saved_stderr)
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, STYLE
+from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, infer_theme_from_spec, DEFAULT_THEME, STYLE
 
 # =========================
 # CONFIG
@@ -46,14 +54,31 @@ def build_prompt(icon, style):
 # GENERATION
 # =========================
 
-def process_image(pil_image):
-    """Remove background with rembg, then resize to 128×128 transparent PNG."""
-    img_bytes = BytesIO()
-    pil_image.save(img_bytes, format="PNG")
-    transparent = rembg_remove(img_bytes.getvalue())
-    img = Image.open(BytesIO(transparent)).convert("RGBA").resize((128, 128), Image.LANCZOS)
+def process_image(pil_image, size=128, padding_ratio=0.10):
+    """Remove background, center the subject with uniform padding, save as 128×128 transparent PNG."""
+    buf = BytesIO()
+    pil_image.save(buf, format="PNG")
+    transparent = rembg_remove(buf.getvalue())
+    img = Image.open(BytesIO(transparent)).convert("RGBA")
+
+    # Crop to actual subject bounding box
+    bbox = img.getbbox()
+    if bbox:
+        img = img.crop(bbox)
+
+    # Resize subject to fit within the padded area (aspect ratio preserved)
+    padding = int(size * padding_ratio)
+    max_dim = size - 2 * padding
+    img.thumbnail((max_dim, max_dim), Image.LANCZOS)
+
+    # Paste centered on a transparent canvas
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    x = (size - img.width) // 2
+    y = (size - img.height) // 2
+    canvas.paste(img, (x, y), img)
+
     out = BytesIO()
-    img.save(out, format="PNG")
+    canvas.save(out, format="PNG")
     return out.getvalue()
 
 
@@ -94,6 +119,8 @@ def main():
     if not args.list and not HF_TOKEN:
         raise SystemExit("❌ HF_TOKEN environment variable not set.")
 
+    if args.spec and args.theme == DEFAULT_THEME:
+        args.theme = infer_theme_from_spec(args.spec) or args.theme
     output_dir = resolve_output_dir(args.theme)
     output_dir.mkdir(parents=True, exist_ok=True)
 

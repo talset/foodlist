@@ -74,13 +74,19 @@ def resolve_spec(spec_arg):
     """Resolve --spec argument to a Path.
 
     Accepts:
-    - a bare filename  → looked up in seed/
-    - a relative path  → relative to cwd
-    - an absolute path → used as-is
+    - a theme name without extension  → seed/icons-<name>.md
+    - a bare filename                 → looked up in seed/
+    - a relative path                 → relative to cwd
+    - an absolute path                → used as-is
     """
     p = Path(spec_arg)
     if p.is_absolute():
         return p
+    if p.parent == Path(".") and p.suffix == '':
+        # bare name with no extension: try seed/icons-<name>.md first
+        candidate = _SEED / f"icons-{p}.md"
+        if candidate.exists():
+            return candidate
     if p.parent == Path("."):
         # bare filename: look in seed/
         candidate = _SEED / p
@@ -113,6 +119,23 @@ def resolve_output_dir(theme):
     return root / "uploads" / "icons" / theme
 
 
+def infer_theme_from_spec(spec_arg):
+    """Derive a theme name from a spec argument, or return None if not inferable.
+
+    Examples:
+      'kawaii'           → 'kawaii'
+      'icons-kawaii.md'  → 'kawaii'
+      'seed/icons-kawaii.md' → None  (explicit path, no inference)
+    """
+    p = Path(spec_arg)
+    if p.parent != Path('.'):
+        return None  # explicit path — don't infer
+    name = p.stem if p.suffix else str(p)  # strip .md if present
+    if name.startswith('icons-'):
+        name = name[6:]
+    return name if name else None
+
+
 def resolve_spec_for_theme(theme, explicit_spec=None):
     """Return the spec file to use: explicit > seed/icons-<theme>.md.
     Every theme (including 'default') maps to seed/icons-<theme>.md."""
@@ -138,7 +161,7 @@ def build_parser(description):
         help=(
             f"Icon theme to generate (name of the output directory under uploads/icons/). "
             f"Default: {DEFAULT_THEME}. "
-            f"Uses seed/icons-<theme>.md as spec if it exists, else falls back to {DEFAULT_SPEC}."
+            f"Uses seed/icons-<theme>.md as spec (e.g. seed/icons-default.md for --theme default)."
         ),
     )
 
@@ -147,8 +170,8 @@ def build_parser(description):
         default=None,
         metavar='FILE',
         help=(
-            f"Override spec file (filename in seed/ or path). "
-            f"If omitted, uses seed/icons-<theme>.md or {DEFAULT_SPEC}."
+            "Override spec file (filename in seed/ or path). "
+            "If omitted, uses seed/icons-<theme>.md."
         ),
     )
 

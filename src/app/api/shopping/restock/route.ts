@@ -6,7 +6,7 @@ import { authOptions } from '@/lib/auth'
 // POST /api/shopping/restock
 // Marks all out_of_stock items in the household as in_stock in a single query.
 // Intended for the "Tout restockér" button after returning from shopping.
-export async function POST() {
+export async function POST(_req: Request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
   if (!session.user.householdId) return NextResponse.json({ error: 'NO_HOUSEHOLD' }, { status: 400 })

@@ -10,10 +10,11 @@ Toutes les icônes suivent un style **cute, doux et chaleureux** :
 - **Formes** : légèrement replètes, proportions généreuses, coins arrondis
 - **Ambiance** : cozy, accueillant, comme une illustration de livre de cuisine illustré
 - **Pas d'ombre portée**, pas de dégradé, pas de texte, pas de logo
-- La transparence est obtenue par suppression de fond (`rembg`) après génération
+- **Cadrage** : le sujet doit être centré et occuper environ 75-80% de la surface, avec un espace vide uniforme tout autour — pas coupé sur les bords, pas collé dans un coin
+- La transparence et le cadrage sont normalisés automatiquement après génération (`rembg` + centrage)
 
-Prompt de style global appliqué à chaque icône (fond blanc demandé pour faciliter la détourage) :
-> *cute flat design sticker icon, soft pastel illustration, clean white background, plump rounded friendly shapes, gentle muted pastel colors, no shadow, cozy charming style, clean lines, no text, no logo, isolated subject*
+Prompt de style global appliqué à chaque icône (fond blanc demandé pour faciliter le détourage) :
+> *cute flat design sticker icon, soft pastel illustration, clean white background, plump rounded friendly shapes, gentle muted pastel colors, no shadow, cozy charming style, clean lines, no text, no logo, isolated subject centered with equal margins on all sides*
 
 ---
 
@@ -23,7 +24,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `bouteille-biere.png` | chubby amber glass beer bottle with a small silver crown cap and a cute cream label with the word "Bière" or "Ambrée" written on it, warm honey-amber tones, plump belly and short neck, side view |
 | `bouteille-cidre.png` | dark forest-green glass cider bottle with a tall slender wine-bottle shape, long elegant neck with a cork stopper, soft mossy-green color with a gentle sheen, graceful tapered silhouette, side view |
-| `bouteille-coca.png` | iconic contour-shaped dark cola bottle in deep cocoa-brown plastic with a cheerful bright red cap, distinctive curved waist silhouette, glossy finish, no brand text, side view |
+| `bouteille-coca.png` | iconic contour-shaped cola bottle with a vivid red label band wrapped around the middle, deep cocoa-brown body, bright red cap, distinctive curved waist silhouette, glossy finish, no brand text, side view |
 | `bouteille-fanta.png` | plump bright orange plastic soda bottle with a cheerful orange cap, juicy soft tangerine color, rounded belly, tiny bubble pattern embossed, no logo, side view |
 | `bouteille-icetea.png` | round golden amber plastic iced tea bottle with a warm brown cap, honey-tea color with a cozy warmth, soft condensation drop on the side, gentle glow, side view |
 | `bouteille-limonade.png` | chubby pale lemon-yellow plastic lemonade bottle with a sunny yellow cap, soft citrus-cream color, tiny bubbles pattern, cheerful round shape, side view |
