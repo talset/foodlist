@@ -5,13 +5,21 @@ import { useRouter } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
 import type { ApiProduct, ApiCategory } from '@/types'
 
+const REF_UNITS = [
+  { group: 'Poids', options: ['g', 'kg'] },
+  { group: 'Volume', options: ['mL', 'cL', 'L'] },
+  { group: 'Quantité', options: ['unité', 'pièce', 'tranche', 'dose'] },
+  { group: 'Conditionnement', options: ['sachet', 'boîte', 'pot', 'bouteille', 'verre', 'tasse'] },
+  { group: 'Cuisine', options: ['cuil. à soupe', 'cuil. à café'] },
+]
+
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [categories, setCategories] = useState<ApiCategory[]>([])
   const [name, setName] = useState('')
   const [categoryId, setCategoryId] = useState<number | ''>('')
-  const [refUnit, setRefUnit] = useState('')
-  const [refQuantity, setRefQuantity] = useState<number | ''>(1)
+  const [refUnit, setRefUnit] = useState('unité')
+  const [refQuantity, setRefQuantity] = useState<number>(1)
   const [iconRef, setIconRef] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -32,6 +40,14 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     })
   }, [params.id])
 
+  function getStep(val: number): number {
+    const str = val.toString()
+    const dec = str.includes('.') ? str.split('.')[1].length : 0
+    if (dec === 0) return 1
+    if (dec === 1) return 0.1
+    return 0.01
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
@@ -40,13 +56,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
     const res = await fetch(`/api/products/${params.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        category_id: categoryId,
-        ref_unit: refUnit,
-        ref_quantity: Number(refQuantity),
-        icon_ref: iconRef,
-      }),
+      body: JSON.stringify({ name, category_id: categoryId, ref_unit: refUnit, ref_quantity: refQuantity, icon_ref: iconRef }),
     })
 
     if (!res.ok) {
@@ -55,13 +65,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       setLoading(false)
       return
     }
-
     router.push('/products')
   }
 
   async function handleDelete() {
     if (!window.confirm('Supprimer ce produit ?')) return
-
     const res = await fetch(`/api/products/${params.id}`, { method: 'DELETE' })
     if (!res.ok) {
       const data = await res.json()
@@ -72,52 +80,67 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
   }
 
   if (notFound) {
-    return <main style={{ padding: '1rem', textAlign: 'center', color: '#999' }}>Produit introuvable.</main>
+    return <main style={{ padding: '1rem', textAlign: 'center', color: 'var(--fg2)' }}>Produit introuvable.</main>
   }
 
   return (
     <main style={{ maxWidth: 480, margin: '0 auto', padding: '1rem' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>Modifier le produit</h1>
+      <h1 style={{ marginBottom: '1.5rem' }}>Modifier le produit</h1>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <label style={labelStyle}>
-          Nom
-          <input type="text" value={name} onChange={e => setName(e.target.value)} required style={inputStyle} />
-        </label>
 
-        <label style={labelStyle}>
-          Catégorie
+        {/* Nom */}
+        <div>
+          <label style={labelStyle}>Nom</label>
+          <input type="text" value={name} onChange={e => setName(e.target.value)} required style={inputStyle} />
+        </div>
+
+        {/* Catégorie */}
+        <div>
+          <label style={labelStyle}>Catégorie</label>
           <select value={categoryId} onChange={e => setCategoryId(Number(e.target.value))} required style={inputStyle}>
-            {categories.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+            {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+        </div>
+
+        {/* Unité de référence */}
+        <div>
+          <label style={labelStyle}>Unité de référence</label>
+          <select value={refUnit} onChange={e => setRefUnit(e.target.value)} required style={inputStyle}>
+            {REF_UNITS.map(group => (
+              <optgroup key={group.group} label={group.group}>
+                {group.options.map(u => <option key={u} value={u}>{u}</option>)}
+              </optgroup>
             ))}
           </select>
-        </label>
+        </div>
 
-        <label style={labelStyle}>
-          Unité de référence
-          <input type="text" value={refUnit} onChange={e => setRefUnit(e.target.value)} required style={inputStyle} placeholder="Ex : L, g, kg, unité…" />
-        </label>
-
-        <label style={labelStyle}>
-          Quantité par item physique
-          <input
-            type="number"
-            value={refQuantity}
-            onChange={e => setRefQuantity(e.target.value === '' ? '' : Number(e.target.value))}
-            required
-            min={0.001}
-            step={0.001}
-            style={inputStyle}
-          />
-        </label>
-
+        {/* Quantité par item physique */}
         <div>
-          <span style={{ fontSize: '0.9rem', fontWeight: 500, display: 'block', marginBottom: '0.5rem' }}>Icône</span>
+          <label style={labelStyle}>Quantité par item physique</label>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <button type="button" onClick={() => setRefQuantity(q => Math.max(0.01, parseFloat((q - getStep(q)).toFixed(3))))} style={qtyBtnStyle}>−</button>
+            <input
+              type="number"
+              value={refQuantity}
+              onChange={e => setRefQuantity(parseFloat(e.target.value) || 1)}
+              required min={0.001} step={getStep(refQuantity)}
+              style={{ ...inputStyle, flex: 1, textAlign: 'center' }}
+            />
+            <button type="button" onClick={() => setRefQuantity(q => parseFloat((q + getStep(q)).toFixed(3)))} style={qtyBtnStyle}>+</button>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginTop: '0.25rem' }}>
+            = {refQuantity} {refUnit} par item
+          </div>
+        </div>
+
+        {/* Icône */}
+        <div>
+          <label style={labelStyle}>Icône</label>
           <IconPicker value={iconRef} onChange={setIconRef} />
         </div>
 
-        {error && <p style={{ color: '#e53e3e', fontSize: '0.875rem' }}>{error}</p>}
+        {error && <p style={{ color: '#dc2626', fontSize: '0.875rem', margin: 0 }}>{error}</p>}
 
         <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
           <button type="button" onClick={() => router.back()} style={btnSecondaryStyle}>Annuler</button>
@@ -127,37 +150,46 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         </div>
       </form>
 
-      <hr style={{ margin: '2rem 0', border: 'none', borderTop: '1px solid #e2e8f0' }} />
+      <hr style={{ margin: '2rem 0', border: 'none', borderTop: '1px solid var(--border)' }} />
 
-      <button onClick={handleDelete} style={btnDangerStyle}>
-        Supprimer ce produit
-      </button>
+      <button onClick={handleDelete} style={btnDangerStyle}>Supprimer ce produit</button>
     </main>
   )
 }
 
 const labelStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.25rem',
-  fontSize: '0.9rem',
+  display: 'block',
+  fontSize: '0.875rem',
   fontWeight: 500,
+  color: 'var(--fg)',
+  marginBottom: '0.375rem',
 }
 
 const inputStyle: React.CSSProperties = {
   padding: '0.625rem 0.75rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 8,
-  fontSize: '1rem',
+  fontSize: '0.9375rem',
   width: '100%',
   boxSizing: 'border-box',
+  background: 'var(--input-bg)',
+  color: 'var(--fg)',
+  outline: 'none',
+}
+
+const qtyBtnStyle: React.CSSProperties = {
+  width: 40, height: 40, flexShrink: 0,
+  border: '1px solid var(--border)', borderRadius: 8,
+  background: 'var(--bg2)', color: 'var(--fg)',
+  fontSize: '1.125rem', cursor: 'pointer',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
 }
 
 const btnPrimaryStyle: React.CSSProperties = {
   flex: 1,
   padding: '0.625rem',
-  background: '#3182ce',
-  color: '#fff',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
   border: 'none',
   borderRadius: 8,
   fontSize: '1rem',
@@ -167,9 +199,9 @@ const btnPrimaryStyle: React.CSSProperties = {
 
 const btnSecondaryStyle: React.CSSProperties = {
   padding: '0.625rem 1.25rem',
-  background: '#fff',
-  color: '#333',
-  border: '1px solid #e2e8f0',
+  background: 'var(--bg2)',
+  color: 'var(--fg)',
+  border: '1px solid var(--border)',
   borderRadius: 8,
   fontSize: '1rem',
   cursor: 'pointer',
@@ -178,9 +210,9 @@ const btnSecondaryStyle: React.CSSProperties = {
 const btnDangerStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.625rem',
-  background: '#fff',
-  color: '#e53e3e',
-  border: '1px solid #e53e3e',
+  background: 'var(--bg)',
+  color: '#dc2626',
+  border: '1px solid #fca5a5',
   borderRadius: 8,
   fontSize: '1rem',
   cursor: 'pointer',

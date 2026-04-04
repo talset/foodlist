@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Stats {
@@ -55,6 +55,8 @@ export default function AdminPage() {
   const [seeding, setSeeding] = useState(false)
   const [importingProducts, setImportingProducts] = useState(false)
   const [importingRecipes, setImportingRecipes] = useState(false)
+  const importProductsRef = useRef<HTMLInputElement>(null)
+  const importRecipesRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -244,7 +246,7 @@ export default function AdminPage() {
     { id: 'overview', label: 'Vue d\'ensemble' },
     { id: 'users', label: 'Utilisateurs' },
     { id: 'households', label: 'Foyers' },
-    { id: 'catalogue', label: 'Catalogue' },
+    { id: 'catalogue', label: 'Import / Export' },
   ]
 
   return (
@@ -354,7 +356,7 @@ export default function AdminPage() {
                       padding: '0.375rem 0.625rem',
                       border: '1px solid #fca5a5',
                       borderRadius: 6,
-                      background: '#fff',
+                      background: 'var(--bg)',
                       color: '#dc2626',
                       fontSize: '0.75rem',
                       cursor: 'pointer',
@@ -369,115 +371,69 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Catalogue */}
+      {/* Import / Export */}
       {tab === 'catalogue' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{
-            background: 'var(--bg2)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            padding: '1rem',
-          }}>
-            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
-              Catalogue de base
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+
+          {/* Produits */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              Produits
             </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '1rem' }}>
-              Importe 177 produits alimentaires courants (Fruits & Légumes, Viandes, Épicerie…).
-              Les produits déjà présents sont ignorés.
+            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
+              {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} dans la base.`}
             </div>
-            <button
-              onClick={seedCatalogue}
-              disabled={seeding}
-              style={{
-                padding: '0.5rem 1.25rem',
-                background: 'var(--primary)',
-                color: 'var(--primary-fg)',
-                border: 'none',
-                borderRadius: 8,
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                cursor: seeding ? 'not-allowed' : 'pointer',
-                opacity: seeding ? 0.7 : 1,
-              }}
-            >
-              {seeding ? 'Import en cours…' : 'Importer le catalogue'}
-            </button>
-          </div>
-          {/* Import products JSON */}
-          <div style={{
-            background: 'var(--bg2)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            padding: '1rem',
-          }}>
-            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
-              Import produits (JSON)
-            </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
-              Importe un fichier JSON de produits. Les produits déjà présents (même nom) sont ignorés.
-            </div>
-            <label style={{
-              display: 'inline-block',
-              padding: '0.5rem 1.25rem',
-              background: importingProducts ? 'var(--bg2)' : 'var(--primary)',
-              color: importingProducts ? 'var(--fg2)' : 'var(--primary-fg)',
-              borderRadius: 8,
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              cursor: importingProducts ? 'not-allowed' : 'pointer',
-              opacity: importingProducts ? 0.7 : 1,
-            }}>
-              {importingProducts ? 'Import en cours…' : 'Choisir un fichier JSON'}
-              <input
-                type="file"
-                accept=".json,application/json"
-                onChange={importProducts}
-                disabled={importingProducts}
-                style={{ display: 'none' }}
-              />
-            </label>
-            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginTop: '0.5rem' }}>
-              {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} actuellement dans la base.`}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {/* Seed */}
+              <button
+                onClick={seedCatalogue}
+                disabled={seeding}
+                style={btnSecondary(seeding)}
+                title="Importe ~230 produits alimentaires courants. Les doublons sont ignorés."
+              >
+                {seeding ? 'Import en cours…' : '↓ Catalogue de base'}
+              </button>
+              {/* Import JSON */}
+              <button onClick={() => importProductsRef.current?.click()} disabled={importingProducts} style={btnSecondary(importingProducts)} title="Importe un fichier JSON de produits. Les doublons sont ignorés.">
+                {importingProducts ? 'Import en cours…' : '↑ Import produits'}
+              </button>
+              <input ref={importProductsRef} type="file" accept=".json,application/json" onChange={importProducts} style={{ display: 'none' }} />
+              {/* Export JSON */}
+              <a
+                href="/api/export/products"
+                download="products.json"
+                style={btnSecondary(false) as React.CSSProperties}
+              >
+                ↓ Export produits
+              </a>
             </div>
           </div>
 
-          {/* Import recipes JSON */}
-          <div style={{
-            background: 'var(--bg2)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            padding: '1rem',
-          }}>
-            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
-              Import recettes (JSON)
+          {/* Recettes */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              Recettes
             </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
-              Importe un fichier JSON de recettes. Les recettes déjà présentes (même nom) sont ignorées. Les produits référencés doivent exister dans le catalogue.
+            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
+              {stats?.recipes != null && `${stats.recipes} recette${stats.recipes !== 1 ? 's' : ''} dans la base.`}
             </div>
-            <label style={{
-              display: 'inline-block',
-              padding: '0.5rem 1.25rem',
-              background: importingRecipes ? 'var(--bg2)' : 'var(--primary)',
-              color: importingRecipes ? 'var(--fg2)' : 'var(--primary-fg)',
-              borderRadius: 8,
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              cursor: importingRecipes ? 'not-allowed' : 'pointer',
-              opacity: importingRecipes ? 0.7 : 1,
-            }}>
-              {importingRecipes ? 'Import en cours…' : 'Choisir un fichier JSON'}
-              <input
-                type="file"
-                accept=".json,application/json"
-                onChange={importRecipes}
-                disabled={importingRecipes}
-                style={{ display: 'none' }}
-              />
-            </label>
-            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginTop: '0.5rem' }}>
-              {stats?.recipes != null && `${stats.recipes} recette${stats.recipes !== 1 ? 's' : ''} actuellement dans la base.`}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {/* Import JSON */}
+              <button onClick={() => importRecipesRef.current?.click()} disabled={importingRecipes} style={btnSecondary(importingRecipes)} title="Importe un fichier JSON de recettes. Les doublons sont ignorés. Les produits référencés doivent exister.">
+                {importingRecipes ? 'Import en cours…' : '↑ Import recettes'}
+              </button>
+              <input ref={importRecipesRef} type="file" accept=".json,application/json" onChange={importRecipes} style={{ display: 'none' }} />
+              {/* Export JSON */}
+              <a
+                href="/api/export/recipes"
+                download="recipes.json"
+                style={btnSecondary(false) as React.CSSProperties}
+              >
+                ↓ Export recettes
+              </a>
             </div>
           </div>
+
         </div>
       )}
 
@@ -628,4 +584,22 @@ export default function AdminPage() {
       )}
     </div>
   )
+}
+
+function btnSecondary(disabled: boolean): React.CSSProperties {
+  return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '0.5rem 1rem',
+    background: disabled ? 'var(--bg2)' : 'var(--primary)',
+    color: disabled ? 'var(--fg2)' : 'var(--primary-fg)',
+    border: 'none',
+    borderRadius: 8,
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.7 : 1,
+    textDecoration: 'none',
+    whiteSpace: 'nowrap' as const,
+  }
 }

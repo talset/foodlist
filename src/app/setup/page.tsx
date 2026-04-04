@@ -79,20 +79,21 @@ function SetupForm() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f5f5f5',
+      background: 'var(--bg)',
     }}>
       <div style={{
         width: '100%',
         maxWidth: 440,
-        background: '#fff',
+        background: 'var(--bg2)',
         borderRadius: 12,
         padding: '2rem',
-        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        border: '1px solid var(--border)',
+        boxShadow: '0 2px 16px var(--shadow)',
       }}>
-        <h1 style={{ marginBottom: '0.5rem', fontSize: '1.5rem', fontWeight: 700 }}>
+        <h1 style={{ marginBottom: '0.5rem', fontSize: '1.5rem', fontWeight: 700, color: 'var(--fg)' }}>
           Bienvenue sur Foodlist
         </h1>
-        <p style={{ marginBottom: '1.5rem', color: '#666', fontSize: '0.95rem' }}>
+        <p style={{ marginBottom: '1.5rem', color: 'var(--fg2)', fontSize: '0.95rem' }}>
           Créez un foyer ou rejoignez-en un existant.
         </p>
 
@@ -121,7 +122,7 @@ function SetupForm() {
               required
               style={inputStyle}
             />
-            {error && <p style={{ color: '#e53e3e', fontSize: '0.875rem' }}>{error}</p>}
+            {error && <p style={{ color: '#dc2626', fontSize: '0.875rem' }}>{error}</p>}
             <button type="submit" disabled={loading} style={btnStyle}>
               {loading ? 'Création…' : 'Créer le foyer'}
             </button>
@@ -136,7 +137,7 @@ function SetupForm() {
               required
               style={inputStyle}
             />
-            {error && <p style={{ color: '#e53e3e', fontSize: '0.875rem' }}>{error}</p>}
+            {error && <p style={{ color: '#dc2626', fontSize: '0.875rem' }}>{error}</p>}
             <button type="submit" disabled={loading} style={btnStyle}>
               {loading ? 'Rejoindre…' : 'Rejoindre le foyer'}
             </button>
@@ -157,17 +158,20 @@ export default function SetupPage() {
 
 const inputStyle: React.CSSProperties = {
   padding: '0.625rem 0.75rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 8,
-  fontSize: '1rem',
+  fontSize: '0.9375rem',
   width: '100%',
   boxSizing: 'border-box',
+  background: 'var(--input-bg)',
+  color: 'var(--fg)',
+  outline: 'none',
 }
 
 const btnStyle: React.CSSProperties = {
   padding: '0.625rem',
-  background: '#3182ce',
-  color: '#fff',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
   border: 'none',
   borderRadius: 8,
   fontSize: '1rem',
@@ -178,15 +182,16 @@ const btnStyle: React.CSSProperties = {
 const tabStyle: React.CSSProperties = {
   flex: 1,
   padding: '0.5rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 8,
-  background: '#f7fafc',
+  background: 'var(--bg)',
+  color: 'var(--fg)',
   cursor: 'pointer',
   fontSize: '0.9rem',
 }
 
 const tabActiveStyle: React.CSSProperties = {
-  background: '#3182ce',
-  color: '#fff',
-  border: '1px solid #3182ce',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
+  border: '1px solid var(--primary)',
 }
