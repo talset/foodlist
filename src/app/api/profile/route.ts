@@ -9,13 +9,17 @@ import type { SiteTheme } from '@/types'
 
 export const dynamic = 'force-dynamic'
 
+// Directories that are never selectable as user icon themes
+const EXCLUDED_ICON_DIRS = new Set(['custom', 'default-global'])
+
 async function getAvailableIconThemes(): Promise<string[]> {
   const iconsRoot = path.join(process.cwd(), 'uploads/icons')
   try {
     const entries = await fs.readdir(iconsRoot, { withFileTypes: true })
     return entries
-      .filter(e => e.isDirectory() && e.name !== 'custom')
+      .filter(e => e.isDirectory() && !EXCLUDED_ICON_DIRS.has(e.name))
       .map(e => e.name)
+      .sort((a, b) => a === 'default' ? -1 : b === 'default' ? 1 : a.localeCompare(b))
   } catch {
     return ['default']
   }

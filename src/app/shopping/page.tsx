@@ -7,12 +7,23 @@ export default function ShoppingPage() {
   const [items, setItems] = useState<ApiStockItem[]>([])
   const [loading, setLoading] = useState(true)
   const [checking, setChecking] = useState<Set<number>>(new Set())
+  const [restocking, setRestocking] = useState(false)
 
   useEffect(() => {
     fetch('/api/shopping')
       .then(r => r.json())
       .then(d => { setItems(d.items); setLoading(false) })
   }, [])
+
+  async function restockAll() {
+    if (!confirm(`Marquer les ${items.length} articles comme "en stock" ?`)) return
+    setRestocking(true)
+    const res = await fetch('/api/shopping/restock', { method: 'POST' })
+    if (res.ok) {
+      setItems([])
+    }
+    setRestocking(false)
+  }
 
   async function checkOff(item: ApiStockItem) {
     setChecking(prev => new Set(prev).add(item.id))
@@ -33,13 +44,35 @@ export default function ShoppingPage() {
     <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <h1 style={{ margin: 0 }}>Liste de courses</h1>
-        <span style={{
-          background: '#2563eb', color: '#fff',
-          borderRadius: 9999, padding: '0.125rem 0.5rem',
-          fontSize: '0.875rem', fontWeight: 600,
-        }}>
-          {items.length}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {items.length > 0 && (
+            <button
+              onClick={restockAll}
+              disabled={restocking}
+              title="Tout restockér — marquer tous les articles comme en stock"
+              style={{
+                padding: '0.375rem 0.75rem',
+                background: 'var(--primary)',
+                color: 'var(--primary-fg)',
+                border: 'none',
+                borderRadius: 8,
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: restocking ? 'not-allowed' : 'pointer',
+                opacity: restocking ? 0.7 : 1,
+              }}
+            >
+              {restocking ? '…' : 'Tout restockér'}
+            </button>
+          )}
+          <span style={{
+            background: 'var(--primary)', color: 'var(--primary-fg)',
+            borderRadius: 9999, padding: '0.125rem 0.5rem',
+            fontSize: '0.875rem', fontWeight: 600,
+          }}>
+            {items.length}
+          </span>
+        </div>
       </div>
 
       {loading ? (
