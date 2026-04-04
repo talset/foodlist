@@ -31,8 +31,7 @@ function SetupForm() {
       const data = await res.json()
       if (data.error === 'ALREADY_IN_HOUSEHOLD') {
         // JWT is stale — refresh and redirect
-        await update()
-        router.replace('/')
+        await refreshAndRedirect()
         return
       }
       setError('Une erreur est survenue.')
@@ -40,7 +39,16 @@ function SetupForm() {
       return
     }
 
-    await update()
+    await refreshAndRedirect()
+  }
+
+  async function refreshAndRedirect() {
+    try {
+      await Promise.race([
+        update(),
+        new Promise<void>(resolve => setTimeout(resolve, 4000)),
+      ])
+    } catch {}
     router.replace('/')
   }
 
@@ -62,8 +70,7 @@ function SetupForm() {
       return
     }
 
-    await update()
-    router.push('/')
+    await refreshAndRedirect()
   }
 
   return (

@@ -172,11 +172,11 @@ def main():
         result = generate_icon(icon, output_dir, style)
         if result == "ok":
             success += 1
+            time.sleep(SLEEP)   # rate-limit: only after a real API call
         elif result == "skip":
             skip += 1
         else:
             fail += 1
-        time.sleep(SLEEP)
 
     print(f"\n✅ Done: {success} generated, {skip} skipped, {fail} failed")
     if fail:

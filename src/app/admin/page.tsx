@@ -53,6 +53,8 @@ export default function AdminPage() {
   const [newHouseholdName, setNewHouseholdName] = useState('')
   const [actionMsg, setActionMsg] = useState('')
   const [seeding, setSeeding] = useState(false)
+  const [importingProducts, setImportingProducts] = useState(false)
+  const [importingRecipes, setImportingRecipes] = useState(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -155,6 +157,58 @@ export default function AdminPage() {
       setActionMsg(`Erreur : ${data.error}`)
     }
     setSeeding(false)
+  }
+
+  async function importProducts(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    setImportingProducts(true)
+    setActionMsg('')
+    try {
+      const json = JSON.parse(await file.text())
+      const r = await fetch('/api/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(json),
+      })
+      const data = await r.json()
+      if (r.ok) {
+        await loadStats()
+        setActionMsg(`Produits importés : ${data.created} ajoutés, ${data.skipped} ignorés${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+      } else {
+        setActionMsg(`Erreur : ${data.error}`)
+      }
+    } catch {
+      setActionMsg('Erreur : fichier JSON invalide')
+    }
+    setImportingProducts(false)
+  }
+
+  async function importRecipes(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    setImportingRecipes(true)
+    setActionMsg('')
+    try {
+      const json = JSON.parse(await file.text())
+      const r = await fetch('/api/import/recipes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(json),
+      })
+      const data = await r.json()
+      if (r.ok) {
+        await loadStats()
+        setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.skipped} ignorées${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+      } else {
+        setActionMsg(`Erreur : ${data.error}`)
+      }
+    } catch {
+      setActionMsg('Erreur : fichier JSON invalide')
+    }
+    setImportingRecipes(false)
   }
 
   async function createHousehold() {
@@ -349,8 +403,80 @@ export default function AdminPage() {
               {seeding ? 'Import en cours…' : 'Importer le catalogue'}
             </button>
           </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--fg2)' }}>
-            {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} actuellement dans la base.`}
+          {/* Import products JSON */}
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            borderRadius: 10,
+            padding: '1rem',
+          }}>
+            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
+              Import produits (JSON)
+            </div>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
+              Importe un fichier JSON de produits. Les produits déjà présents (même nom) sont ignorés.
+            </div>
+            <label style={{
+              display: 'inline-block',
+              padding: '0.5rem 1.25rem',
+              background: importingProducts ? 'var(--bg2)' : 'var(--primary)',
+              color: importingProducts ? 'var(--fg2)' : 'var(--primary-fg)',
+              borderRadius: 8,
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              cursor: importingProducts ? 'not-allowed' : 'pointer',
+              opacity: importingProducts ? 0.7 : 1,
+            }}>
+              {importingProducts ? 'Import en cours…' : 'Choisir un fichier JSON'}
+              <input
+                type="file"
+                accept=".json,application/json"
+                onChange={importProducts}
+                disabled={importingProducts}
+                style={{ display: 'none' }}
+              />
+            </label>
+            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginTop: '0.5rem' }}>
+              {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} actuellement dans la base.`}
+            </div>
+          </div>
+
+          {/* Import recipes JSON */}
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            borderRadius: 10,
+            padding: '1rem',
+          }}>
+            <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--fg)', marginBottom: '0.375rem' }}>
+              Import recettes (JSON)
+            </div>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
+              Importe un fichier JSON de recettes. Les recettes déjà présentes (même nom) sont ignorées. Les produits référencés doivent exister dans le catalogue.
+            </div>
+            <label style={{
+              display: 'inline-block',
+              padding: '0.5rem 1.25rem',
+              background: importingRecipes ? 'var(--bg2)' : 'var(--primary)',
+              color: importingRecipes ? 'var(--fg2)' : 'var(--primary-fg)',
+              borderRadius: 8,
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              cursor: importingRecipes ? 'not-allowed' : 'pointer',
+              opacity: importingRecipes ? 0.7 : 1,
+            }}>
+              {importingRecipes ? 'Import en cours…' : 'Choisir un fichier JSON'}
+              <input
+                type="file"
+                accept=".json,application/json"
+                onChange={importRecipes}
+                disabled={importingRecipes}
+                style={{ display: 'none' }}
+              />
+            </label>
+            <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginTop: '0.5rem' }}>
+              {stats?.recipes != null && `${stats.recipes} recette${stats.recipes !== 1 ? 's' : ''} actuellement dans la base.`}
+            </div>
           </div>
         </div>
       )}
