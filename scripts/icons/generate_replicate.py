@@ -4,12 +4,12 @@ Generate icons using Replicate API (FLUX.1-schnell)
 Get your token at https://replicate.com/account/api-tokens
 
 Usage:
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                            # all icons (icons-detailed.md)
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --spec my-spec.md          # custom spec file
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --family fromage           # one family
-  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --icon fromage-rond.png    # one icon
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py                            # default theme
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --theme kawaii             # kawaii theme
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --theme kawaii --family fromage
+  REPLICATE_API_TOKEN=r8_xxx python generate_replicate.py --spec my-spec.md          # explicit spec override
   python generate_replicate.py --list                                                 # list families
-  python generate_replicate.py --spec my-spec.md --list                              # list families in custom spec
+  python generate_replicate.py --theme kawaii --list                                  # list families in kawaii spec
 """
 
 import os
@@ -24,7 +24,7 @@ from PIL import Image
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons, build_parser, filter_icons, STYLE
+from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, STYLE
 
 # =========================
 # CONFIG
@@ -34,7 +34,6 @@ REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN")
 
 MODEL = "black-forest-labs/flux-schnell"
 
-OUTPUT_DIR = Path(__file__).parent.parent.parent / "uploads" / "icons" / "default"
 SLEEP = 11        # 6 req/min burst=1 → 1 req/10s minimum, 11s for safety
 RETRY_SLEEP = 15  # extra wait after a throttle error
 RETRIES = 3
@@ -56,8 +55,8 @@ def resize_to_128(image_bytes):
     return out.getvalue()
 
 
-def generate_icon(icon):
-    output_path = OUTPUT_DIR / icon["filename"]
+def generate_icon(icon, output_dir):
+    output_path = output_dir / icon["filename"]
 
     if output_path.exists():
         return "skip"
@@ -82,6 +81,7 @@ def generate_icon(icon):
                 img_url = img_url.url
 
             img_bytes = requests.get(img_url, timeout=30).content
+            output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_bytes(resize_to_128(img_bytes))
             return "ok"
 
@@ -107,15 +107,17 @@ def main():
     if not args.list and not REPLICATE_API_TOKEN:
         raise SystemExit("❌ REPLICATE_API_TOKEN environment variable not set.")
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_dir = resolve_output_dir(args.theme)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    icons = load_icons(args.spec)
+    icons, spec = load_icons_for_args(args)
     icons = filter_icons(icons, args)
 
-    already = sum(1 for i in icons if (OUTPUT_DIR / i["filename"]).exists())
+    already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
     todo = len(icons) - already
+    print(f"🎨 Theme: {args.theme}  →  {output_dir}")
+    print(f"📋 Spec: {spec}")
     print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
-    print(f"📋 Spec: {args.spec}")
 
     if todo == 0:
         print("Nothing to do.")
@@ -130,7 +132,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(icon)
+        result = generate_icon(icon, output_dir)
         if result == "ok":
             success += 1
         elif result == "skip":

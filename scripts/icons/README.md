@@ -1,39 +1,54 @@
 # Génération des icônes
 
-Les icônes sont générées à partir de `seed/icons.md` et placées dans `uploads/icons/default/`.
-Les scripts sont **idempotents** : un fichier déjà présent est ignoré — on peut relancer sans risque.
+Les icônes sont générées à partir de fichiers de spec dans `seed/` et placées dans `uploads/icons/<theme>/`.
+Les scripts sont **idempotents** : un fichier déjà présent est ignoré — relancer est sans risque.
 
 ---
 
-## Options de génération (CLI)
+## Fichiers de spec
 
-Chaque script accepte les mêmes arguments :
+| Fichier | Thème | Description |
+|---------|-------|-------------|
+| `seed/icons-detailed.md` | `default` | Style cute/kawaii — ~177 icônes |
+| `seed/icons-<theme>.md` | `<theme>` | Spec pour un thème alternatif |
+
+Chaque fichier de spec définit un style global et une liste d'icônes par famille (tableaux Markdown).
+
+---
+
+## Options CLI
+
+Les deux scripts acceptent les mêmes arguments :
 
 ```bash
-# Tout générer
+# Thème par défaut (→ uploads/icons/default/)
 python generate_hf.py
 
-# Seulement une famille (substring, insensible à la casse)
-python generate_hf.py --family bouteille
-python generate_hf.py --family fromage
+# Thème spécifique (→ uploads/icons/kawaii/, spec: seed/icons-kawaii.md)
+python generate_hf.py --theme kawaii
 
-# Un seul icône précis
-python generate_hf.py --icon fromage-rond.png
+# Filtrer par famille
+python generate_hf.py --theme kawaii --family fromage
 
-# Lister toutes les familles et leurs icônes
+# Un seul icône
+python generate_hf.py --theme kawaii --icon fromage-rond.png
+
+# Spec explicite (override)
+python generate_hf.py --theme kawaii --spec seed/my-spec.md
+
+# Lister les familles et icônes disponibles (sans token)
 python generate_hf.py --list
+python generate_hf.py --theme kawaii --list
 ```
-
-Les icônes déjà présentes dans `uploads/icons/default/` sont toujours ignorées — relancer est sans risque.
 
 ---
 
-## Options de service disponibles
+## Services disponibles
 
-| Script | Service | Coût | Limite | Qualité |
-|---|---|---|---|---|
-| `generate_hf.py` | HuggingFace Inference API | Crédits mensuels inclus (limités) — PRO à $9/mois pour 20× plus | Quota mensuel | Bonne |
-| `generate_replicate.py` | Replicate | ~$0.003/image → **~$0.50 total** | Aucune | Très bonne |
+| Script | Service | Coût | Notes |
+|--------|---------|------|-------|
+| `generate_hf.py` | HuggingFace Inference API | Crédits mensuels inclus (free) ou PRO $9/mois | Quota mensuel |
+| `generate_replicate.py` | Replicate | ~$0.003/image → ~$0.50 pour 177 icônes | Facturation à l'usage |
 
 ---
 
@@ -42,8 +57,8 @@ Les icônes déjà présentes dans `uploads/icons/default/` sont toujours ignor�
 ### 1. Créer un token
 
 1. Aller sur [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
-2. Créer un token **Read** (gratuit, compte HF suffisant)
-3. Accepter les conditions du modèle FLUX : [black-forest-labs/FLUX.1-schnell](https://huggingface.co/black-forest-labs/FLUX.1-schnell)
+2. Créer un token **Read** (gratuit)
+3. Accepter les conditions : [black-forest-labs/FLUX.1-schnell](https://huggingface.co/black-forest-labs/FLUX.1-schnell)
 
 ### 2. Installer les dépendances
 
@@ -55,25 +70,29 @@ pip install huggingface_hub pillow tqdm
 
 ```bash
 cd /chemin/vers/foodlist
-HF_TOKEN=hf_xxxxxxxxxxxx python3 scripts/icons/generate_hf.py
+
+# Thème default
+HF_TOKEN=hf_xxx python3 scripts/icons/generate_hf.py
+
+# Thème kawaii
+HF_TOKEN=hf_xxx python3 scripts/icons/generate_hf.py --theme kawaii
 ```
 
 ### Notes
 
-- Le free tier donne un quota de **crédits mensuels** (pas quotidien). Une fois épuisé, il faut soit acheter des crédits pré-payés, soit passer à HF PRO ($9/mois, 20× plus de crédits).
-- Si le quota est dépassé, passer directement à `generate_replicate.py` (~$0.50 pour toutes les icônes).
-- Si le modèle est en cours de chargement (erreur 503), le script attend automatiquement.
-- Si rate limité (erreur 429), le script attend 30s et reprend.
+- En cas de quota dépassé, passer à `generate_replicate.py` (~$0.50 total).
+- Erreur 503 (modèle en chargement) → le script attend automatiquement.
+- Erreur 429 (rate limit) → le script attend 30s et reprend.
 
 ---
 
-## Option 2 — Replicate (~$0.50 total)
+## Option 2 — Replicate (~$0.50)
 
 ### 1. Créer un compte et un token
 
-1. Aller sur [replicate.com](https://replicate.com) et créer un compte
-2. Générer un API token dans [replicate.com/account/api-tokens](https://replicate.com/account/api-tokens)
-3. Ajouter un moyen de paiement (facturation à l'usage, pas d'abonnement)
+1. Aller sur [replicate.com](https://replicate.com)
+2. Générer un token dans [replicate.com/account/api-tokens](https://replicate.com/account/api-tokens)
+3. Ajouter un moyen de paiement
 
 ### 2. Installer les dépendances
 
@@ -85,54 +104,29 @@ pip install replicate requests pillow tqdm
 
 ```bash
 cd /chemin/vers/foodlist
-REPLICATE_API_TOKEN=r8_xxxxxxxxxxxx python3 scripts/icons/generate_replicate.py
+
+# Thème default
+REPLICATE_API_TOKEN=r8_xxx python3 scripts/icons/generate_replicate.py
+
+# Thème kawaii
+REPLICATE_API_TOKEN=r8_xxx python3 scripts/icons/generate_replicate.py --theme kawaii
 ```
 
 Le script affiche le coût estimé et demande confirmation avant de commencer.
 
 ---
 
-## Option 3 — Local avec diffusers (gratuit, GPU requis)
-
-Si tu as une carte graphique avec ≥8 Go de VRAM :
-
-```bash
-pip install diffusers transformers torch accelerate pillow tqdm
-```
-
-```python
-from diffusers import FluxPipeline
-import torch
-
-pipe = FluxPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-schnell",
-    torch_dtype=torch.bfloat16
-)
-pipe.to("cuda")
-
-image = pipe(
-    "flat design icon, minimalist illustration, ...",
-    num_inference_steps=4,
-    guidance_scale=0.0,
-).images[0]
-
-image.save("icon.png")
-```
-
-Adapter `generate_hf.py` en remplaçant l'appel API par ce pipeline local.
-
----
-
 ## Résultat attendu
-
-Après exécution, les icônes sont placées directement dans `uploads/icons/default/` :
 
 ```
 uploads/icons/default/
 ├── bouteille-biere.png
-├── bouteille-cidre.png
 ├── fromage-rond.png
-├── ...
+└── ...
+
+uploads/icons/kawaii/
+├── bouteille-biere.png   # version kawaii si présente dans la spec
+└── ...
 ```
 
-Elles sont automatiquement disponibles dans l'application via `/api/icons/bouteille-biere.png`.
+Les icônes sont immédiatement disponibles dans l'app via `/api/icons/<filename>?theme=kawaii`.
