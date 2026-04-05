@@ -21,11 +21,11 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Default icons baked into the image
-COPY --from=builder /app/uploads/icons/default ./uploads/icons/default
+# Default icons baked into the image (all themes)
+COPY --from=builder /app/uploads/icons ./uploads/icons
 
-# Mount point for user-uploaded icons (custom only)
-RUN mkdir -p ./uploads/icons/custom && chown node:node ./uploads/icons/custom
+# Ensure writable by node user
+RUN chown -R node:node ./uploads/icons
 
 USER node
 EXPOSE 3000

@@ -1664,5 +1664,26 @@
     "ref_unit": "g",
     "ref_quantity": 150,
     "icon_ref": "philadelphia.png"
+  },
+  {
+    "name": "Levure",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "levure.png"
+  },
+  {
+    "name": "Noix de muscade",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "muscade.png"
+  },
+  {
+    "name": "Pommes de terre",
+    "category": "Fruits & Légumes",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "pomme-de-terre.png"
   }
 ]

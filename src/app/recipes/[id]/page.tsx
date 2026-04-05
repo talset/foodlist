@@ -47,6 +47,7 @@ export default function RecipePage() {
   const [isFavorite, setIsFavorite] = useState(false)
   const [togglingFav, setTogglingFav] = useState(false)
   const [stockStatus, setStockStatus] = useState<Map<number, string>>(new Map())
+  const [viewMultiplier, setViewMultiplier] = useState(1)
 
   useEffect(() => {
     fetch('/api/recipe-categories').then(r => r.json()).then(setRecipeCategories)
@@ -317,7 +318,19 @@ export default function RecipePage() {
 
           {recipe.ingredients.length > 0 && (
             <section style={{ marginBottom: '1.5rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--fg)' }}>Ingrédients</h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: 0, color: 'var(--fg)' }}>
+                  Ingrédients{viewMultiplier !== 1 ? ` (×${viewMultiplier})` : ''}
+                </h2>
+                {viewMultiplier !== 1 && (
+                  <button
+                    onClick={() => setViewMultiplier(1)}
+                    style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontSize: '0.8125rem' }}
+                  >
+                    Réinitialiser
+                  </button>
+                )}
+              </div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {recipe.ingredients.map(ing => {
                   const status = stockStatus.get(ing.product_id)
@@ -330,7 +343,7 @@ export default function RecipePage() {
                       }} title={inStock ? 'En stock' : 'Manquant'} />
                       {ing.icon_url && <img src={ing.icon_url} alt="" width={24} height={24} style={{ borderRadius: 3 }} />}
                       <span style={{ flex: 1, color: 'var(--fg)' }}>{ing.product_name}</span>
-                      <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity)} {ing.ref_unit}</span>
+                      <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity * viewMultiplier)} {ing.ref_unit}</span>
                     </li>
                   )
                 })}
@@ -363,6 +376,9 @@ export default function RecipePage() {
                 />
                 <span style={{ color: 'var(--fg2)' }}>= {Math.round(recipe.base_servings * multiplier)} pers.</span>
               </label>
+              <button onClick={() => setViewMultiplier(multiplier)} style={{ padding: '0.5rem 1rem', background: 'var(--bg2)', color: 'var(--fg)', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', fontWeight: 600 }}>
+                Visualiser
+              </button>
               <button onClick={addToShoppingList} disabled={addingToList} style={{ padding: '0.5rem 1rem', background: 'var(--primary)', color: 'var(--primary-fg)', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600 }}>
                 {addingToList ? '…' : '+ Ajouter'}
               </button>

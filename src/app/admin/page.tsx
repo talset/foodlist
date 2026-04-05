@@ -323,6 +323,26 @@ export default function AdminPage() {
     setDeletingIcons(prev => { const s = new Set(prev); s.delete(key); return s })
   }
 
+  async function deleteThemeIcon(filename: string, theme: string) {
+    const key = `${theme}/${filename}`
+    setDeletingIcons(prev => new Set(prev).add(key))
+    setActionMsg('')
+    const r = await fetch('/api/admin/icons', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filenames: [filename], theme }),
+    })
+    if (r.ok) {
+      const d = await r.json()
+      await loadIcons()
+      const msg = `${d.deleted} ic\u00f4ne${d.deleted !== 1 ? 's' : ''} supprim\u00e9e${d.deleted !== 1 ? 's' : ''}`
+      setActionMsg(msg)
+    } else {
+      setActionMsg('Erreur lors de la suppression')
+    }
+    setDeletingIcons(prev => { const s = new Set(prev); s.delete(key); return s })
+  }
+
   async function createHousehold() {
     if (!newHouseholdName.trim()) return
     setActionMsg('')
@@ -757,6 +777,13 @@ export default function AdminPage() {
                         {!orphanThemeFilter && (
                           <span style={{ fontSize: '0.55rem', color: 'var(--primary)', fontWeight: 600 }}>{theme}</span>
                         )}
+                        <button
+                          onClick={() => deleteThemeIcon(filename, theme)}
+                          disabled={deletingIcons.has(`${theme}/${filename}`)}
+                          style={{ padding: '0.125rem 0.375rem', border: '1px solid #fca5a5', borderRadius: 4, background: 'none', color: '#dc2626', fontSize: '0.6875rem', cursor: 'pointer' }}
+                        >
+                          ×
+                        </button>
                       </div>
                     ))}
                   </div>
