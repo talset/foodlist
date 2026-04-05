@@ -120,16 +120,25 @@ export interface ApiRecipe {
   id: number
   name: string
   description: string | null
+  recipe_category_id: number | null
+  recipe_category_name: string | null
   base_servings: number
   ingredient_count: number
   created_at: string
   feasibility?: RecipeFeasibility
+  is_favorite: boolean
 }
 
 export interface ApiRecipeDetail extends Omit<ApiRecipe, 'ingredient_count'> {
   steps_markdown: string | null
   photo_url: string | null
   ingredients: ApiRecipeIngredient[]
+}
+
+export interface ApiRecipeCategory {
+  id: number
+  name: string
+  sort_order: number
 }
 
 export interface ApiShoppingRecipe {

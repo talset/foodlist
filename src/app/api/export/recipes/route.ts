@@ -8,8 +8,11 @@ export async function GET() {
   if (!session?.user?.isAdmin) return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 })
 
   const [recipeRows] = await pool.query<any[]>(
-    `SELECT id, name, description, steps_markdown, base_servings
-     FROM recipes ORDER BY name`
+    `SELECT r.id, r.name, r.description, r.steps_markdown, r.base_servings,
+            rc.name AS category
+     FROM recipes r
+     LEFT JOIN recipe_categories rc ON rc.id = r.recipe_category_id
+     ORDER BY r.name`
   )
 
   const [ingRows] = await pool.query<any[]>(
@@ -28,6 +31,7 @@ export async function GET() {
   const recipes = (recipeRows as any[]).map(r => ({
     name: r.name,
     description: r.description ?? null,
+    category: r.category ?? null,
     base_servings: r.base_servings,
     steps_markdown: r.steps_markdown ?? null,
     ingredients: ingByRecipe.get(r.id) ?? [],

@@ -64,21 +64,21 @@ function RegisterForm() {
 
   // Loading state while we check
   if (isFirstUser === null) {
-    return <p style={{ textAlign: 'center', color: '#666' }}>Chargement…</p>
+    return <p style={{ textAlign: 'center', color: 'var(--fg2)' }}>Chargement…</p>
   }
 
   // Invite-only: no token, not first user
   if (!canRegister) {
     return (
       <>
-        <h1 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 700 }}>
+        <h1 style={{ marginBottom: '1rem', fontSize: '1.5rem', fontWeight: 700, color: 'var(--fg)' }}>
           Accès sur invitation
         </h1>
-        <p style={{ color: '#666', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+        <p style={{ color: 'var(--fg2)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
           L&apos;inscription est fermée. Pour rejoindre Foodlist, demandez un lien
           d&apos;invitation à l&apos;administrateur du foyer.
         </p>
-        <Link href="/login" style={{ color: '#3182ce', fontSize: '0.9rem' }}>
+        <Link href="/login" style={{ color: 'var(--primary)', fontSize: '0.9rem' }}>
           ← Retour à la connexion
         </Link>
       </>
@@ -87,16 +87,16 @@ function RegisterForm() {
 
   return (
     <>
-      <h1 style={{ marginBottom: '0.25rem', fontSize: '1.5rem', fontWeight: 700 }}>
+      <h1 style={{ marginBottom: '0.25rem', fontSize: '1.5rem', fontWeight: 700, color: 'var(--fg)' }}>
         {isFirstUser ? 'Créer le compte admin' : 'Rejoindre Foodlist'}
       </h1>
       {isFirstUser && (
-        <p style={{ color: '#666', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+        <p style={{ color: 'var(--fg2)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
           Premier lancement — ce compte sera l&apos;administrateur.
         </p>
       )}
       {!isFirstUser && (
-        <p style={{ color: '#666', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+        <p style={{ color: 'var(--fg2)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
           Vous avez été invité à rejoindre un foyer.
         </p>
       )}
@@ -127,7 +127,7 @@ function RegisterForm() {
           style={inputStyle}
         />
 
-        {error && <p style={{ color: '#e53e3e', fontSize: '0.875rem' }}>{error}</p>}
+        {error && <p style={{ color: '#dc2626', fontSize: '0.875rem' }}>{error}</p>}
 
         <button type="submit" disabled={loading} style={btnPrimaryStyle}>
           {loading ? 'Création…' : 'Créer le compte'}
@@ -136,7 +136,7 @@ function RegisterForm() {
 
       {isFirstUser && (
         <>
-          <div style={{ margin: '1rem 0', textAlign: 'center', color: '#999', fontSize: '0.875rem' }}>
+          <div style={{ margin: '1rem 0', textAlign: 'center', color: 'var(--fg2)', fontSize: '0.875rem' }}>
             ou
           </div>
           <button
@@ -148,9 +148,9 @@ function RegisterForm() {
         </>
       )}
 
-      <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: 'var(--fg2)' }}>
         Déjà un compte ?{' '}
-        <Link href="/login" style={{ color: '#3182ce' }}>Se connecter</Link>
+        <Link href="/login" style={{ color: 'var(--primary)' }}>Se connecter</Link>
       </p>
     </>
   )
@@ -166,17 +166,20 @@ export default function RegisterPage() {
 
 const inputStyle: React.CSSProperties = {
   padding: '0.625rem 0.75rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 8,
   fontSize: '1rem',
   width: '100%',
   boxSizing: 'border-box',
+  background: 'var(--input-bg)',
+  color: 'var(--fg)',
+  outline: 'none',
 }
 
 const btnPrimaryStyle: React.CSSProperties = {
   padding: '0.625rem',
-  background: '#3182ce',
-  color: '#fff',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
   border: 'none',
   borderRadius: 8,
   fontSize: '1rem',
@@ -187,9 +190,9 @@ const btnPrimaryStyle: React.CSSProperties = {
 const btnSecondaryStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.625rem',
-  background: '#fff',
-  color: '#333',
-  border: '1px solid #e2e8f0',
+  background: 'var(--bg)',
+  color: 'var(--fg)',
+  border: '1px solid var(--border)',
   borderRadius: 8,
   fontSize: '1rem',
   cursor: 'pointer',

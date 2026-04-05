@@ -39,12 +39,14 @@ export async function GET() {
   const user = (rows as any[])[0]
   const availableIconThemes = await getAvailableIconThemes()
 
+  const siteTheme = (user.site_theme && user.site_theme !== 'default') ? user.site_theme : 'dark'
+
   return NextResponse.json({
     id: user.id,
     name: user.name,
     email: user.email,
     isAdmin: Boolean(user.is_admin),
-    siteTheme: user.site_theme ?? 'dark',
+    siteTheme,
     iconTheme: user.icon_theme ?? 'default',
     availableIconThemes,
   })
@@ -69,11 +71,12 @@ export async function PATCH(req: Request) {
   }
 
   if (siteTheme !== undefined) {
-    if (!Object.keys(SITE_THEMES).includes(siteTheme)) {
+    const resolved = siteTheme === 'default' ? 'dark' : siteTheme
+    if (!Object.keys(SITE_THEMES).includes(resolved)) {
       return NextResponse.json({ error: 'INVALID_THEME' }, { status: 400 })
     }
     sets.push('site_theme = ?')
-    values.push(siteTheme as SiteTheme)
+    values.push(resolved as SiteTheme)
   }
 
   if (iconTheme !== undefined) {
@@ -102,7 +105,7 @@ export async function PATCH(req: Request) {
     name: user.name,
     email: user.email,
     isAdmin: Boolean(user.is_admin),
-    siteTheme: user.site_theme ?? 'dark',
+    siteTheme: (user.site_theme && user.site_theme !== 'default') ? user.site_theme : 'dark',
     iconTheme: user.icon_theme ?? 'default',
   })
 }

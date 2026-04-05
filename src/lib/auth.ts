@@ -22,7 +22,7 @@ async function getUserPrefs(userId: number): Promise<{ isAdmin: boolean; siteThe
   if (!rows.length) return { isAdmin: false, siteTheme: 'dark', iconTheme: 'default' }
   return {
     isAdmin: Boolean(rows[0].is_admin),
-    siteTheme: (rows[0].site_theme as SiteTheme) ?? 'dark',
+    siteTheme: ((rows[0].site_theme && rows[0].site_theme !== 'default') ? rows[0].site_theme : 'dark') as SiteTheme,
     iconTheme: rows[0].icon_theme ?? 'default',
   }
 }

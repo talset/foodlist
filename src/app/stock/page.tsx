@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import NumberInput from '@/components/NumberInput'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -212,14 +213,14 @@ export default function StockPage() {
                 <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>{item.product_name}</span>
 
                 {editingId === item.id ? (
-                  <input
-                    type="number"
+                  <NumberInput
                     value={editQty}
+                    onChange={v => setEditQty(v)}
+                    fallback={0}
+                    integer
                     min={0}
-                    onChange={e => setEditQty(parseInt(e.target.value) || 0)}
-                    onBlur={() => saveQty(item.id)}
-                    onKeyDown={e => e.key === 'Enter' && saveQty(item.id)}
                     autoFocus
+                    onBlur={() => saveQty(item.id)}
                     style={{
                       width: 60, padding: '0.25rem',
                       border: '1px solid var(--border)', borderRadius: 4,

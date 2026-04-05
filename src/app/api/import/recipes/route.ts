@@ -19,6 +19,10 @@ export async function POST(req: Request) {
   const [prodRows] = await pool.query<any[]>('SELECT id, name FROM products')
   const prodMap = new Map<string, number>(prodRows.map(r => [r.name, r.id]))
 
+  // Pre-fetch recipe categories (by name)
+  const [rcRows] = await pool.query<any[]>('SELECT id, name FROM recipe_categories')
+  const rcMap = new Map<string, number>(rcRows.map(r => [r.name, r.id]))
+
   // Pre-fetch existing recipe names
   const [recipeRows] = await pool.query<any[]>('SELECT name FROM recipes')
   const existingNames = new Set<string>(recipeRows.map(r => r.name))
@@ -40,9 +44,11 @@ export async function POST(req: Request) {
     try {
       await conn.beginTransaction()
 
+      const categoryId = item.category ? (rcMap.get(item.category) ?? null) : null
+
       const [res] = await conn.query(
-        'INSERT INTO recipes (name, description, steps_markdown, base_servings, created_by) VALUES (?, ?, ?, ?, ?)',
-        [name, description ?? null, steps_markdown ?? null, base_servings ?? 4, userId]
+        'INSERT INTO recipes (name, description, steps_markdown, base_servings, recipe_category_id, created_by) VALUES (?, ?, ?, ?, ?, ?)',
+        [name, description ?? null, steps_markdown ?? null, base_servings ?? 4, categoryId, userId]
       )
       const recipeId = res.insertId
 

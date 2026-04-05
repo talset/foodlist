@@ -1,14 +1,11 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import type { ApiProduct, ApiCategory } from '@/types'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 
 export default function ProductsPage() {
-  const { data: session } = useSession()
-  const isAdmin = session?.user?.isAdmin ?? false
   const [products, setProducts] = useState<ApiProduct[]>([])
   const [categories, setCategories] = useState<ApiCategory[]>([])
   const [q, setQ] = useState('')
@@ -16,9 +13,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [stockIds, setStockIds] = useState<Set<number>>(new Set())
   const [adding, setAdding] = useState<Set<number>>(new Set())
-  const [importing, setImporting] = useState(false)
-  const [importMsg, setImportMsg] = useState('')
-  const importRef = useRef<HTMLInputElement>(null)
+
   const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
   useEffect(() => {
@@ -64,32 +59,6 @@ export default function ProductsPage() {
     [products, stockIds]
   )
 
-  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    e.target.value = ''
-    setImporting(true)
-    setImportMsg('')
-    try {
-      const json = JSON.parse(await file.text())
-      const r = await fetch('/api/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(json),
-      })
-      const data = await r.json()
-      if (r.ok) {
-        setImportMsg(`${data.created} ajouté(s), ${data.skipped} ignoré(s)${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
-        fetchProducts()
-      } else {
-        setImportMsg(`Erreur : ${data.error}`)
-      }
-    } catch {
-      setImportMsg('Fichier JSON invalide')
-    }
-    setImporting(false)
-  }
-
   async function addAllToStock() {
     const toAdd = products.filter(p => !stockIds.has(p.id))
     for (const p of toAdd) {
@@ -102,35 +71,6 @@ export default function ProductsPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.5rem' }}>
         <h1 style={{ margin: 0 }}>Produits</h1>
         <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-          {isAdmin && (
-            <>
-              <button
-                onClick={() => importRef.current?.click()}
-                disabled={importing}
-                style={{
-                  padding: '0.5rem 0.875rem',
-                  background: 'var(--bg2)',
-                  color: importing ? 'var(--fg2)' : 'var(--fg)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 8,
-                  fontSize: '0.8125rem',
-                  fontWeight: 600,
-                  cursor: importing ? 'not-allowed' : 'pointer',
-                  whiteSpace: 'nowrap',
-                  opacity: importing ? 0.7 : 1,
-                }}
-              >
-                {importing ? '…' : '↑ Import'}
-              </button>
-              <input
-                ref={importRef}
-                type="file"
-                accept=".json,application/json"
-                onChange={handleImport}
-                style={{ display: 'none' }}
-              />
-            </>
-          )}
           {toAddCount > 0 && (
             <button
               onClick={addAllToStock}
@@ -163,21 +103,6 @@ export default function ProductsPage() {
           </Link>
         </div>
       </div>
-
-      {importMsg && (
-        <div style={{
-          fontSize: '0.8125rem',
-          color: importMsg.startsWith('Erreur') || importMsg.startsWith('Fichier') ? '#b91c1c' : '#166534',
-          background: importMsg.startsWith('Erreur') || importMsg.startsWith('Fichier') ? '#fef2f2' : '#f0fdf4',
-          border: '1px solid',
-          borderColor: importMsg.startsWith('Erreur') || importMsg.startsWith('Fichier') ? '#fca5a5' : '#86efac',
-          borderRadius: 8,
-          padding: '0.5rem 0.75rem',
-          marginBottom: '0.75rem',
-        }}>
-          {importMsg}
-        </div>
-      )}
 
       {/* Search */}
       <input

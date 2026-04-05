@@ -5,6 +5,15 @@ import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 
+function groupByCategory(items: ApiStockItem[]) {
+  const map = new Map<string, ApiStockItem[]>()
+  for (const item of items) {
+    if (!map.has(item.category_name)) map.set(item.category_name, [])
+    map.get(item.category_name)!.push(item)
+  }
+  return map
+}
+
 interface ActiveRecipe {
   id: number
   recipe_name: string
@@ -105,12 +114,24 @@ export default function ShoppingPage() {
     setChecking(prev => new Set(prev).add(item.id))
     setItems(prev => prev.filter(i => i.id !== item.id))
 
-    const res = await fetch(`/api/stock/${item.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'in_stock' }),
-    })
-    if (!res.ok) {
+    let ok: boolean
+    if (item.id < 0) {
+      // Product not in stock table yet — create an in_stock entry
+      const res = await fetch('/api/stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: item.product_id, quantity: 0, status: 'in_stock' }),
+      })
+      ok = res.ok
+    } else {
+      const res = await fetch(`/api/stock/${item.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'in_stock' }),
+      })
+      ok = res.ok
+    }
+    if (!ok) {
       setItems(prev => [...prev, item].sort((a, b) => a.product_name.localeCompare(b.product_name)))
     }
     setChecking(prev => { const s = new Set(prev); s.delete(item.id); return s })
@@ -240,61 +261,66 @@ export default function ShoppingPage() {
       ) : filteredItems.length === 0 ? (
         <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>Aucun résultat.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {filteredItems.map(item => (
-            <li key={item.id} style={{
-              display: 'flex', alignItems: 'center', gap: '0.75rem',
-              padding: '0.75rem 0', borderBottom: '1px solid var(--border)',
+        Array.from(groupByCategory(filteredItems).entries()).map(([categoryName, groupItems]) => (
+          <section key={categoryName} style={{ marginBottom: '1.5rem' }}>
+            <h2 style={{
+              fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg2)',
+              textTransform: 'uppercase', letterSpacing: '0.05em',
+              marginBottom: '0.25rem',
             }}>
-              <button
-                onClick={() => checkOff(item)}
-                disabled={checking.has(item.id)}
-                style={{
-                  width: 24, height: 24, borderRadius: 4, flexShrink: 0,
-                  border: '2px solid var(--border)', background: 'var(--bg)',
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}
-                title="Marquer comme acheté"
-              >
-                {checking.has(item.id) ? '…' : ''}
-              </button>
+              {categoryName}
+            </h2>
+            {groupItems.map(item => (
+              <div key={item.id} style={{
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                padding: '0.5rem 0', borderBottom: '1px solid var(--border)',
+              }}>
+                <button
+                  onClick={() => checkOff(item)}
+                  disabled={checking.has(item.id)}
+                  style={{
+                    width: 24, height: 24, borderRadius: 4, flexShrink: 0,
+                    border: '2px solid var(--border)', background: 'var(--bg)',
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  title="Marquer comme acheté"
+                >
+                  {checking.has(item.id) ? '…' : ''}
+                </button>
 
-              {item.icon_url && (
-                <img src={item.icon_url} alt="" width={28} height={28} style={{ borderRadius: 4, flexShrink: 0 }} />
-              )}
+                {item.icon_url && (
+                  <img src={item.icon_url} alt="" width={28} height={28} style={{ borderRadius: 4, flexShrink: 0 }} />
+                )}
 
-              <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>
-                {item.product_name}
-              </span>
-
-              {item.recipe_quantity != null && item.recipe_quantity > 0 ? (
-                <span style={{
-                  background: 'var(--primary)', color: 'var(--primary-fg)',
-                  borderRadius: 9999, padding: '0.125rem 0.5rem',
-                  fontSize: '0.75rem', fontWeight: 600, whiteSpace: 'nowrap',
-                }}>
-                  {item.recipe_quantity % 1 === 0
-                    ? item.recipe_quantity
-                    : item.recipe_quantity.toFixed(1)} {item.ref_unit}
+                <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>
+                  {item.product_name}
                 </span>
-              ) : (
-                <span style={{
-                  background: 'var(--bg2)', color: 'var(--fg2)',
-                  borderRadius: 9999, padding: '0.125rem 0.5rem',
-                  fontSize: '0.75rem', fontWeight: 600, whiteSpace: 'nowrap',
-                  border: '1px solid var(--border)',
-                }}>
-                  × 1
-                </span>
-              )}
 
-              <span style={{ fontSize: '0.75rem', color: 'var(--fg2)', whiteSpace: 'nowrap' }}>
-                {item.category_name}
-              </span>
-            </li>
-          ))}
-        </ul>
+                {item.recipe_quantity != null && item.recipe_quantity > 0 ? (
+                  <span style={{
+                    background: 'var(--primary)', color: 'var(--primary-fg)',
+                    borderRadius: 9999, padding: '0.125rem 0.5rem',
+                    fontSize: '0.75rem', fontWeight: 600, whiteSpace: 'nowrap',
+                  }}>
+                    {item.recipe_quantity % 1 === 0
+                      ? item.recipe_quantity
+                      : item.recipe_quantity.toFixed(1)} {item.ref_unit}
+                  </span>
+                ) : (
+                  <span style={{
+                    background: 'var(--bg2)', color: 'var(--fg2)',
+                    borderRadius: 9999, padding: '0.125rem 0.5rem',
+                    fontSize: '0.75rem', fontWeight: 600, whiteSpace: 'nowrap',
+                    border: '1px solid var(--border)',
+                  }}>
+                    × 1
+                  </span>
+                )}
+              </div>
+            ))}
+          </section>
+        ))
       )}
     </main>
   )

@@ -37,7 +37,7 @@ function LoginForm() {
 
   return (
     <>
-      <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 700 }}>
+      <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 700, color: 'var(--fg)' }}>
         Connexion
       </h1>
 
@@ -69,14 +69,14 @@ function LoginForm() {
           style={inputStyle}
         />
 
-        {error && <p style={{ color: '#e53e3e', fontSize: '0.875rem' }}>{error}</p>}
+        {error && <p style={{ color: '#dc2626', fontSize: '0.875rem' }}>{error}</p>}
 
         <button type="submit" disabled={loading} style={btnPrimaryStyle}>
           {loading ? 'Connexion…' : 'Se connecter'}
         </button>
       </form>
 
-      <div style={{ margin: '1rem 0', textAlign: 'center', color: '#999', fontSize: '0.875rem' }}>
+      <div style={{ margin: '1rem 0', textAlign: 'center', color: 'var(--fg2)', fontSize: '0.875rem' }}>
         ou
       </div>
 
@@ -100,17 +100,20 @@ export default function LoginPage() {
 
 const inputStyle: React.CSSProperties = {
   padding: '0.625rem 0.75rem',
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--border)',
   borderRadius: 8,
   fontSize: '1rem',
   width: '100%',
   boxSizing: 'border-box',
+  background: 'var(--input-bg)',
+  color: 'var(--fg)',
+  outline: 'none',
 }
 
 const btnPrimaryStyle: React.CSSProperties = {
   padding: '0.625rem',
-  background: '#3182ce',
-  color: '#fff',
+  background: 'var(--primary)',
+  color: 'var(--primary-fg)',
   border: 'none',
   borderRadius: 8,
   fontSize: '1rem',
@@ -121,9 +124,9 @@ const btnPrimaryStyle: React.CSSProperties = {
 const btnSecondaryStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.625rem',
-  background: '#fff',
-  color: '#333',
-  border: '1px solid #e2e8f0',
+  background: 'var(--bg)',
+  color: 'var(--fg)',
+  border: '1px solid var(--border)',
   borderRadius: 8,
   fontSize: '1rem',
   cursor: 'pointer',

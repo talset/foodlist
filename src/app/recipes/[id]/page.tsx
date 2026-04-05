@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import type { ApiRecipeDetail, ApiRecipeIngredient } from '@/types'
+import type { ApiRecipeDetail, ApiRecipeIngredient, ApiRecipeCategory } from '@/types'
 import { getCompatibleUnits, convertUnit, fmtQty } from '@/lib/units'
+import NumberInput from '@/components/NumberInput'
 
 interface IngredientRow {
   product_id: number
@@ -33,6 +34,8 @@ export default function RecipePage() {
   const [description, setDescription] = useState('')
   const [steps, setSteps] = useState('')
   const [servings, setServings] = useState(4)
+  const [recipeCategoryId, setRecipeCategoryId] = useState<number | null>(null)
+  const [recipeCategories, setRecipeCategories] = useState<ApiRecipeCategory[]>([])
   const [ingredients, setIngredients] = useState<IngredientRow[]>([])
   const [productSearch, setProductSearch] = useState('')
   const [productResults, setProductResults] = useState<any[]>([])
@@ -40,6 +43,12 @@ export default function RecipePage() {
   const [multiplier, setMultiplier] = useState(1)
   const [addingToList, setAddingToList] = useState(false)
   const [addedFeedback, setAddedFeedback] = useState('')
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [togglingFav, setTogglingFav] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/recipe-categories').then(r => r.json()).then(setRecipeCategories)
+  }, [])
 
   useEffect(() => {
     if (isNew) return
@@ -51,6 +60,8 @@ export default function RecipePage() {
         setDescription(data.description ?? '')
         setSteps(data.steps_markdown ?? '')
         setServings(data.base_servings)
+        setRecipeCategoryId(data.recipe_category_id ?? null)
+        setIsFavorite(data.is_favorite ?? false)
         setIngredients(data.ingredients.map((i: ApiRecipeIngredient) =>
           makeRow(i.product_id, i.product_name, i.ref_unit, i.quantity)
         ))
@@ -86,6 +97,7 @@ export default function RecipePage() {
       description: description || null,
       steps_markdown: steps || null,
       base_servings: servings,
+      recipe_category_id: recipeCategoryId,
       ingredients: ingredients.map(ing => ({ product_id: ing.product_id, quantity: ing.quantity })),
     }
     const res = isNew
@@ -117,9 +129,17 @@ export default function RecipePage() {
     })
     if (res.ok) {
       const data = await res.json()
-      setAddedFeedback(`✅ ${data.ingredients_added} ingrédient${data.ingredients_added > 1 ? 's' : ''} ajouté${data.ingredients_added > 1 ? 's' : ''} à la liste`)
+      setAddedFeedback(`✅ ${data.ingredient_count} ingrédient${data.ingredient_count > 1 ? 's' : ''} ajouté${data.ingredient_count > 1 ? 's' : ''} à la liste`)
     }
     setAddingToList(false)
+  }
+
+  async function toggleFavorite() {
+    setTogglingFav(true)
+    const method = isFavorite ? 'DELETE' : 'POST'
+    const res = await fetch(`/api/recipes/${id}/favorite`, { method })
+    if (res.ok) setIsFavorite(prev => !prev)
+    setTogglingFav(false)
   }
 
   if (loading) return <main style={{ padding: '1rem' }}><p>Chargement…</p></main>
@@ -130,6 +150,21 @@ export default function RecipePage() {
         <Link href="/recipes" style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>← Recettes</Link>
         {!isNew && !editing && (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button
+              onClick={toggleFavorite}
+              disabled={togglingFav}
+              style={{
+                padding: '0.375rem 0.75rem', border: '1px solid var(--border)',
+                borderRadius: 6, cursor: 'pointer',
+                background: isFavorite ? '#fef3c7' : 'var(--bg2)',
+                color: isFavorite ? '#f59e0b' : 'var(--fg2)',
+                fontSize: '1rem', lineHeight: 1,
+                opacity: togglingFav ? 0.5 : 1,
+              }}
+              title={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+            >
+              {isFavorite ? '★' : '☆'}
+            </button>
             <button onClick={() => setEditing(true)} style={{ padding: '0.375rem 0.75rem', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', background: 'var(--bg2)', color: 'var(--fg)' }}>
               Modifier
             </button>
@@ -151,8 +186,21 @@ export default function RecipePage() {
             <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2} style={{ ...inputStyle, resize: 'vertical' }} />
           </div>
           <div>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem', color: 'var(--fg)' }}>Catégorie</label>
+            <select
+              value={recipeCategoryId ?? ''}
+              onChange={e => setRecipeCategoryId(e.target.value ? Number(e.target.value) : null)}
+              style={{ ...inputStyle, width: 'auto', minWidth: 160 }}
+            >
+              <option value="">Aucune</option>
+              {recipeCategories.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem', color: 'var(--fg)' }}>Personnes</label>
-            <input type="number" value={servings} min={1} onChange={e => setServings(parseInt(e.target.value) || 1)} style={{ ...inputStyle, width: 80 }} />
+            <NumberInput value={servings} onChange={v => setServings(v)} fallback={1} integer min={1} style={{ ...inputStyle, width: 80 }} />
           </div>
           <div>
             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem', color: 'var(--fg)' }}>Étapes (markdown)</label>
@@ -172,12 +220,12 @@ export default function RecipePage() {
                   <span style={{ flex: 1, paddingTop: '0.35rem', color: 'var(--fg)', fontSize: '0.9rem' }}>{ing.product_name}</span>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.125rem' }}>
                     <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
-                      <input
-                        type="number"
+                      <NumberInput
                         value={ing.display_qty}
+                        onChange={v => updateIngredient(i, { display_qty: v })}
+                        fallback={0.001}
                         min={0.001}
                         step={0.5}
-                        onChange={e => updateIngredient(i, { display_qty: parseFloat(e.target.value) || 0 })}
                         style={{ ...inputStyle, width: 70, padding: '0.25rem 0.375rem' }}
                       />
                       {hasAltUnits ? (
@@ -245,8 +293,18 @@ export default function RecipePage() {
       ) : recipe && (
         <>
           <h1 style={{ margin: '0 0 0.25rem', color: 'var(--fg)' }}>{recipe.name}</h1>
-          <p style={{ color: 'var(--fg2)', fontSize: '0.875rem', margin: '0 0 1rem' }}>
-            {recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''}
+          <p style={{ color: 'var(--fg2)', fontSize: '0.875rem', margin: '0 0 1rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {recipe.recipe_category_name && (
+              <span style={{
+                fontSize: '0.75rem', fontWeight: 500,
+                padding: '0.125rem 0.5rem', borderRadius: 9999,
+                background: 'var(--bg2)', color: 'var(--fg2)',
+                border: '1px solid var(--border)',
+              }}>
+                {recipe.recipe_category_name}
+              </span>
+            )}
+            <span>{recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''}</span>
           </p>
           {recipe.description && <p style={{ marginBottom: '1rem', color: 'var(--fg)' }}>{recipe.description}</p>}
 
@@ -279,13 +337,13 @@ export default function RecipePage() {
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--fg)' }}>
                 ×
-                <input
-                  type="number"
+                <NumberInput
                   value={multiplier}
+                  onChange={v => setMultiplier(v)}
+                  fallback={1}
                   min={0.5}
                   step={0.5}
                   max={99}
-                  onChange={e => setMultiplier(parseFloat(e.target.value) || 1)}
                   style={{ ...inputStyle, width: 60, padding: '0.375rem' }}
                 />
                 <span style={{ color: 'var(--fg2)' }}>= {Math.round(recipe.base_servings * multiplier)} pers.</span>

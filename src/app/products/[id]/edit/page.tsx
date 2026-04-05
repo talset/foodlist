@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
+import NumberInput from '@/components/NumberInput'
 import type { ApiProduct, ApiCategory } from '@/types'
 
 const REF_UNITS = [
@@ -120,11 +121,11 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           <label style={labelStyle}>Quantité par item physique</label>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <button type="button" onClick={() => setRefQuantity(q => Math.max(0.01, parseFloat((q - getStep(q)).toFixed(3))))} style={qtyBtnStyle}>−</button>
-            <input
-              type="number"
+            <NumberInput
               value={refQuantity}
-              onChange={e => setRefQuantity(parseFloat(e.target.value) || 1)}
-              required min={0.001} step={getStep(refQuantity)}
+              onChange={v => setRefQuantity(v)}
+              fallback={1}
+              min={0.001} step={getStep(refQuantity)}
               style={{ ...inputStyle, flex: 1, textAlign: 'center' }}
             />
             <button type="button" onClick={() => setRefQuantity(q => parseFloat((q + getStep(q)).toFixed(3)))} style={qtyBtnStyle}>+</button>

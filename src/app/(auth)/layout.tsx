@@ -5,15 +5,16 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f5f5f5',
+      background: 'var(--bg)',
     }}>
       <div style={{
         width: '100%',
         maxWidth: 400,
-        background: '#fff',
+        background: 'var(--bg2)',
         borderRadius: 12,
         padding: '2rem',
-        boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+        border: '1px solid var(--border)',
+        boxShadow: '0 2px 16px var(--shadow)',
       }}>
         {children}
       </div>

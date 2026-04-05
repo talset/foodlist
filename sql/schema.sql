@@ -105,20 +105,35 @@ CREATE TABLE IF NOT EXISTS stock (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
+-- recipe_categories
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS recipe_categories (
+  id         INT          NOT NULL AUTO_INCREMENT,
+  name       VARCHAR(100) NOT NULL,
+  sort_order INT          NOT NULL DEFAULT 0,
+  created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_recipe_categories_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
 -- recipes
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS recipes (
-  id             INT           NOT NULL AUTO_INCREMENT,
-  name           VARCHAR(255)  NOT NULL,
-  description    TEXT          NULL,
-  steps_markdown LONGTEXT      NULL,
-  photo_url      VARCHAR(500)  NULL,
-  base_servings  INT           NOT NULL DEFAULT 4,
-  created_by     INT           NOT NULL,
-  created_at     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  id                 INT           NOT NULL AUTO_INCREMENT,
+  name               VARCHAR(255)  NOT NULL,
+  recipe_category_id INT           NULL,
+  description        TEXT          NULL,
+  steps_markdown     LONGTEXT      NULL,
+  photo_url          VARCHAR(500)  NULL,
+  base_servings      INT           NOT NULL DEFAULT 4,
+  created_by         INT           NOT NULL,
+  created_at         DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_recipes_created_by (created_by),
-  CONSTRAINT fk_recipes_created_by FOREIGN KEY (created_by) REFERENCES users (id)
+  KEY idx_recipes_category   (recipe_category_id),
+  CONSTRAINT fk_recipes_created_by FOREIGN KEY (created_by) REFERENCES users (id),
+  CONSTRAINT fk_recipes_category   FOREIGN KEY (recipe_category_id) REFERENCES recipe_categories (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
@@ -134,6 +149,19 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
   KEY idx_ri_product_id (product_id),
   CONSTRAINT fk_ri_recipe   FOREIGN KEY (recipe_id)  REFERENCES recipes  (id) ON DELETE CASCADE,
   CONSTRAINT fk_ri_product  FOREIGN KEY (product_id) REFERENCES products (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- recipe_favorites
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS recipe_favorites (
+  user_id    INT NOT NULL,
+  recipe_id  INT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, recipe_id),
+  KEY idx_rf_recipe_id (recipe_id),
+  CONSTRAINT fk_rf_user   FOREIGN KEY (user_id)   REFERENCES users   (id) ON DELETE CASCADE,
+  CONSTRAINT fk_rf_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
@@ -172,11 +200,27 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
   ('Hygiène / Entretien',   1, 11),
   ('Autre',                 1, 12);
 
+-- -----------------------------------------------------------------------------
+-- Catégories de recettes par défaut
+-- -----------------------------------------------------------------------------
+INSERT IGNORE INTO recipe_categories (name, sort_order) VALUES
+  ('Entrée',    1),
+  ('Plat',      2),
+  ('Dessert',   3),
+  ('Apéritif',  4),
+  ('Boisson',   5),
+  ('Autre',     6);
+
 -- Note migrations : ce script est idempotent pour les fresh installs via CREATE TABLE IF NOT EXISTS.
 -- Pour mettre à jour une installation existante, exécuter manuellement :
 --   ALTER TABLE stock DROP COLUMN unit;  (si la colonne unit existe encore)
 --   ALTER TABLE users ADD COLUMN is_admin TINYINT(1) NOT NULL DEFAULT 0;  (si manquant)
 --   ALTER TABLE users ADD COLUMN site_theme VARCHAR(50) NOT NULL DEFAULT 'default';
 --   ALTER TABLE users ADD COLUMN icon_theme VARCHAR(50) NOT NULL DEFAULT 'default';
+--   CREATE TABLE recipe_categories (...)  (voir ci-dessus)
+--   INSERT IGNORE INTO recipe_categories ...  (voir ci-dessus)
+--   ALTER TABLE recipes ADD COLUMN recipe_category_id INT NULL AFTER name;
+--   ALTER TABLE recipes ADD CONSTRAINT fk_recipes_category FOREIGN KEY (recipe_category_id) REFERENCES recipe_categories (id);
+--   CREATE TABLE recipe_favorites (...)  (voir ci-dessus)
 
 SET foreign_key_checks = 1;

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
+import NumberInput from '@/components/NumberInput'
 import type { ApiCategory } from '@/types'
 
 const REF_UNITS = [
@@ -148,11 +149,10 @@ export default function NewProductPage() {
               onClick={() => setRefQuantity(q => Math.max(0.01, parseFloat((q - getStep(q)).toFixed(3))))}
               style={qtyBtnStyle}
             >−</button>
-            <input
-              type="number"
+            <NumberInput
               value={refQuantity}
-              onChange={e => setRefQuantity(parseFloat(e.target.value) || 1)}
-              required
+              onChange={v => setRefQuantity(v)}
+              fallback={1}
               min={0.001}
               step={getStep(refQuantity)}
               style={{ ...inputStyle, flex: 1, textAlign: 'center' }}

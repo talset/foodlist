@@ -5,10 +5,16 @@ import { authOptions } from '@/lib/auth'
 import { iconUrl } from '@/lib/icon'
 import type { ApiRecipeDetail } from '@/types'
 
-async function fetchDetail(id: number, theme?: string): Promise<ApiRecipeDetail | null> {
+async function fetchDetail(id: number, theme?: string, userId?: number): Promise<ApiRecipeDetail | null> {
   const [[recipe]] = await pool.query<any[]>(
-    'SELECT id, name, description, steps_markdown, photo_url, base_servings, created_at FROM recipes WHERE id = ?',
-    [id]
+    `SELECT r.id, r.name, r.description, r.steps_markdown, r.photo_url, r.base_servings, r.created_at,
+            r.recipe_category_id, rc.name AS recipe_category_name,
+            (rf.user_id IS NOT NULL) AS is_favorite
+     FROM recipes r
+     LEFT JOIN recipe_categories rc ON rc.id = r.recipe_category_id
+     LEFT JOIN recipe_favorites rf ON rf.recipe_id = r.id AND rf.user_id = ?
+     WHERE r.id = ?`,
+    [userId ?? 0, id]
   )
   if (!recipe) return null
 
@@ -26,6 +32,9 @@ async function fetchDetail(id: number, theme?: string): Promise<ApiRecipeDetail 
     id: recipe.id,
     name: recipe.name,
     description: recipe.description,
+    recipe_category_id: recipe.recipe_category_id ?? null,
+    recipe_category_name: recipe.recipe_category_name ?? null,
+    is_favorite: Boolean(recipe.is_favorite),
     steps_markdown: recipe.steps_markdown,
     photo_url: recipe.photo_url,
     base_servings: recipe.base_servings,
@@ -48,7 +57,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   const id = parseInt(params.id)
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
 
-  const detail = await fetchDetail(id, session.user.iconTheme)
+  const detail = await fetchDetail(id, session.user.iconTheme, session.user.id)
   if (!detail) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
   return NextResponse.json(detail)
 }
@@ -61,7 +70,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
 
   const body = await req.json()
-  const { name, description, steps_markdown, photo_url, base_servings, ingredients } = body ?? {}
+  const { name, description, steps_markdown, photo_url, base_servings, recipe_category_id, ingredients } = body ?? {}
 
   const sets: string[] = []
   const values: any[] = []
@@ -81,6 +90,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       return NextResponse.json({ error: 'INVALID_INPUT' }, { status: 400 })
     }
     sets.push('base_servings = ?'); values.push(base_servings)
+  }
+  if (recipe_category_id !== undefined) {
+    sets.push('recipe_category_id = ?'); values.push(recipe_category_id)
   }
 
   if (sets.length === 0 && ingredients === undefined) {
@@ -153,7 +165,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 
     await conn.commit()
-    const detail = await fetchDetail(id)
+    const detail = await fetchDetail(id, undefined, session.user.id)
     return NextResponse.json(detail)
   } catch (err) {
     if (conn) await conn.rollback()

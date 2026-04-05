@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { SITE_THEMES } from '@/types'
 import type { SiteTheme } from '@/types'
@@ -25,29 +25,11 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [themeIcons, setThemeIcons] = useState<Record<string, string[]>>({})
-
-  useEffect(() => {
-    fetch('/api/profile')
-      .then(r => r.json())
-      .then((data: ProfileData) => {
-        setProfile(data)
-        setName(data.name)
-        setSiteTheme(data.siteTheme)
-        setIconTheme(data.iconTheme)
-        fetch(`/api/icons?theme=${data.iconTheme}`)
-          .then(r => r.json())
-          .then(d => {
-            const icons: string[] = (d.icons ?? [])
-              .map((i: any) => typeof i === 'string' ? i : i.name)
-              .filter(Boolean)
-              .slice(0, 8)
-            setThemeIcons(prev => ({ ...prev, [data.iconTheme]: icons }))
-          })
-      })
-  }, [])
+  const themeIconsRef = useRef(themeIcons)
+  themeIconsRef.current = themeIcons
 
   const loadThemePreview = useCallback((theme: string) => {
-    if (themeIcons[theme]) return
+    if (themeIconsRef.current[theme]) return
     fetch(`/api/icons?theme=${theme}`)
       .then(r => r.json())
       .then(data => {
@@ -57,7 +39,19 @@ export default function ProfilePage() {
           .slice(0, 8)
         setThemeIcons(prev => ({ ...prev, [theme]: icons }))
       })
-  }, [themeIcons])
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/profile')
+      .then(r => r.json())
+      .then((data: ProfileData) => {
+        setProfile(data)
+        setName(data.name)
+        setSiteTheme(data.siteTheme)
+        setIconTheme(data.iconTheme)
+        loadThemePreview(data.iconTheme)
+      })
+  }, [loadThemePreview])
 
   async function handleSave() {
     setSaving(true)
