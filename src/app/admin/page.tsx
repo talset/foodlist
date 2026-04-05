@@ -845,23 +845,6 @@ export default function AdminPage() {
             )}
           </div>
 
-          {/* Recipes with photo */}
-          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-              Recettes avec photo ({recipePhotosData?.recipes_with_photo?.length ?? '\u2026'})
-            </div>
-            {recipePhotosData?.recipes_with_photo?.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {recipePhotosData.recipes_with_photo.map((r: any) => (
-                  <div key={r.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem', background: 'var(--bg)', borderRadius: 8, padding: '0.375rem', border: '1px solid var(--border)', width: 90 }}>
-                    <img src={r.photo_url} alt={r.name} width={72} height={72} style={{ borderRadius: 6, objectFit: 'cover' }} />
-                    <span style={{ fontSize: '0.6rem', color: 'var(--fg2)', textAlign: 'center', lineHeight: 1.2, wordBreak: 'break-all' }}>{r.name}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Orphan photos */}
           <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
