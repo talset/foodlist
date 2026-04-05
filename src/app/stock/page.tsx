@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
+import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -35,6 +36,7 @@ export default function StockPage() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editQty, setEditQty] = useState(0)
+  const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
   const load = useCallback(async () => {
     const url = statusFilter ? `/api/stock?status=${statusFilter}` : '/api/stock'
@@ -138,10 +140,10 @@ export default function StockPage() {
 
       {/* Strip catégories */}
       {categories.length > 1 && (
-        <div style={{
+        <div ref={categoryStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.5rem', marginBottom: '0.75rem',
-          scrollbarWidth: 'none',
+          scrollbarWidth: 'none', cursor: 'grab',
         }}>
           <button
             onClick={() => setCategoryFilter(null)}
@@ -233,28 +235,19 @@ export default function StockPage() {
                   </button>
                 )}
 
-                <span style={{
-                  fontSize: '0.75rem', padding: '0.125rem 0.5rem', borderRadius: 9999,
-                  background: STATUS_COLORS[item.status] + '22',
-                  color: STATUS_COLORS[item.status], fontWeight: 600,
-                  whiteSpace: 'nowrap',
-                }}>
-                  {STATUS_LABELS[item.status]}
-                </span>
-
-                <select
-                  value={item.status}
-                  onChange={e => updateStatus(item.id, e.target.value)}
+                <button
+                  onClick={() => updateStatus(item.id, item.status === 'out_of_stock' ? 'in_stock' : 'out_of_stock')}
                   style={{
-                    fontSize: '0.75rem', border: '1px solid var(--border)',
-                    borderRadius: 4, padding: '0.125rem',
-                    background: 'var(--input-bg)', color: 'var(--fg)',
+                    fontSize: '0.75rem', fontWeight: 600,
+                    padding: '0.25rem 0.625rem', borderRadius: 9999,
+                    border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                    background: STATUS_COLORS[item.status] + '22',
+                    color: STATUS_COLORS[item.status],
                   }}
+                  title={item.status === 'out_of_stock' ? 'Marquer en stock' : 'Marquer épuisé'}
                 >
-                  {Object.entries(STATUS_LABELS).map(([v, l]) => (
-                    <option key={v} value={v}>{l}</option>
-                  ))}
-                </select>
+                  {STATUS_LABELS[item.status]}
+                </button>
 
                 <button
                   onClick={() => deleteItem(item.id)}

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
-import type { ApiRecipe, ApiRecipeDetail } from '@/types'
+import type { ApiRecipe, ApiRecipeDetail, RecipeFeasibility } from '@/types'
 
 function toApiRecipe(row: any): ApiRecipe {
   return {
@@ -12,6 +12,7 @@ function toApiRecipe(row: any): ApiRecipe {
     base_servings: row.base_servings,
     ingredient_count: Number(row.ingredient_count),
     created_at: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
+    feasibility: (row.feasibility as RecipeFeasibility) ?? null,
   }
 }
 
@@ -55,13 +56,23 @@ export async function GET(req: Request) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 
+  const householdId = session.user.householdId ?? null
+
   const [rows] = await pool.query<any[]>(
     `SELECT r.id, r.name, r.description, r.base_servings, r.created_at,
-            COUNT(ri.id) AS ingredient_count
+            COUNT(DISTINCT ri.id) AS ingredient_count,
+            CASE
+              WHEN COUNT(DISTINCT ri.id) = 0 THEN NULL
+              WHEN SUM(CASE WHEN COALESCE(s.quantity, 0) >= ri.quantity THEN 1 ELSE 0 END) = COUNT(DISTINCT ri.id) THEN 'ok'
+              WHEN SUM(CASE WHEN COALESCE(s.quantity, 0) > 0 THEN 1 ELSE 0 END) = 0 THEN 'missing'
+              ELSE 'partial'
+            END AS feasibility
      FROM recipes r
      LEFT JOIN recipe_ingredients ri ON ri.recipe_id = r.id
+     LEFT JOIN stock s ON s.product_id = ri.product_id AND s.household_id = ?
      GROUP BY r.id
-     ORDER BY r.name`
+     ORDER BY r.name`,
+    [householdId]
   )
 
   return NextResponse.json({ recipes: (rows as any[]).map(toApiRecipe) })

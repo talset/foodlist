@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import type { ApiProduct, ApiCategory } from '@/types'
+import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 
 export default function ProductsPage() {
   const { data: session } = useSession()
@@ -18,6 +19,7 @@ export default function ProductsPage() {
   const [importing, setImporting] = useState(false)
   const [importMsg, setImportMsg] = useState('')
   const importRef = useRef<HTMLInputElement>(null)
+  const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
   useEffect(() => {
     fetch('/api/categories')
@@ -198,7 +200,7 @@ export default function ProductsPage() {
       />
 
       {/* Category chips */}
-      <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'none' }}>
+      <div ref={categoryStripRef} style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'none', cursor: 'grab' }}>
         <button
           onClick={() => setCategoryId(null)}
           style={{ ...chipStyle, ...(categoryId === null ? chipActiveStyle : {}) }}

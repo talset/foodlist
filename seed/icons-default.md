@@ -35,6 +35,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `bouteille-huile.png` | tall slim golden glass olive oil bottle with a small pouring spout, warm liquid-gold color, soft sunny tones, gentle shine through the glass, side view |
 | `huile.png` | cute tall slim plastic bottle of generic sunflower oil, warm golden-yellow color, clear body showing golden liquid inside, small cap, side view |
 | `jus-fruit.png` | cute rounded glass of fresh orange juice in warm sunny amber-orange, tiny cheerful straw, small orange slice on the rim, glowing golden color, front view |
+| `sweeps.png` | cute plump yellow lemonade-style bottle with a vivid red label band around the middle, cheerful bright yellow plastic, round belly shape, no brand text, side view |
 
 ---
 
@@ -102,8 +103,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `beaufort.png` | plump rectangular block of pale ivory Beaufort cheese with a firm smooth surface, light cream color, 3/4 side view |
 | `gouda.png` | plump round disc of Gouda cheese with a waxy golden-yellow rind, smooth surface, 3/4 top view |
 | `port-salut.png` | plump round disc of Port Salut cheese with a vivid orange rind and a pale cream interior visible at the edge, 3/4 top view |
-| `comte-400.png` | plump smaller rectangular block of pale ivory Comté cheese, compact size, natural brown rind on edge, warm cream tones, 3/4 side view |
-| `comte-22.png` | thick wedge slice of Comté cheese cut from a wheel, pale ivory color, natural brown rind on the outer curve, 3/4 view |
 | `mont-dor.png` | cute round flat Mont d'Or cheese in its signature round spruce bark box, soft cream-white body, gentle downy rind texture, 3/4 top view |
 | `reblochon.png` | cute round flat Reblochon cheese wheel with a soft cream-beige body and a gentle orange-washed rind, plump shape, 3/4 top view |
 | `camembert.png` | cute round Camembert cheese in its iconic round cardboard box, white downy rind peeking from the open box, soft white tones, 3/4 top view |
@@ -112,6 +111,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `fromage-raclette.png` | plump half-wheel of soft pale yellow raclette cheese, flat cut side showing the creamy interior, gentle golden tones, cozy shape, 3/4 view |
 | `cheddar.png` | solid rectangular block of deep warm orange cheddar cheese, vibrant sunset-orange color, smooth surface with a slight waxy sheen, 3/4 view |
 | `parmesan.png` | irregular rustic wedge of pale sandy-beige parmesan with a rough crumbly texture, warm earthy tones, grainy surface detail, 3/4 view |
+| `boursin.png` | cute small round white pot of Boursin cheese with a smooth lid and cheerful green herb illustrations (chives and parsley sprigs) printed on the white exterior, clean white tones, cozy round pot shape, front view |
 
 ---
 
@@ -231,6 +231,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `tomate.png` | single plump round tomato in vivid warm red with a cheerful green calyx on top, glossy surface, cozy round shape, front view |
+| `tomate-cerise.png` | small cluster of several cherry tomatoes on a shared green stem, vivid glossy red, each tomato tiny and perfectly round, cheerful little bunch, front view |
 | `carotte.png` | single plump orange carrot with fluffy green leafy tops, vivid warm orange color, cute tapered shape, diagonal view |
 | `pomme-de-terre.png` | single round plump potato with a soft earthy beige skin and gentle surface eyes, warm sandy tones, cozy shape, side view |
 | `aubergine.png` | single plump deep purple eggplant with a cheerful green calyx, rich violet-purple color, smooth glossy surface, rounded cozy shape, side view |
@@ -247,6 +248,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `pomme.png` | single round plump apple in vivid warm red with a small green leaf and a brown stem, glossy surface, cheerful color, front view |
 | `kiwi.png` | single kiwi cut in half showing a beautiful cross-section with bright green flesh, tiny black seeds in a star pattern, and a white center, front view |
 | `fruits.png` | cute woven basket filled with a plump red apple, a yellow banana, an orange, and a purple grape cluster, warm cozy tones, 3/4 top view |
+| `fraise.png` | single plump bright red strawberry with a cheerful green leafy crown, vivid glossy red color, tiny white seeds dotting the surface, cozy round shape, front view |
+| `cerise.png` | two bright red cherries joined by a cheerful curved green stem, vivid glossy red color, tiny leaf accent, cozy plump proportions, front view |
 
 ---
 
@@ -345,8 +348,10 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `serviette.png` | cute small stack of folded white paper napkins, clean bright white, soft gentle texture, cozy neat pile, 3/4 top view |
 | `sac-poubelle.png` | cute roll of black plastic trash bags in a soft cardboard box, deep matte black bags, clean simple look, side view |
 | `sac-congelation.png` | cute transparent zip lock freezer bag lying flat and slightly open, soft blue seal strip at the top, clean clear tones, top view |
-| `sac-aspirateur.png` | cute grey fabric vacuum cleaner dust bag with a soft cardboard mounting collar, warm grey tones, plump bag shape, front view, not a vacuum machine |
 | `lingettes.png` | cute flat rectangular wet wipes pack with a soft flip lid, clean white and pastel tones, plump rounded shape, 3/4 top view |
+| `sanytol.png` | cute disinfectant spray bottle in white with a cheerful trigger handle, soft blue and green label area with a cross or leaf motif, plump body, side view |
+| `nettoyant-parquet.png` | cute floor cleaner spray bottle in soft white and light green, cheerful trigger handle, plump smooth body, no text, side view |
+| `gratoire.png` | single flat rectangular green scrubbing pad with a rough textured abrasive top surface, vivid bright green color, flat shape with slight thickness showing the foam underside, 3/4 view |
 
 ---
 

@@ -114,6 +114,8 @@ export interface ApiRecipeIngredient {
   quantity: number
 }
 
+export type RecipeFeasibility = 'ok' | 'partial' | 'missing' | null
+
 export interface ApiRecipe {
   id: number
   name: string
@@ -121,6 +123,7 @@ export interface ApiRecipe {
   base_servings: number
   ingredient_count: number
   created_at: string
+  feasibility?: RecipeFeasibility
 }
 
 export interface ApiRecipeDetail extends Omit<ApiRecipe, 'ingredient_count'> {

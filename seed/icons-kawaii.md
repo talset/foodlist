@@ -36,6 +36,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `bouteille-huile.png` | tall slim golden glass olive oil bottle with pour spout, keeping its real elegant bottle shape, with a small kawaii face on the bottle body — gentle droopy eyes, serene smile, rosy cheeks — liquid-gold color, side view |
 | `huile.png` | golden sunflower oil plastic bottle, keeping its real bottle shape, with a kawaii face on the bottle body — big round eyes, happy smile, rosy cheeks — warm golden-yellow color, side view |
 | `jus-fruit.png` | round glass of fresh orange juice with a straw, keeping its real glass shape, with a kawaii face on the glass body — big glossy eyes, sunny smile, rosy cheeks — warm amber-orange color, front view |
+| `sweeps.png` | yellow lemonade-style bottle with vivid red label band, keeping its real bottle shape, with a kawaii face on the yellow body — bright sparkly eyes, cheerful smile, rosy cheeks — vivid yellow and red, no brand, side view |
 
 ---
 
@@ -103,8 +104,6 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `beaufort.png` | rectangular block of pale ivory Beaufort, keeping its real cheese block shape, with a kawaii face on the cut face — gentle soft eyes, sweet smile, rosy cheeks — pale ivory, 3/4 view |
 | `gouda.png` | round Gouda disc with waxy yellow rind, keeping its real disc shape, with a kawaii face on the top surface — big bright eyes, happy smile, rosy cheeks — golden-yellow, 3/4 top view |
 | `port-salut.png` | round Port Salut disc with vivid orange rind, keeping its real disc shape, with a kawaii face on the top — cheerful eyes, big smile, rosy cheeks — orange rind with cream interior, 3/4 top view |
-| `comte-400.png` | small rectangular Comté block with brown rind, keeping its real compact block shape, with a kawaii face on the cut face — big eyes, happy smile, rosy cheeks — ivory with brown rind, 3/4 view |
-| `comte-22.png` | thick wedge slice of Comté cut from a wheel, keeping its real wedge shape with brown outer rind, with a kawaii face on the cut face — round happy eyes, smile, rosy cheeks — pale ivory, 3/4 view |
 | `mont-dor.png` | round Mont d'Or cheese in its round spruce bark box, keeping its real box+cheese shape, with a kawaii face on the cheese top — big cozy eyes, happy smile, rosy cheeks — cream-white, 3/4 top view |
 | `reblochon.png` | round flat Reblochon wheel with orange-washed rind, keeping its real flat wheel shape, with a kawaii face on the top — sleepy happy eyes, gentle smile, rosy cheeks — cream-beige with orange rind, 3/4 top view |
 | `camembert.png` | round Camembert in its round cardboard box (open), keeping its real box+cheese shape, with a kawaii face on the white rind — big curious eyes, happy smile, rosy cheeks — white downy rind, 3/4 top view |
@@ -113,6 +112,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `fromage-raclette.png` | half-wheel of pale yellow raclette cheese with flat cut side, keeping its real half-wheel shape, with a kawaii face on the cut face — cozy half-closed eyes, warm smile, rosy cheeks — soft pale yellow, 3/4 view |
 | `cheddar.png` | rectangular block of deep orange cheddar, keeping its real block shape, with a kawaii face on the surface — bold energetic eyes, wide smile, rosy cheeks — vivid warm orange, 3/4 view |
 | `parmesan.png` | irregular rustic wedge of sandy-beige parmesan with crumbly texture, keeping its real wedge shape, with a kawaii face on the cut face — wise squinting eyes, dignified smile, rosy cheeks — sandy-beige, 3/4 view |
+| `boursin.png` | small round white Boursin pot with a smooth lid, keeping its real round pot shape, with a kawaii face on the pot body — elegant eyes, refined smile, rosy cheeks — clean white with tiny green herb illustrations, front view |
 
 ---
 
@@ -232,6 +232,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | Fichier | Description détaillée |
 |---|---|
 | `tomate.png` | single round plump tomato with green calyx on top, keeping its real round tomato shape, with a kawaii face on the front — big glossy eyes, big happy smile, very rosy cheeks — vivid warm red, front view |
+| `tomate-cerise.png` | small cluster of several cherry tomatoes on a shared stem, each keeping their real tiny round shape, the largest one has a kawaii face — big dot eyes, tiny smile, rosy cheeks — vivid glossy red, front view |
 | `carotte.png` | single plump orange carrot with fluffy green leafy tops, keeping its real carrot shape, with a kawaii face on the carrot body — bright energetic eyes, happy smile, rosy cheeks — vivid orange, diagonal view |
 | `pomme-de-terre.png` | single round plump potato with earthy beige skin and surface eyes, keeping its real potato shape, with a kawaii face on the front — sleepy content eyes, cozy smile, soft rosy cheeks — soft earthy beige, side view |
 | `aubergine.png` | single plump deep purple eggplant with green calyx, keeping its real eggplant shape, with a kawaii face on the front — elegant long eyes, mysterious smile, rosy cheeks — rich violet-purple, side view |
@@ -248,6 +249,8 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `pomme.png` | single round plump red apple with small green leaf and brown stem, keeping its real apple shape, with a kawaii face on the front — big glossy eyes, wide smile, very rosy cheeks — vivid warm red, front view |
 | `kiwi.png` | kiwi cut in half showing bright green flesh with black seeds in a star pattern and white center, keeping its real halved kiwi shape, with a kawaii face formed by the seed arrangement — the seeds become big glossy eyes, the white center a smile, very rosy cheeks — bright green flesh, front view |
 | `fruits.png` | woven basket filled with a red apple, yellow banana, orange, and grape cluster, keeping their real fruit shapes each with a tiny kawaii face — big dot eyes, tiny smile, rosy cheeks — warm cozy tones, 3/4 top view |
+| `fraise.png` | plump red strawberry keeping its real shape with green leafy crown, with a kawaii face on the fruit body — big glossy eyes, sweet smile, rosy cheeks — vivid glossy red with tiny white seed dots, front view |
+| `cerise.png` | two red cherries on a shared curved green stem, keeping their real shape, each with a small kawaii face — big dot eyes, tiny smile, rosy cheeks — vivid glossy red, front view |
 
 ---
 
@@ -346,8 +349,10 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `serviette.png` | small stack of folded white paper napkins, keeping its real neat folded stack shape, with a kawaii face on the top napkin — neat tidy eyes, polite smile, rosy cheeks — clean bright white, 3/4 top view |
 | `sac-poubelle.png` | roll of black trash bags in cardboard box, keeping its real box+roll shape, with a kawaii face on the box — big eyes, happy smile, rosy cheeks — matte black bags visible, simple look, side view |
 | `sac-congelation.png` | transparent zip lock freezer bag lying flat and slightly open with blue zip seal at top, keeping its real flat bag shape, with a kawaii face on the bag surface — wide open eyes, happy smile, rosy cheeks — transparent body, blue seal, top view |
-| `sac-aspirateur.png` | grey fabric vacuum cleaner dust bag with cardboard mounting collar, keeping its real plump bag shape (not the vacuum machine), with a kawaii face on the bag — soft fluffy eyes, content smile, rosy cheeks — warm grey fabric, front view |
 | `lingettes.png` | flat rectangular wet wipes pack with flip lid, keeping its real flat pack shape, with a kawaii face on the pack surface — big glossy eyes, fresh clean smile, rosy cheeks — soft white and pastel, 3/4 top view |
+| `sanytol.png` | disinfectant spray bottle with trigger handle, keeping its real bottle shape, with a kawaii face on the bottle body — clean helpful eyes, confident smile, rosy cheeks — white with blue-green label, side view |
+| `nettoyant-parquet.png` | floor cleaner spray bottle with trigger, keeping its real bottle shape, with a kawaii face on the bottle body — bright determined eyes, happy smile, rosy cheeks — white with light green label, side view |
+| `gratoire.png` | flat rectangular green scrubbing pad, keeping its real flat shape, with a kawaii face on the rough green surface — slightly serious brows (cute), strong smile, rosy cheeks — vivid bright green, 3/4 view |
 
 ---
 

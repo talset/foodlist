@@ -805,24 +805,10 @@
     "icon_ref": "camembert.png"
   },
   {
-    "name": "Comté 15 (400g)",
+    "name": "Emmental",
     "category": "Produits laitiers",
     "ref_unit": "g",
-    "ref_quantity": 400,
-    "icon_ref": "comte-400.png"
-  },
-  {
-    "name": "Comté 22",
-    "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 200,
-    "icon_ref": "comte-22.png"
-  },
-  {
-    "name": "Emmental (800g)",
-    "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 800,
+    "ref_quantity": 500,
     "icon_ref": "emmental.png"
   },
   {
@@ -1071,7 +1057,7 @@
     "icon_ref": "papier-cuisson.png"
   },
   {
-    "name": "Papier film",
+    "name": "Film alimentaire",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
@@ -1104,13 +1090,6 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "produit-wc.png"
-  },
-  {
-    "name": "Sac aspirateur",
-    "category": "Hygiène / Entretien",
-    "ref_unit": "unité",
-    "ref_quantity": 1,
-    "icon_ref": "sac-aspirateur.png"
   },
   {
     "name": "Sac poubelle",
@@ -1615,5 +1594,61 @@
     "ref_unit": "g",
     "ref_quantity": 500,
     "icon_ref": "viande-hachee.png"
+  },
+  {
+    "name": "Tomate cerise",
+    "category": "Fruits & Légumes",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "tomate-cerise.png"
+  },
+  {
+    "name": "Fraise",
+    "category": "Fruits & Légumes",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "fraise.png"
+  },
+  {
+    "name": "Cerise",
+    "category": "Fruits & Légumes",
+    "ref_unit": "g",
+    "ref_quantity": 500,
+    "icon_ref": "cerise.png"
+  },
+  {
+    "name": "Sweeps",
+    "category": "Boissons",
+    "ref_unit": "mL",
+    "ref_quantity": 500,
+    "icon_ref": "sweeps.png"
+  },
+  {
+    "name": "Sanytol",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sanytol.png"
+  },
+  {
+    "name": "Nettoyant parquet",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "nettoyant-parquet.png"
+  },
+  {
+    "name": "Gratoire",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "gratoire.png"
+  },
+  {
+    "name": "Boursin",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "boursin.png"
   }
 ]

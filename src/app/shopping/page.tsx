@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
+import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 
 interface ActiveRecipe {
   id: number
@@ -19,6 +20,8 @@ export default function ShoppingPage() {
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
   const [recipeFilter, setRecipeFilter] = useState<number | null>(null)
+  const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
+  const recipeStripRef = useHorizontalScroll<HTMLDivElement>()
 
   const load = useCallback(() => {
     fetch('/api/shopping')
@@ -55,6 +58,38 @@ export default function ShoppingPage() {
     })
   }, [items, search, categoryFilter, recipeFilter])
 
+  function buildShareText(): string {
+    const date = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    const lines: string[] = [`🛒 Liste de courses — ${items.length} article${items.length > 1 ? 's' : ''}`]
+    lines.push(date)
+    if (activeRecipes.length > 0) {
+      lines.push(`\nRecettes : ${activeRecipes.map(r => r.recipe_name + (r.multiplier !== 1 ? ` ×${r.multiplier}` : '')).join(', ')}`)
+    }
+    let lastCat = ''
+    for (const item of items) {
+      if (item.category_name !== lastCat) {
+        lines.push(`\n${item.category_name}`)
+        lastCat = item.category_name
+      }
+      const rq = item.recipe_quantity ?? 0
+      const qty = rq > 0
+        ? `  (${rq % 1 === 0 ? rq : rq.toFixed(1)} ${item.ref_unit})`
+        : ''
+      lines.push(`• ${item.product_name}${qty}`)
+    }
+    return lines.join('\n')
+  }
+
+  async function shareList() {
+    const text = buildShareText()
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Liste de courses', text }) } catch {}
+    } else {
+      await navigator.clipboard.writeText(text)
+      alert('Liste copiée dans le presse-papier !')
+    }
+  }
+
   async function restockAll() {
     if (!confirm(`Marquer les ${items.length} articles comme "en stock" ?`)) return
     setRestocking(true)
@@ -89,20 +124,35 @@ export default function ShoppingPage() {
         <h1 style={{ margin: 0 }}>Liste de courses</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {items.length > 0 && (
-            <button
-              onClick={restockAll}
-              disabled={restocking}
-              style={{
-                padding: '0.375rem 0.75rem',
-                background: 'var(--primary)', color: 'var(--primary-fg)',
-                border: 'none', borderRadius: 8,
-                fontSize: '0.8125rem', fontWeight: 600,
-                cursor: restocking ? 'not-allowed' : 'pointer',
-                opacity: restocking ? 0.7 : 1,
-              }}
-            >
-              {restocking ? '…' : 'Tout restockér'}
-            </button>
+            <>
+              <button
+                onClick={shareList}
+                style={{
+                  padding: '0.375rem 0.75rem',
+                  background: 'var(--bg2)', color: 'var(--fg)',
+                  border: '1px solid var(--border)', borderRadius: 8,
+                  fontSize: '0.8125rem', fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+                title="Partager la liste"
+              >
+                Partager
+              </button>
+              <button
+                onClick={restockAll}
+                disabled={restocking}
+                style={{
+                  padding: '0.375rem 0.75rem',
+                  background: 'var(--primary)', color: 'var(--primary-fg)',
+                  border: 'none', borderRadius: 8,
+                  fontSize: '0.8125rem', fontWeight: 600,
+                  cursor: restocking ? 'not-allowed' : 'pointer',
+                  opacity: restocking ? 0.7 : 1,
+                }}
+              >
+                {restocking ? '…' : 'Tout restocker'}
+              </button>
+            </>
           )}
           <span style={{
             background: 'var(--primary)', color: 'var(--primary-fg)',
@@ -131,10 +181,10 @@ export default function ShoppingPage() {
 
       {/* Strip catégories */}
       {categories.length > 1 && (
-        <div style={{
+        <div ref={categoryStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.5rem', marginBottom: '0.5rem',
-          scrollbarWidth: 'none',
+          scrollbarWidth: 'none', cursor: 'grab',
         }}>
           <button
             onClick={() => setCategoryFilter(null)}
@@ -156,10 +206,10 @@ export default function ShoppingPage() {
 
       {/* Strip recettes actives */}
       {activeRecipes.length > 0 && (
-        <div style={{
+        <div ref={recipeStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.75rem', marginBottom: '0.25rem',
-          scrollbarWidth: 'none',
+          scrollbarWidth: 'none', cursor: 'grab',
         }}>
           <button
             onClick={() => setRecipeFilter(null)}
@@ -218,7 +268,7 @@ export default function ShoppingPage() {
                 {item.product_name}
               </span>
 
-              {item.recipe_quantity != null && item.recipe_quantity > 0 && (
+              {item.recipe_quantity != null && item.recipe_quantity > 0 ? (
                 <span style={{
                   background: 'var(--primary)', color: 'var(--primary-fg)',
                   borderRadius: 9999, padding: '0.125rem 0.5rem',
@@ -228,11 +278,14 @@ export default function ShoppingPage() {
                     ? item.recipe_quantity
                     : item.recipe_quantity.toFixed(1)} {item.ref_unit}
                 </span>
-              )}
-
-              {item.quantity > 0 && (
-                <span style={{ color: 'var(--fg2)', fontSize: '0.875rem', whiteSpace: 'nowrap' }}>
-                  ×{item.quantity}
+              ) : (
+                <span style={{
+                  background: 'var(--bg2)', color: 'var(--fg2)',
+                  borderRadius: 9999, padding: '0.125rem 0.5rem',
+                  fontSize: '0.75rem', fontWeight: 600, whiteSpace: 'nowrap',
+                  border: '1px solid var(--border)',
+                }}>
+                  × 1
                 </span>
               )}
 

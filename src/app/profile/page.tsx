@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const { data: session, update } = useSession()
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [name, setName] = useState('')
-  const [siteTheme, setSiteTheme] = useState<SiteTheme>('default')
+  const [siteTheme, setSiteTheme] = useState<SiteTheme>('dark')
   const [iconTheme, setIconTheme] = useState('default')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                       justifyContent: 'space-between',
                     }}
                   >
-                    <span>{t === 'default' ? 'Par défaut' : t.charAt(0).toUpperCase() + t.slice(1)}</span>
+                    <span>{t.charAt(0).toUpperCase() + t.slice(1)}</span>
                     {selected && <span style={{ color: 'var(--primary)', fontSize: '0.75rem' }}>✓ Actif</span>}
                   </button>
                   {selected && (

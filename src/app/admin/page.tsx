@@ -41,7 +41,13 @@ interface AdminHousehold {
   members: HouseholdMember[]
 }
 
-type Tab = 'overview' | 'users' | 'households' | 'catalogue'
+type Tab = 'overview' | 'users' | 'households' | 'catalogue' | 'icons'
+
+interface IconsData {
+  products_without_icon: { id: number; name: string; category_name: string }[]
+  orphan_custom: string[]
+  orphan_default: string[]
+}
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
@@ -57,6 +63,11 @@ export default function AdminPage() {
   const [importingRecipes, setImportingRecipes] = useState(false)
   const importProductsRef = useRef<HTMLInputElement>(null)
   const importRecipesRef = useRef<HTMLInputElement>(null)
+  const [iconsData, setIconsData] = useState<IconsData | null>(null)
+  const [uploadingIconFor, setUploadingIconFor] = useState<number | null>(null)
+  const [deletingIcons, setDeletingIcons] = useState(false)
+  const uploadIconRef = useRef<HTMLInputElement>(null)
+  const uploadTargetIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -80,12 +91,21 @@ export default function AdminPage() {
     if (r.ok) setHouseholds(await r.json())
   }, [])
 
+  const loadIcons = useCallback(async () => {
+    const r = await fetch('/api/admin/icons')
+    if (r.ok) setIconsData(await r.json())
+  }, [])
+
   useEffect(() => {
     if (!session?.user?.isAdmin) return
     loadStats()
     loadUsers()
     loadHouseholds()
   }, [session, loadStats, loadUsers, loadHouseholds])
+
+  useEffect(() => {
+    if (tab === 'icons' && session?.user?.isAdmin) loadIcons()
+  }, [tab, session, loadIcons])
 
   async function toggleAdmin(userId: number, current: boolean) {
     setActionMsg('')
@@ -213,6 +233,50 @@ export default function AdminPage() {
     setImportingRecipes(false)
   }
 
+  async function uploadIconForProduct(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    const productId = uploadTargetIdRef.current
+    if (!file || productId === null) return
+    setUploadingIconFor(productId)
+    setActionMsg('')
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('productId', String(productId))
+      const r = await fetch('/api/icons/upload', { method: 'POST', body: formData })
+      if (r.ok) {
+        await loadIcons()
+        setActionMsg('Icône mise à jour')
+      } else {
+        const d = await r.json()
+        setActionMsg(`Erreur : ${d.error}`)
+      }
+    } catch {
+      setActionMsg('Erreur lors de l\'upload')
+    }
+    setUploadingIconFor(null)
+    uploadTargetIdRef.current = null
+  }
+
+  async function deleteOrphanIcons(filenames: string[]) {
+    setDeletingIcons(true)
+    setActionMsg('')
+    const r = await fetch('/api/admin/icons', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filenames }),
+    })
+    if (r.ok) {
+      const d = await r.json()
+      await loadIcons()
+      setActionMsg(`${d.deleted} icône${d.deleted !== 1 ? 's' : ''} supprimée${d.deleted !== 1 ? 's' : ''}`)
+    } else {
+      setActionMsg('Erreur lors de la suppression')
+    }
+    setDeletingIcons(false)
+  }
+
   async function createHousehold() {
     if (!newHouseholdName.trim()) return
     setActionMsg('')
@@ -247,6 +311,7 @@ export default function AdminPage() {
     { id: 'users', label: 'Utilisateurs' },
     { id: 'households', label: 'Foyers' },
     { id: 'catalogue', label: 'Import / Export' },
+    { id: 'icons', label: 'Icônes' },
   ]
 
   return (
@@ -434,6 +499,161 @@ export default function AdminPage() {
             </div>
           </div>
 
+        </div>
+      )}
+
+      {/* Icons */}
+      {tab === 'icons' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <input
+            ref={uploadIconRef}
+            type="file"
+            accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+            onChange={uploadIconForProduct}
+            style={{ display: 'none' }}
+          />
+
+          {/* Products without icon */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              Produits sans icône ({iconsData?.products_without_icon.length ?? '…'})
+            </div>
+            {!iconsData ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Chargement…</p>
+            ) : iconsData.products_without_icon.length === 0 ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Tous les produits ont une icône.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+                {iconsData.products_without_icon.map(p => (
+                  <div key={p.id} style={{
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    padding: '0.375rem 0.5rem', background: 'var(--bg)', borderRadius: 6,
+                    fontSize: '0.8125rem',
+                  }}>
+                    <span style={{ color: 'var(--fg)', flex: 1 }}>
+                      {p.name}
+                      <span style={{ color: 'var(--fg2)', marginLeft: '0.375rem', fontSize: '0.75rem' }}>({p.category_name})</span>
+                    </span>
+                    <button
+                      onClick={() => { uploadTargetIdRef.current = p.id; uploadIconRef.current?.click() }}
+                      disabled={uploadingIconFor === p.id}
+                      style={{
+                        padding: '0.25rem 0.625rem',
+                        border: '1px solid var(--border)',
+                        borderRadius: 6,
+                        background: 'var(--bg2)',
+                        color: 'var(--fg)',
+                        fontSize: '0.75rem',
+                        cursor: uploadingIconFor === p.id ? 'not-allowed' : 'pointer',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {uploadingIconFor === p.id ? '…' : '↑ Upload'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Orphan custom icons */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Icônes custom orphelines ({iconsData?.orphan_custom.length ?? '…'})
+              </div>
+              {(iconsData?.orphan_custom.length ?? 0) > 0 && (
+                <button
+                  onClick={() => {
+                    if (confirm(`Supprimer ${iconsData!.orphan_custom.length} icône(s) orpheline(s) ?`))
+                      deleteOrphanIcons(iconsData!.orphan_custom)
+                  }}
+                  disabled={deletingIcons}
+                  style={{
+                    padding: '0.25rem 0.625rem',
+                    border: '1px solid #fca5a5',
+                    borderRadius: 6,
+                    background: 'var(--bg)',
+                    color: '#dc2626',
+                    fontSize: '0.75rem',
+                    cursor: deletingIcons ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {deletingIcons ? '…' : 'Tout supprimer'}
+                </button>
+              )}
+            </div>
+            {!iconsData ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Chargement…</p>
+            ) : iconsData.orphan_custom.length === 0 ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Aucune icône orpheline.</p>
+            ) : (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {iconsData.orphan_custom.map(filename => (
+                  <div key={filename} style={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem',
+                    background: 'var(--bg)', borderRadius: 8, padding: '0.5rem',
+                    border: '1px solid var(--border)', width: 80,
+                  }}>
+                    <img
+                      src={`/api/icons/${filename}`}
+                      alt={filename}
+                      width={40}
+                      height={40}
+                      style={{ borderRadius: 4, objectFit: 'contain' }}
+                    />
+                    <span style={{ fontSize: '0.625rem', color: 'var(--fg2)', wordBreak: 'break-all', textAlign: 'center', lineHeight: 1.2 }}>
+                      {filename.length > 16 ? filename.slice(0, 8) + '…' + filename.slice(-4) : filename}
+                    </span>
+                    <button
+                      onClick={() => deleteOrphanIcons([filename])}
+                      disabled={deletingIcons}
+                      style={{
+                        padding: '0.125rem 0.375rem',
+                        border: '1px solid #fca5a5',
+                        borderRadius: 4,
+                        background: 'none',
+                        color: '#dc2626',
+                        fontSize: '0.6875rem',
+                        cursor: deletingIcons ? 'not-allowed' : 'pointer',
+                      }}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Default/theme icons not linked to any product */}
+          {(iconsData?.orphan_default.length ?? 0) > 0 && (
+            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+                Icônes de thème non utilisées ({iconsData!.orphan_default.length})
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
+                {iconsData!.orphan_default.map(filename => (
+                  <div key={filename} style={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem',
+                    background: 'var(--bg)', borderRadius: 8, padding: '0.375rem',
+                    border: '1px solid var(--border)', width: 68,
+                  }}>
+                    <img
+                      src={`/api/icons/${filename}`}
+                      alt={filename}
+                      width={36}
+                      height={36}
+                      style={{ borderRadius: 4, objectFit: 'contain' }}
+                    />
+                    <span style={{ fontSize: '0.6rem', color: 'var(--fg2)', wordBreak: 'break-all', textAlign: 'center', lineHeight: 1.2 }}>
+                      {filename.replace(/\.(png|jpg|jpeg|webp)$/i, '')}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

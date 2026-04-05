@@ -36,10 +36,11 @@ export async function GET(req: Request) {
       [session.user.householdId]
     ),
     pool.query<any[]>(
-      `SELECT sr.recipe_id AS id, r.name AS recipe_name, sr.multiplier
+      `SELECT sr.recipe_id AS id, r.name AS recipe_name, SUM(sr.multiplier) AS multiplier
        FROM shopping_recipes sr
        JOIN recipes r ON r.id = sr.recipe_id
        WHERE sr.household_id = ?
+       GROUP BY sr.recipe_id, r.name
        ORDER BY r.name`,
       [session.user.householdId]
     ),

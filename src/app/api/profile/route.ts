@@ -44,7 +44,7 @@ export async function GET() {
     name: user.name,
     email: user.email,
     isAdmin: Boolean(user.is_admin),
-    siteTheme: user.site_theme ?? 'default',
+    siteTheme: user.site_theme ?? 'dark',
     iconTheme: user.icon_theme ?? 'default',
     availableIconThemes,
   })
@@ -102,7 +102,7 @@ export async function PATCH(req: Request) {
     name: user.name,
     email: user.email,
     isAdmin: Boolean(user.is_admin),
-    siteTheme: user.site_theme ?? 'default',
+    siteTheme: user.site_theme ?? 'dark',
     iconTheme: user.icon_theme ?? 'default',
   })
 }

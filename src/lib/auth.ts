@@ -19,10 +19,10 @@ async function getUserPrefs(userId: number): Promise<{ isAdmin: boolean; siteThe
     'SELECT is_admin, site_theme, icon_theme FROM users WHERE id = ?',
     [userId]
   )
-  if (!rows.length) return { isAdmin: false, siteTheme: 'default', iconTheme: 'default' }
+  if (!rows.length) return { isAdmin: false, siteTheme: 'dark', iconTheme: 'default' }
   return {
     isAdmin: Boolean(rows[0].is_admin),
-    siteTheme: (rows[0].site_theme as SiteTheme) ?? 'default',
+    siteTheme: (rows[0].site_theme as SiteTheme) ?? 'dark',
     iconTheme: rows[0].icon_theme ?? 'default',
   }
 }
@@ -151,7 +151,7 @@ export const authOptions: AuthOptions = {
       session.user.householdId = token.householdId
       session.user.householdRole = token.householdRole
       session.user.isAdmin = token.isAdmin ?? false
-      session.user.siteTheme = token.siteTheme ?? 'default'
+      session.user.siteTheme = token.siteTheme ?? 'dark'
       session.user.iconTheme = token.iconTheme ?? 'default'
       return session
     },

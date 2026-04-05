@@ -38,7 +38,7 @@
 
 // ── Type definitions ──────────────────────────────────────────────────────────
 
-export type SiteTheme = 'default' | 'dark' | 'pure' | 'light' | 'happy' | 'japon' | 'girly'
+export type SiteTheme = 'dark' | 'pure' | 'light' | 'happy' | 'japon' | 'girly' | 'kawaii' | 'foret'
 
 export interface ThemeVars {
   '--bg': string
@@ -68,25 +68,6 @@ export interface ThemeDef {
 // ── Theme definitions ─────────────────────────────────────────────────────────
 
 export const THEMES: Record<SiteTheme, ThemeDef> = {
-
-  default: {
-    label: 'Default',
-    description: 'Blanc classique',
-    preview: { bg: '#fff', primary: '#2563eb', fg: '#111827' },
-    vars: {
-      '--bg':            '#fff',
-      '--bg2':           '#f9fafb',
-      '--fg':            '#111827',
-      '--fg2':           '#6b7280',
-      '--primary':       '#2563eb',
-      '--primary-hover': '#1d4ed8',
-      '--primary-fg':    '#fff',
-      '--border':        '#e5e7eb',
-      '--nav-bg':        '#fff',
-      '--input-bg':      '#fff',
-      '--shadow':        'rgba(0, 0, 0, 0.1)',
-    },
-  },
 
   dark: {
     label: 'Dark',
@@ -166,20 +147,20 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
 
   japon: {
     label: 'Japon',
-    description: 'Rouge et blanc discret',
-    preview: { bg: '#fafafa', primary: '#dc2626', fg: '#171717' },
+    description: 'Papier washi & laque rouge',
+    preview: { bg: '#fdf4e3', primary: '#c0151a', fg: '#1c0a00' },
     vars: {
-      '--bg':            '#fafafa',
-      '--bg2':           '#f5f5f5',
-      '--fg':            '#171717',
-      '--fg2':           '#525252',
-      '--primary':       '#dc2626',
-      '--primary-hover': '#b91c1c',
+      '--bg':            '#fdf4e3',
+      '--bg2':           '#f5e8cc',
+      '--fg':            '#1c0a00',
+      '--fg2':           '#7a4a28',
+      '--primary':       '#c0151a',
+      '--primary-hover': '#960e13',
       '--primary-fg':    '#fff',
-      '--border':        '#e5e5e5',
-      '--nav-bg':        '#fafafa',
-      '--input-bg':      '#fff',
-      '--shadow':        'rgba(220, 38, 38, 0.1)',
+      '--border':        '#e0c898',
+      '--nav-bg':        '#f5e8cc',
+      '--input-bg':      '#fdf4e3',
+      '--shadow':        'rgba(192, 21, 26, 0.15)',
     },
   },
 
@@ -202,6 +183,44 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
     },
   },
 
+  kawaii: {
+    label: 'Kawaii',
+    description: 'Rose bonbon & mauve',
+    preview: { bg: '#fff5fb', primary: '#f72d8c', fg: '#2d0a1e' },
+    vars: {
+      '--bg':            '#fff5fb',
+      '--bg2':           '#ffe4f5',
+      '--fg':            '#2d0a1e',
+      '--fg2':           '#b05090',
+      '--primary':       '#f72d8c',
+      '--primary-hover': '#d1196d',
+      '--primary-fg':    '#fff',
+      '--border':        '#ffaad8',
+      '--nav-bg':        '#ffe4f5',
+      '--input-bg':      '#fff5fb',
+      '--shadow':        'rgba(247, 45, 140, 0.12)',
+    },
+  },
+
+  foret: {
+    label: 'Forêt',
+    description: 'Vert forêt & crème',
+    preview: { bg: '#f4f7f0', primary: '#2d6a4f', fg: '#1a2c10' },
+    vars: {
+      '--bg':            '#f4f7f0',
+      '--bg2':           '#e4ecdc',
+      '--fg':            '#1a2c10',
+      '--fg2':           '#5a7a46',
+      '--primary':       '#2d6a4f',
+      '--primary-hover': '#1b4332',
+      '--primary-fg':    '#f0faf4',
+      '--border':        '#b8d4a8',
+      '--nav-bg':        '#e4ecdc',
+      '--input-bg':      '#f4f7f0',
+      '--shadow':        'rgba(45, 106, 79, 0.12)',
+    },
+  },
+
 }
 
 // ── Derived exports (used by profile picker and auth) ─────────────────────────
@@ -217,12 +236,14 @@ export const SITE_THEMES: Record<SiteTheme, { label: string; description: string
 
 // ── CSS generation ────────────────────────────────────────────────────────────
 
-/** Generates the full CSS string for all themes, injected in layout.tsx */
+/** Generates the full CSS string for all themes, injected in layout.tsx.
+ *  `dark` is the CSS root default. `[data-theme="default"]` also maps to dark
+ *  for backwards compatibility with any stored cookies. */
 export function generateThemeCSS(): string {
   return Object.entries(THEMES)
     .map(([name, def]) => {
-      const selector = name === 'default'
-        ? ':root, [data-theme="default"]'
+      const selector = name === 'dark'
+        ? ':root, [data-theme="dark"], [data-theme="default"]'
         : `[data-theme="${name}"]`
       const vars = Object.entries(def.vars)
         .map(([k, v]) => `  ${k}: ${v};`)

@@ -1,18 +1,41 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import type { ApiRecipe } from '@/types'
+import type { ApiRecipe, RecipeFeasibility } from '@/types'
+import { useSSE } from '@/hooks/useSSE'
+
+function FeasibilityBadge({ f }: { f: RecipeFeasibility }) {
+  if (!f) return null
+  const config = {
+    ok:      { label: 'Réalisable',  bg: '#dcfce7', color: '#166534' },
+    partial: { label: 'Presque',     bg: '#fef9c3', color: '#854d0e' },
+    missing: { label: 'Incomplet',   bg: '#fee2e2', color: '#991b1b' },
+  }[f]
+  return (
+    <span style={{
+      fontSize: '0.6875rem', fontWeight: 600,
+      padding: '0.125rem 0.5rem', borderRadius: 9999,
+      background: config.bg, color: config.color,
+      flexShrink: 0,
+    }}>
+      {config.label}
+    </span>
+  )
+}
 
 export default function RecipesPage() {
   const [recipes, setRecipes] = useState<ApiRecipe[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const load = useCallback(() => {
     fetch('/api/recipes')
       .then(r => r.json())
-      .then(d => { setRecipes(d.recipes); setLoading(false) })
+      .then(d => { setRecipes(d.recipes ?? []); setLoading(false) })
   }, [])
+
+  useEffect(() => { load() }, [load])
+  useSSE(['stock_updated'], load)
 
   return (
     <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
@@ -53,8 +76,11 @@ export default function RecipesPage() {
                         : recipe.description}
                     </div>
                   )}
-                  <div style={{ color: 'var(--fg2)', fontSize: '0.75rem' }}>
-                    {recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''} · {recipe.ingredient_count} ingrédient{recipe.ingredient_count > 1 ? 's' : ''}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                    <span style={{ color: 'var(--fg2)', fontSize: '0.75rem' }}>
+                      {recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''} · {recipe.ingredient_count} ingrédient{recipe.ingredient_count > 1 ? 's' : ''}
+                    </span>
+                    <FeasibilityBadge f={recipe.feasibility ?? null} />
                   </div>
                 </div>
               </Link>
