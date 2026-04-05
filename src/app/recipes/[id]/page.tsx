@@ -311,7 +311,7 @@ export default function RecipePage() {
             <input ref={photoInputRef} type="file" accept=".png,.jpg,.jpeg,.webp" onChange={uploadPhoto} style={{ display: 'none' }} />
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
               {recipe?.photo_url && (
-                <img src={recipe.photo_url} alt="" width={80} height={80} style={{ borderRadius: 8, objectFit: 'cover' }} />
+                <img src={recipe.photo_url} alt="" width={120} height={120} style={{ borderRadius: 8, objectFit: 'cover' }} />
               )}
               <button
                 type="button"
@@ -319,7 +319,7 @@ export default function RecipePage() {
                 disabled={uploadingPhoto}
                 style={{ padding: '0.375rem 0.75rem', border: '1px solid var(--border)', borderRadius: 6, background: 'var(--bg2)', color: 'var(--fg)', fontSize: '0.8125rem', cursor: 'pointer' }}
               >
-                {uploadingPhoto ? 'Upload…' : recipe?.photo_url ? 'Changer la photo' : '↑ Ajouter une photo'}
+                {uploadingPhoto ? 'Upload…' : recipe?.photo_url ? 'Changer la photo' : '↑ Ajouter une photo (400×400 recommandé)'}
               </button>
             </div>
           </div>

@@ -180,7 +180,7 @@ export default function RecipesPage() {
                   display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
                 }}>
                   {recipe.photo_url && (
-                    <img src={recipe.photo_url} alt="" width={64} height={64} style={{ borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
+                    <img src={recipe.photo_url} alt="" width={80} height={80} style={{ borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
                   )}
                   <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>

@@ -90,6 +90,15 @@ def process_image(image_bytes, size=128, padding_ratio=0.10):
     return out.getvalue()
 
 
+def process_recipe_image(image_bytes, size=400):
+    """Simple resize to size×size for recipe photos — no background removal."""
+    img = Image.open(BytesIO(image_bytes)).convert("RGB")
+    img = img.resize((size, size), Image.LANCZOS)
+    out = BytesIO()
+    img.save(out, format="PNG", optimize=True)
+    return out.getvalue()
+
+
 def generate_icon(icon, output_dir, style, size=128):
     output_path = output_dir / icon["filename"]
 
@@ -117,7 +126,7 @@ def generate_icon(icon, output_dir, style, size=128):
 
             img_bytes = requests.get(img_url, timeout=30).content
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_bytes(process_image(img_bytes, size=size))
+            output_path.write_bytes(process_recipe_image(img_bytes, size=size) if size > 128 else process_image(img_bytes, size=size))
             return "ok"
 
         except Exception as e:
@@ -149,7 +158,7 @@ def main():
         output_dir.mkdir(parents=True, exist_ok=True)
         icons, style = load_icons(spec)
         icons = filter_icons(icons, args)
-        size = 512
+        size = 400
     else:
         if args.spec and args.theme == DEFAULT_THEME:
             args.theme = infer_theme_from_spec(args.spec) or args.theme
