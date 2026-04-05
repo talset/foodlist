@@ -112,6 +112,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `cheddar.png` | solid rectangular block of deep warm orange cheddar cheese, vibrant sunset-orange color, smooth surface with a slight waxy sheen, 3/4 view |
 | `parmesan.png` | irregular rustic wedge of pale sandy-beige parmesan with a rough crumbly texture, warm earthy tones, grainy surface detail, 3/4 view |
 | `boursin.png` | cute small round white pot of Boursin cheese with a smooth lid and cheerful green herb illustrations (chives and parsley sprigs) printed on the white exterior, clean white tones, cozy round pot shape, front view |
+| `philadelphia.png` | cute small white plastic tub of cream cheese with a rounded shape and a cheerful blue logo band around the middle, clean white and blue tones, silver foil lid, front view |
 
 ---
 
@@ -271,7 +272,11 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `cereales.png` | cute cereal cardboard box with a small illustrated bowl of golden corn flakes, warm golden and cream tones, plump box shape, side view |
 | `barre-cereales.png` | single plump granola bar in a cheerful shiny wrapper, warm golden-oat tones, cozy rectangular shape, side view |
-| `chocolat.png` | plump dark chocolate bar with one square playfully broken off, deep warm cocoa-brown color, clean grid pattern, top view |
+| `chocolat-noir.png` | plump dark chocolate bar with one square playfully broken off, deep warm cocoa-brown color, clean grid pattern, top view |
+| `chocolat-lait.png` | plump milk chocolate bar with one square playfully broken off, warm light brown caramel color, clean grid pattern, top view |
+| `chocolat-blanc.png` | plump white chocolate bar with one square playfully broken off, creamy ivory-white color, clean grid pattern, top view |
+| `palet-breton.png` | thick round butter cookie with a golden-orange crust, slightly cracked surface showing rich buttery texture, warm golden tones, top view |
+| `speculoos.png` | elongated rectangular spiced biscuit with embossed pattern on top, deep warm brown color, slightly crunchy texture, top view |
 | `nutella.png` | cute round glass jar of hazelnut chocolate spread with a warm brown body and a cheerful red lid, rich cocoa tones, no brand text, side view |
 | `confiture.png` | cute glass jar of strawberry jam with a vivid warm red color, a charming checkered red fabric lid cover, cozy rustic look, side view |
 | `creme-marron.png` | cute soft tube of chestnut cream paste in warm brown tones with a tiny chestnut illustration, cozy earthy colors, side view |

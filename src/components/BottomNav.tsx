@@ -28,6 +28,17 @@ const NAV_ITEMS = [
     ),
   },
   {
+    href: '/recipes',
+    label: 'Recettes',
+    icon: (active: boolean) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/>
+        <path d="M7 2v20"/>
+        <path d="M21 15V2v0a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+      </svg>
+    ),
+  },
+  {
     href: '/products',
     label: 'Produits',
     icon: (active: boolean) => (
@@ -38,17 +49,6 @@ const NAV_ITEMS = [
         <line x1="3" y1="6" x2="3.01" y2="6"/>
         <line x1="3" y1="12" x2="3.01" y2="12"/>
         <line x1="3" y1="18" x2="3.01" y2="18"/>
-      </svg>
-    ),
-  },
-  {
-    href: '/recipes',
-    label: 'Recettes',
-    icon: (active: boolean) => (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/>
-        <path d="M7 2v20"/>
-        <path d="M21 15V2v0a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
       </svg>
     ),
   },

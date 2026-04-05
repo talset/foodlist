@@ -112,6 +112,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `cheddar.png` | rectangular block of deep orange Cheddar with a smooth slightly waxy surface, vivid orange-amber color, slight natural rind at the edge, 3/4 view |
 | `parmesan.png` | irregular wedge of Parmigiano Reggiano, rough grainy surface where it was broken off the wheel, pale sandy-cream color, dense crystalline texture, 3/4 view |
 | `boursin.png` | small round white plastic Boursin pot with a smooth lid, clean white exterior with green herb illustrations (chives and fresh herbs) printed on the pot, realistic soft-touch plastic container, front view |
+| `philadelphia.png` | small white plastic tub of Philadelphia cream cheese with a rounded shape, blue logo band around the middle, silver foil lid, realistic packaging texture, front view |
 
 ---
 
@@ -271,7 +272,11 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `cereales.png` | rectangular cereal cardboard box with a clear window showing golden corn flakes, matte printed cardboard, realistic box shape, side view |
 | `barre-cereales.png` | single granola bar in a shiny printed wrapper, slightly crinkled plastic film, visible cereal and oat texture through the wrapper edges, side view |
-| `chocolat.png` | chocolate bar with one square broken off, deep dark brown surface showing glossy chocolate texture, realistic bar markings, top view |
+| `chocolat-noir.png` | dark chocolate bar with one square broken off, deep dark brown surface showing glossy chocolate texture, realistic bar markings, top view |
+| `chocolat-lait.png` | milk chocolate bar with one square broken off, warm light brown surface showing smooth glossy texture, realistic bar markings, top view |
+| `chocolat-blanc.png` | white chocolate bar with one square broken off, creamy ivory-white surface showing smooth glossy texture, realistic bar markings, top view |
+| `palet-breton.png` | thick round butter cookie with golden-orange crust, slightly cracked surface showing rich buttery crumb, realistic baked texture, top view |
+| `speculoos.png` | elongated rectangular spiced biscuit with embossed windmill pattern on top, deep warm cinnamon-brown color, realistic crunchy texture, top view |
 | `nutella.png` | round glass jar of hazelnut chocolate spread, slightly opaque glass showing dark brown contents, red and gold lid, slight label wrap, no brand, side view |
 | `confiture.png` | glass jar of strawberry jam with visible red jam inside, checkered red fabric lid cover held with an elastic band, realistic glass jar, side view |
 | `creme-marron.png` | soft squeezable tube of chestnut cream, slightly squeezed aluminum tube with warm brown printing, small screw cap, side view |

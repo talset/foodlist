@@ -546,11 +546,39 @@
     "icon_ref": "cereales.png"
   },
   {
-    "name": "Chocolat",
+    "name": "Chocolat noir",
     "category": "Desserts / Pâtisserie",
     "ref_unit": "g",
     "ref_quantity": 100,
-    "icon_ref": "chocolat.png"
+    "icon_ref": "chocolat-noir.png"
+  },
+  {
+    "name": "Chocolat au lait",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "chocolat-lait.png"
+  },
+  {
+    "name": "Chocolat blanc",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 100,
+    "icon_ref": "chocolat-blanc.png"
+  },
+  {
+    "name": "Palet breton",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 125,
+    "icon_ref": "palet-breton.png"
+  },
+  {
+    "name": "Spéculoos",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "speculoos.png"
   },
   {
     "name": "Confiture",
@@ -1650,5 +1678,12 @@
     "ref_unit": "g",
     "ref_quantity": 150,
     "icon_ref": "boursin.png"
+  },
+  {
+    "name": "Philadelphia",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 150,
+    "icon_ref": "philadelphia.png"
   }
 ]

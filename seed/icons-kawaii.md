@@ -113,6 +113,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `cheddar.png` | rectangular block of deep orange cheddar, keeping its real block shape, with a kawaii face on the surface — bold energetic eyes, wide smile, rosy cheeks — vivid warm orange, 3/4 view |
 | `parmesan.png` | irregular rustic wedge of sandy-beige parmesan with crumbly texture, keeping its real wedge shape, with a kawaii face on the cut face — wise squinting eyes, dignified smile, rosy cheeks — sandy-beige, 3/4 view |
 | `boursin.png` | small round white Boursin pot with a smooth lid, keeping its real round pot shape, with a kawaii face on the pot body — elegant eyes, refined smile, rosy cheeks — clean white with tiny green herb illustrations, front view |
+| `philadelphia.png` | small white plastic tub of cream cheese, keeping its real rounded tub shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — clean white body with blue band around the middle, front view |
 
 ---
 
@@ -272,7 +273,11 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 |---|---|
 | `cereales.png` | cereal cardboard box with illustrated bowl window, keeping its real box shape, with a kawaii face on the box front — big eyes, happy smile, rosy cheeks — warm golden tones, side view |
 | `barre-cereales.png` | granola bar in shiny wrapper, keeping its real rectangular bar shape, with a kawaii face on the wrapper front — big happy eyes, wide smile, rosy cheeks — warm golden-oat tones, side view |
-| `chocolat.png` | dark chocolate bar with one square broken off, keeping its real flat bar shape with grid pattern, with a kawaii face on the bar surface — big eyes, happy smile, rosy cheeks — deep cocoa-brown, top view |
+| `chocolat-noir.png` | dark chocolate bar with one square broken off, keeping its real flat bar shape with grid pattern, with a kawaii face on the bar surface — big eyes, happy smile, rosy cheeks — deep cocoa-brown, top view |
+| `chocolat-lait.png` | milk chocolate bar with one square broken off, keeping its real flat bar shape with grid pattern, with a kawaii face on the bar surface — big eyes, happy smile, rosy cheeks — warm light brown caramel color, top view |
+| `chocolat-blanc.png` | white chocolate bar with one square broken off, keeping its real flat bar shape with grid pattern, with a kawaii face on the bar surface — big eyes, happy smile, rosy cheeks — creamy ivory-white color, top view |
+| `palet-breton.png` | thick round butter cookie with golden-orange crust, keeping its real thick disc shape, with a kawaii face on the top surface — big eyes, happy smile, rosy cheeks — warm golden tones, top view |
+| `speculoos.png` | elongated rectangular spiced biscuit with embossed pattern, keeping its real elongated shape, with a kawaii face on the surface — big eyes, happy smile, rosy cheeks — deep warm brown color, top view |
 | `nutella.png` | round glass hazelnut spread jar with brown body and red lid, keeping its real jar shape, with a kawaii face on the jar body — rich warm eyes, happy smile, very rosy cheeks — warm brown jar, red lid, no brand text, side view |
 | `confiture.png` | round glass strawberry jam jar with checkered fabric lid cover, keeping its real jar shape with fabric top, with a kawaii face on the jar body — sweet sparkling eyes, happy smile, rosy cheeks — vivid warm red jam visible, side view |
 | `creme-marron.png` | soft chestnut cream tube slightly squeezed, keeping its real soft tube shape, with a kawaii face on the tube body — cozy squinting eyes, content smile, rosy cheeks — warm brown tones, side view |

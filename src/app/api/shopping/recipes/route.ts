@@ -61,6 +61,16 @@ export async function POST(req: Request) {
     [session.user.householdId, recipe_id, multiplier, session.user.id]
   )
 
+  // Auto-create out_of_stock entries for ingredients not yet in stock
+  await pool.query(
+    `INSERT IGNORE INTO stock (product_id, household_id, quantity, status, updated_by)
+     SELECT ri.product_id, ?, 0, 'out_of_stock', ?
+     FROM recipe_ingredients ri
+     WHERE ri.recipe_id = ?
+       AND ri.product_id NOT IN (SELECT product_id FROM stock WHERE household_id = ?)`,
+    [session.user.householdId, session.user.id, recipe_id, session.user.householdId]
+  )
+
   const [[row]] = await pool.query<any[]>(
     `SELECT sr.id, sr.recipe_id, sr.multiplier, sr.added_at,
             r.name AS recipe_name, r.base_servings,
@@ -74,5 +84,6 @@ export async function POST(req: Request) {
   )
 
   broadcast(session.user.householdId, 'shopping_updated')
+  broadcast(session.user.householdId, 'stock_updated')
   return NextResponse.json(toApiShoppingRecipe(row), { status: 201 })
 }

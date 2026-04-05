@@ -61,6 +61,7 @@ export default function AdminPage() {
   const [newHouseholdName, setNewHouseholdName] = useState('')
   const [actionMsg, setActionMsg] = useState('')
   const [seeding, setSeeding] = useState(false)
+  const [seedingRecipes, setSeedingRecipes] = useState(false)
   const [importingProducts, setImportingProducts] = useState(false)
   const [importingRecipes, setImportingRecipes] = useState(false)
   const importProductsRef = useRef<HTMLInputElement>(null)
@@ -183,6 +184,21 @@ export default function AdminPage() {
       setActionMsg(`Erreur : ${data.error}`)
     }
     setSeeding(false)
+  }
+
+  async function seedRecipes() {
+    if (!confirm('Importer les recettes de base ? Les recettes existantes seront ignorées.')) return
+    setSeedingRecipes(true)
+    setActionMsg('')
+    const r = await fetch('/api/admin/seed-recipes', { method: 'POST' })
+    const data = await r.json()
+    if (r.ok) {
+      await loadStats()
+      setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.skipped} ignorées${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+    } else {
+      setActionMsg(`Erreur : ${data.error}`)
+    }
+    setSeedingRecipes(false)
   }
 
   async function importProducts(e: React.ChangeEvent<HTMLInputElement>) {
@@ -507,6 +523,15 @@ export default function AdminPage() {
               {stats?.recipes != null && `${stats.recipes} recette${stats.recipes !== 1 ? 's' : ''} dans la base.`}
             </div>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {/* Seed */}
+              <button
+                onClick={seedRecipes}
+                disabled={seedingRecipes}
+                style={btnSecondary(seedingRecipes)}
+                title="Importe les recettes de base. Les doublons sont ignorés."
+              >
+                {seedingRecipes ? 'Import en cours…' : '↓ Catalogue de base'}
+              </button>
               {/* Import JSON */}
               <button onClick={() => importRecipesRef.current?.click()} disabled={importingRecipes} style={btnSecondary(importingRecipes)} title="Importe un fichier JSON de recettes. Les doublons sont ignorés. Les produits référencés doivent exister.">
                 {importingRecipes ? 'Import en cours…' : '↑ Import recettes'}

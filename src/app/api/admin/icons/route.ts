@@ -104,7 +104,7 @@ export async function DELETE(req: Request) {
   let deleted = 0
   for (const filename of filenames) {
     const safe = path.basename(filename)
-    if (!safe || !/^[\w\-]+\.(png|jpg|jpeg|webp)$/i.test(safe)) continue
+    if (!safe || safe.includes('..')) continue
     try {
       await fs.unlink(path.join(targetDir, safe))
       deleted++

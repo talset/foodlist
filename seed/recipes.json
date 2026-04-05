@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Cheesecake",
+    "description": "Cheesecake au cookeo",
+    "category": "Dessert",
+    "base_servings": 6,
+    "steps_markdown": "# preparation\n\n1. faire fondre le beurre, mixer les gateaux, melanger et applatir dans le moule\n\n2. melanger tout le reste dans un saladier puis verser\n\n# cuisson\n\n1. metre un film alimentaire au dessus\n2. cuisson pression 33min\n",
+    "ingredients": [
+      {
+        "product": "Beurre",
+        "quantity": 30
+      },
+      {
+        "product": "Crème liquide",
+        "quantity": 0.17
+      },
+      {
+        "product": "Sucre en poudre",
+        "quantity": 100
+      }
+    ]
+  }
+]
