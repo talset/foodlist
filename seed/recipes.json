@@ -4,36 +4,93 @@
     "description": "Cheesecake au cookeo",
     "category": "Dessert",
     "base_servings": 6,
-    "steps_markdown": "# preparation\n\n1. faire fondre le beurre, mixer les gateaux, melanger et applatir dans le moule\n\n2. melanger tout le reste dans un saladier puis verser\n\n# cuisson\n\n1. metre un film alimentaire au dessus\n2. cuisson pression 33min\n",
+    "steps_markdown": "# Préparation\n\n1. Faire fondre le beurre, mixer les gâteaux, mélanger et aplatir dans le moule\n2. Mélanger tout le reste dans un saladier puis verser\n\n# Cuisson\n\n1. Mettre un film alimentaire au dessus\n2. Cuisson pression 33 min\n",
     "ingredients": [
-      {
-        "product": "Beurre",
-        "quantity": 30
-      },
-      {
-        "product": "Crème liquide",
-        "quantity": 0.17
-      },
-      {
-        "product": "Oeufs",
-        "quantity": 2
-      },
-      {
-        "product": "Palet breton",
-        "quantity": 75
-      },
-      {
-        "product": "Philadelphia",
-        "quantity": 300
-      },
-      {
-        "product": "Spéculoos",
-        "quantity": 75
-      },
-      {
-        "product": "Sucre en poudre",
-        "quantity": 100
-      }
+      { "product": "Beurre", "quantity": 30 },
+      { "product": "Crème liquide", "quantity": 0.17 },
+      { "product": "Oeufs", "quantity": 2 },
+      { "product": "Palet breton", "quantity": 75 },
+      { "product": "Philadelphia", "quantity": 300 },
+      { "product": "Spéculoos", "quantity": 75 },
+      { "product": "Sucre en poudre", "quantity": 100 }
+    ]
+  },
+  {
+    "name": "Crêpes",
+    "description": "Crêpes maison",
+    "category": "Dessert",
+    "base_servings": 6,
+    "steps_markdown": "# Préparation\n\n1. Dans un saladier, mélanger 375 g de farine tamisée, 1 grosse pincée de sel fin et 50 g de sucre en poudre\n2. Ajouter 6 œufs et les incorporer un à un à la farine\n3. Ajouter 90 g de beurre fondu (tiédi) et bien mélanger\n4. Incorporer progressivement 1 L de lait\n5. Ajouter ensuite un parfum au choix, à hauteur de 3 cuillères à soupe (rhum, fleur d'oranger, eau de vie) et mélanger\n",
+    "ingredients": [
+      { "product": "Farine", "quantity": 375 },
+      { "product": "Sucre en poudre", "quantity": 50 },
+      { "product": "Oeufs", "quantity": 6 },
+      { "product": "Beurre", "quantity": 90 },
+      { "product": "Lait", "quantity": 1 },
+      { "product": "Rhum", "quantity": 0.045 }
+    ]
+  },
+  {
+    "name": "Gaufres",
+    "description": "Gaufres maison à la bière",
+    "category": "Dessert",
+    "base_servings": 6,
+    "steps_markdown": "# Préparation\n\n1. Mélanger la farine + le sucre + la levure + le sel\n2. Ajouter les 2 œufs\n3. Incorporer le lait et la bière en mélangeant\n4. Ajouter le beurre fondu\n\n> Astuce : mettre plus de bière que de lait pour des gaufres plus légères\n",
+    "ingredients": [
+      { "product": "Farine", "quantity": 300 },
+      { "product": "Sucre en poudre", "quantity": 75 },
+      { "product": "Levure", "quantity": 5 },
+      { "product": "Oeufs", "quantity": 2 },
+      { "product": "Sel", "quantity": 0.005 },
+      { "product": "Beurre", "quantity": 100 },
+      { "product": "Lait", "quantity": 0.25 },
+      { "product": "Bières", "quantity": 1 }
+    ]
+  },
+  {
+    "name": "Gratin dauphinois",
+    "description": "Gratin dauphinois traditionnel",
+    "category": "Plat",
+    "base_servings": 6,
+    "steps_markdown": "# Préparation\n\n1. Éplucher les pommes de terre Charlotte\n2. Hacher finement la gousse d'ail\n3. Couper les pommes de terre en rondelles d'environ 3 mm d'épaisseur\n4. Saler et poivrer généreusement\n\n# Cuisson initiale\n\n1. Dans une grande casserole, verser : le lait, la crème, l'ail haché, les rondelles de pommes de terre, la noix de muscade\n2. Porter le mélange à ébullition\n3. Veiller à ce que les pommes de terre soient bien immergées\n4. Dès que ça bout, arrêter la cuisson\n\n# Cuisson au four\n\n1. Préchauffer le four à **190 °C**\n2. Verser la préparation dans un plat à gratin\n3. S'assurer que la crème et le lait recouvrent bien les pommes de terre\n4. Ajouter des petits morceaux de beurre sur le dessus\n5. Baisser le four à **150 °C**\n6. Enfourner pendant au moins **60 minutes**\n",
+    "ingredients": [
+      { "product": "Beurre", "quantity": 100 },
+      { "product": "Lait", "quantity": 1 },
+      { "product": "Patates", "quantity": 1.5 },
+      { "product": "Ail", "quantity": 1 },
+      { "product": "Crème liquide", "quantity": 0.3 },
+      { "product": "Sel", "quantity": 0.01 },
+      { "product": "Poivre", "quantity": 2 },
+      { "product": "Noix de muscade", "quantity": 1 }
+    ]
+  },
+  {
+    "name": "Mousse au chocolat",
+    "description": "Mousse au chocolat noir et lait",
+    "category": "Dessert",
+    "base_servings": 6,
+    "steps_markdown": "# Préparation\n\n1. Faire fondre le chocolat avec un peu de crème liquide\n2. Ajouter les jaunes d'œufs et mélanger jusqu'à obtenir une préparation lisse\n3. Fouetter la crème liquide (elle doit être montée mais pas trop ferme)\n4. Incorporer délicatement la crème fouettée au mélange chocolaté\n5. Monter les blancs d'œufs en neige ferme\n6. Ajouter les blancs en neige délicatement à la préparation, en soulevant la masse pour ne pas les casser\n7. Verser la mousse dans des récipients\n8. Réfrigérer pendant au moins **6 heures**, idéalement toute une nuit\n",
+    "ingredients": [
+      { "product": "Chocolat noir", "quantity": 150 },
+      { "product": "Chocolat au lait", "quantity": 100 },
+      { "product": "Oeufs", "quantity": 6 },
+      { "product": "Crème liquide", "quantity": 0.3 }
+    ]
+  },
+  {
+    "name": "Pommes de terre au four",
+    "description": "Pommes de terre au four avec sauce crème fraîche",
+    "category": "Plat",
+    "base_servings": 4,
+    "steps_markdown": "# Préparation des pommes de terre\n\n1. Laver les pommes de terre\n2. Les couper en deux dans le sens de la largeur\n3. Déposer une petite noisette de beurre sur chaque moitié\n4. Ajouter du sel et du persil\n5. Enfourner en haut du four à **190 °C** pendant **30 à 35 minutes**\n\n# Préparation de la sauce\n\nDans un bol, mélanger :\n- la crème fraîche\n- le persil ou la ciboulette\n- l'oignon finement coupé\n- le poivre\n",
+    "ingredients": [
+      { "product": "Patates", "quantity": 1 },
+      { "product": "Crème fraîche", "quantity": 200 },
+      { "product": "Persil", "quantity": 1 },
+      { "product": "Oignons", "quantity": 0.15 },
+      { "product": "Beurre", "quantity": 30 },
+      { "product": "Sel", "quantity": 0.005 },
+      { "product": "Poivre", "quantity": 2 }
     ]
   }
 ]

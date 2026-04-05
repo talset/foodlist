@@ -1678,12 +1678,5 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "muscade.png"
-  },
-  {
-    "name": "Pommes de terre",
-    "category": "Fruits & Légumes",
-    "ref_unit": "kg",
-    "ref_quantity": 1,
-    "icon_ref": "pomme-de-terre.png"
   }
 ]

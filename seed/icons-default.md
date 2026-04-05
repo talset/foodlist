@@ -208,6 +208,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `piment.png` | cute small glass spice jar filled with bright red hot chili powder, vivid fiery red color, plump round jar with a small lid, front view |
 | `gingembre.png` | single plump fresh ginger root with a knobbly irregular shape, warm golden-beige skin, slightly fibrous texture, side view |
 | `sel.png` | cute round cylindrical salt tin like a small can, soft navy-blue and white tones, with tiny perforated holes on the round top lid for sprinkling salt, cheerful little shaker shape, top-front view |
+| `levure.png` | cute small sachet of baking yeast powder, soft cream-colored paper packet with a warm golden stripe, plump little pillow shape, front view |
+| `muscade.png` | cute small round whole nutmeg seed with a warm brown marbled surface, cozy earthy tones, slightly oval shape, side view |
 | `sel-lv.png` | cute rectangular cardboard box of dishwasher salt in soft blue and white, clean simple design, plump box shape, side view |
 | `ail.png` | single plump garlic head with papery soft white skin, rounded bulb shape, warm ivory and cream tones, tiny root base, front view |
 | `basilic.png` | small bunch of fresh bright green basil leaves with a cheerful stem, vivid emerald-green color, soft rounded leaves, top view |

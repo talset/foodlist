@@ -209,6 +209,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `piment.png` | small glass spice jar with metal lid, vivid bright red chili powder inside, slight dusting, realistic glass jar, front view |
 | `gingembre.png` | single fresh ginger root with knobbly irregular knobs, golden-beige thin papery skin, slight fibrous texture visible at cut ends, side view |
 | `sel.png` | classic round navy-blue and white cardboard salt canister with perforated metal top for sprinkling, slight denting on the metal shaker lid, realistic cardboard texture, top-front view |
+| `levure.png` | small paper sachet of baking yeast powder, cream-colored with printed text and golden stripe, realistic paper texture with slight crinkles, front view |
+| `muscade.png` | small round whole nutmeg seed with warm brown marbled surface, realistic woody texture with fine veining, slightly oval, side view |
 | `sel-lv.png` | rectangular cardboard box of dishwasher salt, matte printed cardboard, blue and white design, slight crease at the edges, side view |
 | `ail.png` | single garlic head with papery off-white skin, visible clove divisions under the thin skin, slight root fiber at the base, realistic dry garlic texture, front view |
 | `basilic.png` | small bunch of fresh basil leaves, vivid deep green, slight sheen on the leaves, visible leaf veins, fresh-cut stem, top view |
