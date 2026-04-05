@@ -84,10 +84,10 @@
     "icon_ref": "lait-coco.png"
   },
   {
-    "name": "Œufs",
+    "name": "Oeufs",
     "category": "Produits laitiers",
     "ref_unit": "unité",
-    "ref_quantity": 6,
+    "ref_quantity": 1,
     "icon_ref": "oeuf.png"
   },
   {
