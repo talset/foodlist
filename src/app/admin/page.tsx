@@ -172,7 +172,7 @@ export default function AdminPage() {
   }
 
   async function seedCatalogue() {
-    if (!confirm('Importer le catalogue de base (177 produits) ? Les produits existants seront ignorés.')) return
+    if (!confirm('Importer le catalogue de base ? Les produits existants seront ignorés.')) return
     setSeeding(true)
     setActionMsg('')
     const r = await fetch('/api/admin/seed', { method: 'POST' })
@@ -199,6 +199,30 @@ export default function AdminPage() {
       setActionMsg(`Erreur : ${data.error}`)
     }
     setSeedingRecipes(false)
+  }
+
+  async function deleteAllProducts() {
+    if (!confirm('Supprimer TOUS les produits, recettes, stocks et listes de courses ? Cette action est irréversible.')) return
+    setActionMsg('')
+    const r = await fetch('/api/admin/products', { method: 'DELETE' })
+    if (r.ok) {
+      await loadStats()
+      setActionMsg('Tous les produits et données associées ont été supprimés')
+    } else {
+      setActionMsg('Erreur lors de la suppression')
+    }
+  }
+
+  async function deleteAllRecipes() {
+    if (!confirm('Supprimer TOUTES les recettes et listes de courses associées ? Cette action est irréversible.')) return
+    setActionMsg('')
+    const r = await fetch('/api/admin/recipes', { method: 'DELETE' })
+    if (r.ok) {
+      await loadStats()
+      setActionMsg('Toutes les recettes ont été supprimées')
+    } else {
+      setActionMsg('Erreur lors de la suppression')
+    }
   }
 
   async function importProducts(e: React.ChangeEvent<HTMLInputElement>) {
@@ -291,26 +315,8 @@ export default function AdminPage() {
     if (r.ok) {
       const d = await r.json()
       await loadIcons()
-      setActionMsg(`${d.deleted} icône${d.deleted !== 1 ? 's' : ''} supprimée${d.deleted !== 1 ? 's' : ''}`)
-    } else {
-      setActionMsg('Erreur lors de la suppression')
-    }
-    setDeletingIcons(prev => { const s = new Set(prev); s.delete(key); return s })
-  }
-
-  async function deleteThemeIcon(filename: string, theme: string) {
-    const key = `${theme}/${filename}`
-    setDeletingIcons(prev => new Set(prev).add(key))
-    setActionMsg('')
-    const r = await fetch('/api/admin/icons', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ filenames: [filename], theme }),
-    })
-    if (r.ok) {
-      const d = await r.json()
-      await loadIcons()
-      setActionMsg(`${d.deleted} icône${d.deleted !== 1 ? 's' : ''} supprimée${d.deleted !== 1 ? 's' : ''}`)
+      const msg = `${d.deleted} icône${d.deleted !== 1 ? 's' : ''} supprimée${d.deleted !== 1 ? 's' : ''}`
+      setActionMsg(msg)
     } else {
       setActionMsg('Erreur lors de la suppression')
     }
@@ -482,8 +488,16 @@ export default function AdminPage() {
 
           {/* Produits */}
           <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-              Produits
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Produits
+              </div>
+              <button
+                onClick={deleteAllProducts}
+                style={{ padding: '0.25rem 0.625rem', border: '1px solid #fca5a5', borderRadius: 6, background: 'var(--bg)', color: '#dc2626', fontSize: '0.75rem', cursor: 'pointer' }}
+              >
+                Tout supprimer
+              </button>
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
               {stats?.products != null && `${stats.products} produit${stats.products !== 1 ? 's' : ''} dans la base.`}
@@ -516,8 +530,16 @@ export default function AdminPage() {
 
           {/* Recettes */}
           <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-              Recettes
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Recettes
+              </div>
+              <button
+                onClick={deleteAllRecipes}
+                style={{ padding: '0.25rem 0.625rem', border: '1px solid #fca5a5', borderRadius: 6, background: 'var(--bg)', color: '#dc2626', fontSize: '0.75rem', cursor: 'pointer' }}
+              >
+                Tout supprimer
+              </button>
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.75rem' }}>
               {stats?.recipes != null && `${stats.recipes} recette${stats.recipes !== 1 ? 's' : ''} dans la base.`}
@@ -735,13 +757,6 @@ export default function AdminPage() {
                         {!orphanThemeFilter && (
                           <span style={{ fontSize: '0.55rem', color: 'var(--primary)', fontWeight: 600 }}>{theme}</span>
                         )}
-                        <button
-                          onClick={() => deleteThemeIcon(filename, theme)}
-                          disabled={deletingIcons.has(`${theme}/${filename}`)}
-                          style={{ padding: '0.125rem 0.375rem', border: '1px solid #fca5a5', borderRadius: 4, background: 'none', color: '#dc2626', fontSize: '0.6875rem', cursor: 'pointer' }}
-                        >
-                          ×
-                        </button>
                       </div>
                     ))}
                   </div>

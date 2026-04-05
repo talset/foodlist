@@ -5,7 +5,7 @@ import { useRef, useEffect } from 'react'
 /**
  * Returns a ref to attach to a horizontally-scrollable container.
  * Enables:
- *  - Mouse wheel (vertical) → horizontal scroll
+ *  - Mouse wheel (vertical) → horizontal scroll (only when strip overflows)
  *  - Click-drag → horizontal scroll (cursor changes to grabbing)
  */
 export function useHorizontalScroll<T extends HTMLElement>() {
@@ -17,6 +17,10 @@ export function useHorizontalScroll<T extends HTMLElement>() {
 
     const onWheel = (e: WheelEvent) => {
       if (e.deltaY === 0) return
+      // Don't hijack scroll if the strip doesn't overflow
+      if (el.scrollWidth <= el.clientWidth) return
+      // On trackpads, if the scroll is mostly vertical, let the page scroll
+      if (Math.abs(e.deltaY) < Math.abs(e.deltaX) * 2 && e.deltaX !== 0) return
       e.preventDefault()
       el.scrollLeft += e.deltaY
     }

@@ -735,20 +735,6 @@
     "icon_ref": "fromage-fondue.png"
   },
   {
-    "name": "Fromage frais",
-    "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 150,
-    "icon_ref": "fromage-frais.png"
-  },
-  {
-    "name": "Gruyère",
-    "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 200,
-    "icon_ref": "gruyere.png"
-  },
-  {
     "name": "Gruyère râpé",
     "category": "Produits laitiers",
     "ref_unit": "g",
@@ -840,11 +826,11 @@
     "icon_ref": "emmental.png"
   },
   {
-    "name": "Fromage râpé",
+    "name": "Emmental râpé",
     "category": "Produits laitiers",
     "ref_unit": "g",
     "ref_quantity": 200,
-    "icon_ref": "fromage-rape.png"
+    "icon_ref": "emmental-rape.png"
   },
   {
     "name": "Gouda",
@@ -936,13 +922,6 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "courgette.png"
-  },
-  {
-    "name": "Fruits",
-    "category": "Fruits & Légumes",
-    "ref_unit": "kg",
-    "ref_quantity": 1,
-    "icon_ref": "fruits.png"
   },
   {
     "name": "Kiwi",

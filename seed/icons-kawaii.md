@@ -85,10 +85,9 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 
 | Fichier | Description détaillée |
 |---|---|
-| `fromage-rape.png` | fluffy mound of shredded golden cheese, keeping its real wispy pile shape, with a tiny kawaii face peeking from the center — big eyes, smile, rosy cheeks — warm pale yellow, top view |
+| `emmental-rape.png` | fluffy mound of shredded golden emmental cheese, keeping its real wispy pile shape, with a tiny kawaii face peeking from the center — big eyes, smile, rosy cheeks — warm pale yellow, top view |
 | `gruyere-rape.png` | fluffy pile of shredded Gruyère, keeping its real wispy mound shape, with a tiny kawaii face in the center — big glossy eyes, smile, rosy cheeks — warm yellow, top view |
 | `emmental.png` | rectangular block of pale golden Emmental with round holes visible, keeping its real cheese block shape, with a kawaii face on the cut face — big eyes, cute smile, rosy cheeks — soft yellow, 3/4 view |
-| `fromage-frais.png` | small white plastic fresh cheese pot with silver foil lid, keeping its real pot shape, with a kawaii face on the pot body — big glossy eyes, sweet smile, rosy cheeks — clean white, side view |
 | `fromage-fondue.png` | ceramic fondue pot with flame underneath, keeping its real round pot shape with two forks, with a kawaii face on the pot body — happy squinting eyes, warm smile, rosy cheeks — sunset orange, front view |
 | `fromage-burger.png` | single flat square processed cheese slice, keeping its real flat square shape with melted corners, with a kawaii face drawn on the surface — big round eyes, tiny smile, rosy cheeks — pale warm yellow, top view |
 | `fromage-chevre.png` | cylindrical white goat cheese log with grey ash rind, keeping its real log shape, with a small kawaii face on the cut end — big gentle eyes, shy smile, rosy cheeks — clean white, side view |
@@ -100,7 +99,6 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `vache-rit.png` | triangular laughing cow cheese portion in silver foil with red label, keeping its real triangle shape, with a kawaii face on the front — big laughing eyes, wide smile, very rosy cheeks — silver foil with red circle, front view |
 | `fromage-croc.png` | flat square processed cheese slice in orange-yellow packaging, keeping its real flat square shape, with a kawaii face drawn on the surface — friendly eyes, tiny smile, rosy cheeks — pale yellow, top view |
 | `comte.png` | rectangular block of pale ivory Comté with brown rind edge, keeping its real cheese block shape, with a kawaii face on the cut face — calm sophisticated eyes, gentle smile, rosy cheeks — ivory with brown rind, 3/4 view |
-| `gruyere.png` | rectangular block of golden Gruyère, keeping its real cheese block shape, with a kawaii face on the surface — warm happy eyes, cozy smile, rosy cheeks — pale yellow, 3/4 view |
 | `beaufort.png` | rectangular block of pale ivory Beaufort, keeping its real cheese block shape, with a kawaii face on the cut face — gentle soft eyes, sweet smile, rosy cheeks — pale ivory, 3/4 view |
 | `gouda.png` | round Gouda disc with waxy yellow rind, keeping its real disc shape, with a kawaii face on the top surface — big bright eyes, happy smile, rosy cheeks — golden-yellow, 3/4 top view |
 | `port-salut.png` | round Port Salut disc with vivid orange rind, keeping its real disc shape, with a kawaii face on the top — cheerful eyes, big smile, rosy cheeks — orange rind with cream interior, 3/4 top view |
@@ -249,7 +247,6 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `poire.png` | single plump pear with soft yellow-green skin and tiny stem, keeping its real pear shape, with a kawaii face on the front — gentle soft eyes, sweet smile, rosy cheeks — soft yellow-green, front view |
 | `pomme.png` | single round plump red apple with small green leaf and brown stem, keeping its real apple shape, with a kawaii face on the front — big glossy eyes, wide smile, very rosy cheeks — vivid warm red, front view |
 | `kiwi.png` | kiwi cut in half showing bright green flesh with black seeds in a star pattern and white center, keeping its real halved kiwi shape, with a kawaii face formed by the seed arrangement — the seeds become big glossy eyes, the white center a smile, very rosy cheeks — bright green flesh, front view |
-| `fruits.png` | woven basket filled with a red apple, yellow banana, orange, and grape cluster, keeping their real fruit shapes each with a tiny kawaii face — big dot eyes, tiny smile, rosy cheeks — warm cozy tones, 3/4 top view |
 | `fraise.png` | plump red strawberry keeping its real shape with green leafy crown, with a kawaii face on the fruit body — big glossy eyes, sweet smile, rosy cheeks — vivid glossy red with tiny white seed dots, front view |
 | `cerise.png` | two red cherries on a shared curved green stem, keeping their real shape, each with a small kawaii face — big dot eyes, tiny smile, rosy cheeks — vivid glossy red, front view |
 

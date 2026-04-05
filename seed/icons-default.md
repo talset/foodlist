@@ -84,10 +84,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `fromage-rape.png` | fluffy little pile of shredded golden cheese with wispy fine strands, warm pale yellow color, cozy mound shape, top view |
-| `gruyere-rape.png` | fluffy little pile of shredded golden Gruyère with long wispy strands, warm pale yellow color, cozy mound shape, top view |
-| `emmental.png` | plump rectangular block of pale golden Emmental cheese with characteristic round holes visible on the cut face, soft yellow color, 3/4 side view |
-| `fromage-frais.png` | cute small white plastic pot of fresh cheese with a soft silver foil lid and a cheerful rounded shape, clean white tones, side view |
+| `emmental-rape.png` | fluffy little pile of shredded golden emmental cheese with wispy fine strands, warm pale yellow color, cozy mound shape, top view |
+| `gruyere-rape.png` | fluffy little pile of shredded golden Gruyère with long wispy strands, warm pale yellow color, cozy mound shape, top view || `emmental.png` | plump rectangular block of pale golden Emmental cheese with characteristic round holes visible on the cut face, soft yellow color, 3/4 side view |
 | `fromage-fondue.png` | cute ceramic fondue pot in warm sunset orange with a tiny flame underneath, plump round belly, cheerful warm tones, two small forks poking out, front view |
 | `fromage-burger.png` | single flat soft square cheese slice with gently melted rounded corners, pale warm yellow color, slightly translucent, cozy proportions, top view |
 | `fromage-chevre.png` | cute cylindrical white goat cheese log with a soft grey ash-dusted rind, clean white interior visible at one end, rustic gentle look, side view, no goat |
@@ -99,7 +97,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `vache-rit.png` | Small portion of cheese wrapped in shiny silver aluminum foil, forming a soft triangular shape. The cheese is individually packaged, with a bright red circular label on the front featuring a stylized cow head icon. The wrapper is slightly crinkled, with warm creamy tones visible where the foil is subtly opened or highlighted. Front view, clean composition, soft lighting, highly realistic texture |
 | `fromage-croc.png` | single flat soft square processed cheese slice in orange-yellow packaging, pale warm yellow color, top view |
 | `comte.png` | plump rectangular block of pale ivory Comté cheese with a natural brown rind on the edge, firm texture, warm cream tones, 3/4 side view |
-| `gruyere.png` | plump rectangular block of golden Gruyère cheese with a smooth firm surface, warm pale yellow color, 3/4 side view |
 | `beaufort.png` | plump rectangular block of pale ivory Beaufort cheese with a firm smooth surface, light cream color, 3/4 side view |
 | `gouda.png` | plump round disc of Gouda cheese with a waxy golden-yellow rind, smooth surface, 3/4 top view |
 | `port-salut.png` | plump round disc of Port Salut cheese with a vivid orange rind and a pale cream interior visible at the edge, 3/4 top view |
@@ -248,7 +245,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `poire.png` | single plump pear with a soft yellow-green skin and a tiny brown stem, warm golden-green tones, cozy rounded shape, front view |
 | `pomme.png` | single round plump apple in vivid warm red with a small green leaf and a brown stem, glossy surface, cheerful color, front view |
 | `kiwi.png` | single kiwi cut in half showing a beautiful cross-section with bright green flesh, tiny black seeds in a star pattern, and a white center, front view |
-| `fruits.png` | cute woven basket filled with a plump red apple, a yellow banana, an orange, and a purple grape cluster, warm cozy tones, 3/4 top view |
 | `fraise.png` | single plump bright red strawberry with a cheerful green leafy crown, vivid glossy red color, tiny white seeds dotting the surface, cozy round shape, front view |
 | `cerise.png` | two bright red cherries joined by a cheerful curved green stem, vivid glossy red color, tiny leaf accent, cozy plump proportions, front view |
 

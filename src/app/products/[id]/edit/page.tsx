@@ -125,7 +125,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
               value={refQuantity}
               onChange={v => setRefQuantity(v)}
               fallback={1}
-              min={0.001} step={getStep(refQuantity)}
+              min={0.001} step="any"
               style={{ ...inputStyle, flex: 1, textAlign: 'center' }}
             />
             <button type="button" onClick={() => setRefQuantity(q => parseFloat((q + getStep(q)).toFixed(3)))} style={qtyBtnStyle}>+</button>

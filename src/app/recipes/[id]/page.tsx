@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { ApiRecipeDetail, ApiRecipeIngredient, ApiRecipeCategory } from '@/types'
 import { getCompatibleUnits, convertUnit, fmtQty } from '@/lib/units'
 import NumberInput from '@/components/NumberInput'
+import ReactMarkdown from 'react-markdown'
 
 interface IngredientRow {
   product_id: number
@@ -45,9 +46,15 @@ export default function RecipePage() {
   const [addedFeedback, setAddedFeedback] = useState('')
   const [isFavorite, setIsFavorite] = useState(false)
   const [togglingFav, setTogglingFav] = useState(false)
+  const [stockStatus, setStockStatus] = useState<Map<number, string>>(new Map())
 
   useEffect(() => {
     fetch('/api/recipe-categories').then(r => r.json()).then(setRecipeCategories)
+    fetch('/api/stock').then(r => r.json()).then(d => {
+      const m = new Map<number, string>()
+      for (const item of (d.items ?? [])) m.set(item.product_id, item.status)
+      setStockStatus(m)
+    })
   }, [])
 
   useEffect(() => {
@@ -312,13 +319,21 @@ export default function RecipePage() {
             <section style={{ marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--fg)' }}>Ingrédients</h2>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {recipe.ingredients.map(ing => (
-                  <li key={ing.id} style={{ display: 'flex', gap: '0.5rem', padding: '0.375rem 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
-                    {ing.icon_url && <img src={ing.icon_url} alt="" width={24} height={24} style={{ borderRadius: 3 }} />}
-                    <span style={{ flex: 1, color: 'var(--fg)' }}>{ing.product_name}</span>
-                    <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity)} {ing.ref_unit}</span>
-                  </li>
-                ))}
+                {recipe.ingredients.map(ing => {
+                  const status = stockStatus.get(ing.product_id)
+                  const inStock = status === 'in_stock' || status === 'low'
+                  return (
+                    <li key={ing.id} style={{ display: 'flex', gap: '0.5rem', padding: '0.375rem 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
+                      <span style={{
+                        width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                        background: inStock ? '#16a34a' : '#dc2626',
+                      }} title={inStock ? 'En stock' : 'Manquant'} />
+                      {ing.icon_url && <img src={ing.icon_url} alt="" width={24} height={24} style={{ borderRadius: 3 }} />}
+                      <span style={{ flex: 1, color: 'var(--fg)' }}>{ing.product_name}</span>
+                      <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity)} {ing.ref_unit}</span>
+                    </li>
+                  )
+                })}
               </ul>
             </section>
           )}
@@ -326,9 +341,9 @@ export default function RecipePage() {
           {recipe.steps_markdown && (
             <section style={{ marginBottom: '1.5rem' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--fg)' }}>Préparation</h2>
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0, color: 'var(--fg)', lineHeight: 1.6 }}>
-                {recipe.steps_markdown}
-              </pre>
+              <div style={{ color: 'var(--fg)', lineHeight: 1.6 }} className="markdown-body">
+                <ReactMarkdown>{recipe.steps_markdown}</ReactMarkdown>
+              </div>
             </section>
           )}
 

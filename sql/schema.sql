@@ -204,12 +204,14 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
 -- Catégories de recettes par défaut
 -- -----------------------------------------------------------------------------
 INSERT IGNORE INTO recipe_categories (name, sort_order) VALUES
-  ('Entrée',    1),
-  ('Plat',      2),
-  ('Dessert',   3),
-  ('Apéritif',  4),
-  ('Boisson',   5),
-  ('Autre',     6);
+  ('Entrée',         1),
+  ('Plat',           2),
+  ('Plats de fêtes', 3),
+  ('Sauces',         4),
+  ('Dessert',        5),
+  ('Apéritif',       6),
+  ('Boisson',        7),
+  ('Autre',          8);
 
 -- Note migrations : ce script est idempotent pour les fresh installs via CREATE TABLE IF NOT EXISTS.
 -- Pour mettre à jour une installation existante, exécuter manuellement :

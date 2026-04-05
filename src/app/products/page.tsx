@@ -159,68 +159,83 @@ export default function ProductsPage() {
         </div>
       )}
 
-      {products.map(p => {
-        const inStock = stockIds.has(p.id)
-        const isAdding = adding.has(p.id)
-        return (
-          <div key={p.id} style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.625rem 0',
-            borderBottom: '1px solid var(--border)',
-          }}>
-            <div style={{ width: 36, height: 36, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
-              {p.icon_url
-                ? <img src={p.icon_url} width={36} height={36} alt="" style={{ borderRadius: 4 }} />
-                : <span style={{ color: 'var(--border)', fontSize: '1.5rem' }}>·</span>
-              }
-            </div>
+      {!loading && products.length > 0 && (() => {
+        const groups = new Map<string, ApiProduct[]>()
+        for (const p of products) {
+          if (!groups.has(p.category_name)) groups.set(p.category_name, [])
+          groups.get(p.category_name)!.push(p)
+        }
+        return Array.from(groups.entries()).map(([catName, items]) => (
+          <section key={catName} style={{ marginBottom: '1.5rem' }}>
+            <h2 style={{
+              fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg2)',
+              textTransform: 'uppercase', letterSpacing: '0.05em',
+              marginBottom: '0.25rem',
+            }}>
+              {catName}
+            </h2>
+            {items.map(p => {
+              const inStock = stockIds.has(p.id)
+              const isAdding = adding.has(p.id)
+              return (
+                <div key={p.id} style={{
+                  display: 'flex', alignItems: 'center', gap: '0.75rem',
+                  padding: '0.5rem 0', borderBottom: '1px solid var(--border)',
+                }}>
+                  <div style={{ width: 32, height: 32, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {p.icon_url
+                      ? <img src={p.icon_url} width={32} height={32} alt="" style={{ borderRadius: 4 }} />
+                      : <span style={{ color: 'var(--border)', fontSize: '1.25rem' }}>·</span>
+                    }
+                  </div>
 
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--fg)' }}>
-                {p.name}
-              </div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--fg2)' }}>
-                {p.category_name} · {p.ref_quantity} {p.ref_unit}
-              </div>
-            </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--fg)' }}>
+                      {p.name}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--fg2)' }}>
+                      {p.ref_quantity} {p.ref_unit}
+                    </div>
+                  </div>
 
-            {inStock ? (
-              <span style={{
-                fontSize: '0.75rem', color: '#16a34a', fontWeight: 600,
-                padding: '0.25rem 0.625rem', borderRadius: 9999,
-                background: '#16a34a18', whiteSpace: 'nowrap', flexShrink: 0,
-              }}>
-                Dans le stock
-              </span>
-            ) : (
-              <button
-                onClick={() => addToStock(p.id)}
-                disabled={isAdding}
-                style={{
-                  padding: '0.25rem 0.625rem',
-                  background: 'var(--primary)', color: 'var(--primary-fg)',
-                  border: 'none', borderRadius: 6,
-                  fontSize: '0.8125rem', fontWeight: 600,
-                  cursor: isAdding ? 'not-allowed' : 'pointer',
-                  opacity: isAdding ? 0.6 : 1,
-                  flexShrink: 0, whiteSpace: 'nowrap',
-                }}
-              >
-                {isAdding ? '…' : '+ Stock'}
-              </button>
-            )}
+                  {inStock ? (
+                    <span style={{
+                      fontSize: '0.75rem', color: '#16a34a', fontWeight: 600,
+                      padding: '0.25rem 0.625rem', borderRadius: 9999,
+                      background: '#16a34a18', whiteSpace: 'nowrap', flexShrink: 0,
+                    }}>
+                      En stock
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => addToStock(p.id)}
+                      disabled={isAdding}
+                      style={{
+                        padding: '0.25rem 0.625rem',
+                        background: 'var(--primary)', color: 'var(--primary-fg)',
+                        border: 'none', borderRadius: 6,
+                        fontSize: '0.8125rem', fontWeight: 600,
+                        cursor: isAdding ? 'not-allowed' : 'pointer',
+                        opacity: isAdding ? 0.6 : 1,
+                        flexShrink: 0, whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {isAdding ? '…' : '+ Stock'}
+                    </button>
+                  )}
 
-            <Link
-              href={`/products/${p.id}/edit`}
-              style={{ fontSize: '0.8125rem', color: 'var(--fg2)', textDecoration: 'none', flexShrink: 0 }}
-            >
-              ✎
-            </Link>
-          </div>
-        )
-      })}
+                  <Link
+                    href={`/products/${p.id}/edit`}
+                    style={{ fontSize: '0.8125rem', color: 'var(--fg2)', textDecoration: 'none', flexShrink: 0 }}
+                  >
+                    ✎
+                  </Link>
+                </div>
+              )
+            })}
+          </section>
+        ))
+      })()}
     </main>
   )
 }

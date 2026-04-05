@@ -15,6 +15,22 @@
         "quantity": 0.17
       },
       {
+        "product": "Oeufs",
+        "quantity": 2
+      },
+      {
+        "product": "Palet breton",
+        "quantity": 75
+      },
+      {
+        "product": "Philadelphia",
+        "quantity": 300
+      },
+      {
+        "product": "Spéculoos",
+        "quantity": 75
+      },
+      {
         "product": "Sucre en poudre",
         "quantity": 100
       }

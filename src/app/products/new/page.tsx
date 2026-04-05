@@ -154,7 +154,7 @@ export default function NewProductPage() {
               onChange={v => setRefQuantity(v)}
               fallback={1}
               min={0.001}
-              step={getStep(refQuantity)}
+              step="any"
               style={{ ...inputStyle, flex: 1, textAlign: 'center' }}
             />
             <button

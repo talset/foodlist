@@ -109,7 +109,7 @@ export async function DELETE(req: Request) {
       await fs.unlink(path.join(targetDir, safe))
       deleted++
     } catch {
-      // file may already be gone
+      // file may already be gone or read-only
     }
   }
 

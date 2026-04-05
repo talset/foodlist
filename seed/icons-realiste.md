@@ -84,10 +84,9 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `fromage-rape.png` | small pile of shredded golden Gruyère cheese, thin wispy strands with realistic fibrous texture, pale yellow color with slight translucency at the edges, top view |
+| `emmental-rape.png` | small pile of shredded golden emmental cheese, thin wispy strands with realistic fibrous texture, pale yellow color with slight translucency at the edges, top view |
 | `gruyere-rape.png` | fluffy pile of long shredded Gruyère strands, realistic cheese texture with slight elasticity visible, warm pale yellow color, scattered natural pile, top view |
 | `emmental.png` | rectangular block of pale yellow Emmental cheese showing characteristic large holes on the cut face, smooth surface with slight waxy sheen, warm cream-yellow tones, 3/4 side view |
-| `fromage-frais.png` | small white plastic pot of fresh cheese with a silver foil peel-off lid slightly opened, clean white plastic pot, smooth cream-white surface visible at the lid edge, side view |
 | `fromage-fondue.png` | ceramic fondue pot in warm orange-brown with a small spirit burner underneath, visible melted cheese inside the pot, two long forks resting on the rim, realistic ceramic glaze texture, front view |
 | `fromage-burger.png` | single square processed cheese slice with slightly melted rounded corners, wrapped in thin transparent plastic, pale warm yellow-orange color, realistic plastic film texture, top view |
 | `fromage-chevre.png` | cylindrical white goat cheese log with a slightly wrinkled natural rind and ash-grey coating, clean cream interior visible at one end, realistic mold-rind texture, side view |
@@ -99,7 +98,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `vache-rit.png` | individually wrapped triangular cheese portion in shiny silver foil, round red printed label on the front with cow illustration, foil slightly creased, realistic metallic foil texture, front view |
 | `fromage-croc.png` | individual processed cheese slice in separate orange-yellow plastic wrapper, square shape, realistic plastic film with slight print, top view |
 | `comte.png` | rectangular block of Comté cheese with natural rough brown rind on the outer edge, firm ivory-cream paste, realistic pressed cheese texture, 3/4 side view |
-| `gruyere.png` | rectangular block of Gruyère with smooth firm surface, pale golden-yellow color, slight rind at the edge, realistic hard cheese texture, 3/4 view |
 | `beaufort.png` | rectangular block of Beaufort cheese, pale ivory color, firm pressed texture, natural rind at the edge, 3/4 side view |
 | `gouda.png` | round disc of Gouda with a golden-yellow wax rind, smooth waxy surface, slight edge detail showing the paste, 3/4 top view |
 | `port-salut.png` | round flat Port Salut disc with a vivid orange washed rind and pale cream interior visible at the edge, realistic semi-soft texture, 3/4 top view |
@@ -248,7 +246,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `poire.png` | single pear with natural yellow-green skin, slight russet spotting, realistic smooth-grainy pear skin texture, small brown stem, front view |
 | `pomme.png` | single apple with vivid red skin with natural color variation, slight natural waxy sheen, green leaf and brown stem, realistic apple skin texture, front view |
 | `kiwi.png` | kiwi cut in half showing bright green flesh with tiny black seeds in a radial pattern and white core, realistic flesh texture, front view |
-| `fruits.png` | natural wicker basket with a red apple, yellow banana, orange and small grape cluster arranged naturally, realistic wicker texture, 3/4 top view |
 | `fraise.png` | single ripe strawberry with deep red flesh, tiny white seeds embedded in the realistic textured surface, bright green leafy crown, slight glossy surface highlight, front view |
 | `cerise.png` | two ripe red cherries joined by a green stem, realistic glossy red skin with natural color variation and specular highlights, front view |
 
