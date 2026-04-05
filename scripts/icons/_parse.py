@@ -8,6 +8,7 @@ _ROOT = Path(__file__).parent.parent.parent
 _SEED = _ROOT / "seed"
 
 DEFAULT_THEME = "default"
+RECIPES_SPEC = "recipes-photos.md"
 
 # Fallback style used when no blockquote is found in the spec
 STYLE = (
@@ -151,6 +152,20 @@ def resolve_spec_for_theme(theme, explicit_spec=None):
     )
 
 
+
+def resolve_recipes_spec():
+    """Return the path to the recipes photo spec file."""
+    candidate = _SEED / RECIPES_SPEC
+    if candidate.exists():
+        return str(candidate)
+    raise SystemExit(f"\u274c Recipes spec not found: {candidate}")
+
+
+def resolve_recipes_output_dir():
+    """Return the output directory for recipe photos."""
+    return _ROOT / "uploads" / "recipes"
+
+
 def build_parser(description):
     parser = argparse.ArgumentParser(description=description)
 
@@ -173,6 +188,12 @@ def build_parser(description):
             "Override spec file (filename in seed/ or path). "
             "If omitted, uses seed/icons-<theme>.md."
         ),
+    )
+
+    parser.add_argument(
+        '--recipes', '-r',
+        action='store_true',
+        help='Generate recipe photos instead of icons (uses seed/recipes-photos.md).',
     )
 
     group = parser.add_mutually_exclusive_group()

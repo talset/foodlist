@@ -127,6 +127,7 @@ export interface ApiRecipe {
   created_at: string
   feasibility?: RecipeFeasibility
   is_favorite: boolean
+  photo_url: string | null
 }
 
 export interface ApiRecipeDetail extends Omit<ApiRecipe, 'ingredient_count'> {

@@ -38,12 +38,17 @@ python generate_hf.py --theme kawaii --family fromage
 # Un seul icône
 python generate_hf.py --theme kawaii --icon fromage-rond.png
 
+# Générer les photos de recettes (spec: seed/recipes-photos.md → uploads/recipes/)
+python generate_hf.py --recipes
+python generate_hf.py --recipes --icon cheesecake.png
+
 # Spec explicite (override)
 python generate_hf.py --theme kawaii --spec seed/my-spec.md
 
 # Lister les familles et icônes disponibles (sans token)
 python generate_hf.py --list
 python generate_hf.py --theme kawaii --list
+python generate_hf.py --recipes --list
 ```
 
 ---

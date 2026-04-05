@@ -21,11 +21,12 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Default icons baked into the image (all themes)
+# Default icons and recipe photos baked into the image (all themes)
 COPY --from=builder /app/uploads/icons ./uploads/icons
+COPY --from=builder /app/uploads/recipes ./uploads/recipes
 
 # Ensure writable by node user
-RUN chown -R node:node ./uploads/icons
+RUN chown -R node:node ./uploads
 
 USER node
 EXPOSE 3000

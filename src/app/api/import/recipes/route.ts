@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   const existingNames = new Set<string>(recipeRows.map(r => r.name))
 
   for (const item of body) {
-    const { name, description, steps_markdown, base_servings, ingredients } = item ?? {}
+    const { name, description, steps_markdown, base_servings, ingredients, category, photo_url } = item ?? {}
 
     if (!name) {
       results.errors.push(`Champ "name" manquant : ${JSON.stringify(item)}`)
@@ -47,8 +47,8 @@ export async function POST(req: Request) {
       const categoryId = item.category ? (rcMap.get(item.category) ?? null) : null
 
       const [res] = await conn.query(
-        'INSERT INTO recipes (name, description, steps_markdown, base_servings, recipe_category_id, created_by) VALUES (?, ?, ?, ?, ?, ?)',
-        [name, description ?? null, steps_markdown ?? null, base_servings ?? 4, categoryId, userId]
+        'INSERT INTO recipes (name, description, steps_markdown, photo_url, base_servings, recipe_category_id, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [name, description ?? null, steps_markdown ?? null, photo_url ?? null, base_servings ?? 4, categoryId, userId]
       )
       const recipeId = res.insertId
 

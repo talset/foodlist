@@ -177,7 +177,12 @@ export default function RecipesPage() {
                   border: '1px solid var(--border)', borderRadius: 8,
                   padding: '0.875rem 1rem', cursor: 'pointer',
                   transition: 'border-color 0.15s',
+                  display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
                 }}>
+                  {recipe.photo_url && (
+                    <img src={recipe.photo_url} alt="" width={64} height={64} style={{ borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
+                  )}
+                  <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
                     <button
                       onClick={e => toggleFavorite(e, recipe)}
@@ -216,6 +221,7 @@ export default function RecipesPage() {
                       {recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''} · {recipe.ingredient_count} ingrédient{recipe.ingredient_count > 1 ? 's' : ''}
                     </span>
                     <FeasibilityBadge f={recipe.feasibility ?? null} />
+                  </div>
                   </div>
                 </div>
               </Link>

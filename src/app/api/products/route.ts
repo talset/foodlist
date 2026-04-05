@@ -25,7 +25,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const q = searchParams.get('q')?.trim() ?? ''
   const categoryId = searchParams.get('category_id')
-  const limit = Math.min(parseInt(searchParams.get('limit') ?? '50'), 200)
+  const limit = Math.min(parseInt(searchParams.get('limit') ?? '50'), 1000)
   const offset = parseInt(searchParams.get('offset') ?? '0')
 
   const conditions: string[] = []

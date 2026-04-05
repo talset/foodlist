@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import type { ApiRecipeDetail, ApiRecipeIngredient, ApiRecipeCategory } from '@/types'
@@ -48,6 +48,8 @@ export default function RecipePage() {
   const [togglingFav, setTogglingFav] = useState(false)
   const [stockStatus, setStockStatus] = useState<Map<number, string>>(new Map())
   const [viewMultiplier, setViewMultiplier] = useState(1)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const photoInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/recipe-categories').then(r => r.json()).then(setRecipeCategories)
@@ -148,6 +150,22 @@ export default function RecipePage() {
     const res = await fetch(`/api/recipes/${id}/favorite`, { method })
     if (res.ok) setIsFavorite(prev => !prev)
     setTogglingFav(false)
+  }
+
+  async function uploadPhoto(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !recipe) return
+    setUploadingPhoto(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('recipeId', String(recipe.id))
+    const res = await fetch('/api/recipes/photos/upload', { method: 'POST', body: formData })
+    if (res.ok) {
+      const data = await res.json()
+      setRecipe(prev => prev ? { ...prev, photo_url: data.photo_url } : prev)
+    }
+    setUploadingPhoto(false)
   }
 
   if (loading) return <main style={{ padding: '1rem' }}><p>Chargement…</p></main>
@@ -287,6 +305,25 @@ export default function RecipePage() {
             </div>
           </div>
 
+          {/* Photo */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem', color: 'var(--fg)' }}>Photo</label>
+            <input ref={photoInputRef} type="file" accept=".png,.jpg,.jpeg,.webp" onChange={uploadPhoto} style={{ display: 'none' }} />
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              {recipe?.photo_url && (
+                <img src={recipe.photo_url} alt="" width={80} height={80} style={{ borderRadius: 8, objectFit: 'cover' }} />
+              )}
+              <button
+                type="button"
+                onClick={() => photoInputRef.current?.click()}
+                disabled={uploadingPhoto}
+                style={{ padding: '0.375rem 0.75rem', border: '1px solid var(--border)', borderRadius: 6, background: 'var(--bg2)', color: 'var(--fg)', fontSize: '0.8125rem', cursor: 'pointer' }}
+              >
+                {uploadingPhoto ? 'Upload…' : recipe?.photo_url ? 'Changer la photo' : '↑ Ajouter une photo'}
+              </button>
+            </div>
+          </div>
+
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button onClick={save} disabled={saving || !name.trim()} style={{ flex: 1, padding: '0.625rem', background: 'var(--primary)', color: 'var(--primary-fg)', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600 }}>
               {saving ? 'Enregistrement…' : 'Enregistrer'}
@@ -315,6 +352,13 @@ export default function RecipePage() {
             <span>{recipe.base_servings} personne{recipe.base_servings > 1 ? 's' : ''}</span>
           </p>
           {recipe.description && <p style={{ marginBottom: '1rem', color: 'var(--fg)' }}>{recipe.description}</p>}
+
+          {recipe.photo_url && (
+            <img src={recipe.photo_url} alt={recipe.name} style={{
+              width: '100%', maxWidth: 400, borderRadius: 10,
+              objectFit: 'cover', marginBottom: '1.5rem',
+            }} />
+          )}
 
           {recipe.ingredients.length > 0 && (
             <section style={{ marginBottom: '1.5rem' }}>

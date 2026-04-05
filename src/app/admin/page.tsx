@@ -41,7 +41,7 @@ interface AdminHousehold {
   members: HouseholdMember[]
 }
 
-type Tab = 'overview' | 'users' | 'households' | 'catalogue' | 'icons'
+type Tab = 'overview' | 'users' | 'households' | 'catalogue' | 'icons' | 'recipe-photos'
 
 interface IconsData {
   themes: string[]
@@ -67,6 +67,7 @@ export default function AdminPage() {
   const importProductsRef = useRef<HTMLInputElement>(null)
   const importRecipesRef = useRef<HTMLInputElement>(null)
   const [iconsData, setIconsData] = useState<IconsData | null>(null)
+  const [recipePhotosData, setRecipePhotosData] = useState<any>(null)
   const [uploadingIconFor, setUploadingIconFor] = useState<number | null>(null)
   const [deletingIcons, setDeletingIcons] = useState<Set<string>>(new Set())
   const [orphanThemeFilter, setOrphanThemeFilter] = useState<string | null>(null)
@@ -101,6 +102,11 @@ export default function AdminPage() {
     if (r.ok) setIconsData(await r.json())
   }, [])
 
+  const loadRecipePhotos = useCallback(async () => {
+    const r = await fetch('/api/admin/recipe-photos')
+    if (r.ok) setRecipePhotosData(await r.json())
+  }, [])
+
   useEffect(() => {
     if (!session?.user?.isAdmin) return
     loadStats()
@@ -110,7 +116,8 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (tab === 'icons' && session?.user?.isAdmin) loadIcons()
-  }, [tab, session, loadIcons])
+    if (tab === 'recipe-photos' && session?.user?.isAdmin) loadRecipePhotos()
+  }, [tab, session, loadIcons, loadRecipePhotos])
 
   async function toggleAdmin(userId: number, current: boolean) {
     setActionMsg('')
@@ -343,6 +350,22 @@ export default function AdminPage() {
     setDeletingIcons(prev => { const s = new Set(prev); s.delete(key); return s })
   }
 
+  async function deleteOrphanRecipePhotos(filenames: string[]) {
+    setActionMsg('')
+    const r = await fetch('/api/admin/recipe-photos', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filenames }),
+    })
+    if (r.ok) {
+      const d = await r.json()
+      await loadRecipePhotos()
+      setActionMsg(`${d.deleted} photo${d.deleted !== 1 ? 's' : ''} supprimée${d.deleted !== 1 ? 's' : ''}`)
+    } else {
+      setActionMsg('Erreur lors de la suppression')
+    }
+  }
+
   async function createHousehold() {
     if (!newHouseholdName.trim()) return
     setActionMsg('')
@@ -378,6 +401,7 @@ export default function AdminPage() {
     { id: 'households', label: 'Foyers' },
     { id: 'catalogue', label: 'Import / Export' },
     { id: 'icons', label: 'Icônes' },
+    { id: 'recipe-photos', label: 'Photos' },
   ]
 
   return (
@@ -612,7 +636,7 @@ export default function AdminPage() {
             ]
             const filtered = missingThemeFilter
               ? allProducts.filter(p => p.missing_themes.includes(missingThemeFilter!))
-              : iconsData?.products_without_icon.map(p => ({ ...p, icon_ref: null as string | null, missing_themes: iconsData.themes })) ?? []
+              : allProducts
             return (
               <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
                 <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
@@ -645,7 +669,7 @@ export default function AdminPage() {
                         <span style={{ color: 'var(--fg)', flex: 1 }}>
                           {p.name}
                           <span style={{ color: 'var(--fg2)', marginLeft: '0.375rem', fontSize: '0.75rem' }}>({p.category_name})</span>
-                          {p.icon_ref && missingThemeFilter && (
+                          {p.icon_ref && (
                             <span style={{ color: 'var(--fg2)', marginLeft: '0.375rem', fontSize: '0.6875rem', fontStyle: 'italic' }}>({p.icon_ref})</span>
                           )}
                         </span>
@@ -791,6 +815,88 @@ export default function AdminPage() {
               </div>
             )
           })()}
+        </div>
+      )}
+
+      {/* Recipe Photos */}
+      {tab === 'recipe-photos' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+
+          {/* Recipes without photo */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              Recettes sans photo ({recipePhotosData?.recipes_without_photo?.length ?? '\u2026'})
+            </div>
+            {!recipePhotosData ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Chargement\u2026</p>
+            ) : recipePhotosData.recipes_without_photo.length === 0 ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Toutes les recettes ont une photo.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+                {recipePhotosData.recipes_without_photo.map((r: any) => (
+                  <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.375rem 0.5rem', background: 'var(--bg)', borderRadius: 6, fontSize: '0.8125rem' }}>
+                    <span style={{ color: 'var(--fg)' }}>
+                      {r.name}
+                      {r.category_name && <span style={{ color: 'var(--fg2)', marginLeft: '0.375rem', fontSize: '0.75rem' }}>({r.category_name})</span>}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Recipes with photo */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
+              Recettes avec photo ({recipePhotosData?.recipes_with_photo?.length ?? '\u2026'})
+            </div>
+            {recipePhotosData?.recipes_with_photo?.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {recipePhotosData.recipes_with_photo.map((r: any) => (
+                  <div key={r.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem', background: 'var(--bg)', borderRadius: 8, padding: '0.375rem', border: '1px solid var(--border)', width: 90 }}>
+                    <img src={r.photo_url} alt={r.name} width={72} height={72} style={{ borderRadius: 6, objectFit: 'cover' }} />
+                    <span style={{ fontSize: '0.6rem', color: 'var(--fg2)', textAlign: 'center', lineHeight: 1.2, wordBreak: 'break-all' }}>{r.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Orphan photos */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Photos orphelines ({recipePhotosData?.orphan_photos?.length ?? '\u2026'})
+              </div>
+              {(recipePhotosData?.orphan_photos?.length ?? 0) > 0 && (
+                <button
+                  onClick={() => { if (confirm(`Supprimer ${recipePhotosData.orphan_photos.length} photo(s) orpheline(s) ?`)) deleteOrphanRecipePhotos(recipePhotosData.orphan_photos) }}
+                  style={{ padding: '0.25rem 0.625rem', border: '1px solid #fca5a5', borderRadius: 6, background: 'var(--bg)', color: '#dc2626', fontSize: '0.75rem', cursor: 'pointer' }}
+                >
+                  Tout supprimer
+                </button>
+              )}
+            </div>
+            {!recipePhotosData ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Chargement\u2026</p>
+            ) : recipePhotosData.orphan_photos.length === 0 ? (
+              <p style={{ color: 'var(--fg2)', fontSize: '0.875rem' }}>Aucune photo orpheline.</p>
+            ) : (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {recipePhotosData.orphan_photos.map((f: string) => (
+                  <div key={f} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem', background: 'var(--bg)', borderRadius: 8, padding: '0.375rem', border: '1px solid var(--border)', width: 90 }}>
+                    <img src={`/api/recipes/photos/${f}`} alt={f} width={72} height={72} style={{ borderRadius: 6, objectFit: 'cover' }} />
+                    <span style={{ fontSize: '0.6rem', color: 'var(--fg2)', textAlign: 'center', lineHeight: 1.2, wordBreak: 'break-all' }}>{f}</span>
+                    <button
+                      onClick={() => deleteOrphanRecipePhotos([f])}
+                      style={{ padding: '0.125rem 0.375rem', border: '1px solid #fca5a5', borderRadius: 4, background: 'none', color: '#dc2626', fontSize: '0.6875rem', cursor: 'pointer' }}
+                    >\u00d7</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
         </div>
       )}
 

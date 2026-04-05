@@ -16,6 +16,7 @@ function toApiRecipe(row: any): ApiRecipe {
     created_at: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
     feasibility: (row.feasibility as RecipeFeasibility) ?? null,
     is_favorite: Boolean(row.is_favorite),
+    photo_url: row.photo_url ?? null,
   }
 }
 
@@ -72,7 +73,7 @@ export async function GET(req: Request) {
   const userId = session.user.id
 
   const [rows] = await pool.query<any[]>(
-    `SELECT r.id, r.name, r.description, r.base_servings, r.created_at,
+    `SELECT r.id, r.name, r.description, r.base_servings, r.created_at, r.photo_url,
             r.recipe_category_id, rc.name AS recipe_category_name,
             COUNT(DISTINCT ri.id) AS ingredient_count,
             CASE

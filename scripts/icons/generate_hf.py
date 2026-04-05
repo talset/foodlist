@@ -41,7 +41,7 @@ def rembg_remove(data):
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, infer_theme_from_spec, DEFAULT_THEME, STYLE
+from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, infer_theme_from_spec, resolve_recipes_spec, resolve_recipes_output_dir, DEFAULT_THEME, STYLE
 
 # =========================
 # CONFIG
@@ -88,7 +88,7 @@ def process_image(pil_image, size=128, padding_ratio=0.10):
     return out.getvalue()
 
 
-def generate_icon(client, icon, output_dir, style):
+def generate_icon(client, icon, output_dir, style, size=128):
     output_path = output_dir / icon["filename"]
 
     if output_path.exists():
@@ -100,7 +100,7 @@ def generate_icon(client, icon, output_dir, style):
         try:
             image = client.text_to_image(prompt, model=MODEL)
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_bytes(process_image(image))
+            output_path.write_bytes(process_image(image, size=size))
             return "ok"
 
         except Exception as e:
@@ -125,17 +125,26 @@ def main():
     if not args.list and not HF_TOKEN:
         raise SystemExit("❌ HF_TOKEN environment variable not set.")
 
-    if args.spec and args.theme == DEFAULT_THEME:
-        args.theme = infer_theme_from_spec(args.spec) or args.theme
-    output_dir = resolve_output_dir(args.theme)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    icons, spec, style = load_icons_for_args(args)
-    icons = filter_icons(icons, args)
+    if args.recipes:
+        from _parse import load_icons, resolve_recipes_spec as _rrs
+        spec = _rrs()
+        output_dir = resolve_recipes_output_dir()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        icons, style = load_icons(spec)
+        icons = filter_icons(icons, args)
+        size = 512
+    else:
+        if args.spec and args.theme == DEFAULT_THEME:
+            args.theme = infer_theme_from_spec(args.spec) or args.theme
+        output_dir = resolve_output_dir(args.theme)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        icons, spec, style = load_icons_for_args(args)
+        icons = filter_icons(icons, args)
+        size = 128
 
     already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
     todo = len(icons) - already
-    print(f"🎨 Theme: {args.theme}  →  {output_dir}")
+    print(f"{'📸 Recipes' if args.recipes else '🎨 Theme: ' + args.theme}  →  {output_dir}")
     print(f"📋 Spec: {spec}")
     print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
 
@@ -147,7 +156,7 @@ def main():
 
     success = fail = skip = 0
     for icon in tqdm(icons, desc="Generating"):
-        result = generate_icon(client, icon, output_dir, style)
+        result = generate_icon(client, icon, output_dir, style, size=size)
         if result == "ok":
             success += 1
         elif result == "skip":

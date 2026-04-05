@@ -26,7 +26,7 @@ export async function POST() {
   const errors: string[] = []
 
   for (const item of seedRecipes as any[]) {
-    const { name, description, steps_markdown, base_servings, category, ingredients } = item
+    const { name, description, steps_markdown, base_servings, category, ingredients, photo_url } = item
 
     if (!name) continue
     if (existingNames.has(name)) { skipped++; continue }
@@ -38,8 +38,8 @@ export async function POST() {
       await conn.beginTransaction()
 
       const [res] = await conn.query(
-        'INSERT INTO recipes (name, description, steps_markdown, base_servings, recipe_category_id, created_by) VALUES (?, ?, ?, ?, ?, ?)',
-        [name, description ?? null, steps_markdown ?? null, base_servings ?? 4, categoryId, userId]
+        'INSERT INTO recipes (name, description, steps_markdown, photo_url, base_servings, recipe_category_id, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [name, description ?? null, steps_markdown ?? null, photo_url ?? null, base_servings ?? 4, categoryId, userId]
       )
       const recipeId = res.insertId
 

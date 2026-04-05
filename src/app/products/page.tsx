@@ -26,7 +26,7 @@ export default function ProductsPage() {
   }, [])
 
   const fetchProducts = useCallback(() => {
-    const params = new URLSearchParams({ limit: '200' })
+    const params = new URLSearchParams({ limit: '1000' })
     if (q) params.set('q', q)
     if (categoryId) params.set('category_id', String(categoryId))
     setLoading(true)
