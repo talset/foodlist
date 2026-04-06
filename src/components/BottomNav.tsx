@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
@@ -59,6 +60,15 @@ const HIDDEN_PATHS = ['/login', '/register', '/setup', '/api']
 export default function BottomNav() {
   const pathname = usePathname()
   const { data: session } = useSession()
+  const [adminNotif, setAdminNotif] = useState(false)
+
+  useEffect(() => {
+    if (!session?.user?.isAdmin) return
+    fetch('/api/admin/notifications')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) setAdminNotif(d.total > 0) })
+      .catch(() => {})
+  }, [session])
 
   if (HIDDEN_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) {
     return null
@@ -127,6 +137,13 @@ export default function BottomNav() {
           <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
+        {adminNotif && (
+          <span style={{
+            position: 'absolute', top: 4, right: '50%', marginRight: -14,
+            width: 8, height: 8, borderRadius: '50%',
+            background: '#dc2626',
+          }} />
+        )}
         <span style={{
           fontSize: '0.625rem',
           fontWeight: profileActive ? 600 : 400,

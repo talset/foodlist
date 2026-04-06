@@ -68,6 +68,7 @@ export default function AdminPage() {
   const importRecipesRef = useRef<HTMLInputElement>(null)
   const [iconsData, setIconsData] = useState<IconsData | null>(null)
   const [recipePhotosData, setRecipePhotosData] = useState<any>(null)
+  const [adminNotif, setAdminNotif] = useState<{ icons: number; photos: number }>({ icons: 0, photos: 0 })
   const [uploadingIconFor, setUploadingIconFor] = useState<number | null>(null)
   const [deletingIcons, setDeletingIcons] = useState<Set<string>>(new Set())
   const [orphanThemeFilter, setOrphanThemeFilter] = useState<string | null>(null)
@@ -112,6 +113,7 @@ export default function AdminPage() {
     loadStats()
     loadUsers()
     loadHouseholds()
+    fetch('/api/admin/notifications').then(r => r.ok ? r.json() : null).then(d => { if (d) setAdminNotif(d) }).catch(() => {})
   }, [session, loadStats, loadUsers, loadHouseholds])
 
   useEffect(() => {
@@ -401,7 +403,7 @@ export default function AdminPage() {
     { id: 'households', label: 'Foyers' },
     { id: 'catalogue', label: 'Import / Export' },
     { id: 'icons', label: 'Icônes' },
-    { id: 'recipe-photos', label: 'Photos' },
+    { id: 'recipe-photos', label: 'Recette photos' },
   ]
 
   return (
@@ -428,6 +430,12 @@ export default function AdminPage() {
             }}
           >
             {t.label}
+            {t.id === 'icons' && adminNotif.icons > 0 && (
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#dc2626', display: 'inline-block', marginLeft: 4, verticalAlign: 'middle' }} />
+            )}
+            {t.id === 'recipe-photos' && adminNotif.photos > 0 && (
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#dc2626', display: 'inline-block', marginLeft: 4, verticalAlign: 'middle' }} />
+            )}
           </button>
         ))}
       </div>

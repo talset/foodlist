@@ -27,6 +27,15 @@ export default function ProfilePage() {
   const [themeIcons, setThemeIcons] = useState<Record<string, string[]>>({})
   const themeIconsRef = useRef(themeIcons)
   themeIconsRef.current = themeIcons
+  const [adminNotif, setAdminNotif] = useState(false)
+
+  useEffect(() => {
+    if (!session?.user?.isAdmin) return
+    fetch('/api/admin/notifications')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) setAdminNotif(d.total > 0) })
+      .catch(() => {})
+  }, [session])
 
   const loadThemePreview = useCallback((theme: string) => {
     if (themeIconsRef.current[theme]) return
@@ -297,6 +306,9 @@ export default function ProfilePage() {
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
             Administration
+            {adminNotif && (
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#dc2626', flexShrink: 0 }} />
+            )}
           </Link>
         </div>
       )}
