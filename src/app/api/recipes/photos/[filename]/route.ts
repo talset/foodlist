@@ -11,7 +11,8 @@ const MIME: Record<string, string> = {
   '.webp': 'image/webp',
 }
 
-export async function GET(_req: Request, { params }: { params: { filename: string } }) {
+export async function GET(_req: Request, props: { params: Promise<{  filename: string  }> }) {
+  const params = await props.params
   const safe = path.basename(params.filename)
   if (!safe || safe.includes('..')) {
     return NextResponse.json({ error: 'INVALID' }, { status: 400 })

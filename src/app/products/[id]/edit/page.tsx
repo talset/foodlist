@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
 import NumberInput from '@/components/NumberInput'
 import type { ApiProduct, ApiCategory } from '@/types'
@@ -14,8 +14,9 @@ const REF_UNITS = [
   { group: 'Cuisine', options: ['cuil. à soupe', 'cuil. à café'] },
 ]
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
+export default function EditProductPage() {
   const router = useRouter()
+  const params = useParams<{ id: string }>()
   const [categories, setCategories] = useState<ApiCategory[]>([])
   const [name, setName] = useState('')
   const [categoryId, setCategoryId] = useState<number | ''>('')

@@ -36,3 +36,7 @@ export function jsonReq(url: string, method: string, body: unknown): Request {
     body: JSON.stringify(body),
   })
 }
+
+export function params(p: Record<string, string>) {
+  return { params: Promise.resolve(p) as any }
+}

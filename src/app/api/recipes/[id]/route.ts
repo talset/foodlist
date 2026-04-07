@@ -50,7 +50,8 @@ async function fetchDetail(id: number, theme?: string, userId?: number): Promise
   }
 }
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 
@@ -62,7 +63,8 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   return NextResponse.json(detail)
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 
@@ -175,7 +177,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 

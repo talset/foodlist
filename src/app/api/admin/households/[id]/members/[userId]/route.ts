@@ -7,8 +7,9 @@ export const dynamic = 'force-dynamic'
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { id: string; userId: string } }
+  props: { params: Promise<{ id: string; userId: string }> }
 ) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
   if (!session.user.isAdmin) return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 })

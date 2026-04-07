@@ -8,8 +8,9 @@ const THEMES_OVERRIDE_DIR = path.join(CUSTOM_DIR, 'themes')
 
 export async function GET(
   req: Request,
-  { params }: { params: { ref: string } }
+  props: { params: Promise<{ ref: string }> }
 ) {
+  const params = await props.params
   // Strip path traversal attempts
   const filename = path.basename(params.ref)
   if (!filename || !/^[\w\-]+\.(png|jpg|jpeg|webp)$/i.test(filename)) {

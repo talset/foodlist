@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/stock/route'
 import { PATCH, DELETE } from '@/app/api/stock/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_PRODUCT_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_PRODUCT_ID , params } from './helpers'
 
 beforeEach(() => mockSession())
 
@@ -119,7 +119,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem()
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', { quantity: 10 }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect(res.status).toBe(200)
     expect((await res.json()).quantity).toBe(10)
@@ -129,7 +129,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem()
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', { status: 'low' }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect((await res.json()).status).toBe('low')
   })
@@ -138,7 +138,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem({ quantity: 2, status: 'in_stock' })
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', { quantity: 0 }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect((await res.json()).status).toBe('out_of_stock')
   })
@@ -147,7 +147,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem({ quantity: 0, status: 'out_of_stock' })
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', { quantity: 1 }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect((await res.json()).status).toBe('in_stock')
   })
@@ -156,7 +156,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem()
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', {}),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect(res.status).toBe(400)
     expect((await res.json()).error).toBe('NOTHING_TO_UPDATE')
@@ -166,7 +166,7 @@ describe('PATCH /api/stock/[id]', () => {
     const item = await createStockItem()
     const res = await PATCH(
       jsonReq(`/api/stock/${item.id}`, 'PATCH', { status: 'shopping_list' }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect(res.status).toBe(400)
   })
@@ -174,7 +174,7 @@ describe('PATCH /api/stock/[id]', () => {
   it('returns 404 for unknown id', async () => {
     const res = await PATCH(
       jsonReq('/api/stock/999999', 'PATCH', { quantity: 1 }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })
@@ -185,7 +185,7 @@ describe('DELETE /api/stock/[id]', () => {
     const item = await createStockItem()
     const res = await DELETE(
       makeReq(`/api/stock/${item.id}`, { method: 'DELETE' }),
-      { params: { id: String(item.id) } }
+      params({ id: String(item.id) })
     )
     expect(res.status).toBe(204)
   })
@@ -193,7 +193,7 @@ describe('DELETE /api/stock/[id]', () => {
   it('returns 404 for unknown id', async () => {
     const res = await DELETE(
       makeReq('/api/stock/999999', { method: 'DELETE' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })

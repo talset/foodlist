@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/shopping/recipes/route'
 import { DELETE } from '@/app/api/shopping/recipes/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_RECIPE_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_HOUSEHOLD_ID, TEST_RECIPE_ID , params } from './helpers'
 
 beforeEach(() => mockSession())
 
@@ -98,7 +98,7 @@ describe('DELETE /api/shopping/recipes/[id]', () => {
 
     const res = await DELETE(
       makeReq(`/api/shopping/recipes/${created.id}`, { method: 'DELETE' }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(204)
 
@@ -109,7 +109,7 @@ describe('DELETE /api/shopping/recipes/[id]', () => {
   it('returns 404 for unknown id', async () => {
     const res = await DELETE(
       makeReq('/api/shopping/recipes/999999', { method: 'DELETE' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })

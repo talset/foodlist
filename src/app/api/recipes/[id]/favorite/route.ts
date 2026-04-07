@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
 
-export async function POST(_req: Request, { params }: { params: { id: string } }) {
+export async function POST(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 
@@ -18,7 +19,8 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ is_favorite: true })
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
 

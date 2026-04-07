@@ -4,7 +4,8 @@ import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
 import { broadcast } from '@/lib/sse'
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
   if (!session.user.householdId) return NextResponse.json({ error: 'NO_HOUSEHOLD' }, { status: 400 })

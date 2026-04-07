@@ -62,12 +62,10 @@ function RegisterForm() {
     router.push('/')
   }
 
-  // Loading state while we check
   if (isFirstUser === null) {
     return <p style={{ textAlign: 'center', color: 'var(--fg2)' }}>Chargement…</p>
   }
 
-  // Invite-only: no token, not first user
   if (!canRegister) {
     return (
       <>
@@ -102,30 +100,9 @@ function RegisterForm() {
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Prénom ou nom"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-          style={inputStyle}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe (8 caractères min.)"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-          style={inputStyle}
-        />
+        <input type="text" placeholder="Prénom ou nom" value={name} onChange={e => setName(e.target.value)} required style={inputStyle} />
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required style={inputStyle} />
+        <input type="password" placeholder="Mot de passe (8 caractères min.)" value={password} onChange={e => setPassword(e.target.value)} required style={inputStyle} />
 
         {error && <p style={{ color: '#dc2626', fontSize: '0.875rem' }}>{error}</p>}
 
@@ -133,20 +110,6 @@ function RegisterForm() {
           {loading ? 'Création…' : 'Créer le compte'}
         </button>
       </form>
-
-      {isFirstUser && (
-        <>
-          <div style={{ margin: '1rem 0', textAlign: 'center', color: 'var(--fg2)', fontSize: '0.875rem' }}>
-            ou
-          </div>
-          <button
-            onClick={() => signIn('google', { callbackUrl: '/' })}
-            style={btnSecondaryStyle}
-          >
-            Continuer avec Google
-          </button>
-        </>
-      )}
 
       <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: 'var(--fg2)' }}>
         Déjà un compte ?{' '}
@@ -185,15 +148,4 @@ const btnPrimaryStyle: React.CSSProperties = {
   fontSize: '1rem',
   cursor: 'pointer',
   fontWeight: 600,
-}
-
-const btnSecondaryStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.625rem',
-  background: 'var(--bg)',
-  color: 'var(--fg)',
-  border: '1px solid var(--border)',
-  borderRadius: 8,
-  fontSize: '1rem',
-  cursor: 'pointer',
 }

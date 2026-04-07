@@ -5,7 +5,7 @@ import { GET as GET_CATEGORIES } from '@/app/api/recipe-categories/route'
 import { POST } from '@/app/api/recipes/route'
 import { PUT, GET as GET_ONE } from '@/app/api/recipes/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID , params } from './helpers'
 
 let testCategoryId: number
 
@@ -78,7 +78,7 @@ describe('recipe_category_id on recipes', () => {
 
     const res = await PUT(
       jsonReq(`/api/recipes/${created.id}`, 'PUT', { recipe_category_id: testCategoryId }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(200)
     const data = await res.json()
@@ -95,7 +95,7 @@ describe('recipe_category_id on recipes', () => {
 
     const res = await PUT(
       jsonReq(`/api/recipes/${created.id}`, 'PUT', { recipe_category_id: null }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(200)
     expect((await res.json()).recipe_category_id).toBeNull()
@@ -108,7 +108,7 @@ describe('recipe_category_id on recipes', () => {
       recipe_category_id: testCategoryId,
     }))).json()
 
-    const res = await GET_ONE(makeReq(`/api/recipes/${created.id}`), { params: { id: String(created.id) } })
+    const res = await GET_ONE(makeReq(`/api/recipes/${created.id}`), params({ id: String(created.id) }))
     const data = await res.json()
     expect(data.recipe_category_id).toBe(testCategoryId)
     expect(data.recipe_category_name).toBe('Dessert')

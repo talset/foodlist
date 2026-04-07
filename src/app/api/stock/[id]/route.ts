@@ -33,7 +33,8 @@ const SELECT_STOCK = `
   JOIN categories c ON c.id = p.category_id
 `
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
   if (!session.user.householdId) return NextResponse.json({ error: 'NO_HOUSEHOLD' }, { status: 400 })
@@ -88,7 +89,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json(toApiStockItem((rows as any[])[0]))
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, props: { params: Promise<{  id: string  }> }) {
+  const params = await props.params
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 })
   if (!session.user.householdId) return NextResponse.json({ error: 'NO_HOUSEHOLD' }, { status: 400 })

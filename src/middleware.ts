@@ -37,6 +37,6 @@ export default withAuth(
 export const config = {
   // Exclude public routes and Next.js internals from middleware
   matcher: [
-    '/((?!login|register|api/auth|_next/static|_next/image|favicon.ico).*)',
+    '/((?!login|register|forgot-password|reset-password|api/auth|_next/static|_next/image|favicon.ico|patterns/).*)',
   ],
 }

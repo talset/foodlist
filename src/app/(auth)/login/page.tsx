@@ -2,18 +2,11 @@
 
 import { Suspense, useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
-
-const AUTH_ERRORS: Record<string, string> = {
-  InviteRequired: "Ce compte Google n'est pas encore enregistré. Demandez un lien d'invitation à l'administrateur, créez d'abord votre compte avec l'email associé, puis Google se connectera automatiquement.",
-  OAuthAccountNotLinked: "Cet email est déjà utilisé avec un autre mode de connexion.",
-}
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function LoginForm() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const authError = searchParams.get('error')
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -41,16 +34,6 @@ function LoginForm() {
         Connexion
       </h1>
 
-      {authError && AUTH_ERRORS[authError] && (
-        <div style={{
-          background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8,
-          padding: '0.75rem 1rem', marginBottom: '1rem',
-          color: '#9a3412', fontSize: '0.875rem', lineHeight: 1.5,
-        }}>
-          {AUTH_ERRORS[authError]}
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <input
           type="email"
@@ -76,16 +59,11 @@ function LoginForm() {
         </button>
       </form>
 
-      <div style={{ margin: '1rem 0', textAlign: 'center', color: 'var(--fg2)', fontSize: '0.875rem' }}>
-        ou
-      </div>
-
-      <button
-        onClick={() => signIn('google', { callbackUrl: '/' })}
-        style={btnSecondaryStyle}
-      >
-        Continuer avec Google
-      </button>
+      <p style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.8125rem', color: 'var(--fg2)' }}>
+        <Link href="/forgot-password" style={{ color: 'var(--primary)' }}>
+          Mot de passe oublié ?
+        </Link>
+      </p>
     </>
   )
 }
@@ -119,15 +97,4 @@ const btnPrimaryStyle: React.CSSProperties = {
   fontSize: '1rem',
   cursor: 'pointer',
   fontWeight: 600,
-}
-
-const btnSecondaryStyle: React.CSSProperties = {
-  width: '100%',
-  padding: '0.625rem',
-  background: 'var(--bg)',
-  color: 'var(--fg)',
-  border: '1px solid var(--border)',
-  borderRadius: 8,
-  fontSize: '1rem',
-  cursor: 'pointer',
 }

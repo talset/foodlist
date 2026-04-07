@@ -7,9 +7,11 @@ import { useSession } from 'next-auth/react'
 import { THEMES } from '@/lib/themes'
 import type { SiteTheme } from '@/lib/themes'
 
+import type { ReactNode } from 'react'
+
 type NavKey = 'shopping' | 'stock' | 'recipes'
 
-const NAV_ITEMS: { href: string; label: string; key: NavKey; icon: (active: boolean) => JSX.Element }[] = [
+const NAV_ITEMS: { href: string; label: string; key: NavKey; icon: (active: boolean) => ReactNode }[] = [
   {
     href: '/shopping', label: 'Courses', key: 'shopping',
     icon: (active: boolean) => (
@@ -42,7 +44,7 @@ const NAV_ITEMS: { href: string; label: string; key: NavKey; icon: (active: bool
   },
 ]
 
-const HIDDEN_PATHS = ['/login', '/register', '/setup', '/api']
+const HIDDEN_PATHS = ['/login', '/register', '/setup', '/forgot-password', '/reset-password', '/api']
 
 export default function BottomNav() {
   const pathname = usePathname()

@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/categories/route'
 import { PUT, DELETE } from '@/app/api/categories/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq , params } from './helpers'
 
 beforeEach(() => mockSession())
 
@@ -66,7 +66,7 @@ describe('PUT /api/categories/[id]', () => {
 
     const res = await PUT(
       jsonReq(`/api/categories/${id}`, 'PUT', { name: 'Test Renamed' }),
-      { params: { id: String(id) } }
+      params({ id: String(id) })
     )
     expect(res.status).toBe(200)
     expect((await res.json()).name).toBe('Test Renamed')
@@ -75,7 +75,7 @@ describe('PUT /api/categories/[id]', () => {
   it('returns 404 for non-existent id', async () => {
     const res = await PUT(
       jsonReq('/api/categories/999999', 'PUT', { name: 'Test Ghost' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })
@@ -86,12 +86,12 @@ describe('DELETE /api/categories/[id]', () => {
     const created = await POST(jsonReq('/api/categories', 'POST', { name: 'Test Delete Me' }))
     const { id } = await created.json()
 
-    const res = await DELETE(makeReq(`/api/categories/${id}`, { method: 'DELETE' }), { params: { id: String(id) } })
+    const res = await DELETE(makeReq(`/api/categories/${id}`, { method: 'DELETE' }), params({ id: String(id) }))
     expect(res.status).toBe(204)
   })
 
   it('returns 404 for non-existent id', async () => {
-    const res = await DELETE(makeReq('/api/categories/999999', { method: 'DELETE' }), { params: { id: '999999' } })
+    const res = await DELETE(makeReq('/api/categories/999999', { method: 'DELETE' }), params({ id: '999999' }))
     expect(res.status).toBe(404)
   })
 })

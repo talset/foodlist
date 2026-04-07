@@ -83,9 +83,6 @@ DB_PASSWORD=secret
 NEXTAUTH_SECRET=            # Générer : openssl rand -base64 32
 NEXTAUTH_URL=http://mon-serveur:3000
 
-# Google OAuth (optionnel)
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
 ```
 
 ### Volume Docker
@@ -243,23 +240,6 @@ Voir [`scripts/icons/README.md`](scripts/icons/README.md) pour les options compl
 
 ---
 
-## Google OAuth *(optionnel)*
-
-Permet la connexion avec un compte Google. L'email est rapproché d'un compte existant (fusion automatique).
-
-### Configuration Google Cloud
-
-1. [console.cloud.google.com](https://console.cloud.google.com/) → Nouveau projet
-2. **APIs & Services > Bibliothèque** → activer `Google Identity` / `People API`
-3. **APIs & Services > Écran de consentement OAuth** → type Externe, ajouter les adresses Gmail des membres dans "Utilisateurs test"
-4. **APIs & Services > Identifiants > Créer > ID client OAuth 2.0** → Application Web
-   - Origines autorisées : `http://mon-serveur:3000`
-   - URI de redirection : `http://mon-serveur:3000/api/auth/callback/google`
-5. Copier **Client ID** et **Client secret** dans `foodlist.env`
-
-> Tant que l'écran de consentement est en mode **Test**, seuls les comptes Gmail listés dans "Utilisateurs test" peuvent utiliser Google. Pour un usage familial, c'est suffisant.
-
----
 
 ## Architecture
 

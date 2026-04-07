@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/recipes/route'
 import { GET as GET_ONE, PUT, DELETE } from '@/app/api/recipes/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID, TEST_RECIPE_ID, TEST_PRODUCT_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID, TEST_RECIPE_ID, TEST_PRODUCT_ID , params } from './helpers'
 
 beforeEach(() => mockSession())
 
@@ -105,7 +105,7 @@ describe('POST /api/recipes', () => {
 
 describe('GET /api/recipes/[id]', () => {
   it('returns full recipe with ingredients for seeded recipe', async () => {
-    const res = await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), { params: { id: String(TEST_RECIPE_ID) } })
+    const res = await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), params({ id: String(TEST_RECIPE_ID) }))
     expect(res.status).toBe(200)
     const data = await res.json()
     expect(data.id).toBe(TEST_RECIPE_ID)
@@ -114,19 +114,19 @@ describe('GET /api/recipes/[id]', () => {
   })
 
   it('ingredient quantity is a number not a string', async () => {
-    const res = await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), { params: { id: String(TEST_RECIPE_ID) } })
+    const res = await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), params({ id: String(TEST_RECIPE_ID) }))
     const data = await res.json()
     expect(typeof data.ingredients[0].quantity).toBe('number')
   })
 
   it('returns 404 for unknown id', async () => {
-    const res = await GET_ONE(makeReq('/api/recipes/999999'), { params: { id: '999999' } })
+    const res = await GET_ONE(makeReq('/api/recipes/999999'), params({ id: '999999' }))
     expect(res.status).toBe(404)
   })
 
   it('returns 401 without session', async () => {
     mockNoSession()
-    expect((await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), { params: { id: String(TEST_RECIPE_ID) } })).status).toBe(401)
+    expect((await GET_ONE(makeReq(`/api/recipes/${TEST_RECIPE_ID}`), params({ id: String(TEST_RECIPE_ID) }))).status).toBe(401)
   })
 })
 
@@ -135,7 +135,7 @@ describe('PUT /api/recipes/[id]', () => {
     const created = await createRecipe()
     const res = await PUT(
       jsonReq(`/api/recipes/${created.id}`, 'PUT', { name: 'Updated Name' }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(200)
     expect((await res.json()).name).toBe('Updated Name')
@@ -149,7 +149,7 @@ describe('PUT /api/recipes/[id]', () => {
       jsonReq(`/api/recipes/${created.id}`, 'PUT', {
         ingredients: [{ product_id: TEST_PRODUCT_ID, quantity: 5 }],
       }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     const data = await res.json()
     expect(data.ingredients.length).toBe(1)
@@ -162,7 +162,7 @@ describe('PUT /api/recipes/[id]', () => {
     })
     const res = await PUT(
       jsonReq(`/api/recipes/${created.id}`, 'PUT', { ingredients: [] }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect((await res.json()).ingredients).toEqual([])
   })
@@ -171,7 +171,7 @@ describe('PUT /api/recipes/[id]', () => {
     const created = await createRecipe()
     const res = await PUT(
       jsonReq(`/api/recipes/${created.id}`, 'PUT', {}),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(400)
     expect((await res.json()).error).toBe('NOTHING_TO_UPDATE')
@@ -180,7 +180,7 @@ describe('PUT /api/recipes/[id]', () => {
   it('returns 404 for unknown id', async () => {
     const res = await PUT(
       jsonReq('/api/recipes/999999', 'PUT', { name: 'X' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })
@@ -191,7 +191,7 @@ describe('PUT /api/recipes/[id]', () => {
       jsonReq(`/api/recipes/${created.id}`, 'PUT', {
         ingredients: [{ product_id: 999999, quantity: 1 }],
       }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(400)
     expect((await res.json()).error).toBe('PRODUCT_NOT_FOUND')
@@ -203,7 +203,7 @@ describe('DELETE /api/recipes/[id]', () => {
     const created = await createRecipe()
     const res = await DELETE(
       makeReq(`/api/recipes/${created.id}`, { method: 'DELETE' }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(204)
   })
@@ -214,7 +214,7 @@ describe('DELETE /api/recipes/[id]', () => {
     })
     await DELETE(
       makeReq(`/api/recipes/${created.id}`, { method: 'DELETE' }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     const [[{ count }]] = await pool.query<any[]>(
       'SELECT COUNT(*) AS count FROM recipe_ingredients WHERE recipe_id = ?',
@@ -226,7 +226,7 @@ describe('DELETE /api/recipes/[id]', () => {
   it('returns 404 for unknown id', async () => {
     const res = await DELETE(
       makeReq('/api/recipes/999999', { method: 'DELETE' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })

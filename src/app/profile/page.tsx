@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { SITE_THEMES } from '@/types'
@@ -325,6 +325,24 @@ export default function ProfilePage() {
           </Link>
         </div>
       )}
+
+      {/* Logout */}
+      <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+        <button
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          style={{
+            padding: '0.5rem 1.5rem',
+            border: '1px solid #fca5a5',
+            borderRadius: 8,
+            background: 'var(--bg)',
+            color: '#dc2626',
+            fontSize: '0.875rem',
+            cursor: 'pointer',
+          }}
+        >
+          Se déconnecter
+        </button>
+      </div>
     </div>
   )
 }

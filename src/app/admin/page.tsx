@@ -136,6 +136,18 @@ export default function AdminPage() {
     }
   }
 
+  async function resetPassword(userId: number, userName: string) {
+    setActionMsg('')
+    const r = await fetch(`/api/admin/users/${userId}/reset-password`, { method: 'POST' })
+    if (r.ok) {
+      const data = await r.json()
+      await navigator.clipboard.writeText(data.resetLink)
+      setActionMsg(`Lien de réinitialisation pour ${userName} copié dans le presse-papier (valide 24h)`)
+    } else {
+      setActionMsg('Erreur lors de la génération du lien')
+    }
+  }
+
   async function deleteUser(userId: number, userName: string) {
     if (!confirm(`Supprimer l'utilisateur "${userName}" ?`)) return
     setActionMsg('')
@@ -512,6 +524,20 @@ export default function AdminPage() {
                     }}
                   >
                     {u.isAdmin ? 'Retirer admin' : 'Promouvoir'}
+                  </button>
+                  <button
+                    onClick={() => resetPassword(u.id, u.name)}
+                    style={{
+                      padding: '0.375rem 0.625rem',
+                      border: '1px solid var(--border)',
+                      borderRadius: 6,
+                      background: 'var(--bg)',
+                      color: 'var(--fg)',
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Réinit. mdp
                   </button>
                   <button
                     onClick={() => deleteUser(u.id, u.name)}

@@ -4,7 +4,7 @@ jest.mock('@/lib/auth', () => ({ authOptions: {} }))
 import { GET, POST } from '@/app/api/products/route'
 import { GET as GET_ONE, PUT, DELETE } from '@/app/api/products/[id]/route'
 import pool from '@/lib/db'
-import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID, TEST_PRODUCT_ID } from './helpers'
+import { mockSession, mockNoSession, makeReq, jsonReq, TEST_USER_ID, TEST_PRODUCT_ID , params } from './helpers'
 
 let categoryId: number
 
@@ -91,13 +91,13 @@ describe('POST /api/products', () => {
 describe('GET /api/products/[id]', () => {
   it('returns the product', async () => {
     const created = await (await POST(jsonReq('/api/products', 'POST', productBody()))).json()
-    const res = await GET_ONE(makeReq(`/api/products/${created.id}`), { params: { id: String(created.id) } })
+    const res = await GET_ONE(makeReq(`/api/products/${created.id}`), params({ id: String(created.id) }))
     expect(res.status).toBe(200)
     expect((await res.json()).id).toBe(created.id)
   })
 
   it('returns 404 for non-existent id', async () => {
-    const res = await GET_ONE(makeReq('/api/products/999999'), { params: { id: '999999' } })
+    const res = await GET_ONE(makeReq('/api/products/999999'), params({ id: '999999' }))
     expect(res.status).toBe(404)
   })
 })
@@ -107,7 +107,7 @@ describe('PUT /api/products/[id]', () => {
     const created = await (await POST(jsonReq('/api/products', 'POST', productBody()))).json()
     const res = await PUT(
       jsonReq(`/api/products/${created.id}`, 'PUT', { ref_unit: 'kg', ref_quantity: 0.5 }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(200)
     const data = await res.json()
@@ -118,7 +118,7 @@ describe('PUT /api/products/[id]', () => {
   it('returns 404 for non-existent id', async () => {
     const res = await PUT(
       jsonReq('/api/products/999999', 'PUT', { ref_unit: 'L' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })
@@ -129,7 +129,7 @@ describe('DELETE /api/products/[id]', () => {
     const created = await (await POST(jsonReq('/api/products', 'POST', productBody()))).json()
     const res = await DELETE(
       makeReq(`/api/products/${created.id}`, { method: 'DELETE' }),
-      { params: { id: String(created.id) } }
+      params({ id: String(created.id) })
     )
     expect(res.status).toBe(204)
   })
@@ -137,7 +137,7 @@ describe('DELETE /api/products/[id]', () => {
   it('returns 404 for non-existent id', async () => {
     const res = await DELETE(
       makeReq('/api/products/999999', { method: 'DELETE' }),
-      { params: { id: '999999' } }
+      params({ id: '999999' })
     )
     expect(res.status).toBe(404)
   })
