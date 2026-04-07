@@ -2,7 +2,7 @@
 FROM node:current-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm ci --loglevel=error
 
 # Stage 2: Build
 FROM node:current-alpine AS builder
