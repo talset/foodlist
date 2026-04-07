@@ -35,6 +35,7 @@ export default function StockPage() {
   const [statusFilter, setStatusFilter] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
+  const [editMode, setEditMode] = useState(false)
   const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
   const load = useCallback(async () => {
@@ -90,14 +91,29 @@ export default function StockPage() {
     <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h1 style={{ margin: 0 }}>Mon stock</h1>
-        <Link href="/products" style={{
-          padding: '0.5rem 1rem',
-          background: 'var(--primary)', color: 'var(--primary-fg)',
-          borderRadius: 8, textDecoration: 'none',
-          fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap',
-        }}>
-          + Ajouter des produits
-        </Link>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <button
+            onClick={() => setEditMode(prev => !prev)}
+            style={{
+              padding: '0.5rem 0.75rem',
+              background: editMode ? '#fef2f2' : 'var(--bg2)',
+              color: editMode ? '#dc2626' : 'var(--fg2)',
+              border: '1px solid ' + (editMode ? '#fca5a5' : 'var(--border)'),
+              borderRadius: 8, fontSize: '0.8125rem', fontWeight: 600,
+              cursor: 'pointer', whiteSpace: 'nowrap',
+            }}
+          >
+            {editMode ? '✖ Terminer' : '✎ Modifier'}
+          </button>
+          <Link href="/products" style={{
+            padding: '0.5rem 1rem',
+            background: 'var(--primary)', color: 'var(--primary-fg)',
+            borderRadius: 8, textDecoration: 'none',
+            fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap',
+          }}>
+            + Ajouter des produits
+          </Link>
+        </div>
       </div>
 
       {/* Recherche */}
@@ -214,8 +230,8 @@ export default function StockPage() {
                 <button
                   onClick={() => updateStatus(item.id, item.status === 'out_of_stock' ? 'in_stock' : 'out_of_stock')}
                   style={{
-                    fontSize: '0.75rem', fontWeight: 600,
-                    padding: '0.25rem 0.625rem', borderRadius: 9999,
+                    fontSize: '0.8125rem', fontWeight: 600,
+                    padding: '0.375rem 0.875rem', borderRadius: 9999,
                     border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
                     background: STATUS_COLORS[item.status] + '22',
                     color: STATUS_COLORS[item.status],
@@ -225,13 +241,15 @@ export default function StockPage() {
                   {STATUS_LABELS[item.status]}
                 </button>
 
-                <button
-                  onClick={() => deleteItem(item.id)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.125rem', lineHeight: 1 }}
-                  title="Supprimer"
-                >
-                  ×
-                </button>
+                {editMode && (
+                  <button
+                    onClick={() => deleteItem(item.id)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.125rem', lineHeight: 1 }}
+                    title="Supprimer du stock"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             ))}
           </section>

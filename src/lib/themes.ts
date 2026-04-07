@@ -63,6 +63,7 @@ export interface ThemeDef {
     fg: string
   }
   vars: ThemeVars
+  bodyCSS?: string        // Extra CSS applied to body when this theme is active
 }
 
 // ── Theme definitions ─────────────────────────────────────────────────────────
@@ -162,29 +163,11 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--input-bg':      '#fdf4e3',
       '--shadow':        'rgba(192, 21, 26, 0.15)',
     },
+    bodyCSS: `background-image: url(/patterns/japon-bg.svg); background-repeat: repeat;`,
   },
 
   girly: {
     label: 'Girly',
-    description: 'Rose kawaii',
-    preview: { bg: '#fff0f6', primary: '#db2777', fg: '#1e0a12' },
-    vars: {
-      '--bg':            '#fff0f6',
-      '--bg2':           '#fce7f3',
-      '--fg':            '#1e0a12',
-      '--fg2':           '#9d174d',
-      '--primary':       '#db2777',
-      '--primary-hover': '#be185d',
-      '--primary-fg':    '#fff',
-      '--border':        '#fbcfe8',
-      '--nav-bg':        '#fce7f3',
-      '--input-bg':      '#fff0f6',
-      '--shadow':        'rgba(219, 39, 119, 0.12)',
-    },
-  },
-
-  kawaii: {
-    label: 'Kawaii',
     description: 'Rose bonbon & mauve',
     preview: { bg: '#fff5fb', primary: '#f72d8c', fg: '#2d0a1e' },
     vars: {
@@ -200,6 +183,26 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--input-bg':      '#fff5fb',
       '--shadow':        'rgba(247, 45, 140, 0.12)',
     },
+  },
+
+  kawaii: {
+    label: 'Kawaii',
+    description: 'Pastel multicolore & shiba',
+    preview: { bg: '#fef9ff', primary: '#e8457c', fg: '#3a2040' },
+    vars: {
+      '--bg':            '#fef9ff',
+      '--bg2':           '#fff0f8',
+      '--fg':            '#3a2040',
+      '--fg2':           '#a06088',
+      '--primary':       '#e8457c',
+      '--primary-hover': '#d1306a',
+      '--primary-fg':    '#fff',
+      '--border':        '#f5c6e0',
+      '--nav-bg':        '#fff0f8',
+      '--input-bg':      '#fef9ff',
+      '--shadow':        'rgba(232, 69, 124, 0.10)',
+    },
+    bodyCSS: `background-image: url(/patterns/kawaii-bg.svg); background-repeat: repeat;`,
   },
 
   foret: {
@@ -219,6 +222,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--input-bg':      '#f4f7f0',
       '--shadow':        'rgba(45, 106, 79, 0.12)',
     },
+    bodyCSS: `background-image: url(/patterns/foret-bg.svg); background-repeat: repeat;`,
   },
 
 }
@@ -248,7 +252,11 @@ export function generateThemeCSS(): string {
       const vars = Object.entries(def.vars)
         .map(([k, v]) => `  ${k}: ${v};`)
         .join('\n')
-      return `${selector} {\n${vars}\n}`
+      let css = `${selector} {\n${vars}\n}`
+      if (def.bodyCSS) {
+        css += `\n[data-theme="${name}"] body { ${def.bodyCSS} }`
+      }
+      return css
     })
     .join('\n\n')
 }

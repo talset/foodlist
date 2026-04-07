@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <!-- Torii Gate -->
+  <g transform="translate(30,25)" opacity="0.12">
+    <rect x="2" y="10" width="4" height="30" fill="#c0151a" rx="1"/>
+    <rect x="34" y="10" width="4" height="30" fill="#c0151a" rx="1"/>
+    <rect x="-2" y="6" width="44" height="4" fill="#c0151a" rx="1"/>
+    <rect x="0" y="12" width="40" height="3" fill="#c0151a" rx="1"/>
+    <!-- Roof curve -->
+    <path d="M-4,6 Q20,-2 44,6" fill="none" stroke="#c0151a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Mount Fuji -->
+  <g transform="translate(150,30)" opacity="0.10">
+    <polygon points="30,0 0,35 60,35" fill="#7a6e5e"/>
+    <!-- Snow cap -->
+    <polygon points="30,0 18,14 42,14" fill="#e8e0d0"/>
+    <polygon points="22,14 18,14 20,10" fill="#e8e0d0"/>
+    <polygon points="38,14 42,14 40,10" fill="#e8e0d0"/>
+  </g>
+
+  <!-- Sakura branch 1 -->
+  <g transform="translate(95,80)" opacity="0.14">
+    <!-- Branch -->
+    <path d="M0,15 Q15,5 30,10" fill="none" stroke="#8b6b4a" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Flowers -->
+    <g transform="translate(5,12)">
+      <circle cx="0" cy="-4" r="3" fill="#f5b3c8"/>
+      <circle cx="3.8" cy="-1.2" r="3" fill="#f5b3c8"/>
+      <circle cx="2.4" cy="3.2" r="3" fill="#f5b3c8"/>
+      <circle cx="-2.4" cy="3.2" r="3" fill="#f5b3c8"/>
+      <circle cx="-3.8" cy="-1.2" r="3" fill="#f5b3c8"/>
+      <circle cx="0" cy="0" r="2" fill="#fce4ec"/>
+    </g>
+    <g transform="translate(18,7)">
+      <circle cx="0" cy="-3.5" r="2.5" fill="#f8c8d8"/>
+      <circle cx="3.3" cy="-1" r="2.5" fill="#f8c8d8"/>
+      <circle cx="2" cy="2.8" r="2.5" fill="#f8c8d8"/>
+      <circle cx="-2" cy="2.8" r="2.5" fill="#f8c8d8"/>
+      <circle cx="-3.3" cy="-1" r="2.5" fill="#f8c8d8"/>
+      <circle cx="0" cy="0" r="1.8" fill="#fce4ec"/>
+    </g>
+    <g transform="translate(28,9)">
+      <circle cx="0" cy="-3" r="2" fill="#f5b3c8"/>
+      <circle cx="2.8" cy="-0.9" r="2" fill="#f5b3c8"/>
+      <circle cx="1.7" cy="2.4" r="2" fill="#f5b3c8"/>
+      <circle cx="-1.7" cy="2.4" r="2" fill="#f5b3c8"/>
+      <circle cx="-2.8" cy="-0.9" r="2" fill="#f5b3c8"/>
+      <circle cx="0" cy="0" r="1.5" fill="#fce4ec"/>
+    </g>
+    <!-- Falling petals -->
+    <ellipse cx="12" cy="22" rx="2" ry="1.2" fill="#f5b3c8" transform="rotate(-30,12,22)"/>
+    <ellipse cx="24" cy="18" rx="1.8" ry="1" fill="#f8c8d8" transform="rotate(20,24,18)"/>
+  </g>
+
+  <!-- Wave pattern (seigaiha) -->
+  <g transform="translate(10,170)" opacity="0.08">
+    <path d="M0,15 Q10,5 20,15 Q30,5 40,15 Q50,5 60,15" fill="none" stroke="#c0151a" stroke-width="1.2"/>
+    <path d="M0,20 Q10,10 20,20 Q30,10 40,20 Q50,10 60,20" fill="none" stroke="#c0151a" stroke-width="1"/>
+  </g>
+
+  <!-- Koi fish -->
+  <g transform="translate(160,150)" opacity="0.10">
+    <ellipse cx="12" cy="8" rx="12" ry="6" fill="#c0151a"/>
+    <polygon points="24,8 32,2 32,14" fill="#c0151a"/>
+    <circle cx="6" cy="6" r="1.5" fill="#fdf4e3"/>
+    <circle cx="6" cy="6" r="0.8" fill="#1c0a00"/>
+    <!-- Scales hint -->
+    <path d="M10,4 Q14,8 10,12" fill="none" stroke="#fdf4e3" stroke-width="0.5" opacity="0.5"/>
+    <path d="M14,4 Q18,8 14,12" fill="none" stroke="#fdf4e3" stroke-width="0.5" opacity="0.5"/>
+  </g>
+
+  <!-- Falling sakura petals -->
+  <ellipse cx="200" cy="100" rx="3" ry="1.8" fill="#f5b3c8" opacity="0.12" transform="rotate(-40,200,100)"/>
+  <ellipse cx="70" cy="140" rx="2.5" ry="1.5" fill="#f8c8d8" opacity="0.10" transform="rotate(25,70,140)"/>
+  <ellipse cx="180" cy="200" rx="2" ry="1.2" fill="#f5b3c8" opacity="0.11" transform="rotate(-15,180,200)"/>
+
+  <!-- Small fan -->
+  <g transform="translate(210,80)" opacity="0.08">
+    <path d="M0,18 L0,8 Q-12,-4 -8,8 Z" fill="#c0151a"/>
+    <path d="M0,18 L0,8 Q12,-4 8,8 Z" fill="#c0151a"/>
+    <line x1="0" y1="18" x2="0" y2="8" stroke="#fdf4e3" stroke-width="0.5"/>
+    <rect x="-1" y="16" width="2" height="6" fill="#8b6b4a" rx="0.5"/>
+  </g>
+</svg>
