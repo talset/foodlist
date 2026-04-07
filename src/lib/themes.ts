@@ -38,7 +38,7 @@
 
 // ── Type definitions ──────────────────────────────────────────────────────────
 
-export type SiteTheme = 'dark' | 'pure' | 'light' | 'happy' | 'japon' | 'girly' | 'kawaii' | 'foret'
+export type SiteTheme = 'dark' | 'pure' | 'light' | 'happy' | 'japon' | 'girly' | 'kawaii' | 'foret' | 'space'
 
 export interface ThemeVars {
   '--bg': string
@@ -52,6 +52,9 @@ export interface ThemeVars {
   '--nav-bg': string
   '--input-bg': string
   '--shadow': string
+  '--radius': string
+  '--radius-lg': string
+  '--font': string
 }
 
 export interface ThemeDef {
@@ -64,6 +67,12 @@ export interface ThemeDef {
   }
   vars: ThemeVars
   bodyCSS?: string        // Extra CSS applied to body when this theme is active
+  navIcons?: {            // Custom nav icon labels (emoji or short text)
+    shopping: string
+    stock: string
+    recipes: string
+    profile: string
+  }
 }
 
 // ── Theme definitions ─────────────────────────────────────────────────────────
@@ -86,6 +95,9 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#1e293b',
       '--input-bg':      '#1e293b',
       '--shadow':        'rgba(0, 0, 0, 0.4)',
+      '--radius':        '8px',
+      '--radius-lg':     '12px',
+      '--font':          'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     },
   },
 
@@ -105,6 +117,9 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#fff',
       '--input-bg':      '#fff',
       '--shadow':        'rgba(0, 0, 0, 0.05)',
+      '--radius':        '8px',
+      '--radius-lg':     '12px',
+      '--font':          'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     },
   },
 
@@ -124,6 +139,9 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#e0f2fe',
       '--input-bg':      '#f0f9ff',
       '--shadow':        'rgba(2, 132, 199, 0.1)',
+      '--radius':        '8px',
+      '--radius-lg':     '12px',
+      '--font':          'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     },
   },
 
@@ -143,7 +161,12 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#fef3c7',
       '--input-bg':      '#fffbeb',
       '--shadow':        'rgba(249, 115, 22, 0.1)',
+      '--radius':        '14px',
+      '--radius-lg':     '18px',
+      '--font':          "'Nunito', system-ui, sans-serif",
     },
+    navIcons: { shopping: '☀️', stock: '🌻', recipes: '🍳', profile: '😊' },
+    bodyCSS: `background-image: url(/patterns/happy-bg.svg); background-repeat: repeat;`,
   },
 
   japon: {
@@ -162,7 +185,11 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#f5e8cc',
       '--input-bg':      '#fdf4e3',
       '--shadow':        'rgba(192, 21, 26, 0.15)',
+      '--radius':        '4px',
+      '--radius-lg':     '6px',
+      '--font':          "'Noto Serif JP', Georgia, serif",
     },
+    navIcons: { shopping: '⛩️', stock: '📦', recipes: '🍱', profile: '🎎' },
     bodyCSS: `background-image: url(/patterns/japon-bg.svg); background-repeat: repeat;`,
   },
 
@@ -182,47 +209,84 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--nav-bg':        '#ffe4f5',
       '--input-bg':      '#fff5fb',
       '--shadow':        'rgba(247, 45, 140, 0.12)',
+      '--radius':        '18px',
+      '--radius-lg':     '22px',
+      '--font':          "'Quicksand', system-ui, sans-serif",
     },
+    navIcons: { shopping: '🍬', stock: '🍭', recipes: '🧁', profile: '🎀' },
+    bodyCSS: `background-image: url(/patterns/girly-bg.svg); background-repeat: repeat;`,
   },
 
   kawaii: {
     label: 'Kawaii',
-    description: 'Pastel multicolore & shiba',
-    preview: { bg: '#fef9ff', primary: '#e8457c', fg: '#3a2040' },
+    description: 'Pastel bleu & shiba',
+    preview: { bg: '#eef4fb', primary: '#6a9fd8', fg: '#1e2d40' },
     vars: {
-      '--bg':            '#fef9ff',
-      '--bg2':           '#fff0f8',
-      '--fg':            '#3a2040',
-      '--fg2':           '#a06088',
-      '--primary':       '#e8457c',
-      '--primary-hover': '#d1306a',
+      '--bg':            '#eef4fb',
+      '--bg2':           '#dfeaf5',
+      '--fg':            '#1e2d40',
+      '--fg2':           '#6880a0',
+      '--primary':       '#6a9fd8',
+      '--primary-hover': '#5588c0',
       '--primary-fg':    '#fff',
-      '--border':        '#f5c6e0',
-      '--nav-bg':        '#fff0f8',
-      '--input-bg':      '#fef9ff',
-      '--shadow':        'rgba(232, 69, 124, 0.10)',
+      '--border':        '#b8d0e8',
+      '--nav-bg':        '#dfeaf5',
+      '--input-bg':      '#eef4fb',
+      '--shadow':        'rgba(106, 159, 216, 0.12)',
+      '--radius':        '16px',
+      '--radius-lg':     '20px',
+      '--font':          "'Quicksand', system-ui, sans-serif",
     },
+    navIcons: { shopping: '🛒', stock: '🐾', recipes: '🍳', profile: '🐱' },
     bodyCSS: `background-image: url(/patterns/kawaii-bg.svg); background-repeat: repeat;`,
   },
 
   foret: {
     label: 'Forêt',
-    description: 'Vert forêt & crème',
-    preview: { bg: '#f4f7f0', primary: '#2d6a4f', fg: '#1a2c10' },
+    description: 'Forêt au soleil couchant',
+    preview: { bg: '#2a3a20', primary: '#8fbc6a', fg: '#e8eed8' },
     vars: {
-      '--bg':            '#f4f7f0',
-      '--bg2':           '#e4ecdc',
-      '--fg':            '#1a2c10',
-      '--fg2':           '#5a7a46',
-      '--primary':       '#2d6a4f',
-      '--primary-hover': '#1b4332',
-      '--primary-fg':    '#f0faf4',
-      '--border':        '#b8d4a8',
-      '--nav-bg':        '#e4ecdc',
-      '--input-bg':      '#f4f7f0',
-      '--shadow':        'rgba(45, 106, 79, 0.12)',
+      '--bg':            '#2a3a20',
+      '--bg2':           '#344828',
+      '--fg':            '#e8eed8',
+      '--fg2':           '#a0b888',
+      '--primary':       '#8fbc6a',
+      '--primary-hover': '#7aaa55',
+      '--primary-fg':    '#1a2810',
+      '--border':        '#4a6038',
+      '--nav-bg':        '#2e4024',
+      '--input-bg':      '#344828',
+      '--shadow':        'rgba(143, 188, 106, 0.15)',
+      '--radius':        '10px',
+      '--radius-lg':     '14px',
+      '--font':          "'Nunito', system-ui, sans-serif",
     },
+    navIcons: { shopping: '🍂', stock: '🌲', recipes: '🍄', profile: '🦊' },
     bodyCSS: `background-image: url(/patterns/foret-bg.svg); background-repeat: repeat;`,
+  },
+
+  space: {
+    label: 'Space',
+    description: 'Cosmos & étoiles',
+    preview: { bg: '#0b0d1a', primary: '#7c6ef0', fg: '#e8e6f0' },
+    vars: {
+      '--bg':            '#0b0d1a',
+      '--bg2':           '#141828',
+      '--fg':            '#e8e6f0',
+      '--fg2':           '#8a86a8',
+      '--primary':       '#7c6ef0',
+      '--primary-hover': '#6558d4',
+      '--primary-fg':    '#fff',
+      '--border':        '#2a2d45',
+      '--nav-bg':        '#101325',
+      '--input-bg':      '#141828',
+      '--shadow':        'rgba(124, 110, 240, 0.15)',
+      '--radius':        '10px',
+      '--radius-lg':     '14px',
+      '--font':          'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+    },
+    navIcons: { shopping: '🚀', stock: '🌍', recipes: '⭐', profile: '👨‍🚀' },
+    bodyCSS: `background-image: url(/patterns/space-bg.svg); background-repeat: repeat;`,
   },
 
 }

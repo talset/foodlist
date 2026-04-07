@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { THEMES } from '@/lib/themes'
+import type { SiteTheme } from '@/lib/themes'
 
-const NAV_ITEMS = [
+type NavKey = 'shopping' | 'stock' | 'recipes'
+
+const NAV_ITEMS: { href: string; label: string; key: NavKey; icon: (active: boolean) => JSX.Element }[] = [
   {
-    href: '/shopping',
-    label: 'Courses',
+    href: '/shopping', label: 'Courses', key: 'shopping',
     icon: (active: boolean) => (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -18,8 +21,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    href: '/stock',
-    label: 'Stock',
+    href: '/stock', label: 'Stock', key: 'stock',
     icon: (active: boolean) => (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
@@ -29,8 +31,7 @@ const NAV_ITEMS = [
     ),
   },
   {
-    href: '/recipes',
-    label: 'Recettes',
+    href: '/recipes', label: 'Recettes', key: 'recipes',
     icon: (active: boolean) => (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/>
@@ -60,6 +61,9 @@ export default function BottomNav() {
     return null
   }
 
+  const theme = (session?.user?.siteTheme ?? 'dark') as SiteTheme
+  const themeNav = THEMES[theme]?.navIcons
+
   const profileActive = pathname === '/profile' || pathname.startsWith('/profile/') ||
     pathname === '/admin' || pathname.startsWith('/admin/')
 
@@ -77,6 +81,7 @@ export default function BottomNav() {
     }}>
       {NAV_ITEMS.map(item => {
         const active = pathname === item.href || pathname.startsWith(item.href + '/')
+        const emoji = themeNav?.[item.key]
         return (
           <Link
             key={item.href}
@@ -92,7 +97,16 @@ export default function BottomNav() {
               gap: '0.125rem',
             }}
           >
-            {item.icon(active)}
+            {emoji ? (
+              <span style={{
+                fontSize: '1.25rem', lineHeight: 1,
+                filter: active ? 'none' : 'grayscale(0.5) opacity(0.6)',
+              }}>
+                {emoji}
+              </span>
+            ) : (
+              item.icon(active)
+            )}
             <span style={{
               fontSize: '0.625rem',
               fontWeight: active ? 600 : 400,
@@ -119,10 +133,19 @@ export default function BottomNav() {
           position: 'relative',
         }}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={profileActive ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+        {themeNav?.profile ? (
+          <span style={{
+            fontSize: '1.25rem', lineHeight: 1,
+            filter: profileActive ? 'none' : 'grayscale(0.5) opacity(0.6)',
+          }}>
+            {themeNav.profile}
+          </span>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={profileActive ? 'var(--primary)' : 'var(--fg2)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        )}
         {adminNotif && (
           <span style={{
             position: 'absolute', top: 4, right: '50%', marginRight: -14,
