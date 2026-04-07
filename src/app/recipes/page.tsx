@@ -142,7 +142,7 @@ export default function RecipesPage() {
         <div ref={categoryStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.5rem', marginBottom: '0.75rem',
-          scrollbarWidth: 'none', cursor: 'grab',
+          scrollbarWidth: 'thin', cursor: 'grab',
         }}>
           <button onClick={() => setCategoryFilter(null)} style={chipStyle(categoryFilter === null)}>
             Toutes

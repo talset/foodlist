@@ -128,7 +128,7 @@ export default function ProductsPage() {
       />
 
       {/* Category chips */}
-      <div ref={categoryStripRef} style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'none', cursor: 'grab' }}>
+      <div ref={categoryStripRef} style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'thin', cursor: 'grab' }}>
         <button
           onClick={() => setCategoryId(null)}
           style={{ ...chipStyle, ...(categoryId === null ? chipActiveStyle : {}) }}

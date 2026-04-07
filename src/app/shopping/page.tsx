@@ -221,7 +221,7 @@ export default function ShoppingPage() {
         <div ref={categoryStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.5rem', marginBottom: '0.5rem',
-          scrollbarWidth: 'none', cursor: 'grab',
+          scrollbarWidth: 'thin', cursor: 'grab',
         }}>
           <button
             onClick={() => setCategoryFilter(null)}
@@ -246,7 +246,7 @@ export default function ShoppingPage() {
         <div ref={recipeStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.75rem', marginBottom: '0.25rem',
-          scrollbarWidth: 'none', cursor: 'grab',
+          scrollbarWidth: 'thin', cursor: 'grab',
         }}>
           <button
             onClick={() => setRecipeFilter(null)}
