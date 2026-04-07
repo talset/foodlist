@@ -20,10 +20,10 @@ export default function ProfilePage() {
   const { data: session, update } = useSession()
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [name, setName] = useState('')
+  const [editingName, setEditingName] = useState(false)
+  const [savingName, setSavingName] = useState(false)
   const [siteTheme, setSiteTheme] = useState<SiteTheme>('dark')
   const [iconTheme, setIconTheme] = useState('default')
-  const [saving, setSaving] = useState(false)
-  const [message, setMessage] = useState('')
   const [themeIcons, setThemeIcons] = useState<Record<string, string[]>>({})
   const themeIconsRef = useRef(themeIcons)
   themeIconsRef.current = themeIcons
@@ -62,25 +62,38 @@ export default function ProfilePage() {
       })
   }, [loadThemePreview])
 
-  async function handleSave() {
-    setSaving(true)
-    setMessage('')
-    try {
-      const res = await fetch('/api/profile', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, siteTheme, iconTheme }),
-      })
-      if (!res.ok) {
-        const err = await res.json()
-        setMessage(`Erreur : ${err.error}`)
-        return
-      }
-      await update()
-      setMessage('Profil mis à jour')
-    } finally {
-      setSaving(false)
+  async function patchProfile(patch: Record<string, unknown>) {
+    const res = await fetch('/api/profile', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(patch),
+    })
+    if (res.ok) await update()
+    return res.ok
+  }
+
+  async function saveName() {
+    if (!name.trim() || name === profile?.name) {
+      setName(profile?.name ?? '')
+      setEditingName(false)
+      return
     }
+    setSavingName(true)
+    const ok = await patchProfile({ name })
+    if (ok) setProfile(prev => prev ? { ...prev, name } : prev)
+    setSavingName(false)
+    setEditingName(false)
+  }
+
+  async function selectSiteTheme(t: SiteTheme) {
+    setSiteTheme(t)
+    await patchProfile({ siteTheme: t })
+  }
+
+  async function selectIconTheme(t: string) {
+    setIconTheme(t)
+    loadThemePreview(t)
+    await patchProfile({ iconTheme: t })
   }
 
   if (!profile) {
@@ -110,20 +123,54 @@ export default function ProfilePage() {
         </h2>
         <div style={{ marginBottom: '0.75rem' }}>
           <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.25rem' }}>Nom</label>
-          <input
-            value={name}
-            onChange={e => setName(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.5rem 0.75rem',
-              border: '1px solid var(--border)',
-              borderRadius: 8,
-              fontSize: '0.875rem',
-              background: 'var(--input-bg)',
-              color: 'var(--fg)',
-              boxSizing: 'border-box',
-            }}
-          />
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <input
+              value={name}
+              onChange={e => setName(e.target.value)}
+              disabled={!editingName}
+              onKeyDown={e => e.key === 'Enter' && saveName()}
+              style={{
+                flex: 1,
+                padding: '0.5rem 0.75rem',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                fontSize: '0.875rem',
+                background: editingName ? 'var(--input-bg)' : 'var(--bg2)',
+                color: 'var(--fg)',
+                boxSizing: 'border-box',
+                opacity: editingName ? 1 : 0.8,
+              }}
+            />
+            {editingName ? (
+              <button
+                onClick={saveName}
+                disabled={savingName}
+                title="Enregistrer"
+                style={{
+                  width: 36, height: 36, flexShrink: 0,
+                  border: '1px solid var(--border)', borderRadius: 8,
+                  background: 'var(--primary)', color: 'var(--primary-fg)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  opacity: savingName ? 0.5 : 1,
+                }}
+              >
+                ✓
+              </button>
+            ) : (
+              <button
+                onClick={() => setEditingName(true)}
+                title="Modifier le nom"
+                style={{
+                  width: 36, height: 36, flexShrink: 0,
+                  border: '1px solid var(--border)', borderRadius: 8,
+                  background: 'var(--bg)', color: 'var(--fg2)',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+              >
+                ✎
+              </button>
+            )}
+          </div>
         </div>
         <div>
           <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--fg2)', marginBottom: '0.25rem' }}>Email</label>
@@ -158,7 +205,7 @@ export default function ProfilePage() {
             return (
               <button
                 key={t}
-                onClick={() => setSiteTheme(t)}
+                onClick={() => selectSiteTheme(t)}
                 style={{
                   padding: '0.75rem',
                   border: selected ? `2px solid ${info.primary}` : '1px solid var(--border)',
@@ -203,7 +250,7 @@ export default function ProfilePage() {
               return (
                 <div key={t}>
                   <button
-                    onClick={() => { setIconTheme(t); loadThemePreview(t) }}
+                    onClick={() => selectIconTheme(t)}
                     style={{
                       width: '100%',
                       padding: '0.625rem 0.75rem',
@@ -250,40 +297,6 @@ export default function ProfilePage() {
           </div>
         </section>
       )}
-
-      {/* Save */}
-      {message && (
-        <div style={{
-          padding: '0.625rem 0.75rem',
-          borderRadius: 8,
-          background: message.startsWith('Erreur') ? '#fef2f2' : '#f0fdf4',
-          color: message.startsWith('Erreur') ? '#b91c1c' : '#166534',
-          fontSize: '0.875rem',
-          marginBottom: '0.75rem',
-        }}>
-          {message}
-        </div>
-      )}
-
-      <button
-        onClick={handleSave}
-        disabled={saving}
-        style={{
-          width: '100%',
-          padding: '0.75rem',
-          background: 'var(--primary)',
-          color: 'var(--primary-fg)',
-          border: 'none',
-          borderRadius: 10,
-          fontSize: '0.9375rem',
-          fontWeight: 600,
-          cursor: saving ? 'not-allowed' : 'pointer',
-          opacity: saving ? 0.7 : 1,
-          marginBottom: '1rem',
-        }}
-      >
-        {saving ? 'Enregistrement…' : 'Enregistrer'}
-      </button>
 
       {/* Admin link */}
       {session?.user?.isAdmin && (

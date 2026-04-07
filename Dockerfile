@@ -20,6 +20,7 @@ ENV NODE_ENV=production
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/sql ./sql
 
 # Default icons and recipe photos baked into the image (all themes)
 COPY --from=builder /app/uploads/icons ./uploads/icons
