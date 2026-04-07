@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import { norm } from '@/lib/search'
 
 function groupByCategory(items: ApiStockItem[]) {
   const map = new Map<string, ApiStockItem[]>()
@@ -58,9 +59,9 @@ export default function ShoppingPage() {
   }, [items])
 
   const filteredItems = useMemo(() => {
-    const q = search.toLowerCase()
+    const q = norm(search)
     return items.filter(item => {
-      if (q && !item.product_name.toLowerCase().includes(q)) return false
+      if (q && !norm(item.product_name).includes(q)) return false
       if (categoryFilter && item.category_name !== categoryFilter) return false
       if (recipeFilter !== null && !item.recipe_ids?.includes(recipeFilter)) return false
       return true

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import { norm } from '@/lib/search'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -62,9 +63,9 @@ export default function StockPage() {
   }, [items])
 
   const filteredItems = useMemo(() => {
-    const q = search.toLowerCase()
+    const q = norm(search)
     return items.filter(item => {
-      if (q && !item.product_name.toLowerCase().includes(q)) return false
+      if (q && !norm(item.product_name).includes(q)) return false
       if (categoryFilter && item.category_name !== categoryFilter) return false
       if (statusFilter && item.status !== statusFilter) return false
       return true

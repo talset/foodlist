@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { ApiRecipe, ApiRecipeCategory, RecipeFeasibility } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import { norm } from '@/lib/search'
 
 function FeasibilityBadge({ f }: { f: RecipeFeasibility }) {
   if (!f) return null
@@ -63,9 +64,9 @@ export default function RecipesPage() {
   }
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase()
+    const q = norm(search)
     return recipes.filter(r => {
-      if (q && !r.name.toLowerCase().includes(q) && !(r.description ?? '').toLowerCase().includes(q)) return false
+      if (q && !norm(r.name).includes(q) && !norm(r.description ?? '').includes(q)) return false
       if (categoryFilter !== null && r.recipe_category_id !== categoryFilter) return false
       if (feasibilityFilter !== null && (r.feasibility ?? null) !== feasibilityFilter) return false
       if (favOnly && !r.is_favorite) return false
