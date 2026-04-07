@@ -16,11 +16,10 @@ export function useHorizontalScroll<T extends HTMLElement>() {
     if (!el) return
 
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      // Don't hijack scroll if the strip doesn't overflow
+      // Only intercept shift+wheel (desktop) for horizontal scrolling
+      // Never intercept regular vertical scroll — let the page scroll
+      if (!e.shiftKey) return
       if (el.scrollWidth <= el.clientWidth) return
-      // On trackpads, if the scroll is mostly vertical, let the page scroll
-      if (Math.abs(e.deltaY) < Math.abs(e.deltaX) * 2 && e.deltaX !== 0) return
       e.preventDefault()
       el.scrollLeft += e.deltaY
     }

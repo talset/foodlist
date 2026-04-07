@@ -68,6 +68,9 @@ export default function ProductsPage() {
 
   return (
     <main style={{ maxWidth: 640, margin: '0 auto', padding: '1rem' }}>
+      <div style={{ marginBottom: '0.75rem' }}>
+        <Link href="/stock" style={{ color: 'var(--fg2)', fontSize: '0.875rem', textDecoration: 'none' }}>← Stock</Link>
+      </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', gap: '0.5rem' }}>
         <h1 style={{ margin: 0 }}>Produits</h1>
         <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>

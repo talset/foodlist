@@ -78,8 +78,8 @@ export async function GET(req: Request) {
             COUNT(DISTINCT ri.id) AS ingredient_count,
             CASE
               WHEN COUNT(DISTINCT ri.id) = 0 THEN NULL
-              WHEN SUM(CASE WHEN COALESCE(s.quantity, 0) >= ri.quantity THEN 1 ELSE 0 END) = COUNT(DISTINCT ri.id) THEN 'ok'
-              WHEN SUM(CASE WHEN COALESCE(s.quantity, 0) > 0 THEN 1 ELSE 0 END) = 0 THEN 'missing'
+              WHEN SUM(CASE WHEN s.id IS NOT NULL AND s.status != 'out_of_stock' THEN 1 ELSE 0 END) = COUNT(DISTINCT ri.id) THEN 'ok'
+              WHEN SUM(CASE WHEN s.id IS NOT NULL AND s.status != 'out_of_stock' THEN 1 ELSE 0 END) = 0 THEN 'missing'
               ELSE 'partial'
             END AS feasibility,
             (rf.user_id IS NOT NULL) AS is_favorite

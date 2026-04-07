@@ -367,3 +367,26 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `briquet.png` | disposable plastic lighter with transparent fuel chamber showing amber fuel level, visible flint wheel at the top, realistic BIC-style form, side view |
 | `colle.png` | glue tube in white plastic with a red screw cap, slightly squeezed flexible tube, realistic plastic tube texture, side view |
 | `tupperware.png` | rectangular transparent plastic food container with a snap-on lid, clear PET plastic showing contents inside, slight condensation on the lid, 3/4 view |
+
+### Famille 17 — Nouveaux produits
+
+| Filename | Description |
+|---|---|
+| `boudoirs.png` | elongated ladyfinger biscuit with golden-orange sponge body and generous white powdered sugar coating on top, realistic baked texture, side view |
+| `mascarpone.png` | small blue plastic pot of mascarpone cream cheese with a white vertical band running down the center, realistic smooth plastic texture, front view |
+| `cervelas.png` | thick red smoked sausage (cervelas) with a white paper label band wrapped around the middle, realistic glossy red casing, side view |
+| `tomme-aux-fleurs.png` | round wheel of Tomme cheese with rustic grey-brown natural rind decorated with small dried flower petals pressed into the surface, creamy interior visible at the edge, 3/4 view |
+
+### Famille 18 — Animaux
+
+| Filename | Description |
+|---|---|
+| `litiere-chat.png` | plastic bag of cat litter with a cat photo on the front label, realistic packaging with grey and blue tones, front view |
+| `litiere-chanvre.png` | paper bag of hemp bedding litter for rabbits with a rabbit photo on the label, realistic brown kraft paper bag, front view |
+| `croquettes-chat.png` | bag of dry cat food kibble with a cat photo on the front, realistic packaging with orange and brown tones, front view |
+| `croquettes-chien.png` | bag of dry dog food kibble with a dog photo on the front, realistic packaging with brown and red tones, front view |
+| `granule-lapin.png` | bag of rabbit pellet food with a rabbit photo on the front, realistic packaging with green and brown tones, front view |
+| `foin.png` | compressed bag of golden hay with wisps visible through clear packaging, realistic natural golden-yellow color, front view |
+| `sachet-herbe.png` | small clear bag of dried dandelion herbs for rabbits with green leaves visible inside, realistic transparent packaging, front view |
+| `pate-chien.png` | metal tin can of dog pâté with a dog photo on the label, realistic aluminium can with brown and gold label, front view |
+| `pate-chat.png` | small foil pouch of cat pâté with a cat photo on the front, realistic foil packaging with pink and purple tones, front view |

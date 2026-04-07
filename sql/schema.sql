@@ -198,7 +198,10 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
   ('Desserts / Pâtisserie', 1,  9),
   ('Condiments & Sauces',   1, 10),
   ('Hygiène / Entretien',   1, 11),
-  ('Autre',                 1, 12);
+  ('Animaux Lapin',         1, 12),
+  ('Animaux Chien',         1, 13),
+  ('Animaux Chat',          1, 14),
+  ('Autre',                 1, 15);
 
 -- -----------------------------------------------------------------------------
 -- Catégories de recettes par défaut

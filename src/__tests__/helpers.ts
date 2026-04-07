@@ -5,14 +5,17 @@ export const TEST_HOUSEHOLD_ID = 9999
 export const TEST_PRODUCT_ID = 9999   // seeded in globalSetup, must not be deleted by test cleanup
 export const TEST_RECIPE_ID = 9999    // seeded in globalSetup, must not be deleted by test cleanup
 
-export function mockSession(userId = TEST_USER_ID) {
+export function mockSession(userId = TEST_USER_ID, isAdmin = true) {
   jest.mocked(getServerSession).mockResolvedValue({
     user: {
       id: userId,
       householdId: TEST_HOUSEHOLD_ID,
       householdRole: 'admin',
+      isAdmin,
       email: 'test@foodlist.test',
       name: 'Test User',
+      siteTheme: 'dark',
+      iconTheme: 'default',
     },
     expires: '2099-01-01',
   })

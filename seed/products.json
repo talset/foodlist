@@ -408,22 +408,22 @@
   {
     "name": "Yaourt",
     "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 125,
+    "ref_unit": "unité",
+    "ref_quantity": 1,
     "icon_ref": "yaourt.png"
   },
   {
     "name": "Yaourt aux fruits",
     "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 125,
+    "ref_unit": "unité",
+    "ref_quantity": 1,
     "icon_ref": "yaourt-fruits.png"
   },
   {
     "name": "Yaourt nature",
     "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 125,
+    "ref_unit": "unité",
+    "ref_quantity": 1,
     "icon_ref": "yaourt-nature.png"
   },
   {
@@ -1678,5 +1678,96 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "muscade.png"
+  },
+  {
+    "name": "Boudoirs",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 175,
+    "icon_ref": "boudoirs.png"
+  },
+  {
+    "name": "Mascarpone",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 250,
+    "icon_ref": "mascarpone.png"
+  },
+  {
+    "name": "Cervelas",
+    "category": "Viandes & Poissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "cervelas.png"
+  },
+  {
+    "name": "Tomme aux Fleurs",
+    "category": "Produits laitiers",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "tomme-aux-fleurs.png"
+  },
+  {
+    "name": "Litière chat",
+    "category": "Animaux Chat",
+    "ref_unit": "kg",
+    "ref_quantity": 10,
+    "icon_ref": "litiere-chat.png"
+  },
+  {
+    "name": "Litière chanvre",
+    "category": "Animaux Lapin",
+    "ref_unit": "kg",
+    "ref_quantity": 10,
+    "icon_ref": "litiere-chanvre.png"
+  },
+  {
+    "name": "Croquettes chat",
+    "category": "Animaux Chat",
+    "ref_unit": "kg",
+    "ref_quantity": 2,
+    "icon_ref": "croquettes-chat.png"
+  },
+  {
+    "name": "Croquettes chien",
+    "category": "Animaux Chien",
+    "ref_unit": "kg",
+    "ref_quantity": 3,
+    "icon_ref": "croquettes-chien.png"
+  },
+  {
+    "name": "Granulé lapin",
+    "category": "Animaux Lapin",
+    "ref_unit": "kg",
+    "ref_quantity": 2,
+    "icon_ref": "granule-lapin.png"
+  },
+  {
+    "name": "Foin",
+    "category": "Animaux Lapin",
+    "ref_unit": "kg",
+    "ref_quantity": 1,
+    "icon_ref": "foin.png"
+  },
+  {
+    "name": "Sachet herbe lapin",
+    "category": "Animaux Lapin",
+    "ref_unit": "sachet",
+    "ref_quantity": 1,
+    "icon_ref": "sachet-herbe.png"
+  },
+  {
+    "name": "Pâté chien",
+    "category": "Animaux Chien",
+    "ref_unit": "boîte",
+    "ref_quantity": 1,
+    "icon_ref": "pate-chien.png"
+  },
+  {
+    "name": "Pâté chat",
+    "category": "Animaux Chat",
+    "ref_unit": "sachet",
+    "ref_quantity": 1,
+    "icon_ref": "pate-chat.png"
   }
 ]

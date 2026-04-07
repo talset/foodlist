@@ -368,3 +368,26 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `briquet.png` | plastic disposable lighter with visible fuel chamber, keeping its real lighter shape, with a kawaii face on the lighter body — cheerful eyes, happy smile, rosy cheeks — plump rounded body, warm amber fuel visible, small flame at the top, side view |
 | `colle.png` | glue tube with red screw cap, keeping its real tube shape, slightly squeezed, with a kawaii face on the tube body — sticky wide eyes, cheerful smile, rosy cheeks — soft white body with red cap, side view |
 | `tupperware.png` | rectangular transparent plastic food container with fitting lid, keeping its real container shape, with a kawaii face on the transparent body — big eyes visible through the clear plastic, happy smile, rosy cheeks — clear and warm tones, 3/4 view |
+
+### Famille 17 — Nouveaux produits
+
+| Filename | Description |
+|---|---|
+| `boudoirs.png` | elongated ladyfinger biscuit with golden-orange body and white powdered sugar on top, keeping its real elongated shape, with a kawaii face on the surface — big eyes, happy smile, rosy cheeks — warm golden tones, side view |
+| `mascarpone.png` | small blue plastic pot of mascarpone with a white vertical band, keeping its real pot shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — clean blue and white, front view |
+| `cervelas.png` | thick red sausage with a white label band in the middle, keeping its real plump sausage shape, with a kawaii face on the surface — big eyes, happy smile, rosy cheeks — warm red tones, side view |
+| `tomme-aux-fleurs.png` | round Tomme cheese wheel with grey-brown rind and dried flower petals, keeping its real wheel shape, with a kawaii face on the surface — big eyes, cozy smile, rosy cheeks — earthy tones, 3/4 view |
+
+### Famille 18 — Animaux
+
+| Filename | Description |
+|---|---|
+| `litiere-chat.png` | plastic bag of cat litter, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — soft grey and blue tones, front view |
+| `litiere-chanvre.png` | paper bag of hemp rabbit litter, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — warm brown and green tones, front view |
+| `croquettes-chat.png` | bag of dry cat food, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — warm orange and brown tones, front view |
+| `croquettes-chien.png` | bag of dry dog food, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — warm brown and red tones, front view |
+| `granule-lapin.png` | bag of rabbit pellet food, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — warm green and brown tones, front view |
+| `foin.png` | compressed bag of golden hay with wisps poking out, keeping its real bag shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — warm golden-yellow tones, front view |
+| `sachet-herbe.png` | small clear bag of dried herbs for rabbits, keeping its real pouch shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — soft green tones, front view |
+| `pate-chien.png` | metal tin can of dog pâté, keeping its real can shape, with a kawaii face on the label — big eyes, happy smile, rosy cheeks — warm brown and gold tones, front view |
+| `pate-chat.png` | small foil pouch of cat pâté, keeping its real pouch shape, with a kawaii face on the front — big eyes, happy smile, rosy cheeks — soft pink and purple tones, front view |

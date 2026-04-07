@@ -112,7 +112,13 @@ export default function ShoppingPage() {
 
   async function checkOff(item: ApiStockItem) {
     setChecking(prev => new Set(prev).add(item.id))
-    setItems(prev => prev.filter(i => i.id !== item.id))
+    const remaining = items.filter(i => i.id !== item.id)
+    setItems(remaining)
+
+    // Clear active recipes that no longer have any items in the list
+    const remainingRecipeIds = new Set(remaining.flatMap(i => i.recipe_ids ?? []))
+    setActiveRecipes(prev => prev.filter(r => remainingRecipeIds.has(r.id)))
+    if (recipeFilter !== null && !remainingRecipeIds.has(recipeFilter)) setRecipeFilter(null)
 
     let ok: boolean
     if (item.id < 0) {

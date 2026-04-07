@@ -366,3 +366,26 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `briquet.png` | cute plastic disposable lighter with a plump rounded body and a visible fuel chamber in warm amber tones, cheerful cozy look, side view |
 | `colle.png` | cute glue tube with a plump body and a bright red screw cap, soft white and red tones, slightly squeezed shape, side view |
 | `tupperware.png` | cute rectangular transparent plastic food container with a plump rounded body and a snug fitting lid, soft clear and warm tones, 3/4 view |
+
+### Famille 17 — Nouveaux produits
+
+| Filename | Description |
+|---|---|
+| `boudoirs.png` | cute elongated ladyfinger biscuit with a golden-orange body and a generous dusting of white powdered sugar on top, soft warm tones, side view |
+| `mascarpone.png` | cute small blue plastic pot of mascarpone cream cheese with a white vertical band running down the center, smooth rounded shape, clean blue and white tones, front view |
+| `cervelas.png` | cute thick red sausage (cervelas) with a plump rounded shape and a white paper label band wrapped around the middle, warm red tones, side view |
+| `tomme-aux-fleurs.png` | cute round wheel of Tomme cheese with a rustic grey-brown rind decorated with small dried flower petals, creamy ivory interior peeking at the edge, cozy earthy tones, 3/4 view |
+
+### Famille 18 — Animaux
+
+| Filename | Description |
+|---|---|
+| `litiere-chat.png` | cute plastic bag of cat litter with a cheerful cat illustration on the front, soft grey and blue tones, plump bag shape, front view |
+| `litiere-chanvre.png` | cute paper bag of hemp bedding litter for rabbits with a cheerful rabbit illustration, warm natural brown and green tones, plump bag shape, front view |
+| `croquettes-chat.png` | cute bag of dry cat food kibble with a cheerful cat face on the front, warm orange and brown tones, plump bag shape, front view |
+| `croquettes-chien.png` | cute bag of dry dog food kibble with a cheerful dog face on the front, warm brown and red tones, plump bag shape, front view |
+| `granule-lapin.png` | cute bag of rabbit pellet food with a cheerful rabbit illustration, warm green and brown tones, plump bag shape, front view |
+| `foin.png` | cute compressed bag of golden hay with wisps poking out, warm golden-yellow tones, plump rectangular bag shape, front view |
+| `sachet-herbe.png` | cute small clear bag of dried dandelion herbs for rabbits with green leaves visible inside, soft green tones, small pouch shape, front view |
+| `pate-chien.png` | cute metal tin can of dog pâté with a cheerful dog illustration on the label, warm brown and gold tones, round can shape, front view |
+| `pate-chat.png` | cute small foil pouch of cat pâté with a cheerful cat illustration, soft pink and purple tones, small pillow pouch shape, front view |

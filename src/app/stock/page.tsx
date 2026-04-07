@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState, useCallback, useMemo } from 'react'
+import Link from 'next/link'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
-import NumberInput from '@/components/NumberInput'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -35,8 +35,6 @@ export default function StockPage() {
   const [statusFilter, setStatusFilter] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
-  const [editingId, setEditingId] = useState<number | null>(null)
-  const [editQty, setEditQty] = useState(0)
   const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
   const load = useCallback(async () => {
@@ -67,9 +65,10 @@ export default function StockPage() {
     return items.filter(item => {
       if (q && !item.product_name.toLowerCase().includes(q)) return false
       if (categoryFilter && item.category_name !== categoryFilter) return false
+      if (statusFilter && item.status !== statusFilter) return false
       return true
     })
-  }, [items, search, categoryFilter])
+  }, [items, search, categoryFilter, statusFilter])
 
   async function updateStatus(id: number, status: string) {
     const res = await fetch(`/api/stock/${id}`, {
@@ -78,19 +77,6 @@ export default function StockPage() {
       body: JSON.stringify({ status }),
     })
     if (res.ok) setItems(prev => prev.map(i => i.id === id ? { ...i, status: status as any } : i))
-  }
-
-  async function saveQty(id: number) {
-    const res = await fetch(`/api/stock/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quantity: editQty }),
-    })
-    if (res.ok) {
-      const newStatus = editQty === 0 ? 'out_of_stock' : 'in_stock'
-      setItems(prev => prev.map(i => i.id === id ? { ...i, quantity: editQty, status: newStatus as any } : i))
-    }
-    setEditingId(null)
   }
 
   async function deleteItem(id: number) {
@@ -102,7 +88,17 @@ export default function StockPage() {
 
   return (
     <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
-      <h1 style={{ margin: '0 0 1rem' }}>Mon stock</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <h1 style={{ margin: 0 }}>Mon stock</h1>
+        <Link href="/products" style={{
+          padding: '0.5rem 1rem',
+          background: 'var(--primary)', color: 'var(--primary-fg)',
+          borderRadius: 8, textDecoration: 'none',
+          fontSize: '0.8125rem', fontWeight: 600, whiteSpace: 'nowrap',
+        }}>
+          + Ajouter des produits
+        </Link>
+      </div>
 
       {/* Recherche */}
       <input
@@ -121,7 +117,7 @@ export default function StockPage() {
 
       {/* Filtre statut */}
       <div style={{ display: 'flex', gap: '0.375rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
-        {([null, 'in_stock', 'low', 'out_of_stock'] as const).map(s => (
+        {([null, 'in_stock', 'out_of_stock'] as const).map(s => (
           <button
             key={String(s)}
             onClick={() => setStatusFilter(s)}
@@ -184,7 +180,7 @@ export default function StockPage() {
           {items.length === 0 ? (
             <>
               <p style={{ marginBottom: '0.5rem' }}>Aucun article dans le stock.</p>
-              <p style={{ fontSize: '0.875rem' }}>Cette vue affiche les produits que vous souhaitez suivre dans votre foyer. Rendez-vous sur la page <strong>Produits</strong> pour sélectionner ceux que vous voulez mettre en stock.</p>
+              <p style={{ fontSize: '0.875rem' }}>Ajoutez des produits à votre stock depuis le catalogue en cliquant sur <strong>+ Ajouter des produits</strong> ci-dessus.</p>
             </>
           ) : (
             <p>Aucun résultat.</p>
@@ -210,31 +206,10 @@ export default function StockPage() {
                   : <div style={{ width: 32, height: 32, flexShrink: 0 }} />
                 }
 
-                <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>{item.product_name}</span>
-
-                {editingId === item.id ? (
-                  <NumberInput
-                    value={editQty}
-                    onChange={v => setEditQty(v)}
-                    fallback={0}
-                    integer
-                    min={0}
-                    autoFocus
-                    onBlur={() => saveQty(item.id)}
-                    style={{
-                      width: 60, padding: '0.25rem',
-                      border: '1px solid var(--border)', borderRadius: 4,
-                      background: 'var(--input-bg)', color: 'var(--fg)',
-                    }}
-                  />
-                ) : (
-                  <button
-                    onClick={() => { setEditingId(item.id); setEditQty(item.quantity) }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--fg2)', fontSize: '0.875rem' }}
-                  >
-                    {item.quantity} {item.ref_unit}
-                  </button>
-                )}
+                <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>
+                  {item.product_name}
+                  <span style={{ fontSize: '0.75rem', color: 'var(--fg2)', marginLeft: '0.375rem' }}>{item.ref_unit}</span>
+                </span>
 
                 <button
                   onClick={() => updateStatus(item.id, item.status === 'out_of_stock' ? 'in_stock' : 'out_of_stock')}
