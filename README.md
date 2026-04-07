@@ -8,16 +8,14 @@ Application web progressive (PWA) de gestion du stock alimentaire et des courses
 
 ## Démarrage rapide (production)
 
-### Avec MySQL externe
-
 **1. Créer le fichier d'environnement :**
 
 ```bash
 cat > foodlist.env << 'EOF'
-DB_HOST=192.168.x.x
+DB_HOST=foodlist-mysql
 DB_PORT=3306
 DB_NAME=foodlist
-DB_USER=foodlist_user
+DB_USER=foodlist
 DB_PASSWORD=secret
 NEXTAUTH_SECRET=CHANGE_ME
 NEXTAUTH_URL=http://mon-serveur:3000
@@ -27,43 +25,58 @@ EOF
 sed -i "s/CHANGE_ME/$(openssl rand -base64 32)/" foodlist.env
 ```
 
-**2. Lancer :**
+**2. Créer un réseau Docker :**
+
+```bash
+docker network create foodlist-net
+```
+
+**3. Lancer MySQL :**
+
+```bash
+docker run -d \
+  --name foodlist-mysql \
+  --network foodlist-net \
+  -e MYSQL_ROOT_PASSWORD=secret \
+  -e MYSQL_DATABASE=foodlist \
+  -e MYSQL_USER=foodlist \
+  -e MYSQL_PASSWORD=secret \
+  -v foodlist-db:/var/lib/mysql \
+  --restart unless-stopped \
+  mysql:9.6
+```
+
+**4. Lancer Foodlist :**
 
 ```bash
 docker run -d \
   --name foodlist \
+  --network foodlist-net \
   -p 3000:3000 \
   --env-file foodlist.env \
-  -v foodlist-icons:/app/uploads/icons \
-  -v foodlist-recipes:/app/uploads/recipes \
+  -v foodlist-uploads:/app/uploads \
   --restart unless-stopped \
   talset/foodlist:latest
 ```
 
 La base de données est automatiquement initialisée au premier démarrage.
 
-### Avec Docker Compose (MySQL inclus)
-
-```bash
-cp .env.example .env
-# Éditer .env : générer NEXTAUTH_SECRET, adapter NEXTAUTH_URL
-docker compose up -d
-```
-
 L'application est accessible sur `http://mon-serveur:3000`.
+
+> Pour utiliser un MySQL existant (hors Docker), adapter `DB_HOST` dans `foodlist.env` avec l'IP du serveur et retirer `--network foodlist-net`.
 
 ---
 
 ## Configuration
 
-Copier `.env.example` → `.env` et adapter :
+Variables d'environnement (fichier `foodlist.env`) :
 
 ```env
 # Base de données MySQL
-DB_HOST=192.168.x.x        # IP du serveur MySQL (ou "mysql" si Docker Compose)
+DB_HOST=foodlist-mysql      # Nom du container MySQL ou IP du serveur
 DB_PORT=3306
 DB_NAME=foodlist
-DB_USER=foodlist_user
+DB_USER=foodlist
 DB_PASSWORD=secret
 
 # Application
@@ -75,12 +88,12 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
 
-### Volumes Docker
+### Volume Docker
 
 | Volume | Chemin conteneur | Contenu |
 |--------|-----------------|---------|
-| Icons | `/app/uploads/icons` | Icônes produits (thèmes + custom) |
-| Recipes | `/app/uploads/recipes` | Photos de recettes |
+| `foodlist-uploads` | `/app/uploads` | Icônes produits, photos de recettes |
+| `foodlist-db` | `/var/lib/mysql` | Données MySQL |
 
 > **Backup** : inclure ces volumes dans vos sauvegardes.
 
@@ -105,6 +118,25 @@ Depuis `/admin` → onglet **Import / Export** :
 ### 4. Inviter les membres
 
 Depuis `/admin` → onglet **Foyers** → copier le lien d'invitation et l'envoyer aux membres.
+
+---
+
+## Mise à jour
+
+```bash
+docker pull talset/foodlist:latest
+docker stop foodlist && docker rm foodlist
+docker run -d \
+  --name foodlist \
+  --network foodlist-net \
+  -p 3000:3000 \
+  --env-file foodlist.env \
+  -v foodlist-uploads:/app/uploads \
+  --restart unless-stopped \
+  talset/foodlist:latest
+```
+
+Le fichier `foodlist.env` et les volumes sont conservés.
 
 ---
 
@@ -178,30 +210,6 @@ Tests d'intégration contre une base MySQL dédiée (`foodlist_test`).
 
 ---
 
-## Mise à jour
-
-### Depuis Docker Hub
-
-```bash
-docker pull talset/foodlist:latest
-docker stop foodlist && docker rm foodlist
-# Relancer avec la même commande docker run (voir Démarrage rapide)
-# Le fichier foodlist.env et les volumes sont conservés
-```
-
-### Depuis Docker Compose
-
-```bash
-git pull
-docker compose up -d --build
-```
-
-### Migration de la base
-
-Le fichier `sql/schema.sql` est idempotent (`CREATE TABLE IF NOT EXISTS`, `INSERT IGNORE`). Il est appliqué automatiquement au démarrage de l'application — aucune migration manuelle nécessaire.
-
----
-
 ## Icônes & photos
 
 ### Icônes produits
@@ -247,7 +255,7 @@ Permet la connexion avec un compte Google. L'email est rapproché d'un compte ex
 4. **APIs & Services > Identifiants > Créer > ID client OAuth 2.0** → Application Web
    - Origines autorisées : `http://mon-serveur:3000`
    - URI de redirection : `http://mon-serveur:3000/api/auth/callback/google`
-5. Copier **Client ID** et **Client secret** dans `.env`
+5. Copier **Client ID** et **Client secret** dans `foodlist.env`
 
 > Tant que l'écran de consentement est en mode **Test**, seuls les comptes Gmail listés dans "Utilisateurs test" peuvent utiliser Google. Pour un usage familial, c'est suffisant.
 
@@ -266,12 +274,12 @@ foodlist/
 │   ├── recipes/       # Recettes
 │   ├── products/      # Catalogue produits
 │   └── profile/       # Profil utilisateur
-├── sql/schema.sql     # Schéma MySQL (idempotent)
+├── sql/schema.sql     # Schéma MySQL (idempotent, auto-appliqué au démarrage)
 ├── seed/              # Données de base (produits, recettes, specs icônes)
 ├── uploads/           # Icônes et photos (volume Docker)
 ├── scripts/icons/     # Génération d'icônes IA
 ├── Dockerfile         # Image de production multi-stage
-├── docker-compose.yml # Production (app + MySQL)
+├── docker-compose.yml # Dev avec Docker Compose
 └── docker-compose.validate.yml  # Dev / test / build
 ```
 

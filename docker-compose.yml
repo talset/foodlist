@@ -22,8 +22,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./uploads/icons:/app/uploads/icons
-      - ./uploads/recipes:/app/uploads/recipes
+      - ./uploads:/app/uploads
     depends_on:
       mysql:
         condition: service_healthy
