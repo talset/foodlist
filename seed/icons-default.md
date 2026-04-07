@@ -54,6 +54,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `mayonnaise.png` | cute chubby pale yellow plastic squeeze bottle of mayonnaise with a small nozzle, soft cream-yellow color, smooth rounded body, no text, side view |
 | `sauce-samourai.png` | cute chubby pale orange squeeze bottle of sauce samourai, warm peachy-orange color, smooth rounded body, no text, side view |
 | `sauce-soja.png` | cute slim dark glass soy sauce bottle with a small red cap, deep dark brown almost black color, elegant narrow shape, side view |
+| `sauce-soja-sucre.png` | cute slim dark glass bottle of sweet soy sauce with a small red cap, deep dark brown color with a warm amber tint, slightly rounder shape than regular soy sauce, a small honey-gold drip on the label, side view |
+| `sauce-sriracha.png` | cute green-capped plastic squeeze bottle of sriracha hot sauce, vivid bright red body with a rooster silhouette, tapered nozzle tip, iconic tall slim shape, side view |
 | `sauce-barbecue.png` | cute dark brown glass bottle of barbecue sauce with a black cap, deep smoky brown color, slightly faceted bottle shape, side view |
 | `sauce-burger.png` | cute white plastic squeeze bottle of burger sauce with a small nozzle, clean white color, smooth rounded body, no text, side view |
 
@@ -138,6 +140,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `saumon.png` | single plump salmon fillet with a gorgeous soft coral-pink color and visible pale skin on one side, warm peachy tones, 3/4 top view, not a whole fish |
 | `moules.png` | single open mussel shell with a glossy midnight-blue exterior and a bright orange flesh inside, elegant contrast, side view |
 | `poisson-pane.png` | single flat rectangular breaded fish fillet with a crispy golden-orange crumb coating, clearly rectangular brick shape, warm golden tones, 3/4 view |
+| `nems.png` | two golden crispy fried spring rolls (nems) side by side, crunchy golden-brown wrapper with visible bubbled texture, plump cylindrical shape, warm golden tones, 3/4 view |
 
 ---
 
@@ -261,6 +264,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `pistache.png` | handful of plump pistachio nuts, half open showing a vivid green kernel, warm beige shells with green peeking through, top view |
 | `noisette.png` | handful of round plump hazelnuts in rich warm brown tones, one cracked open showing a golden nut inside, cozy earthy look, top view |
 | `noix-cajou.png` | handful of plump ivory cashew nuts with a smooth curved kidney shape, soft cream tones, cozy grouped shape, top view |
+| `amandes.png` | handful of plump whole almonds with smooth brown skin, warm toasted brown tones, teardrop shape, cozy grouped pile, top view |
 
 ---
 
@@ -290,6 +294,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `cafe.png` | cute round glass jar filled with golden-brown instant coffee granules, warm rich brown tones, golden screw lid, side view |
 | `capuccino.png` | cute small flat sachet of cappuccino powder in warm cream and coffee-brown tones with a tiny cup illustration, front view |
 | `the.png` | cute rectangular tea box in warm earthy tones with a cheerful tea bag hanging over the edge, cozy proportions, 3/4 view |
+| `tisane.png` | cute rectangular herbal tea box in soft lavender and green tones with a small chamomile flower illustration, a cheerful tea bag hanging over the edge, gentle calming colors, 3/4 view |
 
 ---
 

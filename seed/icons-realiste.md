@@ -54,6 +54,8 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `mayonnaise.png` | cream-white squeezable plastic mayonnaise bottle with a flip nozzle, opaque white plastic, slight glossy sheen, generic label, side view |
 | `sauce-samourai.png` | orange-pink plastic squeeze bottle, semi-opaque plastic, flip nozzle cap, slightly textured HDPE plastic surface, side view |
 | `sauce-soja.png` | slim dark glass soy sauce bottle with a red plastic cap, deep near-black caramel glass, narrow elegant shape, paper label, realistic heavy glass texture, side view |
+| `sauce-soja-sucre.png` | slim dark glass bottle of sweet soy sauce with a red plastic cap, deep dark brown glass with a warm amber tint, slightly rounder shape, paper label with honey-gold accent, realistic heavy glass texture, side view |
+| `sauce-sriracha.png` | tall slim red plastic sriracha hot sauce squeeze bottle with a bright green cap, vivid bright red body, tapered nozzle, iconic rooster silhouette on the label, realistic plastic texture, side view |
 | `sauce-barbecue.png` | dark brown glass BBQ sauce bottle with a black plastic cap, slightly faceted glass, deep dark sauce visible, paper label, realistic glass, side view |
 | `sauce-burger.png` | white squeezable plastic bottle with a small nozzle, opaque HDPE white plastic, slight label area, realistic plastic texture, side view |
 
@@ -139,6 +141,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `saumon.png` | single salmon fillet with vivid coral-pink flesh, white skin side visible, realistic fish muscle texture and natural fat lines, 3/4 top view |
 | `moules.png` | single open mussel shell with glossy blue-black exterior and orange-yellow cooked flesh inside, realistic shell iridescence, side view |
 | `poisson-pane.png` | rectangular breaded fish fillet with golden-orange crispy coating, realistic crumb texture, slightly uneven surface, 3/4 view |
+| `nems.png` | two golden crispy fried spring rolls (nems) side by side, realistic bubbled fried wrapper texture, plump cylindrical shape, warm golden-brown color, slight oil sheen, 3/4 view |
 
 ---
 
@@ -262,6 +265,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `pistache.png` | several pistachio nuts half-open, natural beige shell showing vivid green kernel, slight roasted coloring, realistic nut texture, top view |
 | `noisette.png` | handful of whole hazelnuts with natural rich brown shell, one cracked showing golden interior, realistic hard shell texture, top view |
 | `noix-cajou.png` | handful of cashew nuts with characteristic curved kidney shape, pale ivory-cream color, slight roasted golden tint, realistic smooth nut texture, top view |
+| `amandes.png` | handful of whole almonds with brown papery skin, classic teardrop shape, warm toasted brown tones, realistic wrinkled skin texture, top view |
 
 ---
 
@@ -291,6 +295,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `cafe.png` | round glass jar of instant coffee granules, warm golden-brown granules visible inside, gold metal screw lid, slight coffee residue inside the glass, side view |
 | `capuccino.png` | small flat sachet of cappuccino powder mix, printed flexible packaging with cup illustration, slight crinkle, front view |
 | `the.png` | rectangular tea box in warm earth tones, paper box with printed design, one tea bag hanging over the edge with a paper tag, realistic cardboard, 3/4 view |
+| `tisane.png` | rectangular herbal tea box in soft lavender and sage-green tones, paper box with a chamomile flower illustration, one tea bag hanging over the edge with a paper tag, realistic cardboard texture, 3/4 view |
 
 ---
 

@@ -26,9 +26,16 @@ COPY --from=builder /app/sql ./sql
 COPY --from=builder /app/uploads/icons ./uploads/icons
 COPY --from=builder /app/uploads/recipes ./uploads/recipes
 
-# Ensure writable by node user
-RUN chown -R node:node ./uploads
+# Pristine copy of baked-in assets (never shadowed by volume mount)
+COPY --from=builder /app/uploads/icons ./seed-assets/icons
+COPY --from=builder /app/uploads/recipes ./seed-assets/recipes
 
-USER node
+# Ensure writable by node user
+RUN chown -R node:node ./uploads ./seed-assets
+
+# Entrypoint fixes volume permissions then drops to node user
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh && apk add --no-cache su-exec
+
 EXPOSE 3000
-CMD ["node", "server.js"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

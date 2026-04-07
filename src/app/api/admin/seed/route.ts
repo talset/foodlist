@@ -16,19 +16,11 @@ export async function POST() {
   const [catRows] = await pool.query<any[]>('SELECT id, name FROM categories')
   const catMap = new Map<string, number>(catRows.map((r: any) => [r.name, r.id]))
 
-  const [prodRows] = await pool.query<any[]>('SELECT name FROM products')
-  const existingNames = new Set<string>(prodRows.map((r: any) => r.name))
-
   let created = 0
-  let skipped = 0
+  let updated = 0
 
   for (const item of seedProducts as any[]) {
     const { name, category, ref_unit, ref_quantity, icon_ref } = item
-
-    if (existingNames.has(name)) {
-      skipped++
-      continue
-    }
 
     let categoryId = catMap.get(category)
     if (!categoryId) {
@@ -48,16 +40,22 @@ export async function POST() {
     if (!categoryId) continue
 
     try {
-      await pool.query(
-        'INSERT INTO products (name, category_id, ref_unit, ref_quantity, icon_ref, created_by) VALUES (?, ?, ?, ?, ?, ?)',
+      const [res] = await pool.query<any>(
+        `INSERT INTO products (name, category_id, ref_unit, ref_quantity, icon_ref, created_by)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           category_id = VALUES(category_id),
+           ref_unit = VALUES(ref_unit),
+           ref_quantity = VALUES(ref_quantity),
+           icon_ref = VALUES(icon_ref)`,
         [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref ?? null, userId]
       )
-      existingNames.add(name)
-      created++
-    } catch (err: any) {
-      if (err.code === 'ER_DUP_ENTRY') skipped++
+      if (res.affectedRows === 1) created++
+      else if (res.affectedRows === 2) updated++
+    } catch {
+      // skip on unexpected error
     }
   }
 
-  return NextResponse.json({ created, skipped })
+  return NextResponse.json({ created, updated })
 }

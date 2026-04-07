@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import type { ApiProduct, ApiCategory } from '@/types'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import SearchInput from '@/components/SearchInput'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ApiProduct[]>([])
@@ -108,23 +109,11 @@ export default function ProductsPage() {
       </div>
 
       {/* Search */}
-      <input
-        type="search"
-        placeholder="Rechercher un produit…"
+      <SearchInput
         value={q}
-        onChange={e => setQ(e.target.value)}
-        style={{
-          width: '100%',
-          padding: '0.625rem 0.75rem',
-          border: '1px solid var(--border)',
-          borderRadius: 8,
-          fontSize: '1rem',
-          marginBottom: '0.75rem',
-          boxSizing: 'border-box',
-          background: 'var(--input-bg)',
-          color: 'var(--fg)',
-          outline: 'none',
-        }}
+        onChange={setQ}
+        placeholder="Rechercher un produit…"
+        style={{ marginBottom: '0.75rem' }}
       />
 
       {/* Category chips */}

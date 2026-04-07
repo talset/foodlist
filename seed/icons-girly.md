@@ -55,6 +55,8 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `mayonnaise.png` | pale yellow plastic mayonnaise squeeze bottle with nozzle, keeping its real squeeze bottle shape, with a girly face on the bottle body — sleepy happy eyes, gentle smile, rosy cheeks — cream-yellow, no text, side view |
 | `sauce-samourai.png` | peachy-orange plastic squeeze bottle, keeping its real squeeze bottle shape, with a girly face on the bottle body — big eyes, cheerful smile, rosy cheeks — warm peach color, no text, side view |
 | `sauce-soja.png` | slim dark glass soy sauce bottle with red cap, keeping its real narrow bottle shape, with a small girly face on the bottle body — elegant eyes, serene smile, rosy cheeks — deep dark brown, side view |
+| `sauce-soja-sucre.png` | slim dark glass sweet soy sauce bottle with red cap, keeping its real narrow bottle shape, with a girly face on the bottle body — sweet fluttery eyes, gentle smile, rosy cheeks — deep dark brown with warm amber tint, side view |
+| `sauce-sriracha.png` | tall slim red plastic sriracha squeeze bottle with green cap, keeping its real iconic tall bottle shape, with a girly face on the bottle body — fierce sparkly eyes, sassy grin, rosy cheeks — vivid bright red, side view |
 | `sauce-barbecue.png` | dark brown glass BBQ sauce bottle with black cap, keeping its real bottle shape, with a girly face on the bottle body — squinting happy eyes, big grin, rosy cheeks — deep smoky brown, side view |
 | `sauce-burger.png` | white plastic squeeze bottle with nozzle, keeping its real squeeze bottle shape, with a girly face on the bottle body — big eyes, cheerful smile, rosy cheeks — clean white, no text, side view |
 
@@ -140,6 +142,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `saumon.png` | plump salmon fillet with coral-pink flesh and pale skin on one side, keeping its real fillet shape, with a small girly face on the surface — elegant droopy eyes, serene smile, rosy cheeks — gorgeous coral-pink, 3/4 top view |
 | `moules.png` | open mussel shell with midnight-blue exterior and orange flesh inside, keeping its real open shell shape, with a small girly face on the flesh — one big eye peeking out, tiny smile, rosy cheeks — midnight-blue shell, side view |
 | `poisson-pane.png` | flat rectangular breaded fish fillet with crispy golden-orange crumb coating, keeping its real rectangular brick shape, with a girly face on the surface — big glossy eyes, happy smile, rosy cheeks — golden-orange crust, 3/4 view |
+| `nems.png` | two golden crispy fried spring rolls (nems) side by side, keeping their real cylindrical shape, the front one with a girly face on the wrapper — big sparkly eyes, happy smile, rosy cheeks — warm golden-brown, 3/4 view |
 
 ---
 
@@ -263,6 +266,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `pistache.png` | handful of pistachio nuts, keeping their real nut shapes, the central split one with a girly face — smiling eyes, happy grin, rosy cheeks — vivid green kernel showing, warm beige shells, top view |
 | `noisette.png` | handful of round hazelnuts, keeping their real round nut shapes, the central cracked one with a girly face on the shell — cozy happy eyes, smile, rosy cheeks — rich warm brown, golden nut inside, top view |
 | `noix-cajou.png` | handful of cashew nuts, keeping their real curved kidney shapes, the largest one with a girly face — curved eyes matching the nut curve, smile, rosy cheeks — soft ivory cream, top view |
+| `amandes.png` | handful of whole almonds, keeping their real teardrop shapes, the largest one with a girly face — big sparkly eyes, smile, rosy cheeks — warm toasted brown skin, top view |
 
 ---
 
@@ -292,6 +296,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `cafe.png` | round glass jar filled with golden-brown instant coffee granules, keeping its real jar shape, with a girly face on the jar body — drowsy half-open eyes, content smile, rosy cheeks — warm rich brown, side view |
 | `capuccino.png` | flat sachet of cappuccino powder with cup illustration, keeping its real flat sachet shape, with a girly face on the front — frothy happy eyes, smile, rosy cheeks — warm cream and coffee-brown, front view |
 | `the.png` | rectangular tea box with a tea bag dangling over the edge, keeping its real box shape with dangling tag, with a girly face on the box front — big cozy eyes, smile, rosy cheeks — warm earthy tones, 3/4 view |
+| `tisane.png` | rectangular herbal tea box with a tea bag dangling over the edge, keeping its real box shape, with a girly face on the box front — dreamy sparkly eyes, peaceful smile, rosy cheeks — soft lavender and pink tones with chamomile flower, 3/4 view |
 
 ---
 

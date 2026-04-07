@@ -46,7 +46,8 @@ export default function RecipePage() {
   const [addedFeedback, setAddedFeedback] = useState('')
   const [isFavorite, setIsFavorite] = useState(false)
   const [togglingFav, setTogglingFav] = useState(false)
-  const [stockStatus, setStockStatus] = useState<Map<number, string>>(new Map())
+  const [stockStatus, setStockStatus] = useState<Map<number, { status: string; stockId: number }>>(new Map())
+  const [togglingStock, setTogglingStock] = useState<Set<number>>(new Set())
   const [viewMultiplier, setViewMultiplier] = useState(1)
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const photoInputRef = useRef<HTMLInputElement>(null)
@@ -54,8 +55,8 @@ export default function RecipePage() {
   useEffect(() => {
     fetch('/api/recipe-categories').then(r => r.json()).then(setRecipeCategories)
     fetch('/api/stock').then(r => r.json()).then(d => {
-      const m = new Map<number, string>()
-      for (const item of (d.items ?? [])) m.set(item.product_id, item.status)
+      const m = new Map<number, { status: string; stockId: number }>()
+      for (const item of (d.items ?? [])) m.set(item.product_id, { status: item.status, stockId: item.id })
       setStockStatus(m)
     })
   }, [])
@@ -377,14 +378,47 @@ export default function RecipePage() {
               </div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {recipe.ingredients.map(ing => {
-                  const status = stockStatus.get(ing.product_id)
+                  const entry = stockStatus.get(ing.product_id)
+                  const status = entry?.status
                   const inStock = status === 'in_stock' || status === 'low'
+                  const toggling = togglingStock.has(ing.product_id)
                   return (
                     <li key={ing.id} style={{ display: 'flex', gap: '0.5rem', padding: '0.375rem 0', borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
-                      <span style={{
-                        width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-                        background: inStock ? '#16a34a' : '#dc2626',
-                      }} title={inStock ? 'En stock' : 'Manquant'} />
+                      <button
+                        disabled={toggling || !entry}
+                        onClick={async () => {
+                          if (!entry) return
+                          const newStatus = inStock ? 'out_of_stock' : 'in_stock'
+                          setTogglingStock(prev => new Set(prev).add(ing.product_id))
+                          const res = await fetch(`/api/stock/${entry.stockId}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ status: newStatus }),
+                          })
+                          if (res.ok) {
+                            setStockStatus(prev => {
+                              const m = new Map(prev)
+                              m.set(ing.product_id, { ...entry, status: newStatus })
+                              return m
+                            })
+                          }
+                          setTogglingStock(prev => { const s = new Set(prev); s.delete(ing.product_id); return s })
+                        }}
+                        title={inStock ? 'Marquer épuisé' : 'Marquer en stock'}
+                        style={{
+                          width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                          border: '2px solid ' + (inStock ? '#16a34a' : '#dc2626'),
+                          background: inStock ? '#16a34a' : '#dc2626',
+                          cursor: entry ? 'pointer' : 'default',
+                          padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          opacity: toggling ? 0.4 : 1,
+                          transition: 'opacity 0.15s',
+                        }}
+                      >
+                        <span style={{ color: '#fff', fontSize: '0.625rem', fontWeight: 700, lineHeight: 1 }}>
+                          {inStock ? '✓' : '!'}
+                        </span>
+                      </button>
                       {ing.icon_url && <img src={ing.icon_url} alt="" width={24} height={24} style={{ borderRadius: 3 }} />}
                       <span style={{ flex: 1, color: 'var(--fg)' }}>{ing.product_name}</span>
                       <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity * viewMultiplier)} {ing.ref_unit}</span>

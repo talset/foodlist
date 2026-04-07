@@ -6,6 +6,7 @@ import type { ApiRecipe, ApiRecipeCategory, RecipeFeasibility } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
+import SearchInput from '@/components/SearchInput'
 
 function FeasibilityBadge({ f }: { f: RecipeFeasibility }) {
   if (!f) return null
@@ -89,7 +90,7 @@ export default function RecipesPage() {
   const favCount = useMemo(() => recipes.filter(r => r.is_favorite).length, [recipes])
 
   return (
-    <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
+    <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto', background: 'color-mix(in srgb, var(--bg) 85%, transparent)', borderRadius: 12, minHeight: '80vh' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h1 style={{ margin: 0 }}>Recettes</h1>
         <Link href="/recipes/new" style={{
@@ -103,18 +104,11 @@ export default function RecipesPage() {
       </div>
 
       {/* Recherche */}
-      <input
-        type="search"
-        placeholder="Rechercher une recette…"
+      <SearchInput
         value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{
-          width: '100%', boxSizing: 'border-box',
-          padding: '0.5rem 0.75rem', marginBottom: '0.75rem',
-          border: '1px solid var(--border)', borderRadius: 8,
-          background: 'var(--input-bg)', color: 'var(--fg)',
-          fontSize: '0.9375rem', outline: 'none',
-        }}
+        onChange={setSearch}
+        placeholder="Rechercher une recette…"
+        style={{ marginBottom: '0.75rem' }}
       />
 
       {/* Filtre faisabilité + favoris */}

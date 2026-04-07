@@ -12,27 +12,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'INVALID_INPUT' }, { status: 400 })
   }
 
-  const results = { created: 0, skipped: 0, errors: [] as string[] }
+  const results = { created: 0, updated: 0, errors: [] as string[] }
   const userId = session.user.id
 
   // Pre-fetch categories
   const [catRows] = await pool.query<any[]>('SELECT id, name FROM categories')
   const catMap = new Map<string, number>(catRows.map(r => [r.name, r.id]))
 
-  // Pre-fetch existing product names
-  const [prodRows] = await pool.query<any[]>('SELECT name FROM products')
-  const existingNames = new Set<string>(prodRows.map(r => r.name))
-
   for (const item of body) {
     const { name, category, ref_unit, ref_quantity, icon_ref } = item ?? {}
 
     if (!name || !category || !ref_unit || ref_quantity == null) {
       results.errors.push(`Champ manquant : ${JSON.stringify(item)}`)
-      continue
-    }
-
-    if (existingNames.has(name)) {
-      results.skipped++
       continue
     }
 
@@ -58,18 +49,21 @@ export async function POST(req: Request) {
     }
 
     try {
-      await pool.query(
-        'INSERT INTO products (name, category_id, ref_unit, ref_quantity, icon_ref, created_by) VALUES (?, ?, ?, ?, ?, ?)',
+      const [res] = await pool.query<any>(
+        `INSERT INTO products (name, category_id, ref_unit, ref_quantity, icon_ref, created_by)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           category_id = VALUES(category_id),
+           ref_unit = VALUES(ref_unit),
+           ref_quantity = VALUES(ref_quantity),
+           icon_ref = VALUES(icon_ref)`,
         [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref ?? null, userId]
       )
-      existingNames.add(name)
-      results.created++
+      // affectedRows: 1 = inserted, 2 = updated (MySQL ON DUPLICATE KEY behavior)
+      if (res.affectedRows === 1) results.created++
+      else if (res.affectedRows === 2) results.updated++
     } catch (err: any) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        results.skipped++
-      } else {
-        results.errors.push(`Erreur DB pour ${name} : ${err.message}`)
-      }
+      results.errors.push(`Erreur DB pour ${name} : ${err.message}`)
     }
   }
 

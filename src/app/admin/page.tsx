@@ -73,6 +73,7 @@ export default function AdminPage() {
   const [deletingIcons, setDeletingIcons] = useState<Set<string>>(new Set())
   const [orphanThemeFilter, setOrphanThemeFilter] = useState<string | null>(null)
   const [missingThemeFilter, setMissingThemeFilter] = useState<string | null>(null)
+  const [syncing, setSyncing] = useState<string | null>(null)
   const uploadIconRef = useRef<HTMLInputElement>(null)
   const uploadTargetIdRef = useRef<number | null>(null)
 
@@ -200,7 +201,7 @@ export default function AdminPage() {
     const data = await r.json()
     if (r.ok) {
       await loadStats()
-      setActionMsg(`Catalogue importé : ${data.created} ajoutés, ${data.skipped} ignorés`)
+      setActionMsg(`Catalogue importé : ${data.created} ajoutés, ${data.updated} mis à jour`)
     } else {
       setActionMsg(`Erreur : ${data.error}`)
     }
@@ -262,7 +263,7 @@ export default function AdminPage() {
       const data = await r.json()
       if (r.ok) {
         await loadStats()
-        setActionMsg(`Produits importés : ${data.created} ajoutés, ${data.skipped} ignorés${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+        setActionMsg(`Produits importés : ${data.created} ajoutés, ${data.updated} mis à jour${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
       } else {
         setActionMsg(`Erreur : ${data.error}`)
       }
@@ -654,6 +655,70 @@ export default function AdminPage() {
       {/* Icons */}
       {tab === 'icons' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+
+          {/* Sync icons from Docker image */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+              Synchroniser les icônes
+            </div>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--fg2)', margin: '0 0 0.75rem' }}>
+              Copie les icônes embarquées dans l'image Docker vers le volume. Utile après un rebuild avec de nouvelles icônes.
+            </p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={async () => {
+                  setSyncing('icons')
+                  setActionMsg('')
+                  const r = await fetch('/api/admin/sync-assets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target: 'icons' }),
+                  })
+                  if (r.ok) {
+                    const d = await r.json()
+                    const src = d.icons?.source === 'docker' ? '' : ' (local — rebuild Docker pour sync depuis l\'image)'
+                    setActionMsg(`Icônes synchronisées : ${d.icons.copied} copiée(s), ${d.icons.skipped} déjà présente(s)${src}`)
+                    await loadIcons()
+                  } else {
+                    const d = await r.json().catch(() => ({}))
+                    setActionMsg(`Erreur : ${d.error ?? r.statusText}`)
+                  }
+                  setSyncing(null)
+                }}
+                disabled={syncing === 'icons'}
+                style={btnSecondary(syncing === 'icons')}
+              >
+                {syncing === 'icons' ? 'Sync en cours…' : '↓ Sync nouvelles icônes'}
+              </button>
+              <button
+                onClick={async () => {
+                  if (!confirm('Écraser toutes les icônes de thème par celles de l\'image Docker ? Les icônes custom (UUID) ne sont pas affectées.')) return
+                  setSyncing('icons-force')
+                  setActionMsg('')
+                  const r = await fetch('/api/admin/sync-assets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target: 'icons', force: true }),
+                  })
+                  if (r.ok) {
+                    const d = await r.json()
+                    const src = d.icons?.source === 'docker' ? '' : ' (local — rebuild Docker pour sync depuis l\'image)'
+                    setActionMsg(`Icônes forcées : ${d.icons.copied} écrasée(s)${src}`)
+                    await loadIcons()
+                  } else {
+                    const d = await r.json().catch(() => ({}))
+                    setActionMsg(`Erreur : ${d.error ?? r.statusText}`)
+                  }
+                  setSyncing(null)
+                }}
+                disabled={syncing === 'icons-force'}
+                style={{ ...btnSecondary(syncing === 'icons-force'), background: syncing === 'icons-force' ? 'var(--bg2)' : '#d97706', color: syncing === 'icons-force' ? 'var(--fg2)' : '#fff' }}
+              >
+                {syncing === 'icons-force' ? 'Sync en cours…' : '⟳ Forcer tout réimporter'}
+              </button>
+            </div>
+          </div>
+
           <input
             ref={uploadIconRef}
             type="file"
@@ -673,8 +738,22 @@ export default function AdminPage() {
               : allProducts
             return (
               <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>
-                  Produits sans icône ({filtered.length})
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Produits sans icône ({filtered.length})
+                  </div>
+                  {filtered.length > 0 && (
+                    <button
+                      onClick={() => {
+                        const lines = filtered.map(p => p.icon_ref ? `${p.name} → ${p.icon_ref}` : p.name)
+                        navigator.clipboard.writeText(lines.join('\n'))
+                        setActionMsg(`${filtered.length} produit(s) copié(s) dans le presse-papier`)
+                      }}
+                      style={{ padding: '0.25rem 0.625rem', border: '1px solid var(--border)', borderRadius: 6, background: 'var(--bg)', color: 'var(--fg)', fontSize: '0.75rem', cursor: 'pointer', flexShrink: 0 }}
+                    >
+                      Copier la liste
+                    </button>
+                  )}
                 </div>
                 {iconsData && iconsData.themes.length > 0 && (
                   <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
@@ -855,6 +934,69 @@ export default function AdminPage() {
       {/* Recipe Photos */}
       {tab === 'recipe-photos' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+
+          {/* Sync recipe photos from Docker image */}
+          <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.8125rem', color: 'var(--fg2)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+              Synchroniser les photos
+            </div>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--fg2)', margin: '0 0 0.75rem' }}>
+              Copie les photos de recettes embarquées dans l'image Docker vers le volume.
+            </p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={async () => {
+                  setSyncing('recipes')
+                  setActionMsg('')
+                  const r = await fetch('/api/admin/sync-assets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target: 'recipes' }),
+                  })
+                  if (r.ok) {
+                    const d = await r.json()
+                    const src = d.recipes?.source === 'docker' ? '' : ' (local — rebuild Docker pour sync depuis l\'image)'
+                    setActionMsg(`Photos synchronisées : ${d.recipes.copied} copiée(s), ${d.recipes.skipped} déjà présente(s)${src}`)
+                    await loadRecipePhotos()
+                  } else {
+                    const d = await r.json().catch(() => ({}))
+                    setActionMsg(`Erreur : ${d.error ?? r.statusText}`)
+                  }
+                  setSyncing(null)
+                }}
+                disabled={syncing === 'recipes'}
+                style={btnSecondary(syncing === 'recipes')}
+              >
+                {syncing === 'recipes' ? 'Sync en cours…' : '↓ Sync nouvelles photos'}
+              </button>
+              <button
+                onClick={async () => {
+                  if (!confirm('Écraser toutes les photos de recettes par celles de l\'image Docker ?')) return
+                  setSyncing('recipes-force')
+                  setActionMsg('')
+                  const r = await fetch('/api/admin/sync-assets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target: 'recipes', force: true }),
+                  })
+                  if (r.ok) {
+                    const d = await r.json()
+                    const src = d.recipes?.source === 'docker' ? '' : ' (local — rebuild Docker pour sync depuis l\'image)'
+                    setActionMsg(`Photos forcées : ${d.recipes.copied} écrasée(s)${src}`)
+                    await loadRecipePhotos()
+                  } else {
+                    const d = await r.json().catch(() => ({}))
+                    setActionMsg(`Erreur : ${d.error ?? r.statusText}`)
+                  }
+                  setSyncing(null)
+                }}
+                disabled={syncing === 'recipes-force'}
+                style={{ ...btnSecondary(syncing === 'recipes-force'), background: syncing === 'recipes-force' ? 'var(--bg2)' : '#d97706', color: syncing === 'recipes-force' ? 'var(--fg2)' : '#fff' }}
+              >
+                {syncing === 'recipes-force' ? 'Sync en cours…' : '⟳ Forcer tout réimporter'}
+              </button>
+            </div>
+          </div>
 
           {/* Recipes without photo */}
           <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem' }}>

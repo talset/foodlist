@@ -5,6 +5,7 @@ import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
+import SearchInput from '@/components/SearchInput'
 
 function groupByCategory(items: ApiStockItem[]) {
   const map = new Map<string, ApiStockItem[]>()
@@ -203,18 +204,11 @@ export default function ShoppingPage() {
       </div>
 
       {/* Recherche */}
-      <input
-        type="search"
-        placeholder="Rechercher…"
+      <SearchInput
         value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{
-          width: '100%', boxSizing: 'border-box',
-          padding: '0.5rem 0.75rem', marginBottom: '0.75rem',
-          border: '1px solid var(--border)', borderRadius: 8,
-          background: 'var(--input-bg)', color: 'var(--fg)',
-          fontSize: '0.9375rem', outline: 'none',
-        }}
+        onChange={setSearch}
+        placeholder="Rechercher…"
+        style={{ marginBottom: '0.75rem' }}
       />
 
       {/* Strip catégories */}

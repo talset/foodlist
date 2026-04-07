@@ -6,6 +6,7 @@ import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
+import SearchInput from '@/components/SearchInput'
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
@@ -118,18 +119,11 @@ export default function StockPage() {
       </div>
 
       {/* Recherche */}
-      <input
-        type="search"
-        placeholder="Rechercher un produit…"
+      <SearchInput
         value={search}
-        onChange={e => setSearch(e.target.value)}
-        style={{
-          width: '100%', boxSizing: 'border-box',
-          padding: '0.5rem 0.75rem', marginBottom: '0.75rem',
-          border: '1px solid var(--border)', borderRadius: 8,
-          background: 'var(--input-bg)', color: 'var(--fg)',
-          fontSize: '0.9375rem', outline: 'none',
-        }}
+        onChange={setSearch}
+        placeholder="Rechercher un produit…"
+        style={{ marginBottom: '0.75rem' }}
       />
 
       {/* Filtre statut */}
