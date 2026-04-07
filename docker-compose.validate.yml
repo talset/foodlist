@@ -31,7 +31,7 @@ services:
 
   # ── npm install + next build ──────────────────────────────────────────────────
   build:
-    image: node:20-alpine
+    image: node:current-alpine
     working_dir: /app
     volumes:
       - .:/app
@@ -40,7 +40,7 @@ services:
 
   # ── Tests Jest avec DB ───────────────────────────────────────────────────────
   test:
-    image: node:20-alpine
+    image: node:current-alpine
     working_dir: /app
     volumes:
       - .:/app
@@ -60,7 +60,7 @@ services:
 
   # ── Dev complet avec DB ───────────────────────────────────────────────────────
   dev:
-    image: node:20-alpine
+    image: node:current-alpine
     working_dir: /app
     volumes:
       - .:/app
