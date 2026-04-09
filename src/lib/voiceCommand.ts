@@ -61,15 +61,39 @@ function stripArticles(text: string): string {
   return text.trim()
 }
 
+/** True if `sub` appears in `text` at a word boundary (space or start/end). */
+function atWordBoundary(text: string, sub: string): boolean {
+  const idx = text.indexOf(sub)
+  if (idx === -1) return false
+  const before = idx === 0 || text[idx - 1] === ' '
+  const after = idx + sub.length >= text.length || text[idx + sub.length] === ' '
+  return before && after
+}
+
 /**
  * Find the best-matching stock item for a spoken name.
- * Priority: exact → item name contains query → query contains item name.
+ * Priority:
+ *   1. Exact match              ("jambon" → "jambon")
+ *   2. Product contains query   ("jambon" → "jambon blanc")
+ *   3. Query contains product   ("jambon blanc" → "jambon")  — longest product wins
  */
 export function findStockItem(name: string, items: ApiStockItem[]): ApiStockItem | undefined {
   const q = norm(name)
   if (!q) return undefined
-  return (
-    items.find(i => norm(i.product_name) === q) ||
-    items.find(i => norm(i.product_name).includes(q))
-  )
+
+  // 1. Exact
+  const exact = items.find(i => norm(i.product_name) === q)
+  if (exact) return exact
+
+  // 2. Product name contains the query at a word boundary
+  //    ("jambon" matches "jambon blanc" but not "jambonneau")
+  const pContainsQ = items.find(i => atWordBoundary(norm(i.product_name), q))
+  if (pContainsQ) return pContainsQ
+
+  // 3. Query contains the product name at a word boundary
+  //    ("jambon blanc" matches "jambon" — take the longest product for specificity)
+  const candidates = items
+    .filter(i => { const p = norm(i.product_name); return p.length >= 3 && atWordBoundary(q, p) })
+    .sort((a, b) => b.product_name.length - a.product_name.length)
+  return candidates[0]
 }

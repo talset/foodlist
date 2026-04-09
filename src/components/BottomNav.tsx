@@ -107,7 +107,7 @@ export default function BottomNav() {
     }
 
     const parts: string[] = []
-    if (added.length > 0) parts.push(`✓ ${added.join(', ')}`)
+    if (added.length > 0) parts.push(`Ajouté : ${added.join(', ')}`)
     if (notFound.length > 0) parts.push(`introuvable : ${notFound.join(', ')}`)
     showFeedback({
       type: notFound.length === 0 ? 'success' : added.length === 0 ? 'notfound' : 'notfound',
