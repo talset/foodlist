@@ -26,6 +26,7 @@ export default function EditProductPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [notFound, setNotFound] = useState(false)
+  const [inUse, setInUse] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -70,12 +71,14 @@ export default function EditProductPage() {
     router.push('/products')
   }
 
-  async function handleDelete() {
-    if (!window.confirm('Supprimer ce produit ?')) return
-    const res = await fetch(`/api/products/${params.id}`, { method: 'DELETE' })
+  async function handleDelete(force = false) {
+    if (!window.confirm(force ? 'Supprimer définitivement ce produit et le retirer de tous les stocks et recettes ?' : 'Supprimer ce produit ?')) return
+    const url = `/api/products/${params.id}${force ? '?force=true' : ''}`
+    const res = await fetch(url, { method: 'DELETE' })
     if (!res.ok) {
       const data = await res.json()
-      setError(data.error === 'PRODUCT_IN_USE' ? 'Ce produit est utilisé dans une recette ou un stock.' : 'Erreur lors de la suppression.')
+      if (data.error === 'PRODUCT_IN_USE') { setInUse(true); return }
+      setError('Erreur lors de la suppression.')
       return
     }
     router.push('/products')
@@ -154,7 +157,16 @@ export default function EditProductPage() {
 
       <hr style={{ margin: '2rem 0', border: 'none', borderTop: '1px solid var(--border)' }} />
 
-      <button onClick={handleDelete} style={btnDangerStyle}>Supprimer ce produit</button>
+      <button onClick={() => handleDelete(false)} style={btnDangerStyle}>Supprimer ce produit</button>
+
+      {inUse && (
+        <div style={{ marginTop: '0.75rem', padding: '0.75rem', background: '#451a03', border: '1px solid #92400e', borderRadius: 8 }}>
+          <p style={{ margin: '0 0 0.625rem', fontSize: '0.875rem', color: '#fcd34d' }}>
+            ⚠️ Ce produit est utilisé dans une recette ou un stock. Supprimer quand même le retirera de tous les stocks et recettes.
+          </p>
+          <button onClick={() => handleDelete(true)} style={btnDangerStyle}>Supprimer quand même</button>
+        </div>
+      )}
     </main>
   )
 }

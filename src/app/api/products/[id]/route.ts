@@ -107,7 +107,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _req: Request,
+  req: Request,
   props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
@@ -116,6 +116,13 @@ export async function DELETE(
 
   const id = parseInt(params.id)
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
+
+  const force = new URL(req.url).searchParams.get('force') === 'true'
+
+  if (force) {
+    await pool.query('DELETE FROM stock WHERE product_id = ?', [id])
+    await pool.query('DELETE FROM recipe_ingredients WHERE product_id = ?', [id])
+  }
 
   try {
     const [result] = await pool.query<any>('DELETE FROM products WHERE id = ?', [id])

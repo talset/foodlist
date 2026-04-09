@@ -413,13 +413,6 @@
     "icon_ref": "gouda.png"
   },
   {
-    "name": "Gruyère râpé",
-    "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 200,
-    "icon_ref": "gruyere-rape.png"
-  },
-  {
     "name": "Lait",
     "category": "Produits laitiers",
     "ref_unit": "L",

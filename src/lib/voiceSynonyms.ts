@@ -21,13 +21,13 @@ export const VOICE_SYNONYMS: VoiceSynonym[] = [
 
   // ── Fromages / Produits laitiers ────────────────────────────────────────────
 
-  // Generic "râpé" → prefer whatever grated cheese they stock
-  { say: 'fromage rape',      try: ['Emmental râpé', 'Gruyère râpé'] },
-  { say: 'rape',              try: ['Emmental râpé', 'Gruyère râpé'] },
+  // Generic "râpé" → emmental râpé
+  { say: 'fromage rape',      try: ['Emmental râpé'] },
+  { say: 'rape',              try: ['Emmental râpé'] },
 
-  // "gruyère" is used colloquially for both gruyère râpé AND emmental in France
-  { say: 'gruyere',           try: ['Gruyère râpé', 'Emmental râpé', 'Emmental'] },
-  { say: 'gruyere rape',      try: ['Gruyère râpé', 'Emmental râpé'] },
+  // "gruyère" is used colloquially for emmental in France
+  { say: 'gruyere',           try: ['Emmental râpé', 'Emmental'] },
+  { say: 'gruyere rape',      try: ['Emmental râpé'] },
 
   // Emmental / emmental râpé confusion
   { say: 'emmental',          try: ['Emmental', 'Emmental râpé'] },
