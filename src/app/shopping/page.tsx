@@ -115,7 +115,6 @@ export default function ShoppingPage() {
   async function checkOff(item: ApiStockItem) {
     setChecking(prev => new Set(prev).add(item.id))
 
-    // Compute remaining items and stale recipes before state update
     const remaining = items.filter(i => i.id !== item.id)
     const remainingRecipeIds = new Set(remaining.flatMap(i => i.recipe_ids ?? []))
     const staleRecipes = activeRecipes.filter(r => !remainingRecipeIds.has(r.id))
@@ -143,7 +142,6 @@ export default function ShoppingPage() {
     if (!ok) {
       setItems(prev => [...prev, item].sort((a, b) => a.product_name.localeCompare(b.product_name)))
     } else {
-      // Delete shopping_recipes that no longer have items in the list
       for (const r of staleRecipes) {
         await fetch('/api/shopping/recipes/by-recipe', {
           method: 'DELETE',

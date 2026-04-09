@@ -72,6 +72,7 @@ export interface ThemeDef {
     stock: string
     recipes: string
     profile: string
+    mic: string
   }
 }
 
@@ -165,7 +166,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '18px',
       '--font':          "'Nunito', system-ui, sans-serif",
     },
-    navIcons: { shopping: '☀️', stock: '🌻', recipes: '🍳', profile: '😊' },
+    navIcons: { shopping: '☀️', stock: '🌻', recipes: '🍳', profile: '😊', mic: '☀️' },
     bodyCSS: `background-image: url(/patterns/happy-bg.svg); background-repeat: repeat;`,
   },
 
@@ -189,7 +190,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '6px',
       '--font':          "'Noto Serif JP', Georgia, serif",
     },
-    navIcons: { shopping: '⛩️', stock: '📦', recipes: '🍱', profile: '🎎' },
+    navIcons: { shopping: '⛩️', stock: '📦', recipes: '🍱', profile: '🎎', mic: '🗻' },
     bodyCSS: `background-image: url(/patterns/japon-bg.svg); background-repeat: repeat;`,
   },
 
@@ -213,7 +214,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '22px',
       '--font':          "'Quicksand', system-ui, sans-serif",
     },
-    navIcons: { shopping: '🍬', stock: '🍭', recipes: '🧁', profile: '🎀' },
+    navIcons: { shopping: '🍬', stock: '🛍️', recipes: '🧁', profile: '🎀', mic: '🍭' },
     bodyCSS: `background-image: url(/patterns/girly-bg.svg); background-repeat: repeat;`,
   },
 
@@ -237,7 +238,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '20px',
       '--font':          "'Quicksand', system-ui, sans-serif",
     },
-    navIcons: { shopping: '🛒', stock: '🐾', recipes: '🍳', profile: '🐱' },
+    navIcons: { shopping: '🛒', stock: '🐾', recipes: '🍳', profile: '🐱', mic: '🌸' },
     bodyCSS: `background-image: url(/patterns/kawaii-bg.svg); background-repeat: repeat;`,
   },
 
@@ -261,7 +262,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '14px',
       '--font':          "'Nunito', system-ui, sans-serif",
     },
-    navIcons: { shopping: '🍂', stock: '🌲', recipes: '🍄', profile: '🦊' },
+    navIcons: { shopping: '🍂', stock: '🌰', recipes: '🍄', profile: '🦊', mic: '🌲' },
     bodyCSS: `background-image: url(/patterns/foret-bg.svg); background-repeat: repeat;`,
   },
 
@@ -285,7 +286,7 @@ export const THEMES: Record<SiteTheme, ThemeDef> = {
       '--radius-lg':     '14px',
       '--font':          'system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     },
-    navIcons: { shopping: '🚀', stock: '🌍', recipes: '⭐', profile: '👨‍🚀' },
+    navIcons: { shopping: '🚀', stock: '🌍', recipes: '⭐', profile: '👨‍🚀', mic: '📡' },
     bodyCSS: `background-image: url(/patterns/space-bg.svg); background-repeat: repeat;`,
   },
 

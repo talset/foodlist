@@ -49,3 +49,11 @@ section, [style*="borderRadius"] {
   border-top: 1px solid var(--border);
   margin: 1rem 0;
 }
+
+@keyframes voice-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.voice-listening {
+  animation: voice-pulse 1.1s ease-in-out infinite;
+}

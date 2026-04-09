@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import Link from 'next/link'
 import type { ApiStockItem } from '@/types'
 import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
 import SearchInput from '@/components/SearchInput'
-
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
   low: 'Peu',
@@ -253,3 +252,4 @@ export default function StockPage() {
     </main>
   )
 }
+
