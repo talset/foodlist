@@ -72,8 +72,29 @@ export default function EditProductPage() {
   }
 
   async function handleDelete(force = false) {
-    if (!window.confirm(force ? 'Supprimer définitivement ce produit et le retirer de tous les stocks et recettes ?' : 'Supprimer ce produit ?')) return
-    const url = `/api/products/${params.id}${force ? '?force=true' : ''}`
+    let shouldForce = force
+    if (!force) {
+      const usageRes = await fetch(`/api/products/${params.id}?usage=true`)
+      const usage = usageRes.ok
+        ? await usageRes.json() as { households: string[]; recipes: string[] }
+        : { households: [], recipes: [] }
+
+      const lines: string[] = []
+      if (usage.households.length > 0) {
+        lines.push(`⚠️ Présent dans le stock de : ${usage.households.join(', ')}`)
+        shouldForce = true
+      }
+      if (usage.recipes.length > 0) {
+        lines.push(`⚠️ Utilisé dans ${usage.recipes.length} recette(s) : ${usage.recipes.join(', ')}`)
+        shouldForce = true
+      }
+      if (lines.length === 0) lines.push('Ce produit n\'est dans aucun stock ni recette.')
+      lines.push('', 'Supprimer ce produit ?')
+
+      if (!window.confirm(lines.join('\n'))) return
+    }
+
+    const url = `/api/products/${params.id}${shouldForce ? '?force=true' : ''}`
     const res = await fetch(url, { method: 'DELETE' })
     if (!res.ok) {
       const data = await res.json()

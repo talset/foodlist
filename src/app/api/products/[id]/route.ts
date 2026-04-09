@@ -29,7 +29,7 @@ async function fetchProduct(id: number): Promise<any | null> {
 }
 
 export async function GET(
-  _req: Request,
+  req: Request,
   props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params
@@ -38,6 +38,21 @@ export async function GET(
 
   const id = parseInt(params.id)
   if (isNaN(id)) return NextResponse.json({ error: 'INVALID_ID' }, { status: 400 })
+
+  if (new URL(req.url).searchParams.get('usage') === 'true') {
+    const [stockRows] = await pool.query<any[]>(
+      `SELECT h.name FROM stock s JOIN households h ON h.id = s.household_id WHERE s.product_id = ?`,
+      [id]
+    )
+    const [recipeRows] = await pool.query<any[]>(
+      `SELECT r.name FROM recipe_ingredients ri JOIN recipes r ON r.id = ri.recipe_id WHERE ri.product_id = ?`,
+      [id]
+    )
+    return NextResponse.json({
+      households: (stockRows as any[]).map(r => r.name),
+      recipes:    (recipeRows as any[]).map(r => r.name),
+    })
+  }
 
   const row = await fetchProduct(id)
   if (!row) return NextResponse.json({ error: 'NOT_FOUND' }, { status: 404 })
