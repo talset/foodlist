@@ -83,6 +83,12 @@ DB_PASSWORD=secret
 NEXTAUTH_SECRET=            # Générer : openssl rand -base64 32
 NEXTAUTH_URL=http://mon-serveur:3000
 
+# Google OAuth (optionnel — pour connexion via compte Google)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Icônes custom (chemin dans le conteneur, monté en volume)
+ICONS_DIR=/app/uploads/icons/custom
 ```
 
 ### Volume Docker

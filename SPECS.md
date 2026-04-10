@@ -78,10 +78,10 @@ ICONS_DIR=/app/uploads/icons/custom
 
 **Modèle d'accès : inscription sur invitation uniquement**
 
-- [ ] Connexion via Google SSO (compte personnel)
-- [ ] Connexion email + mot de passe
-- [ ] Session persistante (JWT/cookie)
-- [ ] Invitation des utilisateurs via lien — **réservée aux admins globaux uniquement**
+- [x] Connexion via Google SSO (compte personnel)
+- [x] Connexion email + mot de passe
+- [x] Session persistante (JWT/cookie)
+- [x] Invitation des utilisateurs via lien — **réservée aux admins globaux uniquement**
 
 #### Bootstrap premier utilisateur
 
@@ -130,16 +130,16 @@ L'application distingue deux niveaux d'accès :
 
 Un catalogue commun à tous les utilisateurs et tous les foyers de l'instance, enrichi collaborativement. Un produit ajouté est visible par tous les foyers. Le statut (stock) reste lui scopé par foyer (voir F3).
 
-- [ ] Fiche produit : nom, catégorie, icône (image PNG/WebP), et **unité de référence** :
+- [x] Fiche produit : nom, catégorie, icône (image PNG/WebP), et **unité de référence** :
   - `ref_unit` : unité de mesure (L, g, kg, ml, unité, pièce…)
   - `ref_quantity` : quantité en `ref_unit` que représente 1 item physique
   - Exemples : lait → `1 L`, oignon → `1 unité`, gateau-pallet → `150 g`
   - Ces deux champs sont modifiables si le conditionnement du produit change
-- [ ] Recherche/autocomplete sur le nom du produit
-- [ ] Ajouter / modifier / supprimer un produit — **réservé aux admins globaux**
-- [ ] Import de produits en masse via fichier JSON — **réservé aux admins globaux**
-- [ ] Icône personnalisable par produit — **optionnelle**, voir F2b ci-dessous
-- [ ] Si aucune icône n'est définie, affichage d'un placeholder générique (aucun blocage à la création)
+- [x] Recherche/autocomplete sur le nom du produit
+- [x] Ajouter / modifier / supprimer un produit — **réservé aux admins globaux**
+- [x] Import de produits en masse via fichier JSON — **réservé aux admins globaux**
+- [x] Icône personnalisable par produit — **optionnelle**, voir F2b ci-dessous
+- [x] Si aucune icône n'est définie, affichage d'un placeholder générique (aucun blocage à la création)
 
 ### F2b — Gestion des icônes produits
 
@@ -191,11 +191,11 @@ python scripts/icons/generate_hf.py --theme kawaii --icon fromage-rond.png
 Le `--theme` détermine le répertoire de sortie (`uploads/icons/<theme>/`) et le fichier de spec (`seed/icons-<theme>.md`). Voir `scripts/icons/README.md` pour les options complètes.
 
 **Sélecteur d'icône (lors de la création/édition d'un produit, admin uniquement) :**
-- [ ] Onglet **Icônes du thème** : grille de toutes les icônes du thème actif de l'admin (fallback sur `default/` si l'icône est absente du thème), chargées dynamiquement via l'API
-- [ ] Onglet **Upload** : uploader une image custom (PNG/JPG/WebP, redimensionnée à 128×128 au stockage)
-- [ ] Aperçu de l'icône sélectionnée avant validation
-- [ ] Un produit n'a qu'une seule icône active : icône sémantique (default/thème) OU image custom UUID
-- [ ] Si aucune icône n'est définie, affichage d'une icône générique (placeholder)
+- [x] Onglet **Icônes du thème** : grille de toutes les icônes du thème actif de l'admin (fallback sur `default/` si l'icône est absente du thème), chargées dynamiquement via l'API
+- [x] Onglet **Upload** : uploader une image custom (PNG/JPG/WebP, redimensionnée à 128×128 au stockage)
+- [x] Aperçu de l'icône sélectionnée avant validation
+- [x] Un produit n'a qu'une seule icône active : icône sémantique (default/thème) OU image custom UUID
+- [x] Si aucune icône n'est définie, affichage d'une icône générique (placeholder)
 
 **Catégories de produits :**
 
@@ -216,10 +216,10 @@ Catégories par défaut :
 - Autre
 
 Gestion des catégories — **réservée aux admins globaux** :
-- [ ] Ajouter une catégorie personnalisée (nom libre)
-- [ ] Renommer une catégorie existante
-- [ ] Supprimer une catégorie vide (sans produits associés)
-- [ ] Les catégories sont partagées par tous les utilisateurs de l'instance
+- [x] Ajouter une catégorie personnalisée (nom libre)
+- [x] Renommer une catégorie existante
+- [x] Supprimer une catégorie vide (sans produits associés)
+- [x] Les catégories sont partagées par tous les utilisateurs de l'instance
 
 ### F3 — Statut produits (global au foyer)
 
@@ -232,7 +232,7 @@ Le stock d'un foyer est un **sous-ensemble du catalogue global**. Chaque foyer c
 - Si le produit est déjà dans le stock, un badge **"Dans le stock"** (vert) remplace le bouton
 - Bouton **"+ Tout ajouter au stock (N)"** en en-tête : ajoute en un clic tous les produits visibles (filtrés) qui ne sont pas encore dans le stock du foyer
 - Le filtre catégorie de la page Produits permet d'ajouter une catégorie entière en un clic
-- [ ] Lors de l'ajout, le produit est créé dans le stock avec `quantity = 0`, `status = in_stock`
+- [x] Lors de l'ajout, le produit est créé dans le stock avec `quantity = 0`, `status = in_stock`
 
 Le statut de chaque produit est global au foyer, indépendamment des recettes ou listes.
 
@@ -244,16 +244,16 @@ Le statut de chaque produit est global au foyer, indépendamment des recettes ou
 | Faible | `low` | "Peu" | orange | passage manuel, ou automatique si quantité ≤ seuil (futur) |
 | Épuisé | `out_of_stock` | "Épuisé" | rouge | quantité = 0, ou passage manuel |
 
-- [ ] Changer le statut en un tap depuis la liste
-- [ ] **Quantité en stock** : champ optionnel représentant un nombre d'unités physiques (paquets, bouteilles, boîtes…)
+- [x] Changer le statut en un tap depuis la liste
+- [x] **Quantité en stock** : champ optionnel représentant un nombre d'unités physiques (paquets, bouteilles, boîtes…)
   - Boutons **+1 / -1** pour incrémenter/décrémenter rapidement
   - Quand la quantité atteint 0, le statut passe automatiquement à **`out_of_stock`**
   - Quand on incrémente depuis 0, le statut repasse à **`in_stock`**
   - Quantité minimale : 0 (ne peut pas être négative)
   - Le statut `low` est passé manuellement pour l'instant ; un seuil par produit est prévu (voir F12)
-- [ ] Vue principale : produits triés par statut (out of stock en haut)
-- [ ] **Barre de recherche** en haut de la vue pour filtrer les produits affichés en temps réel (filtre live sur le nom)
-- [ ] **Strip de filtres catégories** : ligne horizontale scrollable sous la recherche
+- [x] Vue principale : produits triés par statut (out of stock en haut)
+- [x] **Barre de recherche** en haut de la vue pour filtrer les produits affichés en temps réel (filtre live sur le nom)
+- [x] **Strip de filtres catégories** : ligne horizontale scrollable sous la recherche
   - Un chip par catégorie : icône du produit représentatif + nom court de la catégorie
   - Chip "Tous" en premier (sélectionné par défaut)
   - Sélection exclusive (une seule catégorie à la fois)
@@ -280,54 +280,54 @@ La liste de courses est générée automatiquement à partir :
 
 Les trois filtres sont indépendants et se combinent entre eux.
 
-- [ ] **Barre de recherche** : filtre live sur le nom du produit
-- [ ] **Strip de filtres catégories** : ligne horizontale scrollable
+- [x] **Barre de recherche** : filtre live sur le nom du produit
+- [x] **Strip de filtres catégories** : ligne horizontale scrollable
   - Chip "Tous" + un chip par catégorie présente dans la liste (icône + nom court)
   - Seules les catégories ayant au moins un article dans la liste sont affichées
-- [ ] **Filtre recette** : affiché uniquement si au moins une recette est active dans la liste
+- [x] **Filtre recette** : affiché uniquement si au moins une recette est active dans la liste
   - Strip horizontal scrollable sous les catégories
   - Chip "Toutes" + un chip par recette active (nom de la recette)
   - Sélectionner une recette → affiche uniquement les ingrédients liés à cette recette
   - Pratique pour faire les courses rayon par rayon en suivant une recette
 
 **Mode courses (filtre "À acheter") :**
-- [ ] Toggle en haut de la liste pour n'afficher que les articles encore à acheter (out of stock ou avec bulle de quantité recette)
-- [ ] Cocher un article → statut passe à OK **et l'article disparaît instantanément** de la vue
+- [x] Toggle en haut de la liste pour n'afficher que les articles encore à acheter (out of stock ou avec bulle de quantité recette)
+- [x] Cocher un article → statut passe à OK **et l'article disparaît instantanément** de la vue
   - La bulle de quantité recette disparaît pour cet ingrédient
   - Si tous les ingrédients d'une recette active sont cochés → la recette est **automatiquement retirée** de la liste (reset)
-- [ ] Toutes les actions (cocher un article, mise à jour stock) sont synchronisées en temps réel via SSE sur tous les appareils du foyer
-- [ ] Le toggle d'affichage "mode courses" est une préférence locale à l'appareil (UI uniquement, pas de donnée persistée)
+- [x] Toutes les actions (cocher un article, mise à jour stock) sont synchronisées en temps réel via SSE sur tous les appareils du foyer
+- [x] Le toggle d'affichage "mode courses" est une préférence locale à l'appareil (UI uniquement, pas de donnée persistée)
 
 ### F5 — Recettes
 
 Les recettes sont **globales à l'instance** (comme le catalogue produits). Toutes les recettes sont visibles par tous les foyers. La création, modification et suppression de recettes est **réservée aux admins globaux**.
 
 #### Création / édition (admin uniquement)
-- [ ] Créer une recette : nom, description courte, photo (optionnelle)
-- [ ] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
-- [ ] Rendu Markdown affiché proprement lors de la consultation de la recette
-- [ ] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité
+- [x] Créer une recette : nom, description courte, photo (optionnelle)
+- [x] Section **étapes** en Markdown libre (titres, listes, gras, etc.) pour rédiger la préparation
+- [x] Rendu Markdown affiché proprement lors de la consultation de la recette
+- [x] Ajouter des ingrédients à une recette : produit (du catalogue) + quantité
   - L'unité est pré-remplie automatiquement avec la `ref_unit` du produit et n'est pas modifiable
   - La quantité est exprimée dans cette unité (ex : 2 pour 2L de lait, 300 pour 300g de farine)
-- [ ] Définir le nombre de parts de base de la recette
+- [x] Définir le nombre de parts de base de la recette
 
 #### Vue détail d'une recette
-- [ ] Liste des ingrédients avec leur **statut stock actuel** :
+- [x] Liste des ingrédients avec leur **statut stock actuel** :
   - Ingrédient **out of stock** → affiché en rouge
   - Ingrédient **OK** → affiché normalement
-- [ ] Modifier la quantité d'un ingrédient directement depuis la recette (+1/-1 ou saisie libre) → met à jour le stock global
-- [ ] **Icône "réalisable"** : si tous les ingrédients de la recette sont en statut OK, un indicateur visuel (ex : ✅ ou badge vert) apparaît sur la recette pour signaler qu'elle est prête à être cuisinée
+- [x] Modifier la quantité d'un ingrédient directement depuis la recette (+1/-1 ou saisie libre) → met à jour le stock global
+- [x] **Icône "réalisable"** : si tous les ingrédients de la recette sont en statut OK, un indicateur visuel (ex : ✅ ou badge vert) apparaît sur la recette pour signaler qu'elle est prête à être cuisinée
 
 #### Ajout à la liste de courses
-- [ ] Depuis la liste, ajouter une recette avec un multiplicateur :
+- [x] Depuis la liste, ajouter une recette avec un multiplicateur :
   - Nombre de fois la recette (ex: ×2)
   - Ou nombre de personnes (ex: pour 6 personnes, recette de base pour 4 → ×1.5)
-- [ ] Quand une recette est ajoutée, ses ingrédients out of stock apparaissent dans la liste avec la quantité calculée
-- [ ] Plusieurs recettes peuvent être ajoutées, les quantités s'additionnent
+- [x] Quand une recette est ajoutée, ses ingrédients out of stock apparaissent dans la liste avec la quantité calculée
+- [x] Plusieurs recettes peuvent être ajoutées, les quantités s'additionnent
 
 #### Comportement lors des courses
-- [ ] Cocher un ingrédient dans la liste → statut OK, bulle de quantité recette disparaît pour cet ingrédient
-- [ ] Quand **tous les ingrédients** d'une recette active sont cochés (OK) → la recette est **automatiquement retirée** de la liste (reset), sans action manuelle
+- [x] Cocher un ingrédient dans la liste → statut OK, bulle de quantité recette disparaît pour cet ingrédient
+- [x] Quand **tous les ingrédients** d'une recette active sont cochés (OK) → la recette est **automatiquement retirée** de la liste (reset), sans action manuelle
 
 **Exemple :**
 > Lait est "out of stock" dans le stock global.
@@ -339,12 +339,12 @@ Les recettes sont **globales à l'instance** (comme le catalogue produits). Tout
 ### F6 — Import / Export
 
 #### Import
-- [ ] Import du catalogue de produits via fichier JSON
-- [ ] Import de recettes via fichier JSON (réimporter un export précédent)
+- [x] Import du catalogue de produits via fichier JSON
+- [x] Import de recettes via fichier JSON (réimporter un export précédent)
 
 #### Export
-- [ ] **Export liste de courses** : état actuel (produits `out_of_stock` + quantités recettes) au format JSON
-- [ ] **Export recettes** : toutes les recettes de l'instance au format JSON (ingrédients, étapes, parts de base), réimportable
+- [x] **Export liste de courses** : état actuel (produits `out_of_stock` + quantités recettes) au format JSON
+- [x] **Export recettes** : toutes les recettes de l'instance au format JSON (ingrédients, étapes, parts de base), réimportable
 
 **Format JSON — import/export produits :**
 ```json
@@ -407,14 +407,14 @@ Les recettes sont **globales à l'instance** (comme le catalogue produits). Tout
 
 ### F7 — Synchronisation temps réel
 
-- [ ] Mise à jour automatique sur tous les appareils connectés (SSE)
-- [ ] Pas de notifications push
+- [x] Mise à jour automatique sur tous les appareils connectés (SSE)
+- [x] Pas de notifications push
 
 ### F8 — PWA
 
-- [ ] Installable sur l'écran d'accueil (iOS / Android)
-- [ ] Fonctionne correctement sur petit écran
-- [ ] Interface tactile optimisée
+- [x] Installable sur l'écran d'accueil (iOS / Android)
+- [x] Fonctionne correctement sur petit écran
+- [x] Interface tactile optimisée
 
 ---
 
@@ -524,56 +524,86 @@ foodlist/
 ├── README.md
 ├── Dockerfile
 ├── docker-compose.yml
+├── Makefile
 ├── .env.example
-├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── api/                    # API Routes
-│   │   │   ├── auth/               # NextAuth
-│   │   │   ├── admin/              # API admin (users, households, icons)
-│   │   │   ├── products/           # CRUD catalogue (admin)
-│   │   │   ├── categories/         # CRUD catégories (admin)
-│   │   │   ├── stock/              # Statut produits (membres)
-│   │   │   ├── recipes/            # CRUD recettes (admin) + lecture (tous)
-│   │   │   ├── shopping/           # Liste de courses (membres)
-│   │   │   ├── profile/            # Profil utilisateur
-│   │   │   ├── import/             # Import JSON (admin)
-│   │   │   ├── icons/              # Serve + upload icônes
-│   │   │   └── sse/                # Server-Sent Events
-│   │   ├── (auth)/                 # Pages login / register / setup
-│   │   ├── admin/                  # Page administration (admin uniquement)
-│   │   ├── profile/                # Page profil utilisateur
-│   │   ├── list/                   # Page liste de courses
-│   │   ├── products/               # Page catalogue produits
-│   │   ├── recipes/                # Page recettes
-│   │   ├── globals.css             # CSS global + variables de thèmes
-│   │   └── layout.tsx
-│   ├── components/
-│   │   ├── ProductCard/            # Carte produit avec statut
-│   │   ├── RecipeCard/             # Carte recette
-│   │   ├── SearchAutocomplete/     # Recherche produits
-│   │   ├── StatusToggle/           # Bouton ok/out-of-stock
-│   │   ├── IconPicker/             # Sélecteur icône (thème actif / upload)
-│   │   ├── BottomNav.tsx           # Navigation principale mobile
-│   │   └── ThemeProvider.tsx       # Injection du thème avant hydration
-│   ├── lib/
-│   │   ├── db.ts                   # Connexion MySQL
-│   │   ├── auth.ts                 # Config NextAuth
-│   │   ├── icon.ts                 # Utilitaires résolution icônes
-│   │   └── sse.ts                  # Utilitaires SSE
-│   └── types/
-│       └── index.ts
-├── public/
-│   ├── manifest.json               # PWA manifest
+├── sql/
+│   └── schema.sql                  # Script d'initialisation MySQL
+├── seed/
+│   ├── products.json               # Catalogue initial (~230 produits) importable via /api/import
+│   ├── recipes.json                # Recettes importables via /api/import/recipes
+│   └── icons-<theme>.md            # Specs de génération des icônes par thème
+├── scripts/
 │   └── icons/
+│       ├── generate_hf.py          # Génération d'icônes via HuggingFace (FLUX.1-schnell)
+│       ├── generate_replicate.py   # Génération d'icônes via Replicate
+│       └── README.md
 ├── uploads/                        # Icônes persistées ou embarquées
 │   └── icons/
 │       ├── default/                # Icônes par défaut (embarquées dans l'image au build)
 │       ├── <theme>/                # Packs de thèmes (embarqués dans l'image au build)
 │       └── custom/                 # Icônes uploadées (volume Docker monté sur ICONS_DIR)
-├── seed/
-│   └── products.json               # Catalogue initial (~230 produits) importable via /api/import
-└── sql/
-    └── schema.sql                  # Script d'initialisation MySQL
+└── src/
+    ├── app/                        # Next.js App Router
+    │   ├── api/                    # API Routes
+    │   │   ├── auth/               # NextAuth + register + reset-password
+    │   │   ├── admin/              # API admin (users, households, products, icons, stats)
+    │   │   ├── products/           # CRUD catalogue (admin)
+    │   │   ├── categories/         # CRUD catégories (admin)
+    │   │   ├── recipe-categories/  # Catégories de recettes
+    │   │   ├── stock/              # Statut produits (membres)
+    │   │   ├── recipes/            # CRUD recettes (admin) + lecture (tous)
+    │   │   ├── shopping/           # Liste de courses (membres)
+    │   │   ├── profile/            # Profil utilisateur
+    │   │   ├── import/             # Import JSON produits + recettes (admin)
+    │   │   ├── export/             # Export produits + recettes (admin)
+    │   │   ├── icons/              # Serve + upload icônes
+    │   │   └── events/             # Server-Sent Events
+    │   ├── (auth)/                 # Pages login / register / forgot-password / reset-password
+    │   ├── setup/                  # Page création du premier foyer
+    │   ├── admin/                  # Page administration (admin uniquement)
+    │   ├── profile/                # Page profil utilisateur
+    │   ├── shopping/               # Page liste de courses
+    │   ├── stock/                  # Page gestion du stock
+    │   ├── products/               # Page catalogue produits + création/édition
+    │   ├── recipes/                # Page recettes + détail
+    │   ├── globals.css             # CSS global + variables de thèmes
+    │   └── layout.tsx
+    ├── components/
+    │   ├── BottomNav.tsx           # Navigation principale mobile
+    │   ├── IconPicker/             # Sélecteur d'icône (thème actif / upload)
+    │   ├── SearchInput.tsx         # Barre de recherche réutilisable
+    │   ├── NumberInput.tsx         # Champ numérique avec +1/-1
+    │   ├── SessionProviderWrapper.tsx
+    │   └── ThemeProvider.tsx       # Injection du thème avant hydration
+    ├── hooks/
+    │   ├── useSSE.ts               # Hook SSE pour la synchronisation temps réel
+    │   ├── useVoiceInput.ts        # Saisie vocale
+    │   └── useHorizontalScroll.ts  # Scroll horizontal tactile
+    ├── lib/
+    │   ├── db.ts                   # Connexion MySQL
+    │   ├── auth.ts                 # Config NextAuth
+    │   ├── icon.ts                 # Utilitaires résolution icônes
+    │   ├── sse.ts                  # Utilitaires SSE (broadcast)
+    │   ├── migrate.ts              # Migrations de schéma au démarrage
+    │   ├── search.ts               # Utilitaires de recherche produits
+    │   ├── units.ts                # Conversion d'unités
+    │   ├── themes.ts               # Liste des thèmes disponibles
+    │   ├── voiceCommand.ts         # Parsing des commandes vocales
+    │   └── voiceSynonyms.ts        # Synonymes pour la reconnaissance vocale
+    ├── types/
+    │   └── index.ts
+    └── __tests__/                  # Tests d'intégration Jest (base MySQL réelle)
+        ├── products.test.ts
+        ├── categories.test.ts
+        ├── recipes.test.ts
+        ├── stock.test.ts
+        ├── shopping.test.ts
+        ├── shopping-recipes.test.ts
+        ├── shopping-autostock.test.ts
+        ├── recipe-favorites.test.ts
+        ├── register.test.ts
+        ├── import.test.ts
+        └── helpers.ts
 ```
 
 ---
@@ -613,10 +643,10 @@ foodlist/
 - Page `/profile` : nom, thème visuel, thème d'icônes
 - Thèmes CSS (`globals.css` + `ThemeProvider`)
 
-### Phase 7 — PWA & Finitions
+### Phase 7 — PWA & Finitions ✅
 - Manifest PWA + icônes
 - Optimisation mobile
-- Tests multi-appareils
+- Tests d'intégration (Jest + MySQL)
 
 ---
 
@@ -647,17 +677,17 @@ La page `/admin` est protégée par middleware (redirection vers `/` si non admi
 
 #### Onglet Catalogue (produits)
 
-- [ ] Liste des produits sans icône — avec export des noms pour générer les fichiers d'icônes manquants
-- [ ] Liste des produits en doublon probable (noms proches)
-- [ ] Supprimer un produit (uniquement s'il n'est référencé dans aucun stock ni recette)
+- [x] Liste des produits sans icône — avec export des noms pour générer les fichiers d'icônes manquants
+- [x] Liste des produits en doublon probable (noms proches)
+- [x] Supprimer un produit (uniquement s'il n'est référencé dans aucun stock ni recette)
 
 #### Onglet Icônes
 
-- [ ] Vue par thème disponible (répertoires détectés dans `uploads/icons/` hors `default/` et `custom/`)
-- [ ] Pour chaque thème : grille des icônes présentes dans `default/`, avec indication de si le thème a une version propre ou un override admin
-- [ ] Possibilité d'uploader un override admin pour une icône d'un thème donné — le fichier est stocké dans `$ICONS_DIR/themes/<theme>/` (volume persisté), et prend priorité sur l'icône embarquée
-- [ ] Bouton "Supprimer l'override" pour revenir à l'icône embarquée du thème
-- [ ] Détection des icônes `custom/` (UUID) non référencées par aucun produit → bouton "Supprimer les orphelins"
+- [x] Vue par thème disponible (répertoires détectés dans `uploads/icons/` hors `default/` et `custom/`)
+- [x] Pour chaque thème : grille des icônes présentes dans `default/`, avec indication de si le thème a une version propre ou un override admin
+- [x] Possibilité d'uploader un override admin pour une icône d'un thème donné — le fichier est stocké dans `$ICONS_DIR/themes/<theme>/` (volume persisté), et prend priorité sur l'icône embarquée
+- [x] Bouton "Supprimer l'override" pour revenir à l'icône embarquée du thème
+- [x] Détection des icônes `custom/` (UUID) non référencées par aucun produit → bouton "Supprimer les orphelins"
 
 #### Fonctionnalités futures (non implémentées)
 
@@ -712,9 +742,9 @@ Après sauvegarde, le JWT est rafraîchi via `update()` de `useSession()` pour q
 
 Page admin pour configurer : nom de l'application, logo, couleur primaire de base. Stocké dans une table `settings` (clé/valeur).
 
-#### Réinitialisation de mot de passe
+#### Réinitialisation de mot de passe ✅
 
-Flux standard : formulaire "mot de passe oublié" → email avec lien tokenisé → formulaire de réinitialisation. Nécessite une config SMTP dans les variables d'environnement.
+Flux standard implémenté : formulaire "mot de passe oublié" → email avec lien tokenisé → formulaire de réinitialisation. Nécessite une config SMTP dans les variables d'environnement.
 
 ---
 
