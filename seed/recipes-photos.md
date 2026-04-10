@@ -14,3 +14,4 @@
 | `gratin-dauphinois.png` | close-up centered golden bubbling gratin dauphinois in an oval ceramic baking dish filling most of the frame, crispy golden-brown top with visible cream and potato layers at the edge |
 | `mousse-au-chocolat.png` | close-up centered individual glass ramekin of dark chocolate mousse filling most of the frame, smooth swirled top, a few chocolate shavings, rich deep brown color |
 | `pommes-de-terre-au-four.png` | close-up centered halved baked potatoes on a plate filling most of the frame, golden crispy skin, topped with a dollop of cream fraîche and fresh chopped chives |
+| `picado-madeirense.png` | close-up centered chicken picado in a rich dark brown mushroom sauce in a skillet filling most of the frame, golden crispy french fries served alongside, warm earthy tones |

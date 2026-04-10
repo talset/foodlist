@@ -218,5 +218,63 @@
       }
     ],
     "photo_url": "/api/recipes/photos/pommes-de-terre-au-four.png"
+  },
+  {
+    "name": "Picado à Madeirense",
+    "description": "Poulet à la sauce brune aux champignons, style Madère",
+    "category": "Sauce",
+    "base_servings": 4,
+    "steps_markdown": "# Préparation\n\n1. Faire fondre le beurre dans une grande poêle\n2. Ajouter un filet d'huile d'olive\n3. Ajouter le poulet et l'ail haché\n4. Faire dorer des deux côtés\n5. Ajouter les champignons\n6. Ajouter la crème fraîche, le concentré de tomate, le cube de bouillon (dilué avec un peu d'eau) et le vin blanc\n",
+    "ingredients": [
+      {
+        "product": "Poulet",
+        "quantity": 500
+      },
+      {
+        "product": "Champignons",
+        "quantity": 100
+      },
+      {
+        "product": "Ail",
+        "quantity": 3
+      },
+      {
+        "product": "Beurre",
+        "quantity": 40
+      },
+      {
+        "product": "Sel",
+        "quantity": 2
+      },
+      {
+        "product": "Poivre",
+        "quantity": 2
+      },
+      {
+        "product": "Concentré de tomate",
+        "quantity": 5
+      },
+      {
+        "product": "Fond de veau",
+        "quantity": 15
+      },
+      {
+        "product": "Cube bouillon",
+        "quantity": 1
+      },
+      {
+        "product": "Vin blanc",
+        "quantity": 0.3
+      },
+      {
+        "product": "Crème fraîche",
+        "quantity": 50
+      },
+      {
+        "product": "Huile d'olive",
+        "quantity": 0.01
+      }
+    ],
+    "photo_url": "/api/recipes/photos/picado-madeirense.png"
   }
 ]

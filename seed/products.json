@@ -352,8 +352,8 @@
   {
     "name": "Crème fraîche",
     "category": "Produits laitiers",
-    "ref_unit": "g",
-    "ref_quantity": 200,
+    "ref_unit": "mL",
+    "ref_quantity": 500,
     "icon_ref": "creme-fraiche.png"
   },
   {
@@ -1248,15 +1248,15 @@
   {
     "name": "Huile",
     "category": "Condiments & Sauces",
-    "ref_unit": "L",
-    "ref_quantity": 1,
+    "ref_unit": "mL",
+    "ref_quantity": 750,
     "icon_ref": "huile.png"
   },
   {
     "name": "Huile d'olive",
     "category": "Condiments & Sauces",
-    "ref_unit": "L",
-    "ref_quantity": 0.75,
+    "ref_unit": "mL",
+    "ref_quantity": 750,
     "icon_ref": "bouteille-huile.png"
   },
   {
@@ -1423,7 +1423,7 @@
   {
     "name": "Sel",
     "category": "Condiments & Sauces",
-    "ref_unit": "kg",
+    "ref_unit": "g",
     "ref_quantity": 1,
     "icon_ref": "sel.png"
   },
