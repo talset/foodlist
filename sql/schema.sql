@@ -229,7 +229,8 @@ INSERT IGNORE INTO recipe_categories (name, sort_order) VALUES
   ('Dessert',        5),
   ('Apéritif',       6),
   ('Boisson',        7),
-  ('Autre',          8);
+  ('Pizza',          8),
+  ('Autre',          9);
 
 -- Note migrations : ce script est idempotent pour les fresh installs via CREATE TABLE IF NOT EXISTS.
 -- Pour mettre à jour une installation existante, exécuter manuellement :

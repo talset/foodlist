@@ -209,14 +209,14 @@ export default function AdminPage() {
   }
 
   async function seedRecipes() {
-    if (!confirm('Importer les recettes de base ? Les recettes existantes seront ignorées.')) return
+    if (!confirm('Importer les recettes de base ? Les recettes existantes seront mises à jour.')) return
     setSeedingRecipes(true)
     setActionMsg('')
     const r = await fetch('/api/admin/seed-recipes', { method: 'POST' })
     const data = await r.json()
     if (r.ok) {
       await loadStats()
-      setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.skipped} ignorées${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+      setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.updated} mises à jour${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
     } else {
       setActionMsg(`Erreur : ${data.error}`)
     }
@@ -289,7 +289,7 @@ export default function AdminPage() {
       const data = await r.json()
       if (r.ok) {
         await loadStats()
-        setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.skipped} ignorées${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
+        setActionMsg(`Recettes importées : ${data.created} ajoutées, ${data.updated} mises à jour${data.errors?.length ? `, ${data.errors.length} erreur(s)` : ''}`)
       } else {
         setActionMsg(`Erreur : ${data.error}`)
       }

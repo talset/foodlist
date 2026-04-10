@@ -130,7 +130,7 @@
       },
       {
         "product": "Patates",
-        "quantity": 1.5
+        "quantity": 1500
       },
       {
         "product": "Ail",
@@ -190,7 +190,7 @@
     "ingredients": [
       {
         "product": "Patates",
-        "quantity": 1
+        "quantity": 1000
       },
       {
         "product": "Crème fraîche",
@@ -276,5 +276,141 @@
       }
     ],
     "photo_url": "/api/recipes/photos/picado-madeirense.png"
+  },
+  {
+    "name": "Curry de poulet",
+    "description": "Curry de poulet au lait de coco avec carottes et patates",
+    "category": "Plat",
+    "base_servings": 4,
+    "steps_markdown": "# Préparation\n\n1. Cuire les patates à l'eau, puis les égoutter et les couper en dés\n2. Éplucher et couper les carottes en rondelles\n3. Émincer les oignons\n\n# Cuisson\n\n1. Faire revenir les morceaux de poulet dans une cocotte jusqu'à ce qu'ils soient dorés\n2. Ajouter les oignons et faire revenir 2-3 minutes\n3. Incorporer la pâte de curry et mélanger pour bien enrober\n4. Verser le lait de coco et porter à frémissement\n5. Ajouter les carottes et les patates\n6. Laisser mijoter à feu doux 20 minutes\n\n# Accompagnement\n\n1. Cuire le riz selon les instructions\n2. Servir le curry sur un lit de riz\n",
+    "ingredients": [
+      {
+        "product": "Poulet",
+        "quantity": 600
+      },
+      {
+        "product": "Lait de coco",
+        "quantity": 1
+      },
+      {
+        "product": "Curry",
+        "quantity": 30
+      },
+      {
+        "product": "Patates",
+        "quantity": 400
+      },
+      {
+        "product": "Carottes",
+        "quantity": 250
+      },
+      {
+        "product": "Oignons",
+        "quantity": 2
+      },
+      {
+        "product": "Riz",
+        "quantity": 300
+      }
+    ],
+    "photo_url": "/api/recipes/photos/curry-de-poulet.png"
+  },
+  {
+    "name": "Pizza Regina",
+    "description": "Pizza Regina aux champignons et jambon",
+    "category": "Pizza",
+    "base_servings": 4,
+    "steps_markdown": "# Préparation\n\n1. Préchauffer le four à **220 °C**\n2. Étaler la pâte à pizza sur une plaque farinée\n3. Émincer les champignons et les oignons\n\n# Montage\n\n1. Étaler la sauce tomate sur la pâte en laissant un bord de 2 cm\n2. Répartir les champignons émincés\n3. Ajouter les oignons émincés\n4. Parsemer généreusement d'emmental râpé\n\n# Cuisson\n\n1. Enfourner **12 à 15 minutes** jusqu'à ce que le fromage soit doré et la pâte croustillante\n",
+    "ingredients": [
+      {
+        "product": "Pâte à pizza",
+        "quantity": 280
+      },
+      {
+        "product": "Sauce tomate",
+        "quantity": 150
+      },
+      {
+        "product": "Champignons",
+        "quantity": 150
+      },
+      {
+        "product": "Oignons",
+        "quantity": 1
+      },
+      {
+        "product": "Emmental râpé",
+        "quantity": 150
+      }
+    ],
+    "photo_url": "/api/recipes/photos/pizza-regina.png"
+  },
+  {
+    "name": "Pavé de saumon au beurre blanc",
+    "description": "Pavé de saumon poêlé, sauce beurre blanc aux échalotes",
+    "category": "Plat",
+    "base_servings": 2,
+    "steps_markdown": "# Sauce beurre blanc\n\n1. Émincer les échalotes et les mettre dans une casserole\n2. Ajouter le vin blanc\n3. Saler et poivrer\n4. Faire réduire à sec à feu très doux (⚠️ Ne pas colorer les échalotes)\n5. Ajouter le beurre petit à petit en fouettant\n6. Remuer en continu jusqu'à obtenir une sauce onctueuse\n\n# Cuisson du saumon\n\n1. Déposer le saumon côté peau dans la poêle chaude\n2. Laisser cuire jusqu'à coloration (≈ moitié du saumon)\n3. Retourner côté chair\n4. Cuire encore 3 minutes\n",
+    "ingredients": [
+      {
+        "product": "Saumon",
+        "quantity": 400
+      },
+      {
+        "product": "Beurre",
+        "quantity": 200
+      },
+      {
+        "product": "Échalote",
+        "quantity": 2
+      },
+      {
+        "product": "Vin blanc",
+        "quantity": 0.2
+      },
+      {
+        "product": "Sel",
+        "quantity": 2
+      },
+      {
+        "product": "Poivre",
+        "quantity": 1
+      }
+    ],
+    "photo_url": "/api/recipes/photos/saumon-beurre-blanc.png"
+  },
+  {
+    "name": "Croque monsieur",
+    "description": "Croque monsieur simple beurré au fromage croc",
+    "category": "Plat",
+    "base_servings": 4,
+    "steps_markdown": "# Préparation\n\n1. Beurrer le pain de mie\n2. Tartiner une face avec de la moutarde\n3. Déposer 1 tranche de jambon et des tranches de fromage\n4. Parsemer d'emmental râpé sur le dessus\n\n# Cuisson\n\n1. Faire dorer à la poêle à feu moyen ou au four **200 °C (grill) pendant 10 minutes** jusqu'à ce que le fromage soit doré et gratiné\n",
+    "ingredients": [
+      {
+        "product": "Pain de mie",
+        "quantity": 240
+      },
+      {
+        "product": "Jambon",
+        "quantity": 4
+      },
+      {
+        "product": "Fromage croc",
+        "quantity": 4
+      },
+      {
+        "product": "Beurre",
+        "quantity": 40
+      },
+      {
+        "product": "Moutarde",
+        "quantity": 20
+      },
+      {
+        "product": "Emmental râpé",
+        "quantity": 100
+      }
+    ],
+    "photo_url": "/api/recipes/photos/croque-monsieur.png"
   }
 ]

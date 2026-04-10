@@ -37,8 +37,8 @@
   {
     "name": "Carottes",
     "category": "Fruits & Légumes",
-    "ref_unit": "kg",
-    "ref_quantity": 1,
+    "ref_unit": "g",
+    "ref_quantity": 100,
     "icon_ref": "carotte.png"
   },
   {
@@ -93,8 +93,8 @@
   {
     "name": "Patates",
     "category": "Fruits & Légumes",
-    "ref_unit": "kg",
-    "ref_quantity": 1,
+    "ref_unit": "g",
+    "ref_quantity": 100,
     "icon_ref": "pomme-de-terre.png"
   },
   {
