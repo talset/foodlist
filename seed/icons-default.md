@@ -87,7 +87,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `emmental-rape.png` | fluffy little pile of shredded golden emmental cheese with wispy fine strands, warm pale yellow color, cozy mound shape, top view |
-| `gruyere-rape.png` | fluffy little pile of shredded golden Gruyère with long wispy strands, warm pale yellow color, cozy mound shape, top view || `emmental.png` | plump rectangular block of pale golden Emmental cheese with characteristic round holes visible on the cut face, soft yellow color, 3/4 side view |
 | `fromage-fondue.png` | cute ceramic fondue pot in warm sunset orange with a tiny flame underneath, plump round belly, cheerful warm tones, two small forks poking out, front view |
 | `fromage-burger.png` | single flat soft square cheese slice with gently melted rounded corners, pale warm yellow color, slightly translucent, cozy proportions, top view |
 | `fromage-chevre.png` | cute cylindrical white goat cheese log with a soft grey ash-dusted rind, clean white interior visible at one end, rustic gentle look, side view, no goat |

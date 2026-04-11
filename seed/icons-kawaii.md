@@ -88,7 +88,6 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | Fichier | Description détaillée |
 |---|---|
 | `emmental-rape.png` | fluffy mound of shredded golden emmental cheese, keeping its real wispy pile shape, with a tiny kawaii face peeking from the center — big eyes, smile, rosy cheeks — warm pale yellow, top view |
-| `gruyere-rape.png` | fluffy pile of shredded Gruyère, keeping its real wispy mound shape, with a tiny kawaii face in the center — big glossy eyes, smile, rosy cheeks — warm yellow, top view |
 | `emmental.png` | rectangular block of pale golden Emmental with round holes visible, keeping its real cheese block shape, with a kawaii face on the cut face — big eyes, cute smile, rosy cheeks — soft yellow, 3/4 view |
 | `fromage-fondue.png` | ceramic fondue pot with flame underneath, keeping its real round pot shape with two forks, with a kawaii face on the pot body — happy squinting eyes, warm smile, rosy cheeks — sunset orange, front view |
 | `fromage-burger.png` | single flat square processed cheese slice, keeping its real flat square shape with melted corners, with a kawaii face drawn on the surface — big round eyes, tiny smile, rosy cheeks — pale warm yellow, top view |

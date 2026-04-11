@@ -87,7 +87,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `emmental-rape.png` | small pile of shredded golden emmental cheese, thin wispy strands with realistic fibrous texture, pale yellow color with slight translucency at the edges, top view |
-| `gruyere-rape.png` | fluffy pile of long shredded Gruyère strands, realistic cheese texture with slight elasticity visible, warm pale yellow color, scattered natural pile, top view |
 | `emmental.png` | rectangular block of pale yellow Emmental cheese showing characteristic large holes on the cut face, smooth surface with slight waxy sheen, warm cream-yellow tones, 3/4 side view |
 | `fromage-fondue.png` | ceramic fondue pot in warm orange-brown with a small spirit burner underneath, visible melted cheese inside the pot, two long forks resting on the rim, realistic ceramic glaze texture, front view |
 | `fromage-burger.png` | single square processed cheese slice with slightly melted rounded corners, wrapped in thin transparent plastic, pale warm yellow-orange color, realistic plastic film texture, top view |
