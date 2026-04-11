@@ -19,3 +19,4 @@
 | `pizza-regina.png` | close-up centered whole round pizza filling most of the frame on a wooden board, golden melted emmental cheese topping with visible sliced mushrooms and onion rings, slightly charred crispy crust edges, rich tomato base peeking through |
 | `saumon-beurre-blanc.png` | close-up centered pan-seared salmon fillet on a white plate filling most of the frame, golden crispy skin side up, generous pool of glossy pale yellow butter sauce with visible shallot flecks, fresh herbs on the side |
 | `croque-monsieur.png` | close-up centered stack of two golden croque monsieurs on a plate filling most of the frame, crispy buttery toasted bread, melted cheese oozing from the sides, warm golden-brown color |
+| `fondue-savoyarde.png` | close-up centered bubbling fondue pot (caquelon) filling most of the frame, creamy melted cheese with a golden hue, two long forks dipping bread cubes, rustic ceramic pot on a small burner, warm cozy amber tones |

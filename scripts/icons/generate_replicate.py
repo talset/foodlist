@@ -185,18 +185,17 @@ def main():
         print("Aborted.")
         return
 
-    success = fail = skip = 0
-    for icon in tqdm(icons, desc="Generating"):
+    success = fail = 0
+    to_generate = [i for i in icons if not (output_dir / i["filename"]).exists()]
+    for icon in tqdm(to_generate, desc="Generating"):
         result = generate_icon(icon, output_dir, style, size=size)
         if result == "ok":
             success += 1
             time.sleep(SLEEP)   # rate-limit: only after a real API call
-        elif result == "skip":
-            skip += 1
         else:
             fail += 1
 
-    print(f"\n✅ Done: {success} generated, {skip} skipped, {fail} failed")
+    print(f"\n✅ Done: {success} generated, {already} skipped, {fail} failed")
     if fail:
         print("Re-run to retry failed icons (existing ones are skipped).")
 

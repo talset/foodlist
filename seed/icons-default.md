@@ -150,6 +150,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `pates.png` | cute loose bundle of long dry spaghetti pasta sticks gently fanned out, soft pale cream-yellow color, elegant long strands, warm ivory tones, side view |
 | `macaroni.png` | cute handful of small curved macaroni elbow pasta, pale cream-yellow color, scattered loose pieces showing the hollow curved shape, top view |
+| `noodle.png` | cute individual instant noodle cup with a peel-off lid, warm red and yellow printed plastic pot, plump round cup shape, side view |
 | `nouilles.png` | plump square compressed block of dried asian noodles in soft cream plastic packaging, cozy warm tones, 3/4 view |
 | `lasagnes.png` | flat rectangular pasta package in soft cream cardboard, gentle warm beige tones, clean simple look, side view |
 | `ravioli.png` | cute pasta package with a small window showing plump square ravioli with crimped edges, soft warm tones, side view |

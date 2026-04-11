@@ -151,6 +151,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 |---|---|
 | `pates.png` | bundle of long dry spaghetti pasta lightly held together, pale cream-yellow color, slight grain texture on the surface, slightly fanned out, side view |
 | `macaroni.png` | handful of dry elbow macaroni, pale cream-yellow, hollow tube shape clearly visible, slight surface grain, scattered naturally, top view |
+| `noodle.png` | individual instant noodle cup with printed label and peel-off foil lid, realistic plastic cup texture, warm red and yellow printed design, side view |
 | `nouilles.png` | square compressed block of dried instant noodles in a plastic wrapper, cream tightly wound noodles visible through translucent packaging, 3/4 view |
 | `lasagnes.png` | flat rectangular pasta sheets in a cardboard box, pale cream-yellow, slight cardboard texture on the packaging, side view |
 | `ravioli.png` | pasta package showing plump square ravioli through a clear window, cream pasta with crimped edges, slight moisture, side view |

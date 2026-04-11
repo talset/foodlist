@@ -728,6 +728,13 @@
     "icon_ref": "miel.png"
   },
   {
+    "name": "Noodle",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "noodle.png"
+  },
+  {
     "name": "Nouilles",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",

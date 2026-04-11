@@ -61,6 +61,13 @@ function stripArticles(text: string): string {
   return text.trim()
 }
 
+/** Strip trailing French plural -s (and -aux→-al) for singular/plural matching */
+function stemFr(s: string): string {
+  if (s.endsWith('aux') && s.length > 4) return s.slice(0, -3) + 'al'
+  if (s.endsWith('s') && s.length > 3) return s.slice(0, -1)
+  return s
+}
+
 /** True if `sub` appears in `text` at a word boundary (space or start/end). */
 function atWordBoundary(text: string, sub: string): boolean {
   const idx = text.indexOf(sub)
@@ -95,5 +102,18 @@ export function findStockItem(name: string, items: ApiStockItem[]): ApiStockItem
   const candidates = items
     .filter(i => { const p = norm(i.product_name); return p.length >= 3 && atWordBoundary(q, p) })
     .sort((a, b) => b.product_name.length - a.product_name.length)
-  return candidates[0]
+  if (candidates[0]) return candidates[0]
+
+  // 4. Retry tiers 1-3 with plural/singular normalisation (e.g. "salade" ↔ "salades")
+  const qs = stemFr(q)
+  const exactStem = items.find(i => stemFr(norm(i.product_name)) === qs)
+  if (exactStem) return exactStem
+
+  const pContainsQStem = items.find(i => atWordBoundary(stemFr(norm(i.product_name)), qs))
+  if (pContainsQStem) return pContainsQStem
+
+  const candidatesStem = items
+    .filter(i => { const p = stemFr(norm(i.product_name)); return p.length >= 3 && atWordBoundary(qs, p) })
+    .sort((a, b) => b.product_name.length - a.product_name.length)
+  return candidatesStem[0]
 }

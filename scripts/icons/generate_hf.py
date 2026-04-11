@@ -163,18 +163,19 @@ def main():
 
     client = InferenceClient(api_key=HF_TOKEN)
 
-    success = fail = skip = 0
-    for icon in tqdm(icons, desc="Generating"):
+    # Only iterate over icons that actually need generating
+    to_generate = [i for i in icons if not (output_dir / i["filename"]).exists()]
+
+    success = fail = 0
+    for icon in tqdm(to_generate, desc="Generating"):
         result = generate_icon(client, icon, output_dir, style, size=size)
         if result == "ok":
             success += 1
-        elif result == "skip":
-            skip += 1
         else:
             fail += 1
         time.sleep(SLEEP)
 
-    print(f"\n✅ Done: {success} generated, {skip} skipped, {fail} failed")
+    print(f"\n✅ Done: {success} generated, {already} skipped, {fail} failed")
     if fail:
         print("Re-run to retry failed icons (existing ones are skipped).")
 

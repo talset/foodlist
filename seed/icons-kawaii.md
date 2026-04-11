@@ -152,6 +152,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 |---|---|
 | `pates.png` | bundle of long dry spaghetti sticks, keeping their real long thin stick shape, with a tiny kawaii face on the bundle — big eyes, smile, rosy cheeks — soft pale cream-yellow, side view |
 | `macaroni.png` | handful of small curved macaroni elbow pasta pieces, keeping their real hollow curved tube shape, with a kawaii face on the central piece — big eyes, smile, rosy cheeks — pale cream-yellow, top view |
+| `noodle.png` | individual instant noodle cup with peel-off lid, keeping its real round cup shape, with a kawaii face on the cup body — big eyes, happy smile, rosy cheeks — warm red and yellow, side view |
 | `nouilles.png` | square compressed block of dried asian noodles in plastic packaging, keeping its real square block shape, with a kawaii face on the packaging — big eyes, happy smile, rosy cheeks — soft cream, 3/4 view |
 | `lasagnes.png` | flat rectangular lasagne pasta package in cardboard, keeping its real flat box shape, with a kawaii face on the packaging — sleepy eyes, gentle smile, rosy cheeks — soft cream cardboard, side view |
 | `ravioli.png` | pasta package with window showing plump square ravioli, keeping its real box shape, with a kawaii face on the packaging — big eyes, smile, rosy cheeks — soft warm tones, side view |
