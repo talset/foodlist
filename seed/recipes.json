@@ -115,7 +115,7 @@
     "ingredients": [
       {
         "product": "Carottes",
-        "quantity": 250
+        "quantity": 300
       },
       {
         "product": "Curry",
@@ -127,19 +127,19 @@
       },
       {
         "product": "Oignons",
-        "quantity": 2
+        "quantity": 1
       },
       {
         "product": "Patates",
-        "quantity": 400
-      },
-      {
-        "product": "Poulet",
         "quantity": 600
       },
       {
+        "product": "Poulet",
+        "quantity": 500
+      },
+      {
         "product": "Riz",
-        "quantity": 300
+        "quantity": 600
       }
     ]
   },

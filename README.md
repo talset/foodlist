@@ -1,5 +1,10 @@
 # Foodlist
 
+<p align="center">
+  <img src="screen1.png" width="45%" />
+  <img src="screen2.png" width="45%" />
+</p>
+
 Application web progressive (PWA) de gestion du stock alimentaire et des courses, partagée entre plusieurs appareils (mobile + ordinateur). Auto-hébergeable via Docker + MySQL.
 
 > Détail complet des fonctionnalités : [SPECS.md](./SPECS.md)
