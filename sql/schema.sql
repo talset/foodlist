@@ -243,6 +243,21 @@ INSERT IGNORE INTO recipe_categories (name, sort_order) VALUES
 --   CREATE TABLE recipe_favorites (...)  (voir ci-dessus)
 
 -- -----------------------------------------------------------------------------
+-- shopping_items (temporary free-text items on the shopping list)
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS shopping_items (
+  id           INT          NOT NULL AUTO_INCREMENT,
+  household_id INT          NOT NULL,
+  name         VARCHAR(255) NOT NULL,
+  added_by     INT          NOT NULL,
+  added_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_si_household_id (household_id),
+  CONSTRAINT fk_si_household FOREIGN KEY (household_id) REFERENCES households (id),
+  CONSTRAINT fk_si_added_by  FOREIGN KEY (added_by)     REFERENCES users      (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
 -- Cleanup: merge old split Animaux categories into single Animaux
 -- -----------------------------------------------------------------------------
 SET @animaux_id = (SELECT id FROM categories WHERE name = 'Animaux' LIMIT 1);

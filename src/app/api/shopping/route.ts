@@ -94,5 +94,17 @@ export async function GET(req: Request) {
     multiplier: parseFloat(r.multiplier),
   }))
 
-  return NextResponse.json({ items, activeRecipes })
+  // 3. Temporary free-text items
+  const [tempRows] = await pool.query<any[]>(
+    'SELECT id, name, added_at FROM shopping_items WHERE household_id = ? ORDER BY added_at',
+    [hid]
+  )
+
+  const tempItems = (tempRows as any[]).map(row => ({
+    id: row.id,
+    name: row.name,
+    added_at: row.added_at instanceof Date ? row.added_at.toISOString() : String(row.added_at),
+  }))
+
+  return NextResponse.json({ items, activeRecipes, tempItems })
 }

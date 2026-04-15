@@ -23,15 +23,25 @@ interface ActiveRecipe {
   multiplier: number
 }
 
+interface TempItem {
+  id: number
+  name: string
+  added_at: string
+}
+
 export default function ShoppingPage() {
   const [items, setItems] = useState<ApiStockItem[]>([])
+  const [tempItems, setTempItems] = useState<TempItem[]>([])
   const [activeRecipes, setActiveRecipes] = useState<ActiveRecipe[]>([])
   const [loading, setLoading] = useState(true)
   const [checking, setChecking] = useState<Set<number>>(new Set())
+  const [checkingTemp, setCheckingTemp] = useState<Set<number>>(new Set())
   const [restocking, setRestocking] = useState(false)
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
   const [recipeFilter, setRecipeFilter] = useState<number | null>(null)
+  const [quickAdd, setQuickAdd] = useState('')
+  const [addingQuick, setAddingQuick] = useState(false)
   const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
   const recipeStripRef = useHorizontalScroll<HTMLDivElement>()
 
@@ -40,6 +50,7 @@ export default function ShoppingPage() {
       .then(r => r.json())
       .then(d => {
         setItems(d.items ?? [])
+        setTempItems(d.tempItems ?? [])
         setActiveRecipes(d.activeRecipes ?? [])
         setLoading(false)
       })
@@ -47,6 +58,8 @@ export default function ShoppingPage() {
 
   useEffect(() => { load() }, [load])
   useSSE(['stock_updated', 'shopping_updated'], load)
+
+  const totalCount = items.length + tempItems.length
 
   const categories = useMemo(() => {
     const seen = new Set<string>()
@@ -60,6 +73,16 @@ export default function ShoppingPage() {
     return result
   }, [items])
 
+  const filteredTempItems = useMemo(() => {
+    const q = norm(search)
+    return tempItems.filter(item => {
+      if (q && !norm(item.name).includes(q)) return false
+      if (categoryFilter && categoryFilter !== 'Temporaire') return false
+      if (recipeFilter !== null) return false
+      return true
+    })
+  }, [tempItems, search, categoryFilter, recipeFilter])
+
   const filteredItems = useMemo(() => {
     const q = norm(search)
     return items.filter(item => {
@@ -72,7 +95,7 @@ export default function ShoppingPage() {
 
   function buildShareText(): string {
     const date = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-    const lines: string[] = [`🛒 Liste de courses — ${items.length} article${items.length > 1 ? 's' : ''}`]
+    const lines: string[] = [`🛒 Liste de courses — ${totalCount} article${totalCount > 1 ? 's' : ''}`]
     lines.push(date)
     if (activeRecipes.length > 0) {
       lines.push(`\nRecettes : ${activeRecipes.map(r => r.recipe_name + (r.multiplier !== 1 ? ` ×${r.multiplier}` : '')).join(', ')}`)
@@ -89,6 +112,10 @@ export default function ShoppingPage() {
         : ''
       lines.push(`• ${item.product_name}${qty}`)
     }
+    if (tempItems.length > 0) {
+      lines.push('\nTemporaire')
+      for (const t of tempItems) lines.push(`• ${t.name}`)
+    }
     return lines.join('\n')
   }
 
@@ -103,11 +130,12 @@ export default function ShoppingPage() {
   }
 
   async function restockAll() {
-    if (!confirm(`Marquer les ${items.length} articles comme "en stock" ?`)) return
+    if (!confirm(`Marquer les ${totalCount} articles comme "en stock" ?`)) return
     setRestocking(true)
     const res = await fetch('/api/shopping/restock', { method: 'POST' })
     if (res.ok) {
       setItems([])
+      setTempItems([])
       setActiveRecipes([])
     }
     setRestocking(false)
@@ -154,6 +182,30 @@ export default function ShoppingPage() {
     setChecking(prev => { const s = new Set(prev); s.delete(item.id); return s })
   }
 
+  async function addQuickItem(e: React.FormEvent) {
+    e.preventDefault()
+    if (!quickAdd.trim() || addingQuick) return
+    setAddingQuick(true)
+    const res = await fetch('/api/shopping/items', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: quickAdd.trim() }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      setTempItems(prev => [...prev, { id: data.id, name: data.name, added_at: new Date().toISOString() }])
+      setQuickAdd('')
+    }
+    setAddingQuick(false)
+  }
+
+  async function checkOffTemp(item: TempItem) {
+    setCheckingTemp(prev => new Set(prev).add(item.id))
+    setTempItems(prev => prev.filter(i => i.id !== item.id))
+    await fetch(`/api/shopping/items/${item.id}`, { method: 'DELETE' })
+    setCheckingTemp(prev => { const s = new Set(prev); s.delete(item.id); return s })
+  }
+
   return (
     <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
 
@@ -161,7 +213,7 @@ export default function ShoppingPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h1 style={{ margin: 0 }}>Liste de courses</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {items.length > 0 && (
+          {totalCount > 0 && (
             <>
               <button
                 onClick={shareList}
@@ -197,10 +249,41 @@ export default function ShoppingPage() {
             borderRadius: 9999, padding: '0.125rem 0.5rem',
             fontSize: '0.875rem', fontWeight: 600,
           }}>
-            {items.length}
+            {totalCount}
           </span>
         </div>
       </div>
+
+      {/* Ajout rapide */}
+      <form onSubmit={addQuickItem} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+        <input
+          type="text"
+          value={quickAdd}
+          onChange={e => setQuickAdd(e.target.value)}
+          placeholder="Ajouter un article temporaire…"
+          style={{
+            flex: 1, padding: '0.5rem 0.75rem',
+            border: '1px solid var(--border)', borderRadius: 8,
+            background: 'var(--input-bg)', color: 'var(--fg)',
+            fontSize: '0.875rem', outline: 'none',
+          }}
+        />
+        <button
+          type="submit"
+          disabled={!quickAdd.trim() || addingQuick}
+          style={{
+            padding: '0.5rem 0.875rem',
+            background: 'var(--primary)', color: 'var(--primary-fg)',
+            border: 'none', borderRadius: 8,
+            fontSize: '0.875rem', fontWeight: 600,
+            cursor: !quickAdd.trim() || addingQuick ? 'not-allowed' : 'pointer',
+            opacity: !quickAdd.trim() || addingQuick ? 0.5 : 1,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          +
+        </button>
+      </form>
 
       {/* Recherche */}
       <SearchInput
@@ -211,7 +294,7 @@ export default function ShoppingPage() {
       />
 
       {/* Strip catégories */}
-      {categories.length > 1 && (
+      {(categories.length > 1 || tempItems.length > 0) && (
         <div ref={categoryStripRef} style={{
           display: 'flex', gap: '0.375rem', overflowX: 'auto',
           paddingBottom: '0.5rem', marginBottom: '0.5rem',
@@ -232,6 +315,14 @@ export default function ShoppingPage() {
               {cat}
             </button>
           ))}
+          {tempItems.length > 0 && (
+            <button
+              onClick={() => setCategoryFilter('Temporaire' === categoryFilter ? null : 'Temporaire')}
+              style={chipStyle(categoryFilter === 'Temporaire')}
+            >
+              Temporaire
+            </button>
+          )}
         </div>
       )}
 
@@ -263,15 +354,17 @@ export default function ShoppingPage() {
       {/* Liste */}
       {loading ? (
         <p style={{ color: 'var(--fg2)' }}>Chargement…</p>
-      ) : items.length === 0 ? (
+      ) : totalCount === 0 ? (
         <div style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '3rem' }}>
           <p style={{ marginBottom: '0.5rem' }}>Liste vide — tout est en stock !</p>
           <p style={{ fontSize: '0.875rem' }}>Cette liste se remplit automatiquement avec les produits épuisés ou en faible quantité dans votre stock, ainsi que les ingrédients manquants de vos recettes.</p>
+          <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>Vous pouvez aussi ajouter un article temporaire avec le champ ci-dessus.</p>
         </div>
-      ) : filteredItems.length === 0 ? (
+      ) : filteredItems.length === 0 && filteredTempItems.length === 0 ? (
         <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>Aucun résultat.</p>
       ) : (
-        Array.from(groupByCategory(filteredItems).entries()).map(([categoryName, groupItems]) => (
+        <>
+        {Array.from(groupByCategory(filteredItems).entries()).map(([categoryName, groupItems]) => (
           <section key={categoryName} style={{ marginBottom: '1.5rem' }}>
             <h2 style={{
               fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg2)',
@@ -329,6 +422,56 @@ export default function ShoppingPage() {
             ))}
           </section>
         ))
+        }
+
+        {/* Temporary items */}
+        {filteredTempItems.length > 0 && (
+          <section style={{ marginBottom: '1.5rem' }}>
+            <h2 style={{
+              fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg2)',
+              textTransform: 'uppercase', letterSpacing: '0.05em',
+              marginBottom: '0.25rem',
+            }}>
+              Temporaire
+            </h2>
+            {filteredTempItems.map(item => (
+              <div key={`temp-${item.id}`} style={{
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                padding: '0.5rem 0', borderBottom: '1px solid var(--border)',
+              }}>
+                <button
+                  onClick={() => checkOffTemp(item)}
+                  disabled={checkingTemp.has(item.id)}
+                  style={{
+                    width: 24, height: 24, borderRadius: 4, flexShrink: 0,
+                    border: '2px solid var(--border)', background: 'var(--bg)',
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  title="Marquer comme acheté (supprime)"
+                >
+                  {checkingTemp.has(item.id) ? '…' : ''}
+                </button>
+
+                <div style={{ width: 28, height: 28, flexShrink: 0 }} />
+
+                <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)', fontStyle: 'italic' }}>
+                  {item.name}
+                </span>
+
+                <span style={{
+                  background: 'var(--bg2)', color: 'var(--fg2)',
+                  borderRadius: 9999, padding: '0.125rem 0.5rem',
+                  fontSize: '0.6875rem', fontWeight: 500, whiteSpace: 'nowrap',
+                  border: '1px solid var(--border)',
+                }}>
+                  temp.
+                </span>
+              </div>
+            ))}
+          </section>
+        )}
+        </>
       )}
     </main>
   )

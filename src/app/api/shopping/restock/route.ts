@@ -37,6 +37,9 @@ export async function POST(_req: Request) {
   // Clear shopping recipes
   await pool.query('DELETE FROM shopping_recipes WHERE household_id = ?', [hid])
 
+  // Clear temporary shopping items
+  await pool.query('DELETE FROM shopping_items WHERE household_id = ?', [hid])
+
   broadcast(hid, 'stock_updated')
   broadcast(hid, 'shopping_updated')
   return NextResponse.json({ restocked: r1.affectedRows + r2.affectedRows })
