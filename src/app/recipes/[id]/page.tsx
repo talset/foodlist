@@ -7,6 +7,7 @@ import type { ApiRecipeDetail, ApiRecipeIngredient, ApiRecipeCategory } from '@/
 import { getCompatibleUnits, convertUnit, fmtQty } from '@/lib/units'
 import NumberInput from '@/components/NumberInput'
 import ReactMarkdown from 'react-markdown'
+import ProductIcon from '@/components/ProductIcon'
 
 interface IngredientRow {
   product_id: number
@@ -419,7 +420,7 @@ export default function RecipePage() {
                           {inStock ? '✓' : '!'}
                         </span>
                       </button>
-                      {ing.icon_url && <img src={ing.icon_url} alt="" width={24} height={24} style={{ borderRadius: 3 }} />}
+                      <ProductIcon src={ing.icon_url} size={24} />
                       <span style={{ flex: 1, color: 'var(--fg)' }}>{ing.product_name}</span>
                       <span style={{ color: 'var(--fg2)' }}>{fmtQty(ing.quantity * viewMultiplier)} {ing.ref_unit}</span>
                     </li>

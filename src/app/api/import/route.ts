@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { defaultIconRef } from '@/lib/search'
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
            ref_unit = VALUES(ref_unit),
            ref_quantity = VALUES(ref_quantity),
            icon_ref = VALUES(icon_ref)`,
-        [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref ?? null, userId]
+        [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref || defaultIconRef(name), userId]
       )
       // affectedRows: 1 = inserted, 2 = updated (MySQL ON DUPLICATE KEY behavior)
       if (res.affectedRows === 1) results.created++

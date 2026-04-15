@@ -6,6 +6,7 @@ import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
 import SearchInput from '@/components/SearchInput'
+import ProductIcon from '@/components/ProductIcon'
 
 function groupByCategory(items: ApiStockItem[]) {
   const map = new Map<string, ApiStockItem[]>()
@@ -298,9 +299,7 @@ export default function ShoppingPage() {
                   {checking.has(item.id) ? '…' : ''}
                 </button>
 
-                {item.icon_url && (
-                  <img src={item.icon_url} alt="" width={28} height={28} style={{ borderRadius: 4, flexShrink: 0 }} />
-                )}
+                <ProductIcon src={item.icon_url} size={28} />
 
                 <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>
                   {item.product_name}

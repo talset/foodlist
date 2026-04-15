@@ -77,6 +77,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `maquereau.png` | flat oval tin can with a soft teal-blue label featuring a clearly drawn mackerel fish illustration, silver metallic body, side view |
 | `thon.png` | flat oval tin can with a clean sky-blue label featuring a clearly drawn tuna fish illustration, silver metallic body, side view |
 | `thon-tomate.png` | flat oval tin can with a warm orange-red label featuring a tuna fish and a small tomato illustration, silver metallic body, side view |
+| `sardines.png` | flat oval tin can with a warm golden-yellow label featuring two small sardine fish illustrations, silver metallic body, side view |
 | `concentre-tomate.png` | cute small squeezable tomato paste tube in bright red, slightly crinkled metal tube with a small cap, warm red color, side view |
 | `puree-tomate.png` | cute tall slim carton of tomato passata in warm red, plump brick-shaped Tetra Pak style, side view |
 
@@ -122,6 +123,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `saucisson.png` | three overlapping round slices of dry saucisson, soft pinkish-beige with gentle fat speckles, warm rosy tones, rustic texture, top view |
 | `rosette.png` |Whole rosette sausage log, pale pink cured meat, encased in a thin white natural casing tied at both ends, slightly larger and lighter in color than chorizo, side view. The sausage is sliced into two round slices (rondelles) showing a deep red meat interior with visible small white fat specks evenly distributed throughout. High detail, realistic texture, soft natural lighting |
 | `jambon.png` | single soft folded slice of pink cooked ham, gentle rose-pink color, smooth surface with a slight sheen, cozy shape, top view, no animal |
+| `jambon-sec.png` | single thin slice of dry-cured ham with deep ruby-red meat and a thin white fat rim, slightly translucent edges, warm rosy-red tones, rustic artisan look, top view, no animal |
 | `bacon.png` | two soft wavy bacon rashers side by side, gentle pink and ivory stripes, warm cozy tones, slight curl at the edges, top view |
 | `lardon.png` | several small rectangular bacon lardon strips with soft rosy-pink meat and pale white fat layers alternating, clearly rectangular shapes, loose pile, warm pink-white tones, top view |
 | `saucisse.png` | single plump curved pink pork sausage with smooth skin and a gentle shine, warm rosy color, cozy proportions, side view, no animal |
@@ -157,6 +159,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `semoule.png` | small soft paper bag of golden couscous with warm sandy-yellow color, plump little bag shape, side view |
 | `lentilles.png` | soft transparent plastic bag filled with tiny round green lentils, muted sage-green color, plump rounded bag, side view |
 | `farine.png` | cute soft white paper flour bag with a tiny wheat ear illustration, clean white and warm cream tones, plump bag shape, side view |
+| `maizena.png` | cute small yellow and white cardboard box of cornstarch with a tiny corn cob illustration, warm sunny-yellow and clean white tones, plump box shape, side view |
 | `sucre.png` | soft white paper sugar bag with a gentle granulated texture, clean white and warm cream tones, plump bag shape, side view |
 | `sucre-morceau.png` | cute open cardboard box with soft white sugar cubes, one cube sitting playfully outside the box, clean white tones, 3/4 view |
 | `chapelure.png` | cute cardboard package of golden breadcrumbs with a small window showing warm amber crumbs, soft golden tones, side view |

@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
 import { iconUrl } from '@/lib/icon'
+import { defaultIconRef } from '@/lib/search'
 import type { ApiProduct } from '@/types'
 
 function toApiProduct(row: any, theme?: string): ApiProduct {
@@ -90,7 +91,7 @@ export async function POST(req: Request) {
   try {
     const [result] = await pool.query<any>(
       'INSERT INTO products (name, category_id, ref_unit, ref_quantity, icon_ref, created_by) VALUES (?, ?, ?, ?, ?, ?)',
-      [name.trim(), category_id, ref_unit.trim(), ref_quantity, icon_ref ?? null, session.user.id]
+      [name.trim(), category_id, ref_unit.trim(), ref_quantity, icon_ref || defaultIconRef(name), session.user.id]
     )
 
     const [rows] = await pool.query<any[]>(

@@ -78,6 +78,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `maquereau.png` | flat oval tin can with teal-blue label, keeping its real flat oval shape, with a kawaii face on the label — sleepy fish-like eyes, tiny smile, rosy cheeks — soft teal-blue, silver metallic body, side view |
 | `thon.png` | flat oval tin can with sky-blue label, keeping its real flat oval shape, with a kawaii face on the label — cute wide eyes, happy smile, rosy cheeks — sky-blue, silver metallic body, side view |
 | `thon-tomate.png` | flat oval tin can with orange-red label, keeping its real flat oval shape, with a kawaii face on the label — bright eyes, smile, rosy cheeks — orange-red, silver metallic body, side view |
+| `sardines.png` | flat oval tin can with golden-yellow label, keeping its real flat oval shape, with a kawaii face on the label — sleepy content eyes, tiny smile, rosy cheeks — warm golden-yellow, silver metallic body, side view |
 | `concentre-tomate.png` | small metal tomato paste tube with screw cap, keeping its real squeezable tube shape, with a kawaii face on the tube body — big round eyes, cheerful smile, rosy cheeks — bright red, side view |
 | `puree-tomate.png` | tall slim Tetra Pak tomato passata carton, keeping its real brick carton shape, with a kawaii face on the front — glossy happy eyes, big smile, rosy cheeks — warm red, side view |
 
@@ -124,6 +125,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `saucisson.png` | three overlapping round saucisson slices, keeping their real circular slice shape, with a kawaii face on the top slice — big eyes, happy smile, rosy cheeks — pinkish-beige with fat speckles, top view |
 | `rosette.png` | whole rosette sausage log with pale pink casing tied at both ends, keeping its real log shape, with a kawaii face on the side — big round eyes, cheerful smile, rosy cheeks — pale pink, side view |
 | `jambon.png` | single soft folded slice of pink cooked ham, keeping its real flat folded shape, with a small kawaii face on the surface — sleepy happy eyes, gentle smile, rosy cheeks — rose-pink, top view |
+| `jambon-sec.png` | single thin slice of dry-cured ham with deep ruby-red meat and thin white fat rim, keeping its real flat slice shape, with a small kawaii face on the surface — proud squinting eyes, refined smile, rosy cheeks — deep rosy-red, top view |
 | `bacon.png` | two wavy bacon rashers side by side, keeping their real wavy flat shape, with a small kawaii face on each rasher — big eyes, happy smile, rosy cheeks — pink and ivory stripes, top view |
 | `lardon.png` | pile of small rectangular lardon strips, keeping their real rectangular strip shapes, with a kawaii face on the topmost strip — big round eyes, happy smile, rosy cheeks — rosy-pink and pale white, top view |
 | `saucisse.png` | single plump curved pink pork sausage, keeping its real sausage shape, with a kawaii face drawn on the side — big round eyes, cheerful smile, rosy cheeks — warm rosy color, side view |
@@ -159,6 +161,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `semoule.png` | small paper bag of golden couscous, keeping its real small bag shape, with a kawaii face on the bag — round happy eyes, smile, rosy cheeks — warm sandy-golden color, side view |
 | `lentilles.png` | transparent plastic bag filled with small green lentils, keeping its real rounded bag shape, with a kawaii face on the bag — calm wise eyes, gentle smile, rosy cheeks — muted sage-green, side view |
 | `farine.png` | soft white paper flour bag with wheat illustration, keeping its real paper bag shape, with a kawaii face on the bag — big gentle eyes, sweet smile, rosy cheeks — clean white, side view |
+| `maizena.png` | small yellow and white cardboard cornstarch box with corn cob illustration, keeping its real box shape, with a kawaii face on the box front — bright sunny eyes, cheerful smile, rosy cheeks — warm yellow and white, side view |
 | `sucre.png` | soft white paper sugar bag, keeping its real paper bag shape, with a kawaii face on the bag — sweet sparkling eyes, happy smile, rosy cheeks — clean white, side view |
 | `sucre-morceau.png` | open cardboard box with white sugar cubes, keeping its real open box shape, with a kawaii face on the box — big eyes, happy smile, rosy cheeks — one cube sitting outside with its own tiny dot eyes, 3/4 view |
 | `chapelure.png` | cardboard breadcrumbs package with small window showing amber crumbs, keeping its real box shape, with a kawaii face on the packaging — warm golden eyes, cozy smile, rosy cheeks — golden amber tones, side view |

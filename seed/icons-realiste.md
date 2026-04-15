@@ -77,6 +77,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `maquereau.png` | flat oval tin can with a teal-blue paper label showing a detailed mackerel illustration, silver metallic body, printed seam visible, side view |
 | `thon.png` | flat oval tin can with a sky-blue paper label showing a tuna fish illustration, silver metallic body, slight ring-pull visible, side view |
 | `thon-tomate.png` | flat oval tin can with an orange-red label featuring tuna and tomato artwork, silver body, realistic flat tin texture, side view |
+| `sardines.png` | flat oval tin can with a warm golden-yellow label featuring two sardine fish illustrations, silver metallic body, ring-pull visible, realistic flat tin texture, side view |
 | `concentre-tomate.png` | metal squeeze tube of tomato paste, slightly crinkled aluminum tube with red and orange printing, small plastic screw cap, realistic foil tube texture, side view |
 | `puree-tomate.png` | tall slim Tetra Pak brick of tomato passata in warm red, matte printed cardboard, square base, beveled edges, pouring spout, realistic carton texture, side view |
 
@@ -123,6 +124,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `saucisson.png` | three overlapping round slices of dry saucisson, pale pink with white fat specks, realistic cut meat texture showing the coarse grind, slight glistening surface, top view |
 | `rosette.png` | whole rosette sausage log in natural casing tied at both ends, with two round slices cut showing deep red meat interior and white fat specks, realistic dry-cured meat texture, side view |
 | `jambon.png` | single thin folded slice of cooked ham, pale pink color, slight sheen on the smooth surface, realistic cooked ham texture visible at the fold, top view |
+| `jambon-sec.png` | single thin slice of dry-cured Serrano-style ham with deep ruby-red meat, thin white fat rim, slightly translucent marbled edges, realistic cured meat texture, top view |
 | `bacon.png` | two strips of raw streaky bacon with alternating pink meat and white fat layers, slight curl at the edges, realistic raw pork texture, top view |
 | `lardon.png` | several small rectangular lardon cubes with visible pink meat and white fat alternating layers, loose natural pile, realistic raw pork texture, top view |
 | `saucisse.png` | single plump pork sausage with smooth pink skin, visible linking twist at one end, slight natural casing texture, side view |
@@ -158,6 +160,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `semoule.png` | small paper bag of golden couscous, plain paper packaging with slight print, warm sandy-yellow grain visible through the top, side view |
 | `lentilles.png` | transparent plastic bag of green lentils, matte plastic, tiny dark green-grey lentils visible through the bag, side view |
 | `farine.png` | paper flour bag with a slightly dusty surface, clean white with wheat illustration print, slight flour dust at the fold, side view |
+| `maizena.png` | small yellow and white cardboard box of cornstarch, printed corn cob illustration, matte cardboard texture, realistic packaging, side view |
 | `sucre.png` | paper sugar bag with slightly granular visible texture at the top, clean white packaging, printed text area, side view |
 | `sucre-morceau.png` | open cardboard box with white sugar cubes neatly stacked inside, one cube sitting outside the box, realistic compressed sugar texture, 3/4 view |
 | `chapelure.png` | cardboard box of breadcrumbs with a small clear window showing warm golden-amber crumbs, realistic paper packaging, side view |

@@ -189,6 +189,13 @@
     "icon_ref": "jambon.png"
   },
   {
+    "name": "Jambon sec",
+    "category": "Viandes & Poissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "jambon-sec.png"
+  },
+  {
     "name": "Knack",
     "category": "Viandes & Poissons",
     "ref_unit": "g",
@@ -714,6 +721,13 @@
     "icon_ref": "potee-mais-popcorn.png"
   },
   {
+    "name": "Maizena",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "maizena.png"
+  },
+  {
     "name": "Maquereau",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
@@ -812,6 +826,13 @@
     "icon_ref": "riz.png"
   },
   {
+    "name": "Sardines",
+    "category": "Épicerie / Conserves",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "sardines.png"
+  },
+  {
     "name": "Semoule",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
@@ -840,13 +861,6 @@
     "icon_ref": "sucre-morceau.png"
   },
   {
-    "name": "Thé",
-    "category": "Épicerie / Conserves",
-    "ref_unit": "unité",
-    "ref_quantity": 25,
-    "icon_ref": "the.png"
-  },
-  {
     "name": "Thon",
     "category": "Épicerie / Conserves",
     "ref_unit": "g",
@@ -859,13 +873,6 @@
     "ref_unit": "g",
     "ref_quantity": 160,
     "icon_ref": "thon-tomate.png"
-  },
-  {
-    "name": "Frites surgelées",
-    "category": "Surgelés",
-    "ref_unit": "g",
-    "ref_quantity": 1000,
-    "icon_ref": "frites.png"
   },
   {
     "name": "Glaces",
@@ -978,6 +985,13 @@
     "ref_unit": "mL",
     "ref_quantity": 500,
     "icon_ref": "sweeps.png"
+  },
+  {
+    "name": "Thé",
+    "category": "Boissons",
+    "ref_unit": "unité",
+    "ref_quantity": 25,
+    "icon_ref": "the.png"
   },
   {
     "name": "Tisane",
@@ -1512,13 +1526,6 @@
     "icon_ref": "papier-film.png"
   },
   {
-    "name": "Gel",
-    "category": "Hygiène / Entretien",
-    "ref_unit": "unité",
-    "ref_quantity": 1,
-    "icon_ref": "gel-coiffant.png"
-  },
-  {
     "name": "Gel douche",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
@@ -1533,7 +1540,7 @@
     "icon_ref": "gel-hydroalcoolique.png"
   },
   {
-    "name": "Gratoire",
+    "name": "Grattoir",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,
@@ -1692,13 +1699,6 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "sopalin.png"
-  },
-  {
-    "name": "Spray démêlant",
-    "category": "Hygiène / Entretien",
-    "ref_unit": "unité",
-    "ref_quantity": 1,
-    "icon_ref": "spray-demelant.png"
   },
   {
     "name": "Tablettes anti-calcaire",

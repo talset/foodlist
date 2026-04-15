@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { ApiProduct, ApiCategory } from '@/types'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import SearchInput from '@/components/SearchInput'
+import ProductIcon from '@/components/ProductIcon'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ApiProduct[]>([])
@@ -175,10 +176,7 @@ export default function ProductsPage() {
                   padding: '0.5rem 0', borderBottom: '1px solid var(--border)',
                 }}>
                   <div style={{ width: 32, height: 32, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {p.icon_url
-                      ? <img src={p.icon_url} width={32} height={32} alt="" style={{ borderRadius: 4 }} />
-                      : <span style={{ color: 'var(--border)', fontSize: '1.25rem' }}>·</span>
-                    }
+                    <ProductIcon src={p.icon_url} />
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>

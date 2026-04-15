@@ -109,7 +109,7 @@
     "name": "Curry de poulet",
     "description": "Curry de poulet au lait de coco avec carottes et patates",
     "category": "Plat",
-    "base_servings": 4,
+    "base_servings": 6,
     "steps_markdown": "# Préparation\n\n1. Cuire les patates à l'eau, puis les égoutter et les couper en dés\n2. Éplucher et couper les carottes en rondelles\n3. Émincer les oignons\n\n# Cuisson\n\n1. Faire revenir les morceaux de poulet dans une cocotte jusqu'à ce qu'ils soient dorés\n2. Ajouter les oignons et faire revenir 2-3 minutes\n3. Incorporer la pâte de curry et mélanger pour bien enrober\n4. Verser le lait de coco et porter à frémissement\n5. Ajouter les carottes et les patates\n6. Laisser mijoter à feu doux 20 minutes\n\n# Accompagnement\n\n1. Cuire le riz selon les instructions\n2. Servir le curry sur un lit de riz\n",
     "photo_url": "/api/recipes/photos/curry-de-poulet.png",
     "ingredients": [
@@ -139,7 +139,7 @@
       },
       {
         "product": "Riz",
-        "quantity": 600
+        "quantity": 900
       }
     ]
   },

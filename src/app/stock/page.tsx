@@ -7,6 +7,7 @@ import { useSSE } from '@/hooks/useSSE'
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
 import { norm } from '@/lib/search'
 import SearchInput from '@/components/SearchInput'
+import ProductIcon from '@/components/ProductIcon'
 const STATUS_LABELS: Record<string, string> = {
   in_stock: 'En stock',
   low: 'Peu',
@@ -211,10 +212,7 @@ export default function StockPage() {
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.5rem 0', borderBottom: '1px solid var(--border)',
               }}>
-                {item.icon_url
-                  ? <img src={item.icon_url} alt="" width={32} height={32} style={{ borderRadius: 4, flexShrink: 0 }} />
-                  : <div style={{ width: 32, height: 32, flexShrink: 0 }} />
-                }
+                <ProductIcon src={item.icon_url} />
 
                 <span style={{ flex: 1, fontWeight: 500, color: 'var(--fg)' }}>
                   {item.product_name}

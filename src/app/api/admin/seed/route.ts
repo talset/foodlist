@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import pool from '@/lib/db'
 import { authOptions } from '@/lib/auth'
+import { defaultIconRef } from '@/lib/search'
 import seedProducts from '../../../../../seed/products.json'
 
 export const dynamic = 'force-dynamic'
@@ -48,7 +49,7 @@ export async function POST() {
            ref_unit = VALUES(ref_unit),
            ref_quantity = VALUES(ref_quantity),
            icon_ref = VALUES(icon_ref)`,
-        [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref ?? null, userId]
+        [name, categoryId, ref_unit, parseFloat(ref_quantity), icon_ref || defaultIconRef(name), userId]
       )
       if (res.affectedRows === 1) created++
       else if (res.affectedRows === 2) updated++
