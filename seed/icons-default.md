@@ -135,6 +135,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `poulet.png` | single golden roasted chicken drumstick with a plump round end and a small white bone tip, warm golden-brown color, glossy skin, side view, not a live bird |
 | `agneau.png` | single raw lamb chop cutlet with a plump round rosy-pink meat portion and a clean white rib bone handle, soft warm pink tones, clearly a meat cut not an animal, side view |
 | `porc.png` | single raw pork loin slice with a soft pink center and a thin pale cream fat rim, gentle rosy tones, side view, not an animal |
+| `magret-de-canard.png` | single raw duck breast (magret) with a thick layer of golden-cream fat on one side and deep ruby-red meat on the other, slightly curved shape, warm rich tones, side view, not a bird |
 | `pate.png` | cute small oval metal tin of pâté with a warm beige lid and a tiny pull tab, rustic earthy tones, side view |
 | `rillettes.png` | cute small round metal tin can of salmon rillettes with shredded flaked pink salmon visible inside the open lid, soft rose-salmon color, chunky texture, cozy proportions, side view |
 | `cordon-bleu.png` | single plump oval breaded escalope with a golden crunchy coating, warm golden-brown color, slightly puffed shape, side view, not a ribbon |
@@ -176,6 +177,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `pain-mie.png` | sliced white sandwich bread loaf in a soft transparent bag, fluffy white slices peeking out, warm cream tones, rounded bag shape, side view |
 | `pain-burger.png` | single soft round burger bun with sesame seeds, plump golden surface, warm golden-cream color, slightly oversized cozy proportions, 3/4 view |
 | `pain-lait.png` | single plump oval milk bread roll with a shiny golden glaze, soft warm golden-cream color, smooth surface, cute rounded shape, 3/4 view |
+| `pain-de-campagne.png` | single round rustic country bread loaf with a thick floury crust, warm golden-brown color with visible flour dusting, cozy artisan shape, slight top view |
 | `brioche.png` | gorgeous braided golden brioche loaf with a deep glossy caramel glaze, rich warm golden-brown tones, plump braid, 3/4 top view |
 | `galette-kebab.png` | single round thin flat pita bread, soft pale cream color with gentle golden spots, clean simple shape, slight top view |
 | `pate-pizza.png` | plump smooth round ball of raw pizza dough with soft flour dusting, warm cream-white color, cozy round shape, 3/4 top view |
@@ -229,6 +231,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `fond-veau.png` | cute small glass jar of rich amber veal stock, deep warm brown liquid, plump round jar with a simple soft label, cozy golden-brown tones, front view |
 | `fond-volaille.png` | cute small glass jar of golden chicken stock, warm amber-golden liquid, plump round jar with a simple soft label, cozy golden tones, front view |
 | `moutarde.png` | cute round ceramic mustard jar with a plump belly and a warm mustard-yellow lid, soft golden-yellow tones, cozy little jar, side view |
+| `vinaigrette.png` | cute small glass bottle of vinaigrette dressing with a golden-amber liquid inside showing herbs and spices, small screw cap, warm golden tones, side view |
 
 ---
 
@@ -245,6 +248,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `brocoli.png` | single plump broccoli floret with a lush deep green crown and a short pale green stem, vivid forest-green color, cozy rounded top, front view |
 | `poivron.png` | single plump shiny red bell pepper with a cheerful green stem, vivid warm red color, glossy surface, cozy round shape, front view |
 | `salade.png` | single round lettuce head with soft open pale and mid-green leaves, fresh cool green tones, cozy layered look, slight top view |
+| `endive.png` | single plump Belgian endive (chicory) with tightly packed pale yellow-white leaves and light green tips, smooth elongated torpedo shape, soft cream and pale yellow tones, side view |
 | `champignon.png` | single plump white button mushroom with a smooth cream cap and visible soft gills underneath, warm ivory tones, cozy round shape, side view |
 | `citron.png` | A cute, smooth lemon with a natural elongated oval shape (not round), gently textured yellow skin, a small leaf attached at the top, vivid sunshine-yellow color, front view, minimal style |
 | `cornichon.png` | single small plump green gherkin with a bumpy textured skin, fresh bright green color, cute little size, side view |
@@ -263,6 +267,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `chips.png` | A cute, smooth inflated foil snack bag in green and silver colors, with a visible front label showing illustrated potato chips, slightly rounded corners, plump cozy shape, side view, minimal style |
+| `apericube.png` | cute small colorful cardboard box of apéritif cheese cubes with a cheerful design, plump little box with a peel-open top, warm multicolor tones, 3/4 view |
 | `cacahuete.png` | handful of plump peanuts in shell in warm beige tones, one split open showing two golden nuts inside, cozy earthy look, top view |
 | `pistache.png` | handful of plump pistachio nuts, half open showing a vivid green kernel, warm beige shells with green peeking through, top view |
 | `noisette.png` | handful of round plump hazelnuts in rich warm brown tones, one cracked open showing a golden nut inside, cozy earthy look, top view |
@@ -282,6 +287,10 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `chocolat-blanc.png` | plump white chocolate bar with one square playfully broken off, creamy ivory-white color, clean grid pattern, top view |
 | `palet-breton.png` | thick round butter cookie with a golden-orange crust, slightly cracked surface showing rich buttery texture, warm golden tones, top view |
 | `speculoos.png` | elongated rectangular spiced biscuit with embossed pattern on top, deep warm brown color, slightly crunchy texture, top view |
+| `nougat.png` | cute rectangular bar of white nougat with visible almonds and pistachios embedded inside, soft ivory-white color, slightly chewy texture, wrapped in thin edible wafer paper, side view |
+| `nounours-guimauve.png` | cute small bear-shaped marshmallow candy in soft pastel pink, plump rounded teddy bear silhouette with a smooth sugary surface, front view |
+| `rocher-suchard.png` | cute round chocolate truffle ball with a bumpy rocky dark chocolate surface, deep cocoa-brown color with a slight cocoa powder dusting, cozy round shape, front view |
+| `snickers.png` | cute chocolate candy bar with a brown chocolate coating, one end cut to reveal layers of caramel, nougat and peanuts inside, warm brown tones, side view |
 | `nutella.png` | cute round glass jar of hazelnut chocolate spread with a warm brown body and a cheerful red lid, rich cocoa tones, no brand text, side view |
 | `confiture.png` | cute glass jar of strawberry jam with a vivid warm red color, a charming checkered red fabric lid cover, cozy rustic look, side view |
 | `creme-marron.png` | cute soft tube of chestnut cream paste in warm brown tones with a tiny chestnut illustration, cozy earthy colors, side view |
@@ -305,7 +314,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `frites.png` | cute plastic bag of frozen french fries with plump golden fries illustrated on the front, soft blue and golden tones, frosty look, side view |
 | `pizza.png` | Cute square frozen pizza box, slightly plump and well-proportioned, shown in a 3/4 view. The box is neatly closed with clean edges and features a cheerful illustration of a pizza on the front (with visible toppings like cheese, tomato, and ingredients). Warm red and golden tones dominate the design, giving it an appetizing and inviting look. The surface is matte cardboard with subtle print texture, realistic lighting, and a friendly, appealing style |
 | `gyoza.png` | two plump crescent-shaped gyoza dumplings with cute pleated edges, soft cream and golden-brown tones, cozy look, 3/4 view |
 | `nuggets.png` | three plump golden chicken nuggets in irregular shapes, vivid warm golden-orange color, crispy coating look, top view |
@@ -318,15 +326,15 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `brosse-dents.png` | cute toothbrush with a plump handle in soft sky-blue and white, fluffy white bristles, cheerful proportions, diagonal side view |
+| `brossettes-dents.png` | cute small pack of interdental brushes with tiny colorful brush heads poking out, soft pastel tones, plump little package, side view |
 | `dentifrice.png` | A cute, smooth pastel blue and white toothpaste tube with a rounded cap, slightly squeezed with a small swirl of toothpaste at the tip, clean side view, minimal style |
 | `coton-tige.png` | cute cylindrical cardboard box of cotton swabs in soft cream and white, one fluffy cotton swab sitting beside it, side view |
 | `coton.png` | stack of three round soft white cotton pads, clean bright white, fluffy gentle texture, cozy little stack, 3/4 top view |
 | `deodorant.png` | cute roll-on deodorant bottle with a transparent round ball, soft white and light grey tones, plump rounded shape, side view |
 | `gel-douche.png` | cute shower gel bottle with a soft colorful rounded body and a cheerful flip top cap, pastel tones, plump shape, side view |
-| `gel-coiffant.png` | cute compact round plastic tub of hair gel with a flat lid, soft translucent blue-green color, smooth round container, 3/4 top view |
 | `shampoing.png` | cute shampoo bottle with a plump soft body and a pump dispenser, pastel tones, rounded shape, side view |
-| `spray-demelant.png` | cute hair detangler spray bottle with soft pastel tones and a small trigger nozzle, plump rounded bottle, side view |
 | `creme-main.png` | cute hand cream tube slightly squeezed with a tiny cream curl at the tip, soft white and pink tones, plump tube, side view |
+| `creme-hydratante.png` | cute round white plastic jar of moisturizing cream with a smooth lid, soft white and pastel tones, plump little pot, side view |
 | `pansement.png` | cute rectangular cardboard box of adhesive bandages in warm beige and cream tones, one bandage sitting beside it, 3/4 view |
 | `savon-liquide.png` | cute pump dispenser bottle of liquid soap with a soft rounded body and a tiny foam bubble at the nozzle, soft pastel tones, side view |
 | `gel-hydroalcoolique.png` | cute small hand sanitizer bottle with a cheerful flip cap, soft blue and white tones, plump little bottle, side view |

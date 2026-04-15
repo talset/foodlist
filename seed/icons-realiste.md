@@ -136,6 +136,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `poulet.png` | single golden-brown roasted chicken drumstick with a plump meat end, visible crispy skin texture with golden-brown color, white bone tip showing, realistic roasted poultry, side view |
 | `agneau.png` | single lamb chop cutlet with rosy-pink meat, slight fat marbling, clean white rib bone handle, realistic raw lamb texture, side view |
 | `porc.png` | single raw pork loin slice with pink center and pale fat rim, realistic raw pork texture with slight moisture, side view |
+| `magret-de-canard.png` | single raw duck breast (magret) with a thick layer of creamy-white fat on one side and deep dark ruby-red meat on the other, slightly curved shape, realistic raw poultry texture, side view |
 | `pate.png` | small oval metal tin of pâté with a smooth lid and ring-pull, matte steel surface, printed wrap label, realistic metal container, side view |
 | `rillettes.png` | small round glass jar with visible shredded pink salmon rillettes inside, metal lid slightly ajar, realistic chunky fish texture in the jar, side view |
 | `cordon-bleu.png` | single oval breaded escalope with golden crispy crumb coating, realistic deep-fried breading texture, slight oil sheen, side view |
@@ -177,6 +178,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `pain-mie.png` | loaf of sliced white sandwich bread in a transparent plastic bag, soft white slices visible through the bag, sealed with a plastic clip, side view |
 | `pain-burger.png` | single round burger bun with sesame seeds on top, smooth golden top crust, soft interior texture at the cut edge, 3/4 view |
 | `pain-lait.png` | single plump oval milk bread roll with a shiny egg-glazed golden surface, smooth and soft-looking, side view |
+| `pain-de-campagne.png` | single round rustic country bread loaf with a thick crusty surface, visible flour dusting, golden-brown color, realistic artisan bread texture with slight cracking, slight top view |
 | `brioche.png` | braided brioche loaf with a deep golden caramel glaze, visible braid texture, slightly crispy top, realistic soft enriched bread texture, 3/4 top view |
 | `galette-kebab.png` | single round thin pita flatbread, pale cream with characteristic golden spots from the griddle, slightly puffed center, slight top view |
 | `pate-pizza.png` | round ball of pizza dough dusted with flour, slightly sticky surface, natural dough texture, cream-white color, 3/4 top view |
@@ -230,6 +232,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `fond-veau.png` | small glass jar of rich amber veal stock, deep warm caramel-brown liquid inside, metal lid, slight label, realistic glass jar, front view |
 | `fond-volaille.png` | small glass jar of golden chicken stock, warm amber-golden liquid, metal lid, slight label, realistic glass jar, front view |
 | `moutarde.png` | classic ceramic Dijon mustard jar with a wide body, pale mustard-yellow lid, slight glaze on the ceramic surface, small printed paper label, side view |
+| `vinaigrette.png` | small glass bottle of vinaigrette dressing, golden-amber liquid with visible herbs and mustard particles, small metal screw cap, realistic glass texture, side view |
 
 ---
 
@@ -246,6 +249,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `brocoli.png` | single broccoli floret with dense deep green crown and pale green stem, realistic grainy floret texture, slight moisture, front view |
 | `poivron.png` | single red bell pepper with glossy vivid red skin, natural green stem, realistic smooth pepper surface with characteristic ridges, front view |
 | `salade.png` | single iceberg lettuce head with pale and mid-green layered leaves, crisp-looking texture, slight moisture on outer leaves, slight top view |
+| `endive.png` | single Belgian endive (chicory) with tightly packed pale yellow-white leaves and light green tips, smooth elongated torpedo shape, realistic waxy leaf texture, slight moisture, side view |
 | `champignon.png` | single white button mushroom with smooth cap and visible gills underneath, slight earthy color, realistic soft mushroom texture, side view |
 | `citron.png` | single lemon with natural textured yellow skin, slightly bumpy realistic peel, small natural stem indentation at the top, front view |
 | `cornichon.png` | single small pickled gherkin with characteristic bumpy textured skin, vivid deep green, wet slightly glossy surface from brine, side view |
@@ -264,6 +268,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `chips.png` | inflated foil snack bag in green and silver colors, realistic crinkled metallic foil texture, printed label area with chip illustrations, slightly rounded bag, side view |
+| `apericube.png` | small colorful cardboard box of apéritif cheese cubes with printed design, peel-open top, realistic matte cardboard texture, 3/4 view |
 | `cacahuete.png` | handful of peanuts in shell with natural beige-brown papery skin, one split open showing two golden nuts inside, realistic dry shell texture, top view |
 | `pistache.png` | several pistachio nuts half-open, natural beige shell showing vivid green kernel, slight roasted coloring, realistic nut texture, top view |
 | `noisette.png` | handful of whole hazelnuts with natural rich brown shell, one cracked showing golden interior, realistic hard shell texture, top view |
@@ -283,6 +288,10 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `chocolat-blanc.png` | white chocolate bar with one square broken off, creamy ivory-white surface showing smooth glossy texture, realistic bar markings, top view |
 | `palet-breton.png` | thick round butter cookie with golden-orange crust, slightly cracked surface showing rich buttery crumb, realistic baked texture, top view |
 | `speculoos.png` | elongated rectangular spiced biscuit with embossed windmill pattern on top, deep warm cinnamon-brown color, realistic crunchy texture, top view |
+| `nougat.png` | rectangular bar of white nougat with visible whole almonds and pistachios embedded inside, thin edible wafer paper on top and bottom, realistic chewy confection texture, side view |
+| `nounours-guimauve.png` | small bear-shaped marshmallow candy in soft pink, smooth sugary surface with slight powdery texture, realistic foam candy look, front view |
+| `rocher-suchard.png` | round chocolate truffle ball with a bumpy irregular dark chocolate surface, slight cocoa powder dusting, realistic rich chocolate texture, front view |
+| `snickers.png` | chocolate candy bar with brown chocolate coating, one end sliced to reveal layers of caramel, white nougat and roasted peanuts, realistic candy bar cross-section, side view |
 | `nutella.png` | round glass jar of hazelnut chocolate spread, slightly opaque glass showing dark brown contents, red and gold lid, slight label wrap, no brand, side view |
 | `confiture.png` | glass jar of strawberry jam with visible red jam inside, checkered red fabric lid cover held with an elastic band, realistic glass jar, side view |
 | `creme-marron.png` | soft squeezable tube of chestnut cream, slightly squeezed aluminum tube with warm brown printing, small screw cap, side view |
@@ -306,7 +315,6 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 
 | Fichier | Description détaillée |
 |---|---|
-| `frites.png` | plastic bag of frozen french fries with frost on the outside, printed bag showing golden fries, slightly stiff from freezing, side view |
 | `pizza.png` | flat frozen pizza box, 3/4 view, printed cardboard with visible pizza illustration showing cheese and toppings, realistic matte cardboard packaging |
 | `gyoza.png` | two plump crescent gyoza dumplings with carefully pleated edges, pale cream skin with slight golden patches from pan-frying, realistic dumpling texture, 3/4 view |
 | `nuggets.png` | three golden chicken nuggets in irregular shapes, realistic crispy golden crumb coating, slight oil sheen, realistic fried texture, top view |
@@ -319,15 +327,15 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | Fichier | Description détaillée |
 |---|---|
 | `brosse-dents.png` | toothbrush with a blue and white handle, bristle head with multi-length nylon bristles in white and blue, realistic plastic handle texture, diagonal side view |
+| `brossettes-dents.png` | small blister pack of interdental brushes with tiny wire-and-bristle heads in assorted colors, realistic plastic packaging, side view |
 | `dentifrice.png` | toothpaste tube in pale blue and white, slightly squeezed flexible tube with a small curl of white toothpaste at the nozzle, realistic foil tube texture, side view |
 | `coton-tige.png` | cylindrical cardboard box of cotton swabs, one swab lying beside it showing white cotton ends and a paper stick, realistic cardboard box, side view |
 | `coton.png` | small stack of three round white cotton pads, realistic soft fibrous texture, clean bright white, slight shadow between pads, 3/4 top view |
 | `deodorant.png` | roll-on deodorant bottle with transparent ball applicator, white and grey plastic body, slight label, side view |
 | `gel-douche.png` | shower gel bottle with rounded body and flip cap, semi-transparent plastic showing slight color of the gel inside, slight label, side view |
-| `gel-coiffant.png` | small plastic tub of hair gel with a flat lid, slightly translucent blue-green gel visible inside, realistic soft-touch plastic, 3/4 top view |
 | `shampoing.png` | shampoo bottle with pump dispenser, slightly glossy plastic, generic label area, realistic HDPE plastic texture, side view |
-| `spray-demelant.png` | detangling spray bottle with a small trigger nozzle, translucent plastic showing slight liquid inside, slight label area, side view |
 | `creme-main.png` | hand cream tube in white and soft colors, slightly squeezed with a small curl of white cream at the nozzle tip, realistic flexible tube, side view |
+| `creme-hydratante.png` | round white plastic jar of moisturizing face cream with a smooth screw lid, clean white packaging, slight label area, realistic soft-touch plastic texture, side view |
 | `pansement.png` | cardboard box of adhesive bandages, one bandage lying beside it showing the beige fabric and protective strips, realistic printed cardboard, 3/4 view |
 | `savon-liquide.png` | pump soap dispenser with rounded body, slight foam bubble at the nozzle, translucent plastic, slight label, side view |
 | `gel-hydroalcoolique.png` | small hand sanitizer bottle with flip cap, slightly translucent plastic, blue and white label area, side view |

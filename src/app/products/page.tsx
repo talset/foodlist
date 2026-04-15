@@ -15,6 +15,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [stockIds, setStockIds] = useState<Set<number>>(new Set())
   const [adding, setAdding] = useState<Set<number>>(new Set())
+  const [stockFilter, setStockFilter] = useState<'all' | 'in' | 'out'>('all')
 
   const categoryStripRef = useHorizontalScroll<HTMLDivElement>()
 
@@ -56,13 +57,18 @@ export default function ProductsPage() {
     setAdding(prev => { const s = new Set(prev); s.delete(productId); return s })
   }
 
-  const toAddCount = useMemo(
-    () => products.filter(p => !stockIds.has(p.id)).length,
-    [products, stockIds]
-  )
+  const toAddCount = useMemo(() => {
+    const source = stockFilter === 'in' ? products.filter(p => stockIds.has(p.id))
+      : stockFilter === 'out' ? products.filter(p => !stockIds.has(p.id))
+      : products
+    return source.filter(p => !stockIds.has(p.id)).length
+  }, [products, stockIds, stockFilter])
 
   async function addAllToStock() {
-    const toAdd = products.filter(p => !stockIds.has(p.id))
+    const source = stockFilter === 'in' ? products.filter(p => stockIds.has(p.id))
+      : stockFilter === 'out' ? products.filter(p => !stockIds.has(p.id))
+      : products
+    const toAdd = source.filter(p => !stockIds.has(p.id))
     for (const p of toAdd) {
       await addToStock(p.id)
     }
@@ -117,6 +123,19 @@ export default function ProductsPage() {
         style={{ marginBottom: '0.75rem' }}
       />
 
+      {/* Stock filter */}
+      <div style={{ display: 'flex', gap: '0.375rem', marginBottom: '0.5rem' }}>
+        {([['all', 'Tous'], ['in', 'En stock'], ['out', 'Pas en stock']] as const).map(([key, label]) => (
+          <button
+            key={key}
+            onClick={() => setStockFilter(key)}
+            style={{ ...chipStyle, ...(stockFilter === key ? chipActiveStyle : {}) }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       {/* Category chips */}
       <div ref={categoryStripRef} style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', marginBottom: '1rem', paddingBottom: '0.25rem', scrollbarWidth: 'thin', cursor: 'grab' }}>
         <button
@@ -153,8 +172,14 @@ export default function ProductsPage() {
       )}
 
       {!loading && products.length > 0 && (() => {
+        const visible = stockFilter === 'all' ? products
+          : stockFilter === 'in' ? products.filter(p => stockIds.has(p.id))
+          : products.filter(p => !stockIds.has(p.id))
+        if (visible.length === 0) return (
+          <p style={{ color: 'var(--fg2)', textAlign: 'center', marginTop: '2rem' }}>Aucun produit trouvé.</p>
+        )
         const groups = new Map<string, ApiProduct[]>()
-        for (const p of products) {
+        for (const p of visible) {
           if (!groups.has(p.category_name)) groups.set(p.category_name, [])
           groups.get(p.category_name)!.push(p)
         }

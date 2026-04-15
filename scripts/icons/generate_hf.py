@@ -41,7 +41,7 @@ def rembg_remove(data):
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, infer_theme_from_spec, resolve_recipes_spec, resolve_recipes_output_dir, DEFAULT_THEME, STYLE
+from _parse import load_icons_for_args, build_parser, filter_icons, resolve_output_dir, infer_theme_from_spec, resolve_recipes_spec, resolve_recipes_output_dir, discover_themes, DEFAULT_THEME, ALL_THEME, STYLE
 
 # =========================
 # CONFIG
@@ -127,6 +127,39 @@ def generate_icon(client, icon, output_dir, style, size=128):
 # MAIN
 # =========================
 
+def run_theme(theme, args, client):
+    """Generate icons for a single theme. Returns (success, already, fail)."""
+    saved = args.theme
+    args.theme = theme
+    output_dir = resolve_output_dir(theme)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    icons, spec, style = load_icons_for_args(args)
+    icons = filter_icons(icons, args)
+    args.theme = saved
+
+    already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
+    todo = len(icons) - already
+    print(f"\n🎨 Theme: {theme}  →  {output_dir}")
+    print(f"📋 Spec: {spec}")
+    print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
+
+    if todo == 0:
+        print("Nothing to do.")
+        return 0, already, 0
+
+    to_generate = [i for i in icons if not (output_dir / i["filename"]).exists()]
+    success = fail = 0
+    for icon in tqdm(to_generate, desc=f"Generating ({theme})"):
+        result = generate_icon(client, icon, output_dir, style)
+        if result == "ok":
+            success += 1
+        else:
+            fail += 1
+        time.sleep(SLEEP)
+
+    return success, already, fail
+
+
 def main():
     parser = build_parser("Generate icons via HuggingFace InferenceClient (free)")
     args = parser.parse_args()
@@ -141,43 +174,62 @@ def main():
         output_dir.mkdir(parents=True, exist_ok=True)
         icons, style = load_icons(spec)
         icons = filter_icons(icons, args)
-        size = 400
+
+        already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
+        todo = len(icons) - already
+        print(f"📸 Recipes  →  {output_dir}")
+        print(f"📋 Spec: {spec}")
+        print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
+        if todo == 0:
+            print("Nothing to do.")
+            return
+
+        client = InferenceClient(api_key=HF_TOKEN)
+        to_generate = [i for i in icons if not (output_dir / i["filename"]).exists()]
+        success = fail = 0
+        for icon in tqdm(to_generate, desc="Generating"):
+            result = generate_icon(client, icon, output_dir, style, size=400)
+            if result == "ok":
+                success += 1
+            else:
+                fail += 1
+            time.sleep(SLEEP)
+        print(f"\n✅ Done: {success} generated, {already} skipped, {fail} failed")
+        if fail:
+            print("Re-run to retry failed icons (existing ones are skipped).")
+        return
+
+    # Resolve theme list
+    if args.theme == ALL_THEME:
+        themes = discover_themes()
+        print(f"🌐 Generating for all themes: {', '.join(themes)}")
     else:
         if args.spec and args.theme == DEFAULT_THEME:
             args.theme = infer_theme_from_spec(args.spec) or args.theme
-        output_dir = resolve_output_dir(args.theme)
-        output_dir.mkdir(parents=True, exist_ok=True)
-        icons, spec, style = load_icons_for_args(args)
-        icons = filter_icons(icons, args)
-        size = 128
+        themes = [args.theme]
 
-    already = sum(1 for i in icons if (output_dir / i["filename"]).exists())
-    todo = len(icons) - already
-    print(f"{'📸 Recipes' if args.recipes else '🎨 Theme: ' + args.theme}  →  {output_dir}")
-    print(f"📋 Spec: {spec}")
-    print(f"🧩 {len(icons)} icons selected — {already} already done, {todo} to generate")
-
-    if todo == 0:
-        print("Nothing to do.")
+    # Handle --list for all themes
+    if args.list:
+        for theme in themes:
+            print(f"\n{'='*40}\n🎨 Theme: {theme}\n{'='*40}")
+            args.theme = theme
+            icons, _, _ = load_icons_for_args(args)
+            filter_icons(icons, args)  # will print and exit for single theme
         return
 
     client = InferenceClient(api_key=HF_TOKEN)
+    total_success = total_already = total_fail = 0
+    for theme in themes:
+        s, a, f = run_theme(theme, args, client)
+        total_success += s
+        total_already += a
+        total_fail += f
 
-    # Only iterate over icons that actually need generating
-    to_generate = [i for i in icons if not (output_dir / i["filename"]).exists()]
-
-    success = fail = 0
-    for icon in tqdm(to_generate, desc="Generating"):
-        result = generate_icon(client, icon, output_dir, style, size=size)
-        if result == "ok":
-            success += 1
-        else:
-            fail += 1
-        time.sleep(SLEEP)
-
-    print(f"\n✅ Done: {success} generated, {already} skipped, {fail} failed")
-    if fail:
-        print("Re-run to retry failed icons (existing ones are skipped).")
+    if len(themes) > 1:
+        print(f"\n{'='*40}")
+        print(f"✅ All themes done: {total_success} generated, {total_already} skipped, {total_fail} failed")
+        if total_fail:
+            print("Re-run to retry failed icons (existing ones are skipped).")
 
 
 if __name__ == "__main__":

@@ -137,6 +137,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `poulet.png` | golden roasted chicken drumstick with white bone tip, keeping its real drumstick shape, with a kawaii face on the meat part — big happy eyes, cheerful smile, rosy cheeks — warm golden-brown, side view |
 | `agneau.png` | lamb chop cutlet with round meat portion and white rib bone, keeping its real chop shape, with a kawaii face on the meat portion — innocent wide eyes, sweet smile, rosy cheeks — rosy-pink meat, side view |
 | `porc.png` | pork loin slice with pink center and pale cream fat rim, keeping its real slice shape, with a kawaii face on the surface — content half-closed eyes, soft smile, rosy cheeks — soft pink, side view |
+| `magret-de-canard.png` | raw duck breast (magret) with thick golden-cream fat layer on one side and deep ruby-red meat on the other, keeping its real curved breast shape, with a kawaii face on the meat side — proud bold eyes, confident smile, rosy cheeks — rich red and golden tones, side view |
 | `pate.png` | small oval metal pâté tin with pull tab, keeping its real tin shape, with a kawaii face on the tin lid — sleepy cozy eyes, happy smile, rosy cheeks — warm beige, side view |
 | `rillettes.png` | small round metal rillettes tin with shredded salmon visible inside, keeping its real open tin shape, with a kawaii face on the rim — surprised wide eyes, open mouth smile, rosy cheeks — rose-salmon color, side view |
 | `cordon-bleu.png` | plump oval breaded escalope with golden crumb coating, keeping its real oval escalope shape, with a kawaii face on the surface — big surprised eyes, happy smile, rosy cheeks — golden-brown crispy coating, side view |
@@ -178,6 +179,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `pain-mie.png` | sliced white sandwich bread loaf in transparent bag, keeping its real loaf-in-bag shape, with a kawaii face on the front slices — big glossy eyes, happy smile, rosy cheeks — fluffy white slices visible, side view |
 | `pain-burger.png` | round burger bun with sesame seeds, keeping its real round bun shape, with a kawaii face on the front — big round happy eyes, wide smile, rosy cheeks — warm golden-cream color, 3/4 view |
 | `pain-lait.png` | plump oval milk bread roll with shiny golden glaze, keeping its real oval roll shape, with a kawaii face on the front — big shiny eyes, sweet smile, rosy cheeks — golden glaze surface, 3/4 view |
+| `pain-de-campagne.png` | round rustic country bread loaf with thick floury crust, keeping its real round loaf shape, with a kawaii face on the front — big warm eyes, cozy smile, rosy cheeks — golden-brown with flour dusting, slight top view |
 | `brioche.png` | braided golden brioche loaf with deep glossy caramel glaze, keeping its real braided loaf shape, with a kawaii face on the front braid section — excited sparkly eyes, big happy smile, very rosy cheeks — deep glossy caramel, 3/4 top view |
 | `galette-kebab.png` | round flat pita bread with golden spots, keeping its real flat disc shape, with a kawaii face drawn on the surface — big simple eyes, goofy grin, rosy cheeks — pale cream with golden spots, top view |
 | `pate-pizza.png` | round ball of raw pizza dough with light flour dusting, keeping its real round dough ball shape, with a kawaii face on the front — happy sleepy eyes, content smile, rosy cheeks — soft cream-white, 3/4 top view |
@@ -231,6 +233,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `fond-veau.png` | small round glass jar of rich amber veal stock, keeping its real jar shape, with a kawaii face on the jar body — rich warm eyes, cozy smile, rosy cheeks — deep amber color, front view |
 | `fond-volaille.png` | small round glass jar of golden chicken stock, keeping its real jar shape, with a kawaii face on the jar body — bright happy eyes, warm smile, rosy cheeks — golden amber color, front view |
 | `moutarde.png` | round ceramic mustard jar with mustard-yellow lid, keeping its real plump jar shape, with a kawaii face on the jar body — pungent squinting eyes, sassy grin, rosy cheeks — warm mustard-yellow, side view |
+| `vinaigrette.png` | small glass bottle of vinaigrette dressing with golden-amber liquid and herbs inside, keeping its real bottle shape, with a kawaii face on the bottle body — bright sparkly eyes, happy smile, rosy cheeks — warm golden tones, side view |
 
 ---
 
@@ -247,6 +250,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `brocoli.png` | single plump broccoli floret with green crown and pale stem, keeping its real broccoli shape, with a kawaii face on the green crown top — big eyes, happy smile, rosy cheeks — lush deep green, front view |
 | `poivron.png` | single plump shiny red bell pepper with green stem, keeping its real bell pepper shape, with a kawaii face on the front — big glossy eyes, wide happy smile, very rosy cheeks — vivid warm red, front view |
 | `salade.png` | single round lettuce head with layered open leaves, keeping its real lettuce head shape, with a kawaii face peeking from the center leaves — sleepy layered eyes, gentle smile, rosy cheeks — fresh pale and mid-green, top view |
+| `endive.png` | single Belgian endive (chicory) with tightly packed pale yellow-white leaves and light green tips, keeping its real elongated torpedo shape, with a kawaii face on the front — big gentle eyes, shy smile, rosy cheeks — soft cream and pale yellow, side view |
 | `champignon.png` | single plump white button mushroom with smooth cap and visible gills underneath, keeping its real mushroom shape, with a kawaii face on the smooth cap top — big round eyes, happy smile, rosy cheeks — cream ivory, side view |
 | `citron.png` | single plump oval yellow lemon with tiny stem nub, keeping its real lemon shape, with a kawaii face on the front — bright zesty eyes, cheerful smile, very rosy cheeks — vivid sunshine-yellow, front view |
 | `cornichon.png` | single small plump green gherkin with bumpy textured skin, keeping its real gherkin shape, with a kawaii face on the side — small beady eyes, cheeky grin, rosy cheeks — fresh bright green, side view |
@@ -265,6 +269,7 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | Fichier | Description détaillée |
 |---|---|
 | `chips.png` | inflated foil snack bag, keeping its real plump bag shape, with a kawaii face on the bag front — big excited eyes, happy open smile, rosy cheeks — warm golden and soft tones, no brand, side view |
+| `apericube.png` | small colorful cardboard box of apéritif cheese cubes, keeping its real box shape, with a kawaii face on the front — big cheerful eyes, wide smile, rosy cheeks — warm multicolor tones, 3/4 view |
 | `cacahuete.png` | handful of peanuts in shell, keeping their real peanut shapes, the central one with a kawaii face on the shell — round eyes, smile, rosy cheeks — warm beige, one split open showing golden nuts inside, top view |
 | `pistache.png` | handful of pistachio nuts, keeping their real nut shapes, the central split one with a kawaii face — smiling eyes, happy grin, rosy cheeks — vivid green kernel showing, warm beige shells, top view |
 | `noisette.png` | handful of round hazelnuts, keeping their real round nut shapes, the central cracked one with a kawaii face on the shell — cozy happy eyes, smile, rosy cheeks — rich warm brown, golden nut inside, top view |
@@ -284,6 +289,10 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | `chocolat-blanc.png` | white chocolate bar with one square broken off, keeping its real flat bar shape with grid pattern, with a kawaii face on the bar surface — big eyes, happy smile, rosy cheeks — creamy ivory-white color, top view |
 | `palet-breton.png` | thick round butter cookie with golden-orange crust, keeping its real thick disc shape, with a kawaii face on the top surface — big eyes, happy smile, rosy cheeks — warm golden tones, top view |
 | `speculoos.png` | elongated rectangular spiced biscuit with embossed pattern, keeping its real elongated shape, with a kawaii face on the surface — big eyes, happy smile, rosy cheeks — deep warm brown color, top view |
+| `nougat.png` | rectangular bar of white nougat with visible almonds and pistachios, keeping its real bar shape, with a kawaii face on the front — big gentle eyes, sweet smile, rosy cheeks — soft ivory-white, side view |
+| `nounours-guimauve.png` | small bear-shaped marshmallow candy in soft pastel pink, keeping its real teddy bear silhouette, with a kawaii face on the belly — big round glossy eyes, tiny happy smile, very rosy cheeks — soft pink, front view |
+| `rocher-suchard.png` | round chocolate truffle ball with bumpy rocky surface, keeping its real round shape, with a kawaii face on the front — big glossy eyes, happy smile, rosy cheeks — deep cocoa-brown, front view |
+| `snickers.png` | chocolate candy bar with brown coating and visible caramel-nougat-peanut layers at one end, keeping its real bar shape, with a kawaii face on the chocolate surface — big eyes, cheeky grin, rosy cheeks — warm brown, side view |
 | `nutella.png` | round glass hazelnut spread jar with brown body and red lid, keeping its real jar shape, with a kawaii face on the jar body — rich warm eyes, happy smile, very rosy cheeks — warm brown jar, red lid, no brand text, side view |
 | `confiture.png` | round glass strawberry jam jar with checkered fabric lid cover, keeping its real jar shape with fabric top, with a kawaii face on the jar body — sweet sparkling eyes, happy smile, rosy cheeks — vivid warm red jam visible, side view |
 | `creme-marron.png` | soft chestnut cream tube slightly squeezed, keeping its real soft tube shape, with a kawaii face on the tube body — cozy squinting eyes, content smile, rosy cheeks — warm brown tones, side view |
@@ -307,7 +316,6 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 
 | Fichier | Description détaillée |
 |---|---|
-| `frites.png` | plastic bag of frozen french fries with fries illustrated on the front, keeping its real bag shape, with a kawaii face on the bag — big eyes, happy smile, rosy cheeks — soft blue frosty tones with golden fries, side view |
 | `pizza.png` | flat rectangular frozen pizza box with pizza illustration, keeping its real flat box shape, with a kawaii face on the box front — excited big eyes, wide happy smile, rosy cheeks — warm red and golden tones, 3/4 view |
 | `gyoza.png` | two plump crescent-shaped gyoza dumplings with pleated edges, keeping their real gyoza dumpling shape, each with a small kawaii face on the smooth side — big round eyes, happy smile, rosy cheeks — soft cream and golden-brown, 3/4 view |
 | `nuggets.png` | three plump golden chicken nuggets in irregular shapes, keeping their real nugget shapes, each with a small kawaii face on the surface — big round eyes, happy smile, rosy cheeks — vivid golden-orange crispy coating, top view |
@@ -320,15 +328,15 @@ Prompt de style global appliqué à chaque icône (fond blanc pour faciliter le 
 | Fichier | Description détaillée |
 |---|---|
 | `brosse-dents.png` | toothbrush with plump handle and white bristles, keeping its real toothbrush shape, with a kawaii face on the handle body — big bright eyes, happy smile, rosy cheeks — soft sky-blue and white, diagonal view |
+| `brossettes-dents.png` | small pack of interdental brushes with tiny colorful brush heads, keeping its real package shape, with a kawaii face on the front — big round eyes, cheerful smile, rosy cheeks — soft pastel tones, side view |
 | `dentifrice.png` | pastel blue and white toothpaste tube slightly squeezed with small toothpaste swirl at tip, keeping its real tube shape, with a kawaii face on the tube body — big round eyes, happy smile, rosy cheeks — pastel blue and white, side view |
 | `coton-tige.png` | cylindrical cardboard box of cotton swabs with one swab beside it, keeping its real box and swab shapes, with a kawaii face on the box — big eyes, happy smile, rosy cheeks — cream and white, side view |
 | `coton.png` | stack of three round soft cotton pads, keeping their real round pad stack shape, with a kawaii face on the top pad — soft cloud-like big eyes, gentle smile, rosy cheeks — clean bright white, 3/4 top view |
 | `deodorant.png` | roll-on deodorant bottle with transparent round ball top, keeping its real roll-on shape, with a kawaii face on the bottle body — big eyes, happy smile, rosy cheeks — soft white and light grey, side view |
 | `gel-douche.png` | shower gel bottle with flip top cap, keeping its real bottle shape, with a kawaii face on the bottle body — big glossy eyes, cheerful smile, rosy cheeks — soft colorful pastel, side view |
-| `gel-coiffant.png` | round compact plastic hair gel tub with flat lid, keeping its real round tub shape, with a kawaii face on the tub body — stylish eyes, cool smile, rosy cheeks — soft translucent blue-green, 3/4 top view |
 | `shampoing.png` | shampoo bottle with pump dispenser, keeping its real pump bottle shape, with a kawaii face on the bottle body — big bouncy eyes, happy smile, rosy cheeks — pastel color, side view |
-| `spray-demelant.png` | hair detangler spray bottle with small trigger nozzle, keeping its real spray bottle shape, with a kawaii face on the bottle body — big gentle eyes, sweet smile, rosy cheeks — soft pastel, side view |
 | `creme-main.png` | hand cream tube slightly squeezed with tiny cream curl at tip, keeping its real squeezable tube shape, with a kawaii face on the tube body — soft gentle eyes, sweet smile, rosy cheeks — soft white and pink, side view |
+| `creme-hydratante.png` | round white plastic moisturizing cream jar with smooth lid, keeping its real round pot shape, with a kawaii face on the jar body — big dewy eyes, serene smile, rosy cheeks — soft white and pastel, side view |
 | `pansement.png` | rectangular cardboard box of adhesive bandages with one bandage beside it, keeping its real box shape, with a kawaii face on the box — brave determined eyes, heroic smile, rosy cheeks — warm beige and cream, side view |
 | `savon-liquide.png` | liquid soap pump dispenser bottle with foam bubble at nozzle, keeping its real pump bottle shape, with a kawaii face on the bottle body — big bubbly eyes, happy smile, rosy cheeks — soft pastel, side view |
 | `gel-hydroalcoolique.png` | small hand sanitizer bottle with flip cap, keeping its real small bottle shape, with a kawaii face on the bottle body — clean sparkling eyes, fresh smile, rosy cheeks — soft blue and white, side view |

@@ -8,6 +8,7 @@ _ROOT = Path(__file__).parent.parent.parent
 _SEED = _ROOT / "seed"
 
 DEFAULT_THEME = "default"
+ALL_THEME = "all"
 RECIPES_SPEC = "recipes-photos.md"
 
 # Fallback style used when no blockquote is found in the spec
@@ -112,6 +113,14 @@ def load_icons_for_args(args):
     return icons, spec, style
 
 
+def discover_themes():
+    """Return a list of all theme names that have a spec file in seed/."""
+    return sorted(
+        p.stem[6:]  # strip 'icons-' prefix
+        for p in _SEED.glob("icons-*.md")
+    )
+
+
 def resolve_output_dir(theme):
     """Return the output directory Path for a given theme name."""
     root = Path(__file__).parent.parent.parent
@@ -175,7 +184,7 @@ def build_parser(description):
         metavar='THEME',
         help=(
             f"Icon theme to generate (name of the output directory under uploads/icons/). "
-            f"Default: {DEFAULT_THEME}. "
+            f"Default: {DEFAULT_THEME}. Use 'all' to generate for all themes. "
             f"Uses seed/icons-<theme>.md as spec (e.g. seed/icons-default.md for --theme default)."
         ),
     )

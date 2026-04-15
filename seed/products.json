@@ -70,6 +70,13 @@
     "icon_ref": "courgette.png"
   },
   {
+    "name": "Endives",
+    "category": "Fruits & Légumes",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "endive.png"
+  },
+  {
     "name": "Fraise",
     "category": "Fruits & Légumes",
     "ref_unit": "g",
@@ -208,6 +215,13 @@
     "ref_unit": "g",
     "ref_quantity": 200,
     "icon_ref": "lardon.png"
+  },
+  {
+    "name": "Magret de canard",
+    "category": "Viandes & Poissons",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "magret-de-canard.png"
   },
   {
     "name": "Merguez",
@@ -1015,6 +1029,13 @@
     "icon_ref": "bouteille-vin-rouge.png"
   },
   {
+    "name": "Apericube",
+    "category": "Apéro",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "apericube.png"
+  },
+  {
     "name": "Cacahuètes",
     "category": "Apéro",
     "ref_unit": "g",
@@ -1083,6 +1104,13 @@
     "ref_unit": "unité",
     "ref_quantity": 1,
     "icon_ref": "pain-burger.png"
+  },
+  {
+    "name": "Pain de campagne",
+    "category": "Boulangerie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "pain-de-campagne.png"
   },
   {
     "name": "Pain de mie",
@@ -1162,6 +1190,20 @@
     "icon_ref": "madeleines.png"
   },
   {
+    "name": "Nougat",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "nougat.png"
+  },
+  {
+    "name": "Nounours guimauve",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "nounours-guimauve.png"
+  },
+  {
     "name": "Palet breton",
     "category": "Desserts / Pâtisserie",
     "ref_unit": "g",
@@ -1169,11 +1211,25 @@
     "icon_ref": "palet-breton.png"
   },
   {
+    "name": "Rocher suchard",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "rocher-suchard.png"
+  },
+  {
     "name": "Sachet flan",
     "category": "Desserts / Pâtisserie",
     "ref_unit": "g",
     "ref_quantity": 100,
     "icon_ref": "flan-sachet.png"
+  },
+  {
+    "name": "Snickers",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "snickers.png"
   },
   {
     "name": "Spéculoos",
@@ -1449,6 +1505,13 @@
     "icon_ref": "sel.png"
   },
   {
+    "name": "Vinaigrette",
+    "category": "Condiments & Sauces",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "vinaigrette.png"
+  },
+  {
     "name": "Antikal",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
@@ -1463,6 +1526,13 @@
     "icon_ref": "brosse-dents.png"
   },
   {
+    "name": "Brossettes dents",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "brossettes-dents.png"
+  },
+  {
     "name": "Coton tige",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
@@ -1475,6 +1545,13 @@
     "ref_unit": "unité",
     "ref_quantity": 50,
     "icon_ref": "coton.png"
+  },
+  {
+    "name": "Crème hydratante",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "creme-hydratante.png"
   },
   {
     "name": "Crème mains",
@@ -1715,67 +1792,67 @@
     "icon_ref": "tablettes-lv.png"
   },
   {
+    "name": "Croquettes chat",
+    "category": "Animaux",
+    "ref_unit": "kg",
+    "ref_quantity": 2,
+    "icon_ref": "croquettes-chat.png"
+  },
+  {
+    "name": "Croquettes chien",
+    "category": "Animaux",
+    "ref_unit": "kg",
+    "ref_quantity": 3,
+    "icon_ref": "croquettes-chien.png"
+  },
+  {
     "name": "Foin",
-    "category": "Animaux Lapin",
+    "category": "Animaux",
     "ref_unit": "kg",
     "ref_quantity": 1,
     "icon_ref": "foin.png"
   },
   {
     "name": "Granulé lapin",
-    "category": "Animaux Lapin",
+    "category": "Animaux",
     "ref_unit": "kg",
     "ref_quantity": 2,
     "icon_ref": "granule-lapin.png"
   },
   {
     "name": "Litière chanvre",
-    "category": "Animaux Lapin",
+    "category": "Animaux",
     "ref_unit": "kg",
     "ref_quantity": 10,
     "icon_ref": "litiere-chanvre.png"
   },
   {
-    "name": "Sachet herbe lapin",
-    "category": "Animaux Lapin",
-    "ref_unit": "sachet",
-    "ref_quantity": 1,
-    "icon_ref": "sachet-herbe.png"
-  },
-  {
-    "name": "Croquettes chien",
-    "category": "Animaux Chien",
-    "ref_unit": "kg",
-    "ref_quantity": 3,
-    "icon_ref": "croquettes-chien.png"
-  },
-  {
-    "name": "Pâté chien",
-    "category": "Animaux Chien",
-    "ref_unit": "boîte",
-    "ref_quantity": 1,
-    "icon_ref": "pate-chien.png"
-  },
-  {
-    "name": "Croquettes chat",
-    "category": "Animaux Chat",
-    "ref_unit": "kg",
-    "ref_quantity": 2,
-    "icon_ref": "croquettes-chat.png"
-  },
-  {
     "name": "Litière chat",
-    "category": "Animaux Chat",
+    "category": "Animaux",
     "ref_unit": "kg",
     "ref_quantity": 10,
     "icon_ref": "litiere-chat.png"
   },
   {
     "name": "Pâté chat",
-    "category": "Animaux Chat",
+    "category": "Animaux",
     "ref_unit": "sachet",
     "ref_quantity": 1,
     "icon_ref": "pate-chat.png"
+  },
+  {
+    "name": "Pâté chien",
+    "category": "Animaux",
+    "ref_unit": "boîte",
+    "ref_quantity": 1,
+    "icon_ref": "pate-chien.png"
+  },
+  {
+    "name": "Sachet herbe lapin",
+    "category": "Animaux",
+    "ref_unit": "sachet",
+    "ref_quantity": 1,
+    "icon_ref": "sachet-herbe.png"
   },
   {
     "name": "Boîte tupperware",
@@ -1799,7 +1876,7 @@
     "icon_ref": "colle.png"
   },
   {
-    "name": "Pile rechargeable",
+    "name": "Pile",
     "category": "Autre",
     "ref_unit": "unité",
     "ref_quantity": 1,

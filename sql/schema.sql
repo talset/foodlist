@@ -213,10 +213,8 @@ INSERT IGNORE INTO categories (name, is_default, sort_order) VALUES
   ('Desserts / Pâtisserie', 1,  9),
   ('Condiments & Sauces',   1, 10),
   ('Hygiène / Entretien',   1, 11),
-  ('Animaux Lapin',         1, 12),
-  ('Animaux Chien',         1, 13),
-  ('Animaux Chat',          1, 14),
-  ('Autre',                 1, 15);
+  ('Animaux',              1, 12),
+  ('Autre',                 1, 13);
 
 -- -----------------------------------------------------------------------------
 -- Catégories de recettes par défaut
@@ -243,5 +241,15 @@ INSERT IGNORE INTO recipe_categories (name, sort_order) VALUES
 --   ALTER TABLE recipes ADD COLUMN recipe_category_id INT NULL AFTER name;
 --   ALTER TABLE recipes ADD CONSTRAINT fk_recipes_category FOREIGN KEY (recipe_category_id) REFERENCES recipe_categories (id);
 --   CREATE TABLE recipe_favorites (...)  (voir ci-dessus)
+
+-- -----------------------------------------------------------------------------
+-- Cleanup: merge old split Animaux categories into single Animaux
+-- -----------------------------------------------------------------------------
+SET @animaux_id = (SELECT id FROM categories WHERE name = 'Animaux' LIMIT 1);
+
+UPDATE IGNORE products SET category_id = @animaux_id WHERE category_id IN (
+  SELECT id FROM (SELECT id FROM categories WHERE name IN ('Animaux Lapin','Animaux Chien','Animaux Chat')) t
+);
+DELETE FROM categories WHERE name IN ('Animaux Lapin','Animaux Chien','Animaux Chat');
 
 SET foreign_key_checks = 1;
