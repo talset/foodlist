@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
 import NumberInput from '@/components/NumberInput'
 import type { ApiCategory } from '@/types'
@@ -24,9 +24,11 @@ const FIELD_HELP: Record<string, string> = {
 
 export default function NewProductPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const defaultCategory = searchParams.get('category')
   const [categories, setCategories] = useState<ApiCategory[]>([])
   const [name, setName] = useState('')
-  const [categoryId, setCategoryId] = useState<number | ''>('')
+  const [categoryId, setCategoryId] = useState<number | ''>(defaultCategory ? Number(defaultCategory) : '')
   const [refUnit, setRefUnit] = useState('unité')
   const [refQuantity, setRefQuantity] = useState<number>(1)
   const [iconRef, setIconRef] = useState<string | null>(null)
@@ -39,7 +41,7 @@ export default function NewProductPage() {
       .then(r => r.json())
       .then((cats: ApiCategory[]) => {
         setCategories(cats)
-        if (cats.length) setCategoryId(cats[0].id)
+        if (!categoryId && cats.length) setCategoryId(cats[0].id)
       })
   }, [])
 
@@ -125,7 +127,8 @@ export default function NewProductPage() {
           <FieldLabel label="Unité de référence" field="refUnit" helpOpen={helpOpen} onToggle={toggleHelp} />
           <select
             value={refUnit}
-            onChange={e => setRefUnit(e.target.value)}
+            onChange={e => { setRefUnit(e.target.value); e.target.blur() }}
+            onBlur={e => setRefUnit(e.target.value)}
             required
             style={inputStyle}
           >

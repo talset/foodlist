@@ -93,7 +93,7 @@ export default function ProductsPage() {
               + Tout ajouter au stock ({toAddCount})
             </button>
           )}
-          <Link href="/products/new" style={{
+          <Link href={categoryId ? `/products/new?category=${categoryId}` : '/products/new'} style={{
             padding: '0.5rem 1rem',
             background: 'var(--primary)',
             color: 'var(--primary-fg)',

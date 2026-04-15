@@ -132,7 +132,7 @@ export default function EditProductPage() {
         {/* Unité de référence */}
         <div>
           <label style={labelStyle}>Unité de référence</label>
-          <select value={refUnit} onChange={e => setRefUnit(e.target.value)} required style={inputStyle}>
+          <select value={refUnit} onChange={e => { setRefUnit(e.target.value); e.target.blur() }} onBlur={e => setRefUnit(e.target.value)} required style={inputStyle}>
             {REF_UNITS.map(group => (
               <optgroup key={group.group} label={group.group}>
                 {group.options.map(u => <option key={u} value={u}>{u}</option>)}
