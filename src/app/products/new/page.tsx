@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import IconPicker from '@/components/IconPicker'
 import NumberInput from '@/components/NumberInput'
@@ -23,6 +23,10 @@ const FIELD_HELP: Record<string, string> = {
 }
 
 export default function NewProductPage() {
+  return <Suspense><NewProductForm /></Suspense>
+}
+
+function NewProductForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const defaultCategory = searchParams.get('category')
