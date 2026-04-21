@@ -333,6 +333,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `deodorant.png` | cute roll-on deodorant bottle with a transparent round ball, soft white and light grey tones, plump rounded shape, side view |
 | `gel-douche.png` | cute shower gel bottle with a soft colorful rounded body and a cheerful flip top cap, pastel tones, plump shape, side view |
 | `shampoing.png` | cute shampoo bottle with a plump soft body and a pump dispenser, pastel tones, rounded shape, side view |
+| `apres-shampooing.png` | cute conditioner bottle with a smooth plump body and a flip top cap, soft lavender and white tones, slightly wider at the base than the shampoo bottle, side view |
 | `creme-main.png` | cute hand cream tube slightly squeezed with a tiny cream curl at the tip, soft white and pink tones, plump tube, side view |
 | `creme-hydratante.png` | cute round white plastic jar of moisturizing cream with a smooth lid, soft white and pastel tones, plump little pot, side view |
 | `pansement.png` | cute rectangular cardboard box of adhesive bandages in warm beige and cream tones, one bandage sitting beside it, 3/4 view |

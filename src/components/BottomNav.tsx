@@ -12,7 +12,8 @@ import { parseVoiceCommand, findStockItem } from '@/lib/voiceCommand'
 import type { ApiStockItem } from '@/types'
 
 type NavKey = 'shopping' | 'stock' | 'recipes'
-type VoiceFeedback = { type: 'success' | 'notfound' | 'error'; text: string } | null
+type CancelItem = { id: number; originalStatus: string }
+type VoiceFeedback = { type: 'success' | 'notfound' | 'error' | 'already'; text: string; cancelItems?: CancelItem[] } | null
 
 const NAV_ITEMS: { href: string; label: string; key: NavKey; icon: (active: boolean) => ReactNode }[] = [
   {
@@ -68,11 +69,22 @@ export default function BottomNav() {
   const showFeedback = useCallback((fb: VoiceFeedback) => {
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
     setVoiceFeedback(fb)
-    feedbackTimerRef.current = setTimeout(
-      () => setVoiceFeedback(null),
-      fb?.type === 'success' ? 3000 : 4000,
-    )
+    const delay = fb?.cancelItems ? 6000 : fb?.type === 'success' ? 3000 : 4000
+    feedbackTimerRef.current = setTimeout(() => setVoiceFeedback(null), delay)
   }, [])
+
+  const cancelVoiceAction = useCallback(async () => {
+    if (!voiceFeedback?.cancelItems) return
+    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
+    setVoiceFeedback(null)
+    for (const { id, originalStatus } of voiceFeedback.cancelItems) {
+      await fetch(`/api/stock/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: originalStatus }),
+      })
+    }
+  }, [voiceFeedback])
 
   const handleVoiceTranscript = useCallback(async (transcript: string) => {
     const names = parseVoiceCommand(transcript)
@@ -90,28 +102,33 @@ export default function BottomNav() {
     }
     const { items: allStock } = await res.json() as { items: ApiStockItem[] }
 
-    const added: string[] = []
+    const added: { name: string; id: number; originalStatus: string }[] = []
+    const alreadyOut: string[] = []
     const notFound: string[] = []
 
     for (const name of names) {
       const item = findStockItem(name, allStock)
       if (!item) { notFound.push(name); continue }
-      if (item.status === 'out_of_stock') { added.push(item.product_name); continue }
+      if (item.status === 'out_of_stock') { alreadyOut.push(item.product_name); continue }
       const patch = await fetch(`/api/stock/${item.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'out_of_stock' }),
       })
-      if (patch.ok) added.push(item.product_name)
+      if (patch.ok) added.push({ name: item.product_name, id: item.id, originalStatus: item.status })
       else notFound.push(name)
     }
 
     const parts: string[] = []
-    if (added.length > 0) parts.push(`Ajouté : ${added.join(', ')}`)
-    if (notFound.length > 0) parts.push(`introuvable : ${notFound.join(', ')}`)
+    if (added.length > 0) parts.push(`Ajouté : ${added.map(a => a.name).join(', ')}`)
+    if (alreadyOut.length > 0) parts.push(`Déjà épuisé : ${alreadyOut.join(', ')}`)
+    if (notFound.length > 0) parts.push(`Introuvable : ${notFound.join(', ')}`)
+
+    const type = added.length > 0 ? 'success' : alreadyOut.length > 0 && notFound.length === 0 ? 'already' : 'notfound'
     showFeedback({
-      type: notFound.length === 0 ? 'success' : added.length === 0 ? 'notfound' : 'notfound',
+      type,
       text: parts.join(' — '),
+      cancelItems: added.length > 0 ? added.map(a => ({ id: a.id, originalStatus: a.originalStatus })) : undefined,
     })
     resetVoiceRef.current()
   }, [showFeedback])
@@ -211,17 +228,39 @@ export default function BottomNav() {
             left: '50%',
             transform: 'translateX(-50%)',
             whiteSpace: 'nowrap',
-            padding: '0.375rem 0.75rem',
+            padding: voiceFeedback.cancelItems ? '0.375rem 0.5rem 0.375rem 0.75rem' : '0.375rem 0.75rem',
             borderRadius: 8,
             fontSize: '0.8125rem',
             fontWeight: 500,
             zIndex: 200,
-            pointerEvents: 'none',
-            background: voiceFeedback.type === 'success' ? '#166534' : voiceFeedback.type === 'notfound' ? '#92400e' : '#991b1b',
+            pointerEvents: voiceFeedback.cancelItems ? 'auto' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: voiceFeedback.type === 'success' ? '#166534' : voiceFeedback.type === 'already' ? '#1e40af' : voiceFeedback.type === 'notfound' ? '#92400e' : '#991b1b',
             color: '#fff',
             boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
           }}>
             {voiceFeedback.text}
+            {voiceFeedback.cancelItems && (
+              <button
+                onClick={cancelVoiceAction}
+                style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  border: 'none',
+                  borderRadius: 6,
+                  color: '#fff',
+                  cursor: 'pointer',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  padding: '0.125rem 0.5rem',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                }}
+              >
+                Annuler
+              </button>
+            )}
           </div>
         )}
 

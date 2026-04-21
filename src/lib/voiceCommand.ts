@@ -12,7 +12,12 @@ export function parseVoiceCommand(transcript: string): string[] {
   const t = transcript.toLowerCase().replace(/['\u2019]/g, "'").trim()
 
   // Strip common trailing filler: "dans ma liste", "sur la liste", "à la liste de courses"…
-  const clean = t.replace(/\s+(?:dans|sur|à|a)\s+.+$/, '').trim()
+  // Use separate rules: "dans/sur" strip freely; "à/a" only when followed by a determiner
+  // (prevents "pâte à pizza" from being truncated to "pâte")
+  const clean = t
+    .replace(/\s+(?:dans|sur)\s+.+$/, '')
+    .replace(/\s+(?:à|a)\s+(?:le|la|les|l'|mon|ma|mes|notre|nos)\s*.+$/, '')
+    .trim()
 
   const patterns: RegExp[] = [
     /^(?:ajoute[rz]?|rajoute[rz]?|achète[rz]?|achete[rz]?)\s+(.+)/,
@@ -68,6 +73,11 @@ function stemFr(s: string): string {
   return s
 }
 
+/** Apply stemFr to every word in a phrase */
+function stemPhrase(s: string): string {
+  return s.split(' ').map(stemFr).join(' ')
+}
+
 /** True if `sub` appears in `text` at a word boundary (space or start/end). */
 function atWordBoundary(text: string, sub: string): boolean {
   const idx = text.indexOf(sub)
@@ -104,16 +114,31 @@ export function findStockItem(name: string, items: ApiStockItem[]): ApiStockItem
     .sort((a, b) => b.product_name.length - a.product_name.length)
   if (candidates[0]) return candidates[0]
 
-  // 4. Retry tiers 1-3 with plural/singular normalisation (e.g. "salade" ↔ "salades")
-  const qs = stemFr(q)
-  const exactStem = items.find(i => stemFr(norm(i.product_name)) === qs)
+  // 4. All-words match: every product word found in query (exact or stemmed) — longest wins
+  //    Merges exact and stemmed in one pool so "haricots tomate" beats "tomate" or "sauce tomate"
+  const qWords = q.split(' ')
+  const qs = stemPhrase(q)
+  const qWordsStem = qs.split(' ')
+  const allWordsMatch = items
+    .filter(i => {
+      const pn = norm(i.product_name)
+      const pWords = pn.split(' ').filter(w => w.length >= 2)
+      const pWordsStem = stemPhrase(pn).split(' ').filter(w => w.length >= 2)
+      if (pWords.length < 1) return false
+      return pWords.every(pw => qWords.includes(pw)) || pWordsStem.every(pw => qWordsStem.includes(pw))
+    })
+    .sort((a, b) => b.product_name.length - a.product_name.length)
+  if (allWordsMatch[0]) return allWordsMatch[0]
+
+  // 5. Retry tiers 1-3 with word-level plural/singular normalisation (e.g. "haricot" ↔ "haricots")
+  const exactStem = items.find(i => stemPhrase(norm(i.product_name)) === qs)
   if (exactStem) return exactStem
 
-  const pContainsQStem = items.find(i => atWordBoundary(stemFr(norm(i.product_name)), qs))
+  const pContainsQStem = items.find(i => atWordBoundary(stemPhrase(norm(i.product_name)), qs))
   if (pContainsQStem) return pContainsQStem
 
   const candidatesStem = items
-    .filter(i => { const p = stemFr(norm(i.product_name)); return p.length >= 3 && atWordBoundary(qs, p) })
+    .filter(i => { const p = stemPhrase(norm(i.product_name)); return p.length >= 3 && atWordBoundary(qs, p) })
     .sort((a, b) => b.product_name.length - a.product_name.length)
   return candidatesStem[0]
 }

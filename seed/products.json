@@ -1519,6 +1519,13 @@
     "icon_ref": "antikal.png"
   },
   {
+    "name": "Après shampooing",
+    "category": "Hygiène / Entretien",
+    "ref_unit": "unité",
+    "ref_quantity": 1,
+    "icon_ref": "apres-shampooing.png"
+  },
+  {
     "name": "Brosse à dent",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",

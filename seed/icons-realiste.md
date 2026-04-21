@@ -334,6 +334,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `deodorant.png` | roll-on deodorant bottle with transparent ball applicator, white and grey plastic body, slight label, side view |
 | `gel-douche.png` | shower gel bottle with rounded body and flip cap, semi-transparent plastic showing slight color of the gel inside, slight label, side view |
 | `shampoing.png` | shampoo bottle with pump dispenser, slightly glossy plastic, generic label area, realistic HDPE plastic texture, side view |
+| `apres-shampooing.png` | conditioner bottle with rounded body and flip top cap, slightly wider at the base than the shampoo bottle, glossy plastic with soft pearlescent finish, generic label area, realistic HDPE plastic texture, side view |
 | `creme-main.png` | hand cream tube in white and soft colors, slightly squeezed with a small curl of white cream at the nozzle tip, realistic flexible tube, side view |
 | `creme-hydratante.png` | round white plastic jar of moisturizing face cream with a smooth screw lid, clean white packaging, slight label area, realistic soft-touch plastic texture, side view |
 | `pansement.png` | cardboard box of adhesive bandages, one bandage lying beside it showing the beige fabric and protective strips, realistic printed cardboard, 3/4 view |
