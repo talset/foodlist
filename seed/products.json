@@ -1190,6 +1190,13 @@
     "icon_ref": "madeleines.png"
   },
   {
+    "name": "M&M's",
+    "category": "Desserts / Pâtisserie",
+    "ref_unit": "g",
+    "ref_quantity": 200,
+    "icon_ref": "mms.png"
+  },
+  {
     "name": "Nougat",
     "category": "Desserts / Pâtisserie",
     "ref_unit": "unité",
@@ -1512,7 +1519,7 @@
     "icon_ref": "vinaigrette.png"
   },
   {
-    "name": "Antikal",
+    "name": "Produit anti-calcaire",
     "category": "Hygiène / Entretien",
     "ref_unit": "unité",
     "ref_quantity": 1,

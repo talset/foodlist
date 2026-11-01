@@ -21,6 +21,11 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Python virtual environments
+.venv/
+.venv-*/
+venv/
+
 # OS / editor
 .DS_Store
 Thumbs.db

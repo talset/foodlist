@@ -299,6 +299,7 @@ Prompt de style global appliqué à chaque icône (fond blanc demandé pour faci
 | `bonbons.png` | cute transparent bag filled with colorful mixed candy sweets in vivid playful colors, cheerful and cozy, side view |
 | `gateaux.png` | cute cardboard biscuit package with a clear window showing round golden cookies, warm golden-cream tones, plump box, side view |
 | `madeleines.png` | cute cardboard package with one plump shell-shaped golden madeleine visible, warm buttery golden tones, soft cozy look, side view |
+| `mms.png` | cute bright yellow bag of M&M's chocolate candy, yellow packaging with the m&m's logo, colorful candy-coated chocolate buttons in red, yellow, green and blue spilling beside the yellow pouch, glossy shells, side view |
 | `compote.png` | cute single squeezable apple sauce pouch in soft green and cream tones with a twist cap, plump pouch shape, side view |
 | `flan-sachet.png` | cute flat sachet of flan custard powder in warm cream and yellow tones with a tiny dessert illustration, front view |
 | `creme-anglaise.png` | cute small yellow and cream UHT carton of custard sauce, warm sunny yellow color, plump little carton, side view |
