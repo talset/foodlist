@@ -102,6 +102,12 @@ export function findStockItem(name: string, items: ApiStockItem[]): ApiStockItem
   const exact = items.find(i => norm(i.product_name) === q)
   if (exact) return exact
 
+  // 1b. Exact with plural/singular normalisation
+  //     ("cacahuète" matches "Cacahuètes" before "Beurre de cacahuète" can steal it)
+  const qs = stemPhrase(q)
+  const exactStemEarly = items.find(i => stemPhrase(norm(i.product_name)) === qs)
+  if (exactStemEarly) return exactStemEarly
+
   // 2. Product name contains the query at a word boundary
   //    ("jambon" matches "jambon blanc" but not "jambonneau")
   const pContainsQ = items.find(i => atWordBoundary(norm(i.product_name), q))
@@ -117,7 +123,6 @@ export function findStockItem(name: string, items: ApiStockItem[]): ApiStockItem
   // 4. All-words match: every product word found in query (exact or stemmed) — longest wins
   //    Merges exact and stemmed in one pool so "haricots tomate" beats "tomate" or "sauce tomate"
   const qWords = q.split(' ')
-  const qs = stemPhrase(q)
   const qWordsStem = qs.split(' ')
   const allWordsMatch = items
     .filter(i => {
