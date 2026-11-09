@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import SessionProviderWrapper from '@/components/SessionProviderWrapper'
 import BottomNav from '@/components/BottomNav'
 import ThemeProvider from '@/components/ThemeProvider'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import { generateThemeCSS } from '@/lib/themes'
 import './globals.css'
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <BottomNav />
           </ThemeProvider>
         </SessionProviderWrapper>
+        <ServiceWorkerRegister />
       </body>
     </html>
   )
